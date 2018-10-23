@@ -17,7 +17,7 @@ export class ViewcartComponent implements OnInit {
     quantity: 1
   }
   url;
-  suummary;
+  summary;
   ngOnInit() {
     this.url = AppSettings.imageUrl;
     this.getCartList();
@@ -38,16 +38,8 @@ export class ViewcartComponent implements OnInit {
   }
   getCartList() {
     this.mainServe.getCartList().subscribe(response => {
-      console.log(response)
       this.viewCart = response.json().data;
-      this.suummary = response.json().summary;
-      console.log(this.viewCart);
-      // this.selectOption(id);
-      // for(var i = 0; i <this.allFeatureProducts[i] ; i++){
-      //   for( var j = 0; j<this.allFeatureProducts[j].sku[j]; j++)
-      //   {
-      //   }
-      // }
+      this.summary = response.json().summary;
     });
   }
   deleteCart(id) {
