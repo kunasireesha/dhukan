@@ -1,0 +1,654 @@
+<div class="container">
+  <div class="row">
+    <ol class="breadcrumb arr-right bredcrumb-list">
+      <li class="breadcrumb-item ">
+        <a routerLink="/" class="text-black">Home</a>
+      </li>
+      <li class="breadcrumb-item ">
+        <a routerLink="/myprofile" class="text-black">My Account</a>
+      </li>
+      <li class="breadcrumb-item text-black" aria-current="page">{{childPage}}</li>
+    </ol>
+  </div>
+</div>
+<div class="container-fluid col-lg-12">
+</div>
+<div class="container">
+  <div class="row edit-profile">
+    <div class="col-lg-4 profile-list">
+      <div class="my-account">
+        <h5>
+          My Account
+        </h5>
+      </div>
+      <ul class="list">
+        <li routerLink="/myprofile" [ngClass]="{'my-profile': showProfile}">
+          <a>My Profile</a>
+        </li>
+        <li routerLink="/myorders" [ngClass]="{'my-profile': showOrders}">
+          <a>My Orders</a>
+        </li>
+        <li routerLink="/mywallet" [ngClass]="{'my-profile': showWallet}">
+          <a>My Wallet</a>
+        </li>
+        <li routerLink="/changepassword" [ngClass]="{'my-profile': ShowChangePassword}">
+          <a>Change Password</a>
+        </li>
+        <li routerLink="/deliveryaddress" [ngClass]="{'my-profile': showDeliveryAddress}">
+          <a>Delivery Address</a>
+        </li>
+        <li routerLink="/referfriends" [ngClass]="{'my-profile': showReferFriends}">
+          <a>Refer Friends</a>
+        </li>
+        <li routerLink="/loyalitypoints" [ngClass]="{'my-profile': showLoyalityPoints}">
+          <a>My Loyalty Points</a>
+        </li>
+        <li routerLink="/notifications" [ngClass]="{'my-profile': showNotifications}">
+          <a>Notification</a>
+        </li>
+        <li>
+          <a href="#">Logout</a>
+        </li>
+      </ul>
+    </div>
+    <!-- profile -->
+    <div class="col-lg-8" *ngIf="showProfile">
+      <div class="row justify-content-md-center">
+        <div class="col-lg-10">
+          <table class="table table-data">
+            <tbody>
+              <tr>
+                <td>Name
+                  <span class="float-right">:</span>
+                </td>
+                <td>{{formData.first_name}} {{formData.last_name}}</td>
+              </tr>
+              <tr>
+                <td>Email
+                  <span class="float-right">:</span>
+                </td>
+                <td>{{formData.email}}</td>
+              </tr>
+              <tr>
+                <td>Mobile Number
+                  <span class="float-right">:</span>
+                </td>
+                <td>{{formData.phone}}</td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="row button-block justify-content-md-center">
+            <button type="button" (click)="openEditProfile()" class="btn edit-button" data-toggle="button" aria-pressed="false"
+              autocomplete="off">
+              EDIT PROFILE
+              <img src="assets\images\edit.png" class="image">
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- //edit profile -->
+    <div class="col-lg-8 form-list" *ngIf="showEditProfile">
+      <div class="row justify-content-md-center">
+        <div class="col-lg-8">
+          <form>
+            <div class="form-group row required">
+              <label for="inputEmail3" class="col-sm-4 col-form-label control-label">First Name
+                <span class="float-right colon">:</span>
+              </label>
+              <div class="col-sm-8">
+                <input type="email" class="form-control input-field" id="inputtext5" [(ngModel)]="formData.first_name"
+                  name="first_name">
+              </div>
+            </div>
+            <div class="form-group row required">
+              <label for="inputtext3" class="col-sm-4 col-form-label control-label"> Last Name
+                <span class="float-right colon">:</span>
+              </label>
+              <div class="col-sm-8">
+                <input type="text" class="form-control input-field" id="inputtext4" [(ngModel)]="formData.last_name"
+                  name="last_name">
+              </div>
+            </div>
+            <div class="form-group row required">
+              <label for="inputEmail3" class="col-sm-4 col-form-label control-label">Email Id
+                <span class="float-right colon">:</span>
+              </label>
+              <div class="col-sm-8">
+                <input type="email" class="form-control input-field" id="inputEmail5" placeholder="johnpark@gmail.com"
+                  [(ngModel)]="formData.email" name="email">
+              </div>
+            </div>
+            <div class="form-group row required">
+              <label for="inputEmail3" class="col-sm-4 col-form-label control-label">Mobile Number
+                <span class="float-right colon">:</span>
+              </label>
+              <div class="col-sm-8">
+                <input type="text" class="form-control input-field" id="inputtext3" placeholder="9966123456"
+                  myNumberOnly maxlength="10" minlength="10" [(ngModel)]="formData.phone" name="phone">
+              </div>
+            </div>
+            <div class="form-group row">
+              <label for="inputEmail3" class="col-sm-4 col-form-label">Landline Number
+                <span class="float-right colon">:</span>
+              </label>
+              <div class="col-sm-8">
+                <input type="text" class="form-control input-field" id="inputtext2" placeholder="040 32546" [(ngModel)]="formData.landline"
+                  name="landline">
+              </div>
+            </div>
+            <div class="form-group row">
+              <label for="inputEmail3" class="col-sm-4 col-form-label">Date Of birth
+                <span class="float-right colon">:</span>
+              </label>
+              <div class="col-sm-8">
+                <form #myForm="ngForm" novalidate>
+                  <my-date-picker name="mydate" [options]="myDatePickerOptions" [(ngModel)]="formData.dob" required></my-date-picker>
+                </form>
+                <!-- <input class="form-control" placeholder="15 Sep 1987" name="dp" [(ngModel)]="formData.dob"
+                  ngbDatepicker #d="ngbDatepicker">
+                <div class="input-group-append">
+                  <button class="btn btn-outline-secondary calendar date-picker" (click)="d.toggle()" type="button"></button>
+                </div> -->
+                <!-- <input type="text" class="form-control input-field date-picker" id="inputext1" placeholder="15 Sep 1987"
+                  [(ngModel)]="formData.dob" name="dob"> -->
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+      <!-- <form class="form-inline">
+        <div class="form-group">
+          <div class="input-group">
+           
+          </div>
+        </div>
+      </form> -->
+      <div class="row input-button">
+        <div class="col-lg-6  text-center">
+          <button type="button" class="btn btn-cancel col-lg-6 align-self-center" (click)="updateProfile()">SAVE</button>
+        </div>
+        <div class="col-lg-6  text-center">
+          <button type="button" class="btn btn-cancel col-lg-6 align-self-center" (click)="cancelEdit()">CANCEL</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- my orders -->
+    <div class="col-lg-8 table-responsive" *ngIf="showOrders">
+      <table class="table table-striped table-data table-row">
+        <thead>
+          <tr>
+            <th scope="col">Order no</th>
+            <th scope="col">Items</th>
+            <th scope="col">Price</th>
+            <th scope="col">Details</th>
+            <th scope="col">Payment Method</th>
+            <th scope="col">Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>1001154</td>
+            <td>7</td>
+            <td>1149</td>
+            <td>15-6-2018/3:50 PM</td>
+            <td>Cash On Delivery</td>
+            <td>in progess</td>
+          </tr>
+          <tr>
+            <td>1001153</td>
+            <td>5</td>
+            <td>1049</td>
+            <td>12-6-2018/3:50 PM</td>
+            <td>Credit Card</td>
+            <td>Delivered</td>
+          </tr>
+          <tr>
+            <td>1001152</td>
+            <td>4</td>
+            <td>200</td>
+            <td>11-6-2018/3:50 PM</td>
+            <td>Debit Card</td>
+            <td>Cancelled</td>
+          </tr>
+          <tr>
+            <td>1001154</td>
+            <td>7</td>
+            <td>1149</td>
+            <td>15-6-2018/3:50 PM</td>
+            <td>Cash On Delivery</td>
+            <td>Delivered</td>
+          </tr>
+          <tr>
+            <td>1001153</td>
+            <td>5</td>
+            <td>1049</td>
+            <td>12-6-2018/3:50 PM</td>
+            <td>Credit Card</td>
+            <td>Delivered</td>
+          </tr>
+          <tr>
+            <td>1001152</td>
+            <td>4</td>
+            <td>200</td>
+            <td>11-6-2018/3:50 PM</td>
+            <td>Debit Card</td>
+            <td>Delivered</td>
+          </tr>
+          <tr>
+            <td>1001154</td>
+            <td>7</td>
+            <td>1149</td>
+            <td>15-6-2018/3:50 PM</td>
+            <td>Cash On Delivery</td>
+            <td>Delivered</td>
+          </tr>
+          <tr>
+            <td>1001153</td>
+            <td>5</td>
+            <td>1049</td>
+            <td>12-6-2018/3:50 PM</td>
+            <td>Credit Card</td>
+            <td>Cancelled</td>
+          </tr>
+          <tr>
+            <td>1001152</td>
+            <td>4</td>
+            <td>200</td>
+            <td>11-6-2018/3:50 PM</td>
+            <td>Debit Card</td>
+            <td>Cancelled</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <!-- my orders -->
+    <!-- my wallet -->
+    <div class="col-lg-8" *ngIf="showWallet">
+      <p>Contrary to popular belief, Lorem Ipsum is not simply random text.It has roots ina piece of clasical latin
+        literature
+        from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney lege in
+        Virginia,
+        looked up one of the more obscure Latin words, consectetur</p>
+      <div class="row">
+        <div class="col-lg-4 balance-block">
+          <h4> Current Balance</h4>
+          <br>
+          <h3>
+            <b>Rs 0.00</b>
+          </h3>
+          <div class="row justify-content-center">
+            <button type="button" class="btn add-btn">ADD MONEY</button>
+          </div>
+        </div>
+        <div class="col-lg-8 wallet-block">
+          <h4>Wallet Activity</h4>
+          <div class="row form-date">
+            <div class="col-sm-6">
+              <input type="text" class="form-control input-field date-picker" id="inputEmail7" placeholder="13/06/18">
+            </div>
+            <div class="col-sm-6">
+              <input type="text" class="form-control input-field date-picker" id="inputEmail6" placeholder="13/06/18">
+            </div>
+          </div>
+          <div class="row justify-content-center">
+            <button type="button" class="btn check-btn">CHECK ACTIVITY</button>
+          </div>
+        </div>
+      </div>
+      <p>Contrary to popular belief, Lorem Ipsum is not simply random text.It has roots ina piece of clasical latin
+        literature
+        from 45 BC, making it over 2000 years old</p>
+    </div>
+    <!-- my wallet -->
+    <!-- password  -->
+    <div class="col-lg-8 form-password " *ngIf="ShowChangePassword">
+      <div class="row justify-content-md-center">
+        <div class="col-lg-8">
+          <form>
+            <div class="form-group row required">
+              <label for="inputEmail3" class="col-sm-4 col-form-label">
+                <span class="float-right">Old Password</span>
+              </label>
+              <div class="col-sm-8">
+                <input type="password" class="form-control input-field" id="inputEmail3">
+              </div>
+            </div>
+            <div class="form-group row required">
+              <label for="inputPassword3" class="col-sm-4 col-form-label">
+                <span class="float-right">New Password</span>
+              </label>
+              <div class="col-sm-8">
+                <input type="password" class="form-control input-field" id="inputPassword4">
+              </div>
+            </div>
+            <div class="form-group row required">
+              <label for="inputPassword3" class="col-sm-4 col-form-label">
+                <span class="float-right">Confirm Password</span>
+              </label>
+              <div class="col-sm-8">
+                <input type="password" class="form-control input-field" id="inputPassword5">
+              </div>
+            </div>
+          </form>
+          <div class="row input-button">
+            <div class="col-lg-6  text-center">
+              <button type="button" class="btn btn-cancel align-self-center">UPDATE</button>
+            </div>
+            <div class="col-lg-6  text-center">
+              <button type="button" class="btn btn-cancel align-self-center">CANCEL</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- password -->
+    <!-- delivery address -->
+    <div class="col-lg-8" *ngIf="showDeliveryAddress">
+      <div class="row">
+        <!-- <div class="col-lg-6 delivery-block1" *ngFor="let data of address;let i == index">
+          <p>Name:{{data.ua_first_name}} {{data.ua_last_name}}</p>
+          <p>Address:{{data.ua_apartment_name}} , {{data.ua_land_mark}}<br />
+          </p>
+          <p>{{data.ua_house_no}} {{data.ua_street_details}}</p>
+          <p>{{data.ua_city}} , {{data.ua_pincode}}</p>
+          <div class="row justify-content-md-center">
+            <a class=" delivery-button " (click)="showPaymentOptionsScreen(data)">DELIVERY HERE</a>
+          </div>
+        </div> -->
+        <div class="col-lg-6 delivery-block2">
+          <p>Name:John park</p>
+          <p>Address: Cyber Building 4th Floor</p>
+          <p>Survey No 14, Valley Street</p>
+          <p>bangalore 560078</p>
+          <div class="row justify-content-md-center">
+            <a class="delivery-button" routerLink="/paymentoptions">DELIVERY HERE</a>
+          </div>
+        </div>
+      </div>
+      <div class="row justify-content-md-center">
+        <button type="button" class="btn new-add-btn" (click)="openChangeAddress()">
+          <img src="assets\images\add-button.png" class="address-image"> ADD NEW ADDRESS
+        </button>
+      </div>
+    </div>
+    <!-- delivery address -->
+
+    <!-- add delivery address -->
+    <div class="col-lg-8" *ngIf="showChangeAddress">
+      <div class="row justify-content-md-center">
+        <div class="col-lg-9">
+          <form class="personal-details">
+            <div class="form-group row required">
+              <label for="inputEmail3" class="col-sm-4 col-form-label">
+                Address Nick Name
+                <span class="float-right">:</span>
+              </label>
+              <div class="col-sm-8">
+                <input type="email" class="form-control input-field" id="inputtext15" placeholder="John">
+              </div>
+            </div>
+            <div class="form-group row required">
+              <label for="inputEmail3" class="col-sm-4 col-form-label control-label">
+                First Name
+                <span class="float-right">:</span>
+              </label>
+              <div class="col-sm-8">
+                <input type="email" class="form-control input-field" id="inputtext14" placeholder="John" [(ngModel)]="address.firstName"
+                  name="firstName">
+              </div>
+            </div>
+            <div class="form-group row required">
+              <label for="inputtext3" class="col-sm-4 col-form-label control-label"> Last Name
+                <span class="float-right">:</span>
+              </label>
+              <div class="col-sm-8">
+                <input type="text" class="form-control input-field" id="inputtext13" placeholder="Park" [(ngModel)]="address.lastName"
+                  name="lastName">
+              </div>
+            </div>
+            <div class="form-group row required">
+              <label for="inputEmail3" class="col-sm-4 col-form-label control-label"> Mobile Number
+                <span class="float-right">:</span>
+              </label>
+              <div class="col-sm-8">
+                <input type="text" myNumberOnly maxlength="10" minlength="10" class="form-control input-field" id="inputtext"
+                  placeholder="9866123456" [(ngModel)]="address.phone" name="phone">
+              </div>
+            </div>
+            <div class="form-group row required">
+              <label for="inputEmail3" class="col-sm-4 col-form-label control-label"> City
+                <span class="float-right">:</span>
+              </label>
+              <div class="col-sm-8">
+                <select class="form-control input-field" id="exampleFormControlSelect1" [(ngModel)]="address.city" name="city">
+                  <option value="bangalore">bangalore</option>
+                  <option value="Hyderabad">Hyderabad</option>
+                  <option value="Chennai">Chennai</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-group row required">
+              <label for="inputtext3" class="col-sm-4 col-form-label  control-label"> House no & details
+                <span class="colan float-right">:</span>
+              </label>
+              <div class="col-sm-8">
+                <input type="text" class="form-control input-field" id="inputtext11" placeholder="Flat 306 Block B2 Floor"
+                  [(ngModel)]="address.houseNum" name="houseNum">
+              </div>
+            </div>
+            <div class="form-group row">
+              <label for="inputEmail3" class="col-sm-4 col-form-label"> Residential Complex
+                <span class="float-right">:</span>
+              </label>
+              <div class="col-sm-8">
+                <input type="text" class="form-control input-field" id="inputext10" placeholder="Cyber building"
+                  [(ngModel)]="address.residentialComplex" name="residentialComplex">
+              </div>
+            </div>
+            <div class="form-group row required">
+              <label for="inputEmail3" class="col-sm-4 col-form-label control-label"> Area
+                <span class="float-right">:</span>
+              </label>
+              <div class="col-sm-8">
+                <input type="text" class="form-control input-field" id="inputtext9" placeholder="560078" [(ngModel)]="address.area"
+                  name="area">
+              </div>
+            </div>
+            <div class="form-group row required">
+              <label for="inputEmail3" class="col-sm-4 col-form-label control-label"> Pincode
+                <span class="float-right">:</span>
+              </label>
+              <div class="col-sm-8">
+                <input type="text" class="form-control input-field" id="inputext8" placeholder="560078" [(ngModel)]="address.pincode"
+                  name="pincode">
+              </div>
+            </div>
+            <div class="form-group row">
+              <label for="streetdetails" class="col-sm-4 col-form-label">Street Details
+                <span class="float-right">:</span>
+              </label>
+              <div class="col-sm-8">
+                <input type="text" class="form-control input-field" id="inputtext7" placeholder="Valley" [(ngModel)]="address.street"
+                  name="street">
+              </div>
+            </div>
+            <div class="form-group row">
+              <label for="inputEmail3" class="col-sm-4 col-form-label">Conatact Landmark
+                <span class="float-right">:</span>
+              </label>
+              <div class="col-sm-8">
+                <input type="text" class="form-control input-field" id="inputext6" placeholder="Near Post Office"
+                  [(ngModel)]="address.landmark" name="landmark">
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+      <div class="row align-items-end">
+        <div class="col-lg-6  text-center">
+          <button type="button" class="btn btn-cancel align-self-center" (click)="addAddress()">SAVE</button>
+        </div>
+        <div class="col-lg-6  text-center">
+          <button type="button" class="btn btn-cancel align-self-center" (click)="canceladdAddress()">CANCEL</button>
+        </div>
+      </div>
+    </div>
+    <!-- add delivery address -->
+
+    <!-- Refer Friends -->
+    <div class="col-lg-8" *ngIf="showReferFriends">
+      <div class="row ">
+        <div class="col-lg-12">
+          <p>{{"product-description" | translate}}</p>
+        </div>
+      </div>
+      <div class="row pb-3 get-referral-code justify-content-md-center">
+        <div class="col-lg-8 text-center">
+          <h2 class="text-center mt-3 mb-3">Your Referral Code</h2>
+          <a href="#" class="referral-link">https://dhukan.com/sgfgsh</a>
+          <p class="get-link">
+            <a href="#">Get Referral Code</a>
+          </p>
+        </div>
+      </div>
+      <div class="row justify-content-md-center">
+        <div class="col-lg-8 ">
+          <h2 class="text-center mt-3 mb-3">Invite Your Friends</h2>
+          <ul class="invite mb-5">
+            <li>
+              <a href="#">
+                <fa name="envelope"></fa>
+              </a>
+            </li>
+            <li>
+              <a href="#">
+                <fa name="comments"></fa>
+              </a>
+            </li>
+            <li>
+              <a href="#">
+                <fa name="facebook" class="invite-facebook"></fa>
+              </a>
+            </li>
+          </ul>
+          <form>
+            <div class="row justify-content-md-center">
+              <textarea class="form-control invite-message" name="message" id="exampleFormControlTextarea1" rows="4"
+                placeholder="enter here..."></textarea>
+              <div class="col-lg-5  mt-5">
+                <button class="submit-button btn button" type="submit">
+                  submit
+                </button>
+              </div>
+            </div>
+          </form>
+        </div>
+
+      </div>
+      <div class="row mt-3">
+        <div class="col-lg-12">
+          <p>{{"product-description" | translate}}</p>
+          <p>{{"product-description" | translate}}</p>
+          <p>{{"product-description" | translate}}</p>
+        </div>
+      </div>
+    </div>
+    <!-- Refer Friends -->
+    <!-- Loyality points -->
+    <div class="col-lg-8 para-details" *ngIf="showLoyalityPoints">
+      <p>Contrary to popular belief, Lorem Ipsum is not simply random text.It has roots ina piece of clasical latin
+        literature
+        from 45 BC, making it over 2000 years old.</p>
+      <p>Richard McClintock, a Latin professor at Hampden-Sydney lege in Virginia, looked up one of the more obscure
+        Latin words,
+        consectetur
+      </p>
+      <div class="row redeem-block">
+        <div class="col-12 col-sm-6 col-md-8">
+          <h4>Total Points Earned</h4>
+          <h3>
+            <b>Rs 0.00</b>
+          </h3>
+        </div>
+        <div class="col-6 col-md-4">
+          <div class="row justify-content-around">
+            <button type="button" class="btn redeem-btn">REDEEM NOW</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Loyality points -->
+    <!-- notification-->
+    <div class="col-lg-8" *ngIf="showNotifications">
+      <div class="row veg-block">
+        <div class="col-lg-2">
+          <img src="assets\images\veg-image.jpg" class="veg-image">
+        </div>
+        <div class="col-lg-8 discount-block">
+          <div>
+            Vegetables
+            <br>Contrary to popular belief Lorem Ipsum is not simply random text.
+            <br>
+            <p>40% Discount on All Vegetables</p>
+          </div>
+        </div>
+        <div class="col-lg-2 delete-image">
+          <img src="assets\images\delete.png">
+        </div>
+      </div>
+      <div class="row veg-block">
+        <div class="col-lg-2">
+          <img src="assets\images\veg-image.jpg" class="veg-image">
+        </div>
+        <div class="col-lg-8 discount-block">
+          <div>
+            Fruits
+            <br>Contrary to popular belief Lorem Ipsum is not simply random text.
+            <br>
+            <p>60% Discount on All Fruits</p>
+          </div>
+        </div>
+        <div class="col-lg-2 delete-image">
+          <img src="assets\images\delete.png">
+        </div>
+      </div>
+      <div class="row veg-block">
+        <div class="col-lg-2">
+          <img src="assets\images\veg-image.jpg" class="veg-image">
+        </div>
+        <div class="col-lg-8 discount-block">
+          <div>
+            Vegetables
+            <br>Contrary to popular belief Lorem Ipsum is not simply random text.
+            <br>
+            <p>40% Discount on All Vegetables</p>
+          </div>
+        </div>
+        <div class="col-lg-2 delete-image">
+          <img src="assets\images\delete.png">
+        </div>
+      </div>
+      <div class="row veg-block">
+        <div class="col-lg-2">
+          <img src="assets\images\veg-image.jpg" class="veg-image">
+        </div>
+        <div class="col-lg-8 discount-block">
+          <div>
+            Fruits
+            <br>Contrary to popular belief Lorem Ipsum is not simply random text.
+            <br>
+            <p>60% Discount on All Fruits</p>
+          </div>
+        </div>
+        <div class="col-lg-2 delete-image">
+          <img src="assets\images\delete.png">
+        </div>
+      </div>
+    </div>
+
+    <!-- notification-->
+  </div>
+</div>

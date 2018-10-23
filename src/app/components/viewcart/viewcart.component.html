@@ -1,0 +1,138 @@
+<div class="container category">
+	<ul>
+		<li>
+			<a routerLink="/vegcategories">Vegetables</a>
+		</li>
+		<li>></li>
+		<li>Cart</li>
+		<li>></li>
+		<li>View Cart</li>
+	</ul>
+</div>
+<div class="container-fluid viewcart-banner">
+	<div class="container">
+		<h1>View Cart</h1>
+	</div>
+</div>
+<div class="container view-cart-table mt-5 table-responsive">
+	<table class="table">
+		<thead>
+			<tr>
+				<th scope="col">Product Details</th>
+				<th scope="col">Price</th>
+				<th scope="col">Quantity</th>
+				<th scope="col">Total</th>
+			</tr>
+		</thead>
+		<tbody *ngFor="let item of viewCart">
+			<tr class="mt-1" *ngFor="let sku of item.sku">
+				<td>
+					<ul class="product-image">
+						<li>
+							<img [src]="url + item.product_image" class="img-fluid">
+						</li>
+						<li>
+							<h3>{{item.title}}</h3>
+							<h4>{{sku.size}}</h4>
+						</li>
+					</ul>
+				</td>
+				<td>
+					<p>MRP :
+						<span class="price">RS.{{sku.mrp}} </span>
+						<span class="offer-price"> RS. {{sku.selling_price}}</span>
+					</p>
+					<span class="text-danger">{{ "offer-price" | translate}}</span>
+				</td>
+				<td>
+					<div class="quantity increase-buttons">
+						<button class="minus-btn" type="button" name="button" (click)="itemDecrease()">
+							<i class="fa fa-minus " aria-hidden="true"></i>
+						</button>
+						<input type="text" name="quantity" [(ngModel)]="item.quantity" readonly="readonly" value="{{item.quantity}}" />1
+						<button class="plus-btn" type="button" name="button" (click)="itemIncrease()">
+							<i class="fa fa-plus" aria-hidden="true"></i>
+						</button>
+					</div>
+				</td>
+				<td>
+					<div class="row mt-3">
+						<div class="col-lg-8">
+							<p>Rs {{item.selling_price}}</p>
+						</div>
+						<div class="col-lg-4">
+							<span>
+								<img src="assets/images/close.png" class="close-cart" (click)="deleteCart(item.id)">
+							</span>
+						</div>
+					</div>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+	<div class="row empty-cart-details pb-5">
+		<div class="col-lg-8 mt-3">
+			<button type="submit" class="btn button" (click)="emptyCart()">
+				<img src="assets/images/empty-cart.png"> EMPTY CART </button>
+
+		</div>
+		<div class="col-lg-4 table-responsive total-charges">
+			<table class="table text-right">
+				<tbody>
+					<tr>
+						<td class="charges">{{suummary?.cart_count}} items</td>
+						<td class="cost">
+							<span>:</span>RS 52.00</td>
+					</tr>
+					<tr>
+						<td class="charges">Sub Total</td>
+						<td class="cost">
+							<span>:</span>RS 52.00</td>
+					</tr>
+					<tr>
+						<td class="charges">Delivery Charges</td>
+						<td class="cost">
+							<span>:</span>Rs 00.00</td>
+					</tr>
+					<tr>
+						<th class="charges">Total</th>
+						<th class="cost">
+							<span>:</span>Rs 52.00</th>
+					</tr>
+				</tbody>
+			</table>
+
+		</div>
+
+		<div class="col-lg-6 ">
+			<p>
+				<up>*</up>Actual Delivery Charges Computed at Checkout
+			</p>
+		</div>
+		<div class="col-lg-6">
+			<p class="text-danger text-right">You haved saved Rs. 64.00</p>
+		</div>
+	</div>
+
+</div>
+<div class="container">
+	<div class="row  mt-5 mb-5">
+		<div class="col-lg-6">
+			<a href="#" class="view-cart-button btn">Continue Shopping</a>
+		</div>
+		<div class="col-lg-6 text-right">
+			<a href="#" class="view-cart-button btn">Checkout</a>
+		</div>
+	</div>
+</div>
+
+<!-- deal of the day -->
+<div class="container-fluid best-deal best-deal-products">
+	<app-product-slider></app-product-slider>
+	<div class="row justify-content-center show-more-button">
+		<div class="col-lg-2">
+			<button type="submit" class="btn button submit-button">Show More</button>
+		</div>
+	</div>
+</div>
+<!-- deal of the day -->

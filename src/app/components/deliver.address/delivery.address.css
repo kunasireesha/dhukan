@@ -1,0 +1,188 @@
+.delivery-block{
+    border:1px solid #f19820;
+    padding: 5px;
+    border-radius:5px;
+    margin-top:30px; 
+    margin-bottom: 70px;  
+}
+
+.delivery{
+    padding-top: 20px;
+    color: #aaaaaa;
+}
+.btn-outline-Change{
+    background-color: #fff;
+    border-color:#f19820;
+    margin: 20px;   
+    color:#f19820;
+    box-shadow: none !important;
+}
+.para{
+    padding-top:15px;
+    color: #aaaaaa;
+}
+.payment-options{
+    border:1px solid #f19820;
+    border-radius:5px;
+    margin-top:20px;
+    padding:2%;
+    margin-bottom: 50px;
+}
+.delivery-options{
+    border:none;
+}
+.payment-radio-button .payment-control-input:checked~.payment-input-label::before {
+    background-color: #f19820;
+}
+.image{
+    padding-left: 20px;
+}
+.para1{
+    margin-bottom: 0rem;
+}
+.btn-cancel{
+    color: #ffffff;
+    width:50%;
+    background-color: #f19820;
+    border-color: #f19820;
+    margin-bottom: 20px;
+    box-shadow: none !important;
+}
+.wallets-list{
+    list-style: none;
+    margin: 0px;
+    padding: 0px;
+}
+.wallets-list li{
+    float: left;
+    margin-right: 10px;   
+}
+.paytm-wallet{
+    padding-top: 30px;
+    padding-left: 30px;
+    padding-bottom: 60px;
+}
+.para-list{
+    padding-left: 20px;
+}
+.para-list1{
+    padding-left: 43px;
+}
+.para-list2{
+    padding-left: 55px;
+}
+.order-summary{
+    margin-top: 30px;
+    padding-left: 30px;
+}
+.apply-button, .apply-button:focus, .apply-button-active{
+    color: #fff;
+    background-color: #f19820;
+    border-color: #f19820; 
+    box-shadow: none !important; 
+    outline: none;
+}
+.order-summary h5{
+    padding-left: 15px;
+    padding-top: 15px;
+}
+.order-summary a{
+    padding-left:18px;
+    color: #f19820;
+    text-decoration: underline;
+}
+.vocher a {
+    color:#f19820;
+    text-decoration: underline;
+}
+.bill-details{
+    background-color: #f3f3f3;
+    padding-bottom: 30px;   
+}
+.order-charges{
+    color: #696767;
+    width: 100%;
+}
+.custom-checkbox .custom-control-input:checked~.custom-control-label::before{
+     background-color: #f19820;
+}
+.table-data td, .table-data th{
+    border-top: none;
+}
+.horizantal-line{
+    width: 100%;
+    border: 0.5px solid #9e9898;
+    }
+.table-data2{
+    float: right;
+}
+.radio-butn{
+    margin-left: 40px;
+}
+.options-button{
+    margin-left:120px;
+}
+.total-amount{
+    width: 100%;
+}
+.btn-proceed{
+    width: 100%;
+    color: #ffffff;
+    background-color: #f19820;
+    border-color: #f19820;
+    margin-bottom: 20px;
+    box-shadow: none !important;
+}
+.button-proceed{
+    padding-left: 590px;
+    padding-top: 10px;
+}
+.shipment-delivery{
+    padding-left:15px;
+}
+.change-button{
+    padding-left: 60px;
+}
+.delivery-charge{
+    padding-top: 15px;
+}
+.shipment1{
+    padding-top: 30px;
+}
+.express-delivery{
+    padding-top: 30px;
+}
+.table-data3{
+    color: #f19820;
+}
+.input-field , .input-field:focus {
+    border-color:#f19820;
+color:#000000;
+outline:none !important;
+box-shadow:none !important;
+}
+.input-butn, .input-butn:active, .input-butn:focus{
+    border-color:#f19820;
+    color:#f19820 !important;
+    outline:none !important;
+    box-shadow:none !important;
+    background-color: #ffffff;
+}
+.input-butn1{
+    margin-left: 10px;
+    border-color: #838382;
+    color: #838382;
+    background-color: #ffffff;
+    box-shadow:none !important;
+    outline:none !important;
+}
+.add-address-btn, .add-address-btn:active, .add-address-btn:focus{
+    margin-top: 20px;
+    background-color: #f19820!important;
+    color: #ffffff!important;
+    outline:none !important;
+    box-shadow:none !important;
+}
+.header{
+    padding: 20px;
+}

@@ -1,0 +1,85 @@
+.category-name {
+  top: 31%;
+  text-align: left;
+}
+
+.category-name h1 {
+  font-size: 100px;
+}
+
+.categories-list {
+  list-style: none;
+  padding: 0px;
+  margin: 0px;
+  background: #f3f3f3;
+  height: 512px;
+  overflow: auto;
+}
+.categories-list li {
+  border-bottom: 1px solid #71706e;
+  padding: 9px;
+}
+
+.categories-list li:nth-last-child(1) {
+  border: none;
+}
+
+.categories-list li:hover {
+  color: #f19820;
+  cursor: pointer;
+}
+
+.active-category {
+  color: #f19820;
+}
+
+.category-btn {
+  height: 37px !important;
+}
+
+.category-heading {
+  background: #e4e2e3;
+  color: #71706e;
+  padding: 6px;
+  margin: 0px;
+  font-size: 22px;
+  border-bottom: 2px solid #f19820;
+}
+
+.brand-filter {
+  height: 140px;
+  overflow: auto;
+}
+
+.terms-checkbox .terms-input:checked~.terms-label::before {
+  border: 1px solid #000000;
+  color: #f19820;
+  background: #ffffff;
+}
+
+.terms-checkbox .terms-input:checked~.terms-label::after {
+  background-image: url("/assets/images/check-mark.png") !important;
+}
+
+.price-list {
+  height: auto;
+  overflow: visible;
+}
+
+.discount-list {
+  height: 100%;
+  overflow: visible;
+}
+
+.categories-main-list label {
+  cursor: pointer;
+}
+
+.out-of-stock {
+  padding: 12px;
+  background: #f19820a1;
+  position: relative;
+  margin-top: -51%;
+  align-items: center;
+  top: 7% !important;
+}

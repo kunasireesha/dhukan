@@ -1,0 +1,142 @@
+.product-details {
+  border-top: 2px solid #f3f3f3;
+}
+
+.product-details ul {
+  list-style: none;
+  padding: 0px;
+  margin: 0px;
+}
+
+.quantity-review li {
+  display: inline-block;
+  margin-left: 11px;
+}
+
+.final-price {
+  display: table-caption;
+}
+
+.quantity button {
+  padding: 12px;
+  display: inline-grid;
+  border: 1px solid #dcdada;
+  cursor: pointer;
+  border-radius: 50%;
+  outline: none !important;
+  background: linear-gradient(white, #dbdde2);
+  box-shadow: 0px 0px 2px 0px #dfdfdf;
+}
+
+.quantity input {
+  border: none;
+  width: 26px;
+  background: none;
+  text-align: center;
+}
+
+.quantity i {
+  font-size: 10px;
+}
+
+.cart-btn {
+  margin-top: 7%;
+  margin-bottom: 4%;
+}
+
+.cart-image-button {
+  text-align: right;
+}
+
+.cart-image-button button,
+.cart-image-button button:active {
+  border: 1px solid #dcdada;
+  cursor: pointer;
+  border-radius: 50px;
+  outline: none !important;
+  padding: 6px 53px;
+  height: 41px;
+  background: linear-gradient(white, #dbdde2);
+  box-shadow: 0px 0px 2px 0px #dfdfdf;
+}
+
+.cart-btn img {
+  width: 20px !important;
+}
+
+.product-details p {
+  color: #797979;
+}
+
+.panel-title>a:before {
+  float: left !important;
+  font-family: FontAwesome;
+  content: "\f068";
+  padding: 0px 7px;
+  color: #ffffff;
+  background: #b7b7b7;
+  margin-right: 37px;
+  border-radius: 5px;
+}
+
+.panel-title>a.collapsed:before {
+  float: left !important;
+  content: "\f067";
+}
+
+.panel-title>a:hover,
+.panel-title>a:active,
+.panel-title>a:focus {
+  text-decoration: none;
+  transition: 0.2s;
+}
+
+.panel-title a {
+  color: #000000;
+  text-decoration: none;
+}
+
+.panel {
+  margin-top: 12px;
+}
+
+.panel-heading {
+  border-bottom: 2px solid #b7b7b7;
+}
+
+.accordion-content {
+  border: none;
+}
+
+.accordion-header {
+  border-bottom: 3px solid #e8e8e8;
+  background: none;
+}
+
+.accordion-header span {
+  font-size: 21px;
+}
+
+.ratings-reviews span {
+  font-size: 60px;
+}
+
+.thumb img {
+  height: 60px;
+  cursor: pointer;
+}
+
+.thumb .col-md-4 {
+  max-width: 20% !important;
+}
+
+.prod-details-img {
+  height: 300px;
+  width: 50%;
+}
+
+@media only screen and (max-width: 1460px) {
+  .quantity button {
+    padding: 10px;
+  }
+}

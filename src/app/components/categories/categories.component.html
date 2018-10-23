@@ -1,0 +1,358 @@
+<!-- vegetables category -->
+<div *ngIf="showveg">
+  <div class="container category">
+    <ul>
+      <li>
+        vegetables
+      </li>
+    </ul>
+  </div>
+
+  <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+    <ol class="carousel-indicators circle-indicators">
+      <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+      <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+      <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+    </ol>
+    <div class="carousel-inner">
+      <div class="carousel-item active">
+        <img class="d-block w-100" src="assets/images/vegetables-banner.jpg" alt="First slide">
+        <div class="carousel-caption d-none d-md-block category-name">
+          <div class="container">
+            <div class="row">
+              <div class="col-lg-12">
+                <h1>Vegetables</h1>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="carousel-item">
+        <img class="d-block w-100" src="assets/images/vegetables-banner.jpg" alt="Second slide">
+        <div class="carousel-caption d-none d-md-block category-name">
+          <div class="container">
+            <div class="row">
+              <div class="col-lg-12">
+                <h1>Vegetables</h1>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="carousel-item">
+        <img class="d-block w-100" src="assets/images/vegetables-banner.jpg" alt="Third slide">
+        <div class="carousel-caption d-none d-md-block category-name">
+          <div class="container">
+            <div class="row">
+              <div class="col-lg-12">
+                <h1>Vegetables</h1>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="container mt-5 mb-3">
+    <div class="row">
+      <!-- category list -->
+      <div class="col-lg-3">
+        <div class="categories-main-list">
+          <h2 class="category-heading">{{catName}}</h2>
+          <ul class="categories-list">
+
+            <li class="active-category" *ngFor="let data of subcats" (click)="showCatProducts(data.id)">{{data.name}}
+            </li>
+
+          </ul>
+        </div>
+        <div class="brand">
+          <h2 class="category-heading">Brand</h2>
+          <ul class="categories-list brand-filter">
+            <li class="active-category">
+              <div class="custom-control custom-checkbox terms-checkbox">
+                <input type="checkbox" class="custom-control-input terms-input" id="customCheck1p" checked>
+                <label class="custom-control-label terms-label" for="customCheck1p">Aenean sed</label>
+              </div>
+            </li>
+            <li>
+              <div class="custom-control custom-checkbox terms-checkbox">
+                <input type="checkbox" class="custom-control-input terms-input" id="customCheck1o" checked>
+                <label class="custom-control-label terms-label" for="customCheck1o">Ugue vitae arcu</label>
+              </div>
+            </li>
+            <li>
+              <div class="custom-control custom-checkbox terms-checkbox">
+                <input type="checkbox" class="custom-control-input terms-input" id="customCheck1fo" checked>
+                <label class="custom-control-label terms-label" for="customCheck1fo">ultricies aliquet</label>
+              </div>
+            </li>
+            <li>
+              <div class="custom-control custom-checkbox terms-checkbox">
+                <input type="checkbox" class="custom-control-input terms-input" id="customCheck1u" checked>
+                <label class="custom-control-label terms-label" for="customCheck1u">Fusce fringilla</label>
+              </div>
+            </li>
+            <li>
+              <div class="custom-control custom-checkbox terms-checkbox">
+                <input type="checkbox" class="custom-control-input terms-input" id="customCheck1y" checked>
+                <label class="custom-control-label terms-label" for="customCheck1y">Quisque</label>
+              </div>
+            </li>
+            <li>
+              <div class="custom-control custom-checkbox terms-checkbox">
+                <input type="checkbox" class="custom-control-input terms-input" id="customCheck1t" checked>
+                <label class="custom-control-label terms-label" for="customCheck1t">Aenean sed </label>
+              </div>
+            </li>
+            <li>
+              <div class="custom-control custom-checkbox terms-checkbox">
+                <input type="checkbox" class="custom-control-input terms-input" id="customCheck1r" checked>
+                <label class="custom-control-label terms-label" for="customCheck1r">Ugue vitae arcu </label>
+              </div>
+            </li>
+            <li>
+              <div class="custom-control custom-checkbox terms-checkbox">
+                <input type="checkbox" class="custom-control-input terms-input" id="customCheck1e" checked>
+                <label class="custom-control-label terms-label" for="customCheck1e">ultricies aliquet</label>
+              </div>
+            </li>
+            <li>
+              <div class="custom-control custom-checkbox terms-checkbox">
+                <input type="checkbox" class="custom-control-input terms-input" id="customCheck1w">
+                <label class="custom-control-label terms-label" for="customCheck1w">Ugue vitae arcu</label>
+              </div>
+            </li>
+            <li>
+              <div class="custom-control custom-checkbox terms-checkbox">
+                <input type="checkbox" class="custom-control-input terms-input" id="customCheck1q" checked>
+                <label class="custom-control-label terms-label" for="customCheck1q">Ugue vitae arcu</label>
+              </div>
+            </li>
+            <li>
+              <div class="custom-control custom-checkbox terms-checkbox">
+                <input type="checkbox" class="custom-control-input terms-input" id="customCheck1qvg" checked>
+                <label class="custom-control-label terms-label" for="customCheck1qvg">Category</label>
+              </div>
+            </li>
+          </ul>
+        </div>
+        <div class="categories-main-list">
+          <h2 class="category-heading">Price</h2>
+          <ul class="categories-list price-list">
+            <li class="active-category">
+              <div class="custom-control custom-checkbox terms-checkbox">
+                <input type="checkbox" class="custom-control-input terms-input" id="price-list-1" checked>
+                <label class="custom-control-label terms-label" for="price-list-1">RS 21 to RS 50 (100)</label>
+              </div>
+            </li>
+            <li>
+              <div class="custom-control custom-checkbox terms-checkbox">
+                <input type="checkbox" class="custom-control-input terms-input" id="price-list-12">
+                <label class="custom-control-label terms-label" for="price-list-12">RS 51 to RS 100(105)</label>
+              </div>
+            </li>
+            <li>
+              <div class="custom-control custom-checkbox terms-checkbox">
+                <input type="checkbox" class="custom-control-input terms-input" id="price-list-13">
+                <label class="custom-control-label terms-label" for="price-list-13">RS 101 to RS 200 (140)</label>
+              </div>
+            </li>
+            <li>
+              <div class="custom-control custom-checkbox terms-checkbox">
+                <input type="checkbox" class="custom-control-input terms-input" id="price-list-15">
+                <label class="custom-control-label terms-label" for="price-list-15">RS 201 to RS 300 (70)</label>
+              </div>
+            </li>
+            <li>
+              <div class="custom-control custom-checkbox terms-checkbox">
+                <input type="checkbox" class="custom-control-input terms-input" id="customCheck1qvg7">
+                <label class="custom-control-label terms-label" for="customCheck1qvg7">RS 301 to RS 400 (50)</label>
+              </div>
+            </li>
+            <li>
+              <div class="custom-control custom-checkbox terms-checkbox">
+                <input type="checkbox" class="custom-control-input terms-input" id="customCheck1qvg9">
+                <label class="custom-control-label terms-label" for="customCheck1qvg9">RS 401 to RS 500 (60)</label>
+              </div>
+            </li>
+          </ul>
+        </div>
+        <div class="categories-main-list">
+          <h2 class="category-heading">Category</h2>
+          <ul class="categories-list">
+
+            <li class="active-category">
+              <div class="custom-control custom-checkbox terms-checkbox">
+                <input type="checkbox" class="custom-control-input terms-input" id="customCheck1qvg9df " checked>
+                <label class="custom-control-label terms-label" for="customCheck1qvg9df">15% - 25% (220)</label>
+              </div>
+            </li>
+            <li>
+              <div class="custom-control custom-checkbox terms-checkbox">
+                <input type="checkbox" class="custom-control-input terms-input" id="customCheck1qvg9fd">
+                <label class="custom-control-label terms-label" for="customCheck1qvg9fd">More than 25% (55)</label>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <!-- category list -->
+      <div class="col-lg-9">
+        <!-- heading -->
+        <div class="row">
+          <div class="col-lg-8">
+            <h2 class="text-center">Vegetables(50)</h2>
+          </div>
+          <div class="col-lg-4">
+            <form>
+              <div class="form-group">
+                <select id="inputFilter" class="form-control input-field">
+                  <option selected>Popularity</option>
+                  <option>Latest</option>
+                  <option>Lowest</option>
+                  <option>Highest</option>
+                </select>
+              </div>
+            </form>
+          </div>
+        </div>
+        <!-- heading -->
+        <div class="row mt-5 ">
+          <!-- <div class="col-lg-4 mb-3"> -->
+          <div class="row">
+            <div class="col-lg-4 col-md-6 col-sm-6 col-xs-6" *ngFor="let products of allProducts;let i = index">
+              <div class="product">
+                <div class="container">
+                  <div class="row">
+                    <!-- like -->
+                    <div class="col-md-12 text-right">
+                      <a href="">
+                        <fa name="heart"></fa>
+                      </a>
+                    </div>
+                    <!-- like  -->
+                    <!-- product image -->
+                    <div class="col-md-12 text-center">
+                      <img src="assets/images/product.png" class="img-fluid">
+                    </div>
+                    <div class="col-lg-12" *ngIf="showOutOfStock">
+                      <div class="out-of-stock text-center">
+                        <span>Out Of Stock</span>
+                      </div>
+                    </div>
+                    <!-- product image -->
+                    <!-- product details -->
+                    <div class="col-md-12">
+                      <div class="product-names text-center">
+                        <ul>
+                          <li>
+                            <form>
+                              <div class="form-group">
+                                <select class="form-control input-field" id="exampleFormControlSelect1" [(ngModel)]="sId"
+                                  name="sId" (change)="changeSize($event.target.value,products.title)">
+
+                                  <option *ngFor="let sku of products.sku" value="{{sku.skid}}">{{sku.size}}</option>
+                                </select>
+                              </div>
+                            </form>
+                          </li>
+                        </ul>
+                        <div>
+                          <!-- *ngFor="let price of prices" -->
+                          <ul>
+                            <li>
+                              <h3 class="text-center">{{products.title}}</h3>
+                            </li>
+                            <li>MRP :
+                              <fa name="rupee"></fa>
+                              <span class="price" *ngIf="showProductPrice">{{products.actual_price}} </span>
+                              <span class="price" *ngIf="!showProductPrice">{{prices.actual_price}} </span>
+                              <fa name="rupee"></fa>
+                              <span class="offer-price" *ngIf="showProductPrice">{{products.selling_price}}</span>
+                              <span class="offer-price" *ngIf="!showProductPrice">{{prices.selling_price}}</span>
+                            </li>
+                            <li>
+                              <span class="text-danger savedPrice" *ngIf="showProductPrice">{{ "offer-price" |
+                                translate}}
+                                <fa name="rupee"></fa> {{products.offer_price}}
+                              </span>
+                              <span class="text-danger savedPrice" *ngIf="!showProductPrice">{{ "offer-price" |
+                                translate}}
+                                <fa name="rupee"></fa> {{prices.offer_price}}
+                              </span>
+                            </li>
+                            <li>
+                              <ul class="rating">
+                                <li>
+                                  <fa name="star"></fa>
+                                </li>
+                                <li>
+                                  <fa name="star"></fa>
+                                </li>
+                                <li>
+                                  <fa name="star"></fa>
+                                </li>
+                                <li>
+                                  <fa name="star"></fa>
+                                </li>
+                                <li>
+                                  <fa name="star-half"></fa>
+                                </li>
+                              </ul>
+                            </li>
+                          </ul>
+                        </div>
+                      </div>
+                    </div>
+
+                    <!-- product details -->
+                    <div class="col-lg-12 col-md-12 col-sm-12 cart-btn">
+                      <div class="quantity">
+                        <button class="minus-btn" type="button" name="button" (click)="itemDecrease()">
+                          <i class="fa fa-minus " aria-hidden="true"></i>
+                        </button>
+                        <input type="text" name="quantity" [(ngModel)]="item.quantity" readonly="readonly" value="{{item.quantity}}" />
+                        <button class="plus-btn" type="button" name="button" (click)="itemIncrease()">
+                          <i class="fa fa-plus" aria-hidden="true"></i>
+                        </button>
+                      </div>
+                    </div>
+                    <div class="col-lg-12 col-md-12 col-sm-12 cart-btn cart-image-button">
+                      <button class="btn category-btn" type="button" name="button">
+                        <span>Add</span>
+                        <img src="assets/images/online-shopping-cart.png">
+                      </button>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+
+            </div>
+          </div>
+
+          <!-- </div> -->
+
+
+        </div>
+        <div class="row justify-content-center show-more-button mb-5">
+          <div class="col-lg-2">
+            <button type="submit" class="btn button submit-button">Show More</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+<!-- vegetables category -->
+<!-- grocery category -->
+<div class="container" *ngIf="grocery">
+  <h2>Grocery</h2>
+</div>
+<!-- grocery category -->
+
+<div class="container" *ngIf="nonveg">
+  <h2>Non veg</h2>
+</div>

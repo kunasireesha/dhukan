@@ -1,0 +1,89 @@
+.viewcart-banner {
+    background-image: url(/assets/images/cart-banner.jpg);
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    position: relative;
+    width: 100%;
+    height: 370px;
+}
+.viewcart-banner h1{
+    font-size: 100px;
+    color: #ffffff;
+    padding-top: 9%;
+    font-family: 'Aileron-Bold';
+}
+.view-cart-table th{
+color:#706f6d;
+background:#eae8e9;
+font-size:18px;
+}
+.view-cart-table thead th{ 
+    border-bottom: 2px solid #f19820;
+}
+.view-cart-table td{
+    background: #f3f3f3;
+    padding-top: 22px;
+}
+.close-cart {
+    margin-top: 1px;
+    background: none !important;
+    border: none!important;
+}
+.increase-buttons {
+    margin-top: 9%;
+}
+.empty-cart-details{
+    background:  #f3f3f3;
+}
+.empty-cart-details button{
+    color:#f19820;
+    background: none;
+    border:2px solid #f19820;
+ }
+
+ .charges{
+    width: 50%;
+    color: #000000;
+    padding: 5px;
+    font-size: 19px;
+}
+.cost{
+    width:50%;
+    color: #000000;
+    padding: 5px;
+    font-size: 19px;
+}
+.total-charges span{
+    float: left;
+    margin-left: 21%;
+}
+.total-charges td{
+    text-align: right;
+        }
+        .total-charges tr{
+            border:none;
+        }
+        .total-charges td , .total-charges th{
+    border:none;
+        }
+.total-charges th{
+    background: none;
+    color: #000000;
+    border-top: 2px solid #f19820;
+    border-bottom: 2px solid #f19820;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+.view-cart-button {
+    background: #f19820 !important;
+    border: none!important;
+    width: 60%;
+    border-radius: 5px;
+    padding: 11px;
+    font-size: 16px;
+    color: #ffffff!important;
+    outline: none!important;
+    box-shadow: none!important;
+    text-decoration: none;
+}

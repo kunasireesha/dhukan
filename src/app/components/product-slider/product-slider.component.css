@@ -1,0 +1,22 @@
+.product-width {
+  display: inline-block;
+  width: 250px !important;
+}
+
+.best-deal-slider {
+  margin: 0px auto;
+}
+
+.show-more {
+  margin-top: 32%;
+}
+
+.product-prev {
+  opacity: 1;
+  right: 77%;
+}
+
+.product-next {
+  opacity: 1;
+  left: 77%;
+}

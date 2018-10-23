@@ -1,0 +1,67 @@
+.social-media ul{
+    list-style: none;
+    float:right;
+}
+.social-media{
+    margin-top:12px;
+}
+.social-media li{
+    display:inline-block;
+    margin-left:18px;
+}
+.sub-footer {
+    background: #f9f9f9;
+    padding-top: 2%;
+    padding-bottom: 1%;
+}
+.main-footer{
+    background:#4b4b4d;
+    padding-top: 2%;
+    padding-bottom:2%;
+}
+.main-footer h2{
+    font-size:25px;
+    color:#ffffff;
+}
+.float-right{
+    float:right;
+}
+.main-footer ul{
+    list-style: none;
+    margin:0px;
+    padding:0px;
+}
+.main-footer li{
+margin-top:5px;
+}
+.main-footer a{
+color:#ffffff;
+font-family:'Aileron-Light';
+text-decoration: none;
+}
+.main-footer a:hover{
+    color:#f19820;
+}
+.places {
+    color:#ffffff;
+    font-family:'Aileron-Light';
+    word-wrap: break-word;
+}
+.payment-method{
+    padding-top:3%;
+}
+.payment-method ul{
+list-style: none;
+}
+.payment-method h5{
+    color:#ffffff;
+}
+.payment-method li{
+    display:inline-block;
+    margin-right:12px;
+}
+.bootom-footer {
+    padding-top:13px;
+    background:#f19820;
+    color:#ffffff;
+}

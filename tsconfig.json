@@ -1,0 +1,30 @@
+{
+  "compileOnSave": false,
+  "compilerOptions": {
+    "baseUrl": "./",
+    "outDir": "./dist/out-tsc",
+    "sourceMap": true,
+    "declaration": false,
+    "moduleResolution": "node",
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "target": "es5",
+    "typeRoots": [
+      "node_modules/@types"
+    ],
+    "lib": [
+      "es2017",
+      "dom"
+    ],
+  },
+  "map": {
+    "angular-captcha": "npm:angular-captcha",
+    "mydatepicker": "npm:mydatepicker/bundles/mydatepicker.umd.min.js"
+  },
+  "packages": {
+    "angular-captcha": {
+      "defaultExtension": "js",
+      "main": "index"
+    }
+  }
+}

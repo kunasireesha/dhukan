@@ -1,0 +1,133 @@
+.shop-now-btn button {
+  background-color: #f19820;
+  color: #ffffff;
+  box-shadow: none;
+  font-family: 'Aileron-Light';
+  outline: none;
+}
+
+.shop-now-btn {
+  width: 100%;
+  text-align: left;
+}
+
+.slider-selector {
+  position: absolute;
+  right: 0;
+  bottom: 0px;
+  left: 0;
+  z-index: 15;
+  display: flex;
+  justify-content: center;
+  padding-left: 0;
+  margin-right: 15%;
+  margin-left: 15%;
+  list-style: none;
+  margin: 0px auto;
+  width: 50%;
+}
+
+.slider-selector li {
+  display: inline-block;
+  color: #000000;
+  margin-right: 0%;
+  cursor: pointer;
+  padding: 12px;
+  background: rgba(255, 255, 255, 0.77);
+  border-right: 1px solid #9a9a9acc;
+}
+
+.slider-selector li:last-child {
+  border-top-right-radius: 4px;
+}
+
+.slider-selector li:first-child {
+  border-top-left-radius: 4px;
+}
+
+.bottom-indicators:hover,
+.bottom-indicators:active,
+.bottom-indicators:focus,
+.bottom-indicators:visited {
+  background-color: #f19820 !important;
+  color: #ffffff !important;
+}
+
+.products-list {
+  padding-top: 2%;
+  padding-bottom: 2%;
+}
+
+.offer-image img {
+  position: relative;
+  height: 100%;
+}
+
+.offer-image a {
+  padding: 9px 27px;
+  background: #000000;
+  color: #ffffff;
+  box-shadow: 0px 2px 6px 0px;
+}
+
+.view-all-button {
+  position: absolute;
+  bottom: 16%;
+  right: 26%;
+}
+
+.selected-banner {
+  cursor: pointer;
+  margin-bottom: 26px;
+  width: 100%;
+  height: 182px;
+}
+
+.active-banner {
+  border: 10px solid #f19820;
+}
+
+.offer-banner-view {
+  height: 600px;
+}
+
+.arrow-left {
+  left: -89%;
+}
+
+.arrow-right {
+  right: -89%;
+}
+
+.img-border img {
+  border: 2px solid #cccccc;
+}
+
+.quantity button {
+  padding: 9px !important;
+}
+
+/*
+
+CC 2.0 License Iatek LLC 2018
+Attribution required
+
+*/
+
+/*
+
+CC 2.0 License Iatek LLC 2018
+Attribution required
+
+*/
+
+/*
+
+CC 2.0 License Iatek LLC 2018
+Attribution required
+
+*/
+
+.item {
+  margin: auto;
+}

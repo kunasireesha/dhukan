@@ -1,0 +1,581 @@
+<section class="header">
+  <!-- top header -->
+  <div class="container-fluid top-header">
+    <div class="container">
+      <div class="row">
+        <div class=" col-lg-6 col-md-12 col-sm-12">
+          <ul>
+            <li>
+              <img src="assets/images/phone.png" class="header-icons">
+              <span> {{ "phone.number" | translate}}</span>
+            </li>
+            <li>
+
+              <div class="dropdown">
+                <button class="btn  dropdown-toggle dropdown-button" type="button" id="dropdownMenuButton" data-toggle="dropdown"
+                  aria-haspopup="true" aria-expanded="false">
+                  <img src="assets/images/location.png" class="header-icons">
+                  <span class="city"> {{location}} {{LocationPincode}} </span>
+                  <img src="assets/images/angle-arrow-down.png" class="dropdown-icon">
+                </button>
+                <div class="dropdown-menu dropdown-content-location" aria-labelledby="dropdownMenuButton">
+                  <div class="location">
+                    <form>
+                      <h5 class="text-center">{{ "choose.location" | translate}}
+                        <fa name="angle-up "></fa>
+                      </h5>
+                      <div class="form-group mb-3">
+                        <label for="inputState">Select country</label>
+                        <select id="inputState" class="form-control" (change)="changeCountry($event.target.value)">
+                          <option selected>Choose...</option>
+                          <option value="IND">India</option>
+                          <option value="UAE">UAE</option>
+                        </select>
+                      </div>
+
+                      <div class="form-group mb-3" *ngIf="showLocations">
+                        <label for="inputState">Select Location</label>
+                        <select id="inputState" class="form-control" [(ngModel)]="formData.lId" name="lId" (change)="changeLocation($event.target.value)">
+                          <option selected value=''>Choose...</option>
+                          <option *ngFor="let data of locationData" value="{{data.id}}">
+                            {{data.location_name}}
+                          </option>
+                        </select>
+                      </div>
+
+                      <div class="form-group mb-3" *ngIf="showSubLocations">
+                        <label for="inputState">Select Area</label>
+                        <select id="inputState" class="form-control" [(ngModel)]="formData.pincode" name="pincode"
+                          (change)="changeSubLocation()">
+                          <option selected value=''>Choose...</option>
+                          <option *ngFor="let data of subLocationData" value="{{data.pincode}}">
+                            {{data.address}}
+                          </option>
+                        </select>
+                      </div>
+                      <div class="row justify-content-center ">
+                        <div class="col-8">
+                          <button type="submit" class="btn button submit-button" (click)="submitLocation(subLocationName,pincodeOfLocation)">Submit</button>
+                        </div>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </li>
+          </ul>
+        </div>
+        <div class="col-lg-6 col-md-12 col-sm-12 text-right right-menu">
+          <ul>
+            <li>
+              <div class="dropdown">
+                <a class="btn btn-secondary dropdown-toggle dropdown-button" href="#" role="button" id="dropdownMenuLink"
+                  data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  <img src="assets/images/flag.png">
+                  <span> {{ "select.language"| translate}} </span>
+                  <img src="assets/images/angle-arrow-down.png" class="dropdown-icon">
+                </a>
+                <div class="dropdown-menu language-list dropdown-list" aria-labelledby="dropdownMenuLink">
+                  <a class="dropdown-item" href="#">
+                    <img src="assets/images/flag.png">
+                    <span> English </span>
+                  </a>
+                  <div class="dropdown-divider divider"></div>
+                  <a class="dropdown-item" href="#">
+                    <img src="assets/images/flag.png">
+                    <span> English </span>
+                  </a>
+                  <div class="dropdown-divider divider"></div>
+                  <a class="dropdown-item" href="#">
+                    <img src="assets/images/flag.png">
+                    <span> English </span>
+                  </a>
+                </div>
+              </div>
+            </li>
+            <li>
+              <div class="dropdown">
+                <a class="btn btn-secondary dropdown-toggle dropdown-button" href="#" role="button" id="dropdownMenuLink"
+                  data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  <span>{{ "select.currency" | translate }} </span>
+                  <img src="assets/images/angle-arrow-down.png" class="dropdown-icon">
+                </a>
+
+                <div class="dropdown-menu language-list dropdown-list" aria-labelledby="dropdownMenuLink">
+                  <a class="dropdown-item" href="#">
+                    <span>$ Doller</span>
+                  </a>
+                  <div class="dropdown-divider divider"></div>
+                  <a class="dropdown-item" href="#">
+                    <span>£ pounds</span>
+                  </a>
+                  <div class="dropdown-divider divider"></div>
+                  <a class="dropdown-item" href="#">
+                    <span>
+                      <fa name="rupee"></fa> Rupee
+                    </span>
+                  </a>
+                </div>
+              </div>
+
+            </li>
+            <li class="login-css" *ngIf="showLoginButton">
+              <button mat-button class="btn button dropdown-button" (click)="openLogin('login')">Login</button>
+            </li>
+            <li class="login-css" *ngIf="showLoginButton">|</li>
+            <li class="login-css" *ngIf="showLoginButton">
+              <button mat-button class="btn button dropdown-button" (click)="openRegistration('registration')">Register
+              </button>
+            </li>
+            <li class="login-css" *ngIf="showProfile">|</li>
+            <li class="login-css" *ngIf="showProfile">
+
+              <div class="dropdown">
+                <button class="btn  dropdown-toggle dropdown-button" type="button" id="dropdownMenuButton" data-toggle="dropdown"
+                  aria-haspopup="true" aria-expanded="false">
+                  My Account
+                  <img src="assets/images/angle-arrow-down.png" class="dropdown-icon">
+                </button>
+                <div class="dropdown-menu myaccount-dropdown" aria-labelledby="dropdownMenuButton">
+                  <h4 routerLink="/myprofile">My profile</h4>
+                  <ul class="profile-dropdown">
+                    <li routerLink="/viewcart">
+                      <a>My cart
+                        <span>0 Items</span>
+                      </a>
+                    </li>
+                    <li routerLink="/myorders">
+                      <a>My Orders
+                      </a>
+                    </li>
+                    <li routerLink="/mywallet">
+                      <a>My Wallet
+                        <span>Rs 00.00</span>
+                      </a>
+                    </li>
+                    <li routerLink="/changepassword">
+                      <a>Change Password
+                      </a>
+                    </li>
+                    <li routerLink="/deliveryaddress">
+                      <a>Delivery Address
+                      </a>
+                    </li>
+                    <li routerLink="/referfriends">
+                      <a>Refer Friends
+                      </a>
+                    </li>
+                    <li routerLink="/loyalitypoints">
+                      <a>My Loyality points
+                      </a>
+                    </li>
+                    <li routerLink="/notifications">
+                      <a>Notifications
+                      </a>
+                    </li>
+                    <li (click)="logout()">
+                      <a>Logout
+                      </a>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+
+
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- top header -->
+  <!-- main-header -->
+  <div class="container main-header">
+    <div class="row">
+      <div class="col-lg-3">
+        <a (click)="goHome()">
+          <img src="assets/images/logo.png" class="img-fluid">
+        </a>
+      </div>
+      <div class="col-lg-6">
+        <form>
+          <div class="input-group mt-3 search-btn">
+            <input type="text" class="form-control" placeholder="Search" aria-label="Recipient's username"
+              aria-describedby="basic-addon2" [(ngModel)]="formData.searchParam" name="searchParam">
+            <div class="input-group-append">
+              <button class="btn btn-outline-secondary search-icon" type="button" (click)="searchProducts()">
+                <img src="assets/images/search-icon.png">
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="col-lg-3  mt-3 w-100">
+        <div class="dropdown show">
+          <button class="btn btn-secondary dropdown-toggle dropdown-button" href="#" role="button" id="dropdownMenuLink"
+            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <ul class="cart">
+              <li>
+                <img src="assets/images/cart.png">
+              </li>
+              <li>
+                <h4>Shopping Cart</h4>
+                <span>{{cartCount}}</span>
+              </li>
+            </ul>
+          </button>
+
+          <div class="dropdown-menu cart-dropdown dropdown-content-cart" aria-labelledby="dropdownMenuLink">
+            <div class="container-fluid cart-dropdown-content">
+              <!-- <p class="text-center" style="color:red">{{errorMessage}}</p> -->
+              <!-- cart item -->
+              <div class="row cart-product">
+                <div class="col-lg-12 text-right">
+                  <img src="assets/images/close.png" class="close-cart">
+                </div>
+                <div class="col-lg-5">
+                  <ul class="product-image">
+                    <li>
+                      <img src="assets/images/product.png" class="img-fluid">
+                    </li>
+                    <li>
+                      <h3>Onion</h3>
+                      <h4>1 X 26</h4>
+                    </li>
+                  </ul>
+                </div>
+                <div class="col-lg-3">
+                  <div class="quantity cart-quantity">
+                    <form>
+                      <button class="minus-btn" type="button" name="button" (click)="itemDecrease()">
+                        <i class="fa fa-minus " aria-hidden="true"></i>
+                      </button>
+                      <input type="text" name="quantity" [(ngModel)]="item.quantity" readonly="readonly" value="{{item.quantity}}" />
+                      <button class="plus-btn" type="button" name="button" (click)="itemIncrease()">
+                        <i class="fa fa-plus" aria-hidden="true"></i>
+                      </button>
+                    </form>
+                  </div>
+                </div>
+                <div class="col-lg-4">
+                  <ul class="product-cart-price">
+                    <li>
+                      <p>Rs.36</p>
+                      <p class="text-danger">BIG SAVE PRICE: RS 32</p>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+              <!-- cart item -->
+              <!-- charges -->
+              <div class="row table-responsive total-charges">
+                <table class="table">
+                  <tbody>
+                    <tr>
+                      <td class="charges">Sub Total</td>
+                      <td class="cost">
+                        <span>:</span>{{subTotal}}</td>
+                    </tr>
+                    <tr>
+                      <td class="charges">Delivery Charges</td>
+                      <td class="cost">
+                        <span>:</span>{{deliveryCharge}}</td>
+                    </tr>
+                    <tr>
+                      <td class="charges">Total</td>
+                      <td class="cost">
+                        <span>:</span>{{Total}}</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <!-- charges -->
+              <!-- proceed buttons -->
+              <div class="row cart-dropdown-button mb-5">
+                <p>
+                  <up>*</up>Actual Delivery Charges Computed at Checkout
+                </p>
+                <div class="col-lg-6 ">
+                  <a routerLink="/viewcart">View Cart</a>
+                </div>
+                <div class="col-lg-6 ">
+                  <a href="#">CheckOut</a>
+                </div>
+
+              </div>
+              <!-- proceed button -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- main-header -->
+  <!-- menu header -->
+  <div class="container-fluid  main-menu">
+    <div class="container main-menu">
+      <div class="row">
+        <div class="col-lg-3 categories text-center">
+          <div>
+            <a id="dLabel" role="button" class="btn btn-primary dropdown-button" (click)="showCat()">
+              CATEGORIES
+              <img src="assets/images/drop-down.png" class="angle-down">
+            </a>
+          </div>
+        </div>
+        <nav class="navbar navbar-expand-lg navbar-light s col-xl-9">
+
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav"
+            aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class=""></div>
+          <div class="collapse navbar-collapse menu-list" id="navbarNav">
+            <ul class="navbar-nav ">
+              <li class="nav-item ">
+                <a class="nav-link menu" href="#">HOME
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link menu" href="#">SMART BASKET</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link menu" href="#">ALL OFFERS</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link menu" href="#">DEAL OF THE DAY</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link menu" href="#">NEW ARRIVALS</a>
+              </li>
+            </ul>
+          </div>
+        </nav>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- menu header -->
+</section>
+<section>
+  <div class="container">
+    <div class="row">
+      <!-- show categories -->
+      <div class="col-md-3">
+        <div class="cats" *ngIf="showCategories">
+          <div *ngFor="let data of categories;let i =index" (click)="showSubCat(data.id,i)" [ngClass]="{'active':showSubCats && i==selectedCat}">
+            <a>{{data.name}}
+              <span class="float-right">
+                <fa name="chevron-right"></fa>
+              </span>
+            </a>
+          </div>
+        </div>
+      </div>
+      <!-- show sub categories -->
+
+      <div class="col-md-3">
+        <div class="subcats" *ngIf="showSubCats">
+          <div *ngFor="let data of subCatList">
+            <a (click)="showSubCatProd(data.id,i)">{{data.name}}
+              <!-- <span class="float-right">
+                <fa name="chevron-right"></fa>
+              </span> -->
+            </a>
+          </div>
+        </div>
+      </div>
+      <!-- <div class="col-md-6">
+        <div class="subcats" *ngIf="showSubCats">
+          <div class="sub-category">
+            <div class="sub-category-list">
+              <ul class=" category-dropdown category-main-list" *ngFor="let subsubData of subData.subcategory">
+                <li>
+                  <a>{{subsubData.name}}
+                  </a>
+                </li>
+
+                <img class="offer-image" src="assets/images/classmate.jpg">
+              </ul>
+            </div>
+            <div class="sub-category-list">
+              <img src="assets/images/offer.jpg" class="img-fluid">
+            </div>
+          </div>
+        </div>
+      </div> -->
+    </div>
+  </div>
+</section>
+
+<div class="container">
+  <!-- The Modal -->
+  <div *ngIf="showModal">
+    <div class="row">
+      <div class="login-popup">
+        <!-- login & registration -->
+        <div class="container modal-box " *ngIf="showLoginandRegistration">
+          <div class="row modal-popup ">
+            <div class="col-lg-5 p-0">
+              <button class="btn button " (click)="showLoginScreen()" [ngClass]="{'active-login':showLogin}">LOGIN</button>
+            </div>
+            <div class="col-lg-5 p-0">
+              <button class="btn button" (click)="showRegistrationScreen()" [ngClass]="{'active-register':showRegistration}">REGISTER</button>
+            </div>
+            <div class="col-lg-2 p-0">
+              <button class="btn button cross-btn" (click)="onCloseCancel()">
+                x
+              </button>
+            </div>
+          </div>
+          <!-- login-tab -->
+          <div class="container login-tab" *ngIf="showLogin">
+
+            <form>
+              <div class="form-group col-gl-12">
+                <input type="text" class="form-control input-field" aria-describedby="emailHelp" placeholder="* Mobile Number"
+                  maxlength="10" minlength="10" [(ngModel)]="formData.phone" name="phone" required>
+              </div>
+              <div class="form-group col-gl-12">
+                <input type="password" class="form-control input-field" placeholder="* Password" [(ngModel)]="formData.password"
+                  name="password" required>
+              </div>
+              <div class="col-lg-12 text-right">
+                <button class="btn button password-btn" (click)="openForgotpassword()">Forgot Password?</button>
+              </div>
+              <div class="col-lg-12">
+                <h3 class="text-center">OR</h3>
+              </div>
+              <div class="row text-center social-login">
+                <div class="col-lg-6">
+                  <img src="assets/images/facebook.png" (click)="socialSignIn('facebook')">
+                </div>
+                <div class="col-lg-6">
+                  <img src="assets/images/google-plus.png">
+                </div>
+              </div>
+
+              <button type="submit" class="btn  submit-button" (click)="login()">Login</button>
+            </form>
+
+          </div>
+          <!-- login-tab -->
+          <!-- registration tab -->
+          <div class="container login-tab" *ngIf="showRegistration">
+            <form>
+              <div class="row">
+                <div class="col-lg-6">
+                  <input type="text" class="form-control input-field" placeholder="* First name" [(ngModel)]="formData.firstName"
+                    name="firstName">
+                </div>
+                <div class="col-lg-6">
+                  <input type="text" class="form-control input-field" placeholder="* Last name" [(ngModel)]="formData.lastName"
+                    name="lastName">
+                </div>
+              </div>
+              <div class="form-group col-gl-12 mt-3">
+                <input type="email" class="form-control input-field" aria-describedby="emailHelp" placeholder="* Email"
+                  [(ngModel)]="formData.email" name="email">
+              </div>
+              <div class="form-group col-gl-12 mt-3">
+                <input myNumberOnly type="text" class="form-control input-field" maxlength="10" minlength="10"
+                  aria-describedby="emailHelp" placeholder="* Mobile Number" [(ngModel)]="formData.phone" name="phone">
+              </div>
+              <div class="row ">
+                <div class="col-lg-6">
+                  <input type="password" class="form-control input-field" placeholder="* Password" [(ngModel)]="formData.password"
+                    name="password">
+                </div>
+                <div class="col-lg-6">
+                  <input type="text" class="form-control input-field refferral" placeholder="Referral Code" [(ngModel)]="formData.referalCode"
+                    name="referalCode">
+                </div>
+              </div>
+              <div class="row mt-3">
+                <!-- <div class="col-lg-6">
+                  <input type="text" class="form-control input-field" placeholder="Enter Captcha">
+                </div> -->
+                <div class="col-lg-6">
+
+                </div>
+              </div>
+              <div class="custom-control custom-checkbox terms-checkbox mt-3">
+                <input type="checkbox" class="custom-control-input terms-input" id="customCheck1" checked>
+                <label class="custom-control-label terms-label" for="customCheck1">Accept Terms and Conditions</label>
+              </div>
+              <button class="btn  submit-button mt-5 mb-3 " (click)="openOtpScreen()">Submit</button>
+              <div class="col-lg-12 mt-3">
+                <h3 class="text-center">OR</h3>
+              </div>
+              <div class="row text-center">
+                <div class="col-lg-6">
+                  <img src="assets/images/facebook.png">
+                </div>
+                <div class="col-lg-6">
+                  <img src="assets/images/google-plus.png">
+                </div>
+              </div>
+            </form>
+          </div>
+          <!-- registration tab -->
+        </div>
+        <!-- login & registration -->
+        <!--forgot  password  -->
+        <div class="container password-popup modal-box" *ngIf="showForgotPassword">
+          <div class="row modal-popup">
+            <div class="col-lg-10 p-0">
+              <h4 class="text-center mt-3">Forgot Password</h4>
+            </div>
+            <div class="col-lg-2 p-0">
+              <button class="btn button cross-btn" (click)="onCloseCancel()">
+                x
+              </button>
+            </div>
+          </div>
+          <div class="container mt-3">
+            <form>
+              <div class="form-group col-gl-12">
+                <input type="email" class="form-control input-field" aria-describedby="emailHelp" placeholder="Enter Your Email"
+                  required>
+                <label class="red" *ngIf="errorObj.emailErr">{{"common.validEmail"|translate}}</label>
+
+              </div>
+              <button type="submit" class="btn  submit-button mt-3 mb-5 " (click)="forgotPassword()">Submit</button>
+            </form>
+          </div>
+        </div>
+        <!-- forgot password -->
+        <!-- opt screen -->
+        <div class="container password-popup modal-box" *ngIf="showOtp">
+          <div class="row modal-popup">
+            <div class="col-lg-10 p-0">
+              <h4 class="text-center mt-3">OTP VERIFICATION</h4>
+            </div>
+            <div class="col-lg-2 p-0">
+              <button class="btn button cross-btn" (click)="onCloseCancel()">
+                x
+              </button>
+            </div>
+          </div>
+          <div class="container mt-3">
+            <form>
+              <div class="form-group col-gl-12">
+                <input type="email" class="form-control input-field" aria-describedby="emailHelp" placeholder="Enter Your OTP"
+                  [(ngModel)]="formData.otp" name="otp" required>
+                <label class="red" *ngIf="errorObj.otpErr">{{"common.otpError"|translate}}</label>
+                <small id="emailHelp" class="form-text text-muted">Your OTP will expires in 3minutes.</small>
+              </div>
+              <button type="submit" class="btn  submit-button mt-3 mb-5 " (click)="registration()">Submit</button>
+            </form>
+          </div>
+        </div>
+        <!-- otp screen-->
+      </div>
+
+    </div>
+  </div>
+
+</div>
+
+<div class="modal-backdrop show" *ngIf="showOpacity"></div>

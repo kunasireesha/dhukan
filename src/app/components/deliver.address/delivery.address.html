@@ -1,0 +1,313 @@
+<div class="container">
+  <div class="row">
+    <!-- payment options -->
+    <div class="col-lg-8" *ngIf="showPaymentOptions">
+      <!-- delivery address -->
+      <div class="row delivery-block">
+        <div class="col-lg-3">
+          <h5 class="delivery">Delivery Address</h5>
+        </div>
+        <div class="col-lg-6">
+          <p class="para">Default Address:{{address.houseNum}}, {{address.pincode}}, {{address.city}}
+          </p>
+        </div>
+        <div class="col-lg-3">
+          <button type="button" class="btn btn-outline-Change" (click)="openAddAddress()">CHANGE</button>
+        </div>
+
+
+        <div class="col-lg-12 payment-options delivery-options" *ngIf="showAddAddress">
+          <div class="address-block">
+            <h5>
+              <b>Delivery Address</b>
+            </h5>
+            <div class="row header">
+              <h5>
+                <b>Personal Details</b>
+              </h5>
+            </div>
+            <div class="row">
+              <div class="col-lg-4">
+                <input class="form-control input-field" type="text" placeholder="Enter First Name" [(ngModel)]="address.firstName"
+                  name="firstName">
+              </div>
+              <div class="col-lg-4">
+                <input class="form-control input-field" type="text" placeholder="Enter Last Name" [(ngModel)]="address.lastName"
+                  name="lastName">
+              </div>
+              <div class="col-lg-4">
+                <input class="form-control input-field" type="text" placeholder="Enter Contact Number" [(ngModel)]="address.contact"
+                  name="contact">
+              </div>
+            </div>
+            <div class="row header">
+              <h5>
+                <b>Address Details</b>
+              </h5>
+            </div>
+            <div class="row">
+              <div class="col-lg-4">
+                <input class="form-control input-field" type="text" placeholder="House. No" [(ngModel)]="address.houseNum"
+                  name="houseNum">
+              </div>
+              <div class="col-lg-8">
+                <input class="form-control input-field" type="text" placeholder="Enter Apartment Name" [(ngModel)]="address.apartmentName"
+                  name="apartmentName">
+              </div>
+            </div>
+            <br>
+            <div class="row">
+              <div class="col-lg-6">
+                <input class="form-control input-field" type="text" placeholder="Street Details" [(ngModel)]="address.street"
+                  name="street">
+              </div>
+              <div class="col-lg-6">
+                <input class="form-control input-field" type="text" placeholder="Enter Land Mark" [(ngModel)]="address.landmark"
+                  name="landmark">
+              </div>
+            </div>
+            <br>
+            <div class="row">
+              <div class="col-lg-4">
+                <input class="form-control input-field" type="text" placeholder="Enter City" [(ngModel)]="address.city"
+                  name="city">
+              </div>
+              <div class="col-lg-4">
+                <input class="form-control input-field" type="text" placeholder="Enter Area Details" [(ngModel)]="address.area"
+                  name="area">
+              </div>
+              <div class="col-lg-4">
+                <input class="form-control input-field" type="text" placeholder="Enter Pin-code" [(ngModel)]="address.pincode"
+                  name="pincode">
+              </div>
+            </div>
+            <br>
+            <div class="row header">
+              <h5>
+                <b>Choose nick name for this adderss</b>
+              </h5>
+            </div>
+            <div>
+              <button type="button" class="btn  input-butn">Home</button>
+              <button type="button" class="btn input-butn1">Office</button>
+              <button type="button" class="btn  input-butn1">Other</button>
+            </div>
+            <button type="button" class="btn add-address-btn" (click)="updateAddress()">
+              UPDATE ADDRESS
+            </button>
+          </div>
+        </div>
+
+
+
+      </div>
+
+
+      <!-- delivery address -->
+
+      <!-- delivery options -->
+      <div class="row delivery-block">
+        <div class="col-lg-3">
+          <h5 class="delivery">Delivery Options</h5>
+        </div>
+        <div class="col-lg-6">
+          <p class="para">Default Address:Home-4-66, 560038, Banglore, 560038
+          </p>
+        </div>
+        <div class="col-lg-3">
+          <button type="button" class="btn btn-outline-Change" (click)="openAddressOptions()">CHANGE</button>
+        </div>
+        <div class="col-lg-12" *ngIf="showDeliveryOptions">
+          <div class="row payment-options delivery-options">
+            <div>
+              <h5> Delivery Options</h5>
+            </div>
+            <div class="row shipment-delivery">
+              <div class="custom-control custom-radio custom-control-inline payment-radio-button align-self-center">
+                <input type="radio" id="customRadioInline1" name="customRadioInline1" class="custom-control-input payment-control-input"
+                  checked>
+                <label class="custom-control-label payment-input-label" for="customRadioInline1">1 Shipment, Delivery
+                  Charge:Rs 30</label>
+              </div>
+              <div class="custom-control custom-radio custom-control-inline payment-radio-button radio-butn align-self-center">
+                <input type="radio" id="customRadioInline2" name="customRadioInline1" class="custom-control-input payment-control-input">
+                <label class="custom-control-label payment-input-label" for="customRadioInline2">1 Shipment, Delivery
+                  Charge:Rs 50</label>
+              </div>
+            </div>
+            <div class="row express-delivery">
+              <div class="col-lg-4 shipment1">
+                Shipment 1: Express Delivery
+              </div>
+              <div class="col-lg-3 delivery-charge">
+                3 Items Rs.75.76 Delivery Charge:Rs.30
+              </div>
+              <div class="col-lg-5 form">
+                <div class="form-group">
+                  <label for="exampleFormControlSelect1"></label>
+                  <select class="form-control form-border" id="exampleFormControlSelect1">
+                    <option>Today With In Next 30 Minutes</option>
+                    <option>Today With In Next 1 Hour</option>
+                    <option>Today With In Next 30 Minutes</option>
+                    <option>Today With In Next 30 Minutes</option>
+                    <option>Today With In Next 30 Minutes</option>
+                  </select>
+                </div>
+              </div>
+              <div class="button-proceed">
+                <button type="button" class="btn btn-proceed" (click)="showPaymentOptionsScreen()">PROCEED TO PAY</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+      <!-- delivery options -->
+      <div class="row payment-options">
+        <div>
+          <h5> Payment Options</h5>
+        </div>
+        <div class="col-lg-12">
+          <div class="custom-control custom-radio custom-control-inline payment-radio-button">
+            <input type="radio" id="customRadioInline1" name="customRadioInline1" class="custom-control-input payment-control-input"
+              checked>
+            <label class="custom-control-label payment-input-label" for="customRadioInline1">Payment Options With
+              Offers</label>
+          </div>
+          <div class="custom-control custom-radio custom-control-inline payment-radio-button options-button">
+            <input type="radio" id="customRadioInline2" name="customRadioInline1" class="custom-control-input payment-control-input">
+            <label class="custom-control-label payment-input-label" for="customRadioInline2">Other Payment Options</label>
+          </div>
+        </div>
+        <div class="paytm-wallet">
+          <div class="custom-control custom-radio col-lg-12">
+            <input type="radio" id="customRadio2" name="customRadio" class="custom-control-input">
+            <label class="custom-control-label" for="customRadio2">
+              <ul class="wallets-list">
+                <li>
+                  <img src="assets/images/paytm.png" class="image">
+                </li>
+                <li class="para-list">
+                  <p class="para1">Paytm Wallet</p>
+                  <p>Up to Rs.2000 cashback. Usecode DHMONSOON</p>
+                </li>
+              </ul>
+            </label>
+          </div>
+          <div class="custom-control custom-radio col-lg-12">
+            <input type="radio" id="customRadio3" name="customRadio" class="custom-control-input">
+            <label class="custom-control-label" for="customRadio3">
+              <ul class="wallets-list">
+                <li>
+                  <img src="assets/images/mobikwik.png" class="image">
+                </li>
+                <li class="para-list1">
+                  <p class="para1">Paytm Wallet</p>
+                  <p>Up to Rs.2000 cashback. Usecode DHMONSOON</p>
+                </li>
+              </ul>
+            </label>
+          </div>
+          <div class="custom-control custom-radio col-lg-12">
+            <input type="radio" id="customRadio4" name="customRadio" class="custom-control-input">
+            <label class="custom-control-label" for="customRadio4">
+              <ul class="wallets-list">
+                <li>
+                  <img src="assets/images/freecharge.png" class="image">
+                </li>
+                <li class="para-list2">
+                  <p class="para1">Paytm Wallet</p>
+                  <p>Up to Rs.2000 cashback. Usecode DHMONSOON</p>
+                </li>
+              </ul>
+            </label>
+          </div>
+        </div>
+        <div class="col-lg-6  text-center">
+          <button type="button" class="btn btn-cancel" (click)="cancelPayment()">CANCEL</button>
+        </div>
+        <div class="col-lg-6  text-center">
+          <button type="button" class="btn btn-cancel col-lg-6 align-self-center">PROCEED TO PAY</button>
+        </div>
+      </div>
+    </div>
+    <!-- payment options -->
+
+
+
+    <div class="col-lg-4 order-summary">
+      <div class="row bill-details">
+        <div>
+          <h5>
+            <b>Order Summary</b>
+          </h5>
+          <div>
+            <form class="form-inline">
+              <div class="form-group mx-sm-3 mb-2">
+                <label for="inputPassword2" class="sr-only">Enter Vocher Code</label>
+                <input type="text" class="form-control input-field" id="inputPassword2" placeholder="Enter Vocher Code">
+              </div>
+              <button type="submit" class="btn mb-2 apply-button">APPLY</button>
+            </form>
+            <span>
+              <a href="#">You have 6 vochers available</a>
+            </span>
+          </div>
+        </div>
+        <div class="order-charges">
+          <hr class="horizantal-line" />
+          <table class="table table table-sm vocher table-data">
+            <tbody>
+              <tr>
+                <th scope="row"></th>
+                <td>Basket value</td>
+                <td class="table-data2">Rs:30.43</td>
+              </tr>
+              <tr>
+                <th scope="row"></th>
+                <td>Delivery Charges</td>
+                <td class="table-data2">Rs:80.00</td>
+              </tr>
+              <tr>
+                <th scope="row"></th>
+                <td>Vocher Discount</td>
+                <td class="table-data2">
+                  <a href="#">Apply Vocher</a>
+                </td>
+              </tr>
+              <tr>
+                <th scope="row"></th>
+                <td>
+                  <div class="custom-control custom-checkbox">
+                    <input type="checkbox" class="custom-control-input wallet-used" id="customCheck1" checked>
+                    <label class="custom-control-label" for="customCheck1">Used From DWallet</label>
+                  </div>
+                </td>
+                <td class="table-data2">Rs:0</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="total-amount">
+          <hr class="horizantal-line" />
+          <table class="table table table-sm vocher table-data">
+            <tbody>
+              <tr>
+                <th scope="row"></th>
+                <td>
+                  <b>Total Amount Payable</b>
+                </td>
+                <td class="table-data2">Rs:110.40</td>
+              </tr>
+              <tr class="table-data3">
+                <th scope="row"></th>
+                <td>Your Total Saving</td>
+                <td class="table-data2">Rs:7.60</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
