@@ -93,6 +93,9 @@ export class HeaderComponent implements OnInit {
     pincode: '',
     searchParam: ''
   }
+  forData = {
+    forEmail: ''
+  }
 
 
 
@@ -155,8 +158,23 @@ export class HeaderComponent implements OnInit {
   }
 
   forgotPassword() {
-    if (this.formData.email === '' || this.formData.email === undefined || this.formData.email === null) {
+    var inData = "email=" + this.forData.forEmail;
+
+    if (this.forData.forEmail === '' || this.forData.forEmail === undefined || this.forData.forEmail === null) {
       swal('Missing Mandatory field', '', 'error');
+    }
+    else {
+      this.headerSer.forgotPassword(inData).subscribe(response => {
+        if (response.json().status === 400) {
+          swal(response.json().message, "", "error");
+        } else {
+          swal("mail sent succesfully", "", "success");
+          this.forData.forEmail = '';
+          this.onCloseCancel();
+        }
+      }, error => {
+        console.log(error);
+      })
     }
   }
 
@@ -195,20 +213,19 @@ export class HeaderComponent implements OnInit {
         "&device_token=" + "abcd12_123" +
         "&device_type=" + "Desktop"
 
-
       this.loginService.login(inData).subscribe(response => {
-        localStorage.setItem('userData', JSON.stringify(response.json().data));
-        localStorage.setItem('token', JSON.stringify(response.json().token));
-        localStorage.setItem('userId', JSON.stringify(response.json().data.u_id));
-        this.onCloseCancel();
-        this.showProfile = true;
-        this.showLoginButton = false;
-        this.router.navigate(["/"]);
-        if (response.json().status === 200) {
+        if (response.json().status === 400) {
+          swal(response.json().message, " ", "error")
+        } else {
           swal("Login Successfully", " ", "success");
-        }
-        else {
-          swal("Oops!", "Incorrect password", "error")
+          localStorage.setItem('userData', JSON.stringify(response.json().data));
+          localStorage.setItem('token', JSON.stringify(response.json().token));
+          localStorage.setItem('userId', JSON.stringify(response.json().data.u_id));
+          localStorage.setItem('userMobile', (response.json().data.phone));
+          this.onCloseCancel();
+          this.showProfile = true;
+          this.showLoginButton = false;
+          this.router.navigate(["/"]);
         }
       });
     }

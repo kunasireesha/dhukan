@@ -537,8 +537,8 @@
             <form>
               <div class="form-group col-gl-12">
                 <input type="email" class="form-control input-field" aria-describedby="emailHelp" placeholder="Enter Your Email"
-                  required>
-                <label class="red" *ngIf="errorObj.emailErr">{{"common.validEmail"|translate}}</label>
+                  [(ngModel)]="forData.forEmail" name="forEmail" required>
+                <!-- <label class="red" *ngIf="errorObj.emailErr">{{"common.validEmail"|translate}}</label> -->
 
               </div>
               <button type="submit" class="btn  submit-button mt-3 mb-5 " (click)="forgotPassword()">Submit</button>

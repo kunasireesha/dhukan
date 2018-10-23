@@ -70,5 +70,8 @@ export class ProfileService {
     myOrders(): Observable<any> {
         return this.postInputParams('dashboard/myorders');
     }
+    changePw(params): Observable<any> {
+        return this.postInputParamsUrl('users/changepassword', params);
+    }
 
 };
