@@ -1,8 +1,9 @@
 import { element } from 'protractor';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { Router } from '@angular/router';
 import { MainService } from '../../services/main/main';
 import swal from 'sweetalert';
+import { Post, GroupPosts } from '../../services/products';
 
 @Component({
     selector: 'app-product',
@@ -10,16 +11,47 @@ import swal from 'sweetalert';
     styleUrls: ['./product.component.less']
 })
 export class ProductComponent implements OnInit {
+    // @Input() data: Array<any>;
+
+    @Input()
+    data: Post[];
+
+    groupPosts: GroupPosts[];
+    // private _data: Array<any>;
+    // @Input()
+    // set data(data: Array<any>) {
+    //     this._data = data;
+    // }
+    // get data() { return this._data; }
+
     selected: number = 0;
     selectedOption: string;
     states = [];
-    constructor(public router: Router, public mainServe: MainService) { }
+    datas = [];
+    constructor(public router: Router, public mainServe: MainService) {
+
+    }
     item = {
         quantity: 1
     }
     resData;
+
+
+
+    groupByCategory(data: Post[]): GroupPosts[] {
+        // our logic to group the posts by category
+        if (!data) return;
+    }
+
+
+
+
+
     ngOnInit() {
-        this.getDashboard();
+        this.groupPosts = this.groupByCategory(this.data);
+        this.allFeatureProducts.push(this.data);
+        console.log(this.groupPosts);
+        // this.getDashboard();
 
     }
     itemIncrease(index) {
@@ -41,17 +73,17 @@ export class ProductComponent implements OnInit {
 
     allFeatureProducts = [];
     //get products
-    getDashboard() {
-        this.mainServe.getDashboard().subscribe(response => {
-            this.allFeatureProducts = response.json().products;
-            // this.selectOption(id);
-            // for(var i = 0; i <this.allFeatureProducts[i] ; i++){
-            //   for( var j = 0; j<this.allFeatureProducts[j].sku[j]; j++)
-            //   {
-            //   }
-            // }
-        });
-    }
+    // getDashboard() {
+    //     this.mainServe.getDashboard().subscribe(response => {
+    //         this.allFeatureProducts = response.json().products;
+    //         // this.selectOption(id);
+    //         // for(var i = 0; i <this.allFeatureProducts[i] ; i++){
+    //         //   for( var j = 0; j<this.allFeatureProducts[j].sku[j]; j++)
+    //         //   {
+    //         //   }
+    //         // }
+    //     });
+    // }
     skId;
     selectOption(id) {
         // var valid = false;

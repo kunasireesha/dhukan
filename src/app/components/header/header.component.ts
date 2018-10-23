@@ -213,23 +213,19 @@ export class HeaderComponent implements OnInit {
         "&device_token=" + "abcd12_123" +
         "&device_type=" + "Desktop"
 
-
       this.loginService.login(inData).subscribe(response => {
-        console.log(JSON.stringify(response.json()));
-
-        localStorage.setItem('userData', JSON.stringify(response.json().data));
-        localStorage.setItem('token', JSON.stringify(response.json().token));
-        localStorage.setItem('userId', JSON.stringify(response.json().data.u_id));
-        localStorage.setItem('userMobile', (response.json().data.phone));
-        this.onCloseCancel();
-        this.showProfile = true;
-        this.showLoginButton = false;
-        this.router.navigate(["/"]);
-        if (response.json().status === 200) {
+        if (response.json().status === 400) {
+          swal(response.json().message, " ", "error")
+        } else {
           swal("Login Successfully", " ", "success");
-        }
-        else {
-          swal("Oops!", "Incorrect password", "error")
+          localStorage.setItem('userData', JSON.stringify(response.json().data));
+          localStorage.setItem('token', JSON.stringify(response.json().token));
+          localStorage.setItem('userId', JSON.stringify(response.json().data.u_id));
+          localStorage.setItem('userMobile', (response.json().data.phone));
+          this.onCloseCancel();
+          this.showProfile = true;
+          this.showLoginButton = false;
+          this.router.navigate(["/"]);
         }
       });
     }

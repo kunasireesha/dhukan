@@ -60,7 +60,7 @@ export class MainService {
         const headers = new Headers({
             'Content-Type': "application/x-www-form-urlencoded",
             'token': (localStorage.token === undefined) ? '' : JSON.parse(localStorage.token),
-            'Session_id': localStorage.session
+            'Session_id': (localStorage.token !== undefined) ? '' : localStorage.session
         });
         return this.http.get(AppSettings.baseUrl + url, { headers: headers });
     }
