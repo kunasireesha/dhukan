@@ -5,6 +5,7 @@ import { MainService } from '../../services/main/main';
 import { HeaderService } from '../../services/header/header';
 import { AppSettings } from '../../config';
 import { NavigationExtras, Router, ActivatedRoute } from '@angular/router';
+import { Post } from '../../services/products';
 
 @Component({
   selector: 'app-main',
@@ -14,18 +15,9 @@ import { NavigationExtras, Router, ActivatedRoute } from '@angular/router';
 
 export class MainComponent implements OnInit {
   constructor(public mainServe: MainService, public router: Router, private headerSer: HeaderService) { }
-  ngOnInit() {
-    window.scrollTo(0, 0);
-
-    this.getAllCategoriesWithSubCat();
-
-    this.mainServe.getDashboard().subscribe(response => {
-      this.dashboardData = response.json();
-      this.allProducts = response.json().products
-      this.image = response.json().offer.TOP1[0].pic;
-    })
-  }
+  posts: Post[];
   bannerImageOne = true;
+
   bannerImageTwo = false;
   bannerImageThree = false;
   results: any;
@@ -36,6 +28,20 @@ export class MainComponent implements OnInit {
   image;
   resData = [];
   allProducts = [];
+  pro;
+  ngOnInit() {
+    window.scrollTo(0, 0);
+
+    this.getAllCategoriesWithSubCat();
+
+    this.mainServe.getDashboard().subscribe(response => {
+      this.dashboardData = response.json();
+      this.allProducts = response.json().products;
+      this.posts = this.allProducts;
+
+      this.image = response.json().offer.TOP1[0].pic;
+    })
+  }
   bannerImageOneOffer() {
     this.bannerImageOne = true;
     this.bannerImageTwo = false;
@@ -56,21 +62,37 @@ export class MainComponent implements OnInit {
   item = {
     quantity: 1
   }
+  selected;
+  showInput = false;
+  //add to cart
+  itemIncrease(data, name, index) {
 
-  itemIncrease() {
     let thisObj = this;
-
-    thisObj.item.quantity = Math.floor(thisObj.item.quantity + 1);
-
+    if (localStorage.name !== name) {
+      thisObj.item.quantity = 0;
+    }
+    if (name === data.title) {
+      thisObj.showInput = true;
+      this.selected = index;
+      thisObj.item.quantity = Math.floor(thisObj.item.quantity + 1);
+      localStorage.setItem('name', name);
+    } else {
+      thisObj.showInput = false;
+    }
   }
-  itemDecrease() {
+
+  itemDecrease(index) {
+    this.selected = index;
     let thisObj = this;
-    if (thisObj.item.quantity === 0) {
+    if (thisObj.item.quantity === 1) {
       return;
     }
     thisObj.item.quantity = Math.floor(thisObj.item.quantity - 1);
 
   }
+
+
+
   ShowProductDetails(Id) {
     let navigationExtras: NavigationExtras = {
       queryParams: {

@@ -47,19 +47,17 @@
       <div class="product" *ngIf="i<4">
         <div class="container">
           <div class="row">
-            <!-- like -->
+
             <div class="col-md-12 text-right">
               <a href="">
                 <fa name="heart"></fa>
               </a>
             </div>
-            <!-- like  -->
-            <!-- product image -->
+
             <div class="col-md-12 text-center">
               <img [src]="products.product_image" class="img-fluid prodImage" (click)="ShowProductDetails(products.id)">
             </div>
-            <!-- product image -->
-            <!-- product details -->
+
             <div class="col-md-12">
               <div class="product-names text-center">
                 <ul>
@@ -112,12 +110,18 @@
             <!-- product details -->
             <div class="col-lg-12 col-md-12 col-sm-12 cart-btn">
               <div class="quantity">
-                <button class="minus-btn" type="button" name="button" (click)="itemDecrease()">
+                <button class="minus-btn" type="button" name="button">
                   <i class="fa fa-minus " aria-hidden="true"></i>
+                  <!-- (click)="itemDecrease(i)" -->
                 </button>
                 <input type="text" name="quantity" [(ngModel)]="item.quantity" readonly="readonly" value="{{item.quantity}}" />
-                <button class="plus-btn" type="button" name="button" (click)="itemIncrease()">
+
+                <!-- <label *ngIf="i == selected && showInput">{{item.quantity}}</label>
+                <label *ngIf="!showInput && i !== selected">1</label> -->
+                <!-- <label>{{item.quantity}}</label> -->
+                <button class="plus-btn" type="button" name="button">
                   <i class="fa fa-plus" aria-hidden="true"></i>
+                  <!-- (click)="itemIncrease(products,products.title,i)" -->
                 </button>
               </div>
             </div>
@@ -165,7 +169,11 @@
   <carousel>
     <slide>
       <div class="container">
-        <app-product></app-product>
+        <div class="row">
+
+          <!-- <app-product [data]="posts"></app-product> -->
+
+        </div>
       </div>
     </slide>
   </carousel>
@@ -207,7 +215,7 @@
   <carousel>
     <slide>
       <div class="container">
-        <app-product></app-product>
+        <!-- <app-product></app-product> -->
       </div>
     </slide>
   </carousel>
@@ -309,7 +317,7 @@
   <carousel>
     <slide>
       <div class="container">
-        <app-product></app-product>
+        <!-- <app-product></app-product> -->
       </div>
     </slide>
   </carousel><br />

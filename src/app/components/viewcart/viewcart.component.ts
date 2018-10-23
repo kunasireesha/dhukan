@@ -38,16 +38,9 @@ export class ViewcartComponent implements OnInit {
   }
   getCartList() {
     this.mainServe.getCartList().subscribe(response => {
-      console.log(response)
       this.viewCart = response.json().data;
-      this.suummary = response.json().summary;
       console.log(this.viewCart);
-      // this.selectOption(id);
-      // for(var i = 0; i <this.allFeatureProducts[i] ; i++){
-      //   for( var j = 0; j<this.allFeatureProducts[j].sku[j]; j++)
-      //   {
-      //   }
-      // }
+      this.suummary = response.json().summary;
     });
   }
   deleteCart(id) {
