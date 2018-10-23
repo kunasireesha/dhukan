@@ -5,6 +5,7 @@ import { INgxMyDpOptions, IMyDateModel, IMyInputFieldChanged } from 'ngx-mydatep
 import { Address } from '../../services/deliveraddressdata/address';
 import { AddressServices } from '../../services/deliveraddressdata/addressService';
 
+
 @Component({
   selector: 'app-myprofile-list',
   templateUrl: './myprofile-list.component.html',
@@ -71,6 +72,11 @@ export class MyprofileListComponent implements OnInit {
   profileDetails;
   date;
   addressData = [];
+  changePassword = {
+    oldPw: '',
+    newPw: '',
+    conPw: ''
+  }
 
   formData = {
     first_name: '',
@@ -171,7 +177,7 @@ export class MyprofileListComponent implements OnInit {
 
 
   //my address
-  getAddress() {    
+  getAddress() {
     this.profileSer.getAddress().subscribe(response => {
       this.address = response.json().data;
 
@@ -237,6 +243,29 @@ export class MyprofileListComponent implements OnInit {
 
     this.addressSer.data = addressDetails;
     this.router.navigate(['/paymentoptions']);
+  }
+  changePw() {
+    var inData = "phone=" + localStorage.userMobile +
+      "&password=" + this.changePassword.oldPw +
+      "&newpassword=" + this.changePassword.newPw
+    if ((this.changePassword.oldPw || this.changePassword.newPw) === '') {
+      swal("Required fields are missing", "", "warning");
+    }
+    else if ((this.changePassword.newPw) === this.changePassword.conPw) {
+      this.profileSer.changePw(inData).subscribe(response => {
+        swal("password change sucessfully", "", "success");
+        this.changePassword = {
+          oldPw: '',
+          newPw: '',
+          conPw: ''
+        }
+      }, error => {
+
+      });
+    } else {
+      swal("Passwords missmatched", "", "error");
+    }
+
   }
 
 }

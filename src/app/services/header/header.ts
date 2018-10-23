@@ -17,6 +17,12 @@ export class HeaderService {
         });
         return this.http.get(AppSettings.baseUrl + url + lId, { headers: headers });
     }
+    getInputParamsUrl(url, params) {
+        const headers = new Headers({
+            'Content-Type': "application/x-www-form-urlencoded",
+        });
+        return this.http.get(AppSettings.baseUrl + url + "/" + params, { headers: headers });
+    }
 
     //post methode
     postInputParams(url, params) {
@@ -58,7 +64,7 @@ export class HeaderService {
 
     //search products
     searchProducts(params): Observable<any> {
-        return this.postInputParamsUrl('dhukan/prdsrc', params);
+        return this.getInputParamsUrl('dhukan/prdsrc', params);
     }
 
     //get categories and subcategories
@@ -68,6 +74,8 @@ export class HeaderService {
     showSubCat(params): Observable<any> {
         return this.postInputParams('dhukan/categories-list', params);
     }
-
+    forgotPassword(params): Observable<any> {
+        return this.postInputParams('users/forgot_password ', params);
+    }
 
 };

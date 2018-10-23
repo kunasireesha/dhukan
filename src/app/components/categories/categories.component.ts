@@ -73,16 +73,16 @@ export class CategoriesComponent implements OnInit {
       var inData = "token =" + JSON.parse(localStorage.token);
     }
 
-    this.headerSer.getAllCatAndSubCat(inData).subscribe(response => {
-      this.results = response.json().result;
-      this.categoriesWithSubCat = this.results.category;
-      for (var i = 0; i < this.categoriesWithSubCat.length; i++) {
-        if (this.catName === this.categoriesWithSubCat[i].name) {
-          this.subcats = this.categoriesWithSubCat[i].subcategory;
-        }
-      }
+    // this.headerSer.getAllCatAndSubCat(inData).subscribe(response => {
+    //   this.results = response.json().result;
+    //   this.categoriesWithSubCat = this.results.category;
+    //   for (var i = 0; i < this.categoriesWithSubCat.length; i++) {
+    //     if (this.catName === this.categoriesWithSubCat[i].name) {
+    //       this.subcats = this.categoriesWithSubCat[i].subcategory;
+    //     }
+    //   }
 
-    });
+    // });
   }
 
   //change size
