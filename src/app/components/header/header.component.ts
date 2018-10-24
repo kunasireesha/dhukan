@@ -99,7 +99,7 @@ export class HeaderComponent implements OnInit {
   forData = {
     forEmail: ''
   }
-
+  phone;
 
 
   //in popup login button
@@ -227,6 +227,7 @@ export class HeaderComponent implements OnInit {
           localStorage.setItem('userMobile', (response.json().data.phone));
           this.onCloseCancel();
           this.showProfile = true;
+          this.phone = localStorage.userMobile;
           this.showLoginButton = false;
           this.router.navigate(["/"]);
         }

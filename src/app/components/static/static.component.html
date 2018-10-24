@@ -1,14 +1,14 @@
 <section *ngIf="showFaq">
   <div class="container">
     <div class="row">
-      <div class="col-md-3"></div>
-      <div class="col-md-9">
-        <div class="cust-faq my-4">
-          <h1>Faq's :</h1>
-          <br />
+
+      <div class="col-md-12 col-lg-12">
+        <br />
+        <div class="cust-faq">
+          <h3 class="text-center">FAQ'S</h3>
           <br />
           <div *ngFor="let item of faqData">
-            <h4>{{item.question}} ? </h4>
+            <h5>{{item.question}} ? </h5>
             <p>{{item.answer}}</p>
           </div>
         </div>
@@ -20,12 +20,13 @@
 <section *ngIf="showTerms">
   <div class="container">
     <div class="row">
-      <div class="col-md-3"></div>
-      <div class="col-md-9">
-        <div class="cust-faq my-4">
-          <h1>Terms and Conditions:</h1>
+
+      <div class="col-md-12">
+        <div class="cust-faq">
           <br />
+          <h3 class="text-center">Terms and Conditions</h3>
           <br />
+
           <div class="static">
             <p>{{termsData.data}}</p>
           </div>

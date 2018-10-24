@@ -143,31 +143,29 @@ export class MainComponent implements OnInit {
             return;
         }
         if (localStorage.token === undefined) {
-            var inData = "product_id=" + prodId +
-                "&quantity=" + this.item.quantity +
-                "&product_sku_id=" + this.skId +
-                "&Session_id=" + localStorage.session
-
+            swal('Pleaase Login', '', 'warning');
         } else {
             var inData = "product_id=" + prodId +
                 "&quantity=" + this.item.quantity +
                 "&product_sku_id=" + this.skId +
-                "&token=" + JSON.parse(localStorage.token)
+                "&token=" + JSON.parse(localStorage.token);
+
+            this.mainServe.addCat(inData).subscribe(response => {
+                this.resData = response.json();
+                if (response.json().status === 200) {
+                    swal(response.json().message, "", "success");
+                    this.skId = undefined;
+                } else {
+                    swal(response.json().message, "", "error");
+                    this.skId = undefined;
+                }
+            }, error => {
+                swal(error.json().message, "", "success");
+                this.skId = undefined;
+            })
         }
 
-        this.mainServe.addCat(inData).subscribe(response => {
-            this.resData = response.json();
-            if (response.json().status === 200) {
-                swal(response.json().message, "", "success");
-                this.skId = undefined;
-            } else {
-                swal(response.json().message, "", "error");
-                this.skId = undefined;
-            }
-        }, error => {
-            swal(error.json().message, "", "success");
-            this.skId = undefined;
-        })
+
     }
 }
 
