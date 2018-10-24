@@ -110,18 +110,13 @@
             <!-- product details -->
             <div class="col-lg-12 col-md-12 col-sm-12 cart-btn">
               <div class="quantity">
-                <button class="minus-btn" type="button" name="button">
+                <button class="minus-btn" type="button" name="button" (click)="itemDecrease(i)">
                   <i class="fa fa-minus " aria-hidden="true"></i>
-                  <!-- (click)="itemDecrease(i)" -->
                 </button>
-                <input type="text" name="quantity" [(ngModel)]="item.quantity" readonly="readonly" value="{{item.quantity}}" />
+                <input type="text" name="mycart" readonly="readonly" value="{{item.quantity}}" />
 
-                <!-- <label *ngIf="i == selected && showInput">{{item.quantity}}</label>
-                <label *ngIf="!showInput && i !== selected">1</label> -->
-                <!-- <label>{{item.quantity}}</label> -->
-                <button class="plus-btn" type="button" name="button">
+                <button class="plus-btn" type="button" name="button" (click)="itemIncrease(products,products.id,i,products.title)">
                   <i class="fa fa-plus" aria-hidden="true"></i>
-                  <!-- (click)="itemIncrease(products,products.title,i)" -->
                 </button>
               </div>
             </div>

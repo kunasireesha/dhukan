@@ -23,6 +23,8 @@ export class HeaderComponent implements OnInit {
   subTotal: any;
   Total: any;
   status: any;
+  viewCart = [];
+  summary = []
   constructor(
     public loginService: DataService,
     private translate: TranslateService,
@@ -38,6 +40,7 @@ export class HeaderComponent implements OnInit {
     this.getDashboard();
     this.getCategories();
     this.getAllCategoriesWithSubCat();
+    this.getCartList();
     if (localStorage.userData !== undefined) {
       this.showProfile = true;
       this.showLoginButton = false;
@@ -481,6 +484,12 @@ export class HeaderComponent implements OnInit {
       // }
       // console.log(this.cart);
       // this.errorMessage = response.json().cart.message;
+    });
+  }
+  getCartList() {
+    this.mainServe.getCartList().subscribe(response => {
+      this.viewCart = response.json().data;
+      this.summary = response.json().summary;
     });
   }
 }

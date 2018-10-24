@@ -105,4 +105,10 @@ export class MainService {
     showProductDetails(indata): Observable<any> {
         return this.getInputParamsUrl('dhukan/product', indata);
     }
+    faq(): Observable<any> {
+        return this.getInputParams('users/faq')
+    }
+    terms(): Observable<any> {
+        return this.getInputParams('users/terms_and_conditions')
+    }
 };

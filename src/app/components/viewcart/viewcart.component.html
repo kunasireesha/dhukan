@@ -26,6 +26,7 @@
 		</thead>
 		<tbody>
 			<tr class="mt-1" *ngFor="let item of viewCart">
+				<!-- <div *ngFor="let sku of item.sku"> -->
 				<td>
 					<ul class="product-image">
 						<li>
@@ -44,6 +45,7 @@
 					</p>
 					<span class="text-danger">{{ "offer-price" | translate}}</span>
 				</td>
+				<!-- </div> -->
 				<td>
 					<div class="quantity increase-buttons">
 						<button class="minus-btn" type="button" name="button" (click)="itemDecrease()">
@@ -82,12 +84,12 @@
 					<tr>
 						<td class="charges">{{summary.cart_count}} items</td>
 						<td class="cost">
-							<!-- <span>:</span>RS 52.00</td> -->
+							<span>:</span>RS {{summary.selling_price}}</td>
 					</tr>
 					<tr>
 						<td class="charges">Sub Total</td>
 						<td class="cost">
-							<span>:</span>RS {{summary.selling_price}}</td>
+							<span>:</span>RS&nbsp; {{summary.cart_count * summary.selling_price}}</td>
 					</tr>
 					<tr>
 						<td class="charges">Delivery Charges</td>
@@ -102,41 +104,17 @@
 				</tbody>
 			</table>
 
-			<tr>
-				<td class="charges">Delivery Charges</td>
-				<td class="cost">
-					<span>:</span>Rs {{suummary?.delivery_charge}}</td>
-			</tr>
-			<tr>
-				<th class="charges">Total</th>
-				<th class="cost">
-					<span>:</span>Rs {{suummary?.grand_total}}</th>
-			</tr>
-			</tbody>
-			</table>
+		</div>
 
-			<<<<<<< HEAD <div class="col-lg-6 ">
-				<p>
-					<up>*</up>Actual Delivery Charges Computed at Checkout
-				</p>
+		<div class="col-lg-6 ">
+			<p>
+				<up>*</up>Actual Delivery Charges Computed at Checkout
+			</p>
 		</div>
-		<div class="col-lg-6">
-			<!-- ` -->
-		</div>
+		<!-- <div class="col-lg-6">
+			<p class="text-danger text-right">You haved saved Rs. 64.00</p>
+		</div> -->
 	</div>
-	=======
-</div>
-
-<div class="col-lg-6 ">
-	<p>
-		<up>*</up>Actual Delivery Charges Computed at Checkout
-	</p>
-</div>
-<div class="col-lg-6">
-	<p class="text-danger text-right">You haved saved Rs. 64.00</p>
-</div>
-</div>
->>>>>>> 36ed6a64f0a522e67753f8ca5a00a0cbfe80157e
 
 </div>
 <div class="container">

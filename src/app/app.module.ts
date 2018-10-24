@@ -44,6 +44,7 @@ import { AddressServices } from './services/deliveraddressdata/addressService';
 import { NumberOnlyDirective, AlphabetsOnly } from './directives/number';
 import { ProductsDirective } from './directives/products';
 import { OrdersComponent } from './components/orders/orders.component';
+import { StaticComponent } from './components/static/static.component';
 
 
 
@@ -85,7 +86,8 @@ export function getAuthServiceConfigs() {
 		NumberOnlyDirective,
 		ProductsDirective,
 		AlphabetsOnly,
-		OrdersComponent
+		OrdersComponent,
+		StaticComponent
 
 	],
 	imports: [
@@ -176,6 +178,16 @@ export function getAuthServiceConfigs() {
 				path: 'viewcart',
 				component: ViewcartComponent,
 				data: [{ page: 'viewcart' }]
+			},
+			{
+				path: 'faq',
+				component: StaticComponent,
+				data: [{ page: 'faq' }]
+			},
+			{
+				path: 'termsandcond',
+				component: StaticComponent,
+				data: [{ page: 'termsandcond' }]
 			}
 
 		]),

@@ -66,20 +66,30 @@ export class MainComponent implements OnInit {
     selected;
     showInput = false;
     //add to cart
-    itemIncrease(data, name, index) {
+    itemIncrease(data, prodId, index, title) {
+        // let thisObj = this;
+        // if (localStorage.name !== name) {
+        //     thisObj.item.quantity = 0;
+        // }
+        // for (var i = 0; i < data.length; i++) {
+        //     if (data[i].title === title) {
+        //         thisObj.item.quantity = parseInt(data[i].sku[0].mycart);
+        //     }
+        // }
+        // thisObj.item.quantity = Math.floor(thisObj.item.quantity + 1);
+        // if (name === data.title) {
+        //     thisObj.showInput = true;
+        //     this.selected = index;
 
+        //     localStorage.setItem('name', name);
+        //     thisObj.addCat(thisObj.item.quantity, prodId);
+        // } else {
+        //     thisObj.showInput = false;
+        // }
         let thisObj = this;
-        if (localStorage.name !== name) {
-            thisObj.item.quantity = 0;
-        }
-        if (name === data.title) {
-            thisObj.showInput = true;
-            this.selected = index;
-            thisObj.item.quantity = Math.floor(thisObj.item.quantity + 1);
-            localStorage.setItem('name', name);
-        } else {
-            thisObj.showInput = false;
-        }
+
+        thisObj.item.quantity = Math.floor(thisObj.item.quantity + 1);
+
     }
 
     itemDecrease(index) {
@@ -134,13 +144,13 @@ export class MainComponent implements OnInit {
         }
         if (localStorage.token === undefined) {
             var inData = "product_id=" + prodId +
-                "&quantity=" + "1" +
+                "&quantity=" + this.item.quantity +
                 "&product_sku_id=" + this.skId +
                 "&Session_id=" + localStorage.session
 
         } else {
             var inData = "product_id=" + prodId +
-                "&quantity=" + "1" +
+                "&quantity=" + this.item.quantity +
                 "&product_sku_id=" + this.skId +
                 "&token=" + JSON.parse(localStorage.token)
         }

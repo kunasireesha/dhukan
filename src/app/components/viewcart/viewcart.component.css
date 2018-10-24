@@ -87,3 +87,6 @@ font-size:18px;
     box-shadow: none!important;
     text-decoration: none;
 }
+.product-image h3{
+    font-size: 18px !important;
+}
