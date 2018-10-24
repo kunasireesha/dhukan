@@ -180,6 +180,7 @@ export class MyprofileListComponent implements OnInit {
   getAddress() {
     this.profileSer.getAddress().subscribe(response => {
       this.address = response.json().data;
+      console.log(this.address);
 
     })
   }

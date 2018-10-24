@@ -45,6 +45,8 @@ import { NumberOnlyDirective, AlphabetsOnly } from './directives/number';
 import { ProductsDirective } from './directives/products';
 import { OrdersComponent } from './components/orders/orders.component';
 import { StaticComponent } from './components/static/static.component';
+import { SearchproductsComponent } from './components/searchproducts/searchproducts.component';
+
 
 
 
@@ -87,8 +89,8 @@ export function getAuthServiceConfigs() {
 		ProductsDirective,
 		AlphabetsOnly,
 		OrdersComponent,
-		StaticComponent
-
+		StaticComponent,
+		SearchproductsComponent,
 	],
 	imports: [
 		BrowserModule,
@@ -188,6 +190,10 @@ export function getAuthServiceConfigs() {
 				path: 'termsandcond',
 				component: StaticComponent,
 				data: [{ page: 'termsandcond' }]
+			},
+			{
+				path: 'search',
+				component: SearchproductsComponent
 			}
 
 		]),

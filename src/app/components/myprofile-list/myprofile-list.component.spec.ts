@@ -8,9 +8,9 @@ describe('MyprofileListComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ MyprofileListComponent ]
+      declarations: [MyprofileListComponent]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {

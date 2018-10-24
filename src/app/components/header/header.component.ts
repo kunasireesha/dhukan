@@ -4,8 +4,10 @@ import { MatDialog, MatDialogConfig } from "@angular/material";
 import { DataService } from '../../services/login/login';
 import { HeaderService } from '../../services/header/header';
 import { TranslateService } from '@ngx-translate/core';
-import { Router, NavigationExtras } from '@angular/router';
+import { Router, NavigationExtras, ActivatedRoute } from '@angular/router';
 import swal from 'sweetalert';
+
+
 // import {
 //   AuthService,
 // } from 'angular-6-social-login';
@@ -408,10 +410,18 @@ export class HeaderComponent implements OnInit {
 
   //search products
   searchProducts() {
-    var inData = this.formData.searchParam;
-    this.headerSer.searchProducts(inData).subscribe(response => {
-      this.categories = response.json().categories;
-    });
+    var prodName = this.formData.searchParam;
+    let navigationExtras: NavigationExtras = {
+      queryParams: {
+        prodName: prodName
+      }
+    }
+    if (prodName === '') {
+      swal("Required field is missing", "", "warning");
+    } else {
+      this.router.navigate(["/search"], navigationExtras);
+    }
+
   }
 
   //get categories and subcategories
@@ -474,7 +484,7 @@ export class HeaderComponent implements OnInit {
     this.mainServe.getDashboard().subscribe(response => {
       this.cart = response.json();
       // if(response.json().cart.status === 200 ){
-      this.cartCount = response.json().cart.cart_count.toFixed(2);
+      this.cartCount = response.json().cart.cart_count;
       this.deliveryCharge = response.json().cart.delivery_charge.toFixed(2);
       this.subTotal = response.json().cart.selling_price.toFixed(2);
       this.Total = response.json().cart.grand_total.toFixed(2);
