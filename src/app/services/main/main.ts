@@ -31,13 +31,13 @@ export class MainService {
         });
         return this.http.get(AppSettings.baseUrl + url, { headers: headers });
     }
-    getInputParamsUrl(url, indata) {
+    getInputParamsUrl(url, params) {
         const headers = new Headers({
             'Content-Type': "application/x-www-form-urlencoded",
-            'token': (localStorage.token === undefined) ? '' : JSON.parse(localStorage.token),
-            'Session_id': (localStorage.token !== undefined) ? '' : localStorage.session
+            // 'token': (localStorage.token === undefined) ? '' : JSON.parse(localStorage.token),
+            // 'Session_id': (localStorage.token !== undefined) ? '' : localStorage.session
         });
-        return this.http.get(AppSettings.baseUrl + url + "/" + indata, { headers: headers });
+        return this.http.get(AppSettings.baseUrl + url + "/" + params, { headers: headers });
     }
     deleteInputParamsUrl(url, params) {
         const headers = new Headers({
@@ -110,5 +110,8 @@ export class MainService {
     }
     terms(): Observable<any> {
         return this.getInputParams('users/terms_and_conditions')
+    }
+    searchProducts(params): Observable<any> {
+        return this.getInputParamsUrl('dhukan/prdsrc', params);
     }
 };

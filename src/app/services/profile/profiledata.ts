@@ -59,7 +59,7 @@ export class ProfileService {
     //get address
 
     getAddress(): Observable<any> {
-        return this.getInputParams('users/my_address');
+        return this.getInputParams('users/adress');
     }
 
 

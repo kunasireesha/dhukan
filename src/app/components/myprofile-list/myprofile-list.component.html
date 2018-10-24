@@ -350,22 +350,12 @@
     <!-- password -->
     <!-- delivery address -->
     <div class="col-lg-8" *ngIf="showDeliveryAddress">
-      <div class="row">
-        <!-- <div class="col-lg-6 delivery-block1" *ngFor="let data of address;let i == index">
-          <p>Name:{{data.ua_first_name}} {{data.ua_last_name}}</p>
-          <p>Address:{{data.ua_apartment_name}} , {{data.ua_land_mark}}<br />
-          </p>
-          <p>{{data.ua_house_no}} {{data.ua_street_details}}</p>
-          <p>{{data.ua_city}} , {{data.ua_pincode}}</p>
-          <div class="row justify-content-md-center">
-            <a class=" delivery-button " (click)="showPaymentOptionsScreen(data)">DELIVERY HERE</a>
-          </div>
-        </div> -->
-        <div class="col-lg-6 delivery-block2">
-          <p>Name:John park</p>
-          <p>Address: Cyber Building 4th Floor</p>
-          <p>Survey No 14, Valley Street</p>
-          <p>bangalore 560078</p>
+      <div class="row" *ngFor="let address of address">
+        <div class="col-lg-12 delivery-block2">
+          <p>Name:{{address.ua_first_name}}</p>
+          <p>Address: {{address.ua_area_details}}</p>
+          <p>{{address.ua_street_details}} {{address.ua_land_mark}}</p>
+          <p>{{address.ua_city}} {{address.ua_pincode}}</p>
           <div class="row justify-content-md-center">
             <a class="delivery-button" routerLink="/paymentoptions">DELIVERY HERE</a>
           </div>
