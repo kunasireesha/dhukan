@@ -19,6 +19,7 @@ export class MainService {
     postInputParams(url, params) {
         const headers = new Headers({
             'Content-Type': "application/x-www-form-urlencoded",
+            'token': (localStorage.token === undefined) ? '' : JSON.parse(localStorage.token),
         });
         return this.http.post(AppSettings.baseUrl + url, params, { headers: headers });
     }

@@ -147,8 +147,8 @@ export class MainComponent implements OnInit {
         } else {
             var inData = "product_id=" + prodId +
                 "&quantity=" + this.item.quantity +
-                "&product_sku_id=" + this.skId +
-                "&token=" + JSON.parse(localStorage.token);
+                "&product_sku_id=" + this.skId
+
 
             this.mainServe.addCat(inData).subscribe(response => {
                 this.resData = response.json();

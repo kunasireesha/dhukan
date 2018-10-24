@@ -39,6 +39,7 @@ export class HeaderComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.phone = localStorage.userMobile;
     this.getDashboard();
     this.getCategories();
     this.getAllCategoriesWithSubCat();

@@ -14,7 +14,7 @@ export class DeliveryOptionService {
     getInputParams(url, lId) {
         const headers = new Headers({
             'Content-Type': "application/x-www-form-urlencoded",
-            'Token': localStorage.token
+            'token': JSON.parse(localStorage.token)
         });
         return this.http.get(AppSettings.baseUrl + url + lId, { headers: headers });
     }

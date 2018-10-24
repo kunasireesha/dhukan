@@ -97,27 +97,26 @@ export class ProductComponent implements OnInit {
     addCat(prodId) {
 
         if (localStorage.token === undefined) {
-            var inData = "product_id=" + prodId +
-                "&quantity=" + "1" +
-                "&product_sku_id=" + this.skId +
-                "&Session_id=" + localStorage.session
+            swal('Pleaase Login', '', 'warning');
+
         } else {
             var inData = "product_id=" + prodId +
                 "&quantity=" + "1" +
-                "&product_sku_id=" + this.skId +
-                "&token=" + JSON.parse(localStorage.token)
+                "&product_sku_id=" + this.skId;
+            this.mainServe.addCat(inData).subscribe(response => {
+                this.resData = response.json();
+                if (this.resData.status == 400) {
+                    swal("Already added", "", "error");
+                } else {
+                    swal("Succeessfully added", "", "success");
+                }
+
+            }, error => {
+
+            })
+
         }
-        this.mainServe.addCat(inData).subscribe(response => {
-            this.resData = response.json();
-            if (this.resData.status == 400) {
-                swal("Already added", "", "error");
-            } else {
-                swal("Succeessfully added", "", "success");
-            }
 
-        }, error => {
-
-        })
         //     } else {
         //     swal("Please select option", "", "warning");
         // }

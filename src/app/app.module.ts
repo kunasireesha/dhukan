@@ -196,7 +196,7 @@ export function getAuthServiceConfigs() {
 				component: SearchproductsComponent
 			}
 
-		]),
+		], { useHash: true }),
 		TranslateModule.forRoot({
 			loader: {
 				provide: TranslateLoader,
