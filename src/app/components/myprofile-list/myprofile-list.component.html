@@ -350,12 +350,12 @@
     <!-- password -->
     <!-- delivery address -->
     <div class="col-lg-8" *ngIf="showDeliveryAddress">
-      <div class="row" *ngFor="let address of address">
+      <div class="row" *ngFor="let getaddress of address">
         <div class="col-lg-12 delivery-block2">
-          <p>Name:{{address.ua_first_name}}</p>
-          <p>Address: {{address.ua_area_details}}</p>
-          <p>{{address.ua_street_details}} {{address.ua_land_mark}}</p>
-          <p>{{address.ua_city}} {{address.ua_pincode}}</p>
+          <p>Name:{{getaddress.ua_first_name}}</p>
+          <p>Address: {{getaddress.ua_area_details}}</p>
+          <p>{{getaddress.ua_street_details}} {{address.ua_land_mark}}</p>
+          <p>{{getaddress.ua_city}} {{getaddress.ua_pincode}}</p>
           <div class="row justify-content-md-center">
             <a class="delivery-button" routerLink="/paymentoptions">DELIVERY HERE</a>
           </div>

@@ -111,6 +111,7 @@ export class MyprofileListComponent implements OnInit {
   getProfileDetails() {
     this.profileSer.getProfileDetails().subscribe(response => {
       this.formData = response.json().data[0];
+      localStorage.setItem("userMobile", this.formData.phone);
 
     })
   }
@@ -162,7 +163,9 @@ export class MyprofileListComponent implements OnInit {
         "&phone=" + this.formData.phone + "&dob=" + (this.formData.dob) + "&landline_number=" + this.formData.landline;
       this.profileSer.updateProfile(inData).subscribe(response => {
         if (response.status === 200) {
+          console.log(response.json())
           swal('Profile Updated Successfully', '', 'success');
+          this.getProfileDetails();
         }
       })
     } else {
@@ -214,6 +217,7 @@ export class MyprofileListComponent implements OnInit {
       this.profileSer.addAddress(inData).subscribe(response => {
         if (response.status === 200) {
           swal("Address added successfully", " ", "Success");
+          this.getAddress();
         }
       })
     } else {
