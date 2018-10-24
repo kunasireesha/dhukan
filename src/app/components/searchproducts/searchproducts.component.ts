@@ -10,20 +10,25 @@ import { MainService } from './../../services/main/main';
 export class SearchproductsComponent implements OnInit {
   searchProd;
   products;
+  noData;
   constructor(private router: Router, private route: ActivatedRoute, public mainServe: MainService) {
     this.route.queryParams.subscribe(params => {
       this.searchProd = params.prodName;
+      this.searchProducts();
     })
   }
 
   ngOnInit() {
-    this.searchProducts();
+    // this.searchProducts();
   }
   searchProducts() {
     var inData = this.searchProd;
     this.mainServe.searchProducts(inData).subscribe(response => {
       this.products = response.json().products;
       console.log(this.products);
+      if (response.json().status == 400) {
+        this.noData = response.json().message;
+      }
 
     }, error => {
 

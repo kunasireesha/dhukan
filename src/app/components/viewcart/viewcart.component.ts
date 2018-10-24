@@ -43,18 +43,28 @@ export class ViewcartComponent implements OnInit {
     });
   }
   deleteCart(id) {
-    var inData = id
+    var inData = id;
+    swal("Do you want to delete?", "", "warning", {
+      buttons: ["Cancel!", "Okay!"],
+    }).then((value) => {
 
-    this.mainServe.deleteCart(inData).subscribe(response => {
-      this.getCartList();
-    }, error => {
+      if (value === true) {
+        this.mainServe.deleteCart(inData).subscribe(response => {
+          this.getCartList();
+          swal("Deleted successfully", "", "success");
+        }, error => {
+          console.log(error);
+        })
+      } else {
+        return;
+      }
+    });
 
-    })
   }
   emptyCart() {
     this.mainServe.emptyCart().subscribe(response => {
-      console.log(response);
       this.getCartList();
+      swal("Successfully cleared", "", "success");
     }, error => {
 
     })
