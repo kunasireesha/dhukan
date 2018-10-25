@@ -58,8 +58,17 @@ export class ProfileService {
 
     //get address
 
+    getInputParamsUrl(url) {
+        const headers = new Headers({
+            'Content-Type': "application/x-www-form-urlencoded",
+            'token': JSON.parse(localStorage.token),
+            'mobile': localStorage.userMobile
+        });
+        return this.http.get(AppSettings.baseUrl + url, { headers: headers });
+    }
+
     getAddress(): Observable<any> {
-        return this.getInputParams('users/my_address');
+        return this.getInputParamsUrl('users/my_address');
     }
 
 
