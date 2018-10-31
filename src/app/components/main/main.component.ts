@@ -167,5 +167,14 @@ export class MainComponent implements OnInit {
 
 
     }
+
+    viewAll(action) {
+        let navigationExtras: NavigationExtras = {
+            queryParams: {
+                title: action
+            }
+        }
+        this.router.navigate(['/viewAll'], navigationExtras);
+    }
 }
 

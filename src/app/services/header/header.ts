@@ -47,7 +47,7 @@ export class HeaderService {
 
     //get UAE locations
     getUAELocations(): Observable<any> {
-        return this.getInputParams('users/locations/UAE', '');
+        return this.getInputParams('users/locations', '');
     }
 
 

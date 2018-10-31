@@ -64,6 +64,7 @@ export class HeaderComponent implements OnInit {
   }
 
   showLogin = false;
+  hideLocations = false;
   showLoginandRegistration = true;
   showRegistration = false;
   showOtp = false;
@@ -392,12 +393,17 @@ export class HeaderComponent implements OnInit {
     }
   }
 
+  showLocation() {
+    this.hideLocations = !this.hideLocations;
+  }
+
   //submit location
   submitLocation(location, pin) {
     localStorage.setItem('location', location);
-    localStorage.setItem('pincode', location);
+    localStorage.setItem('pincode', pin);
     this.location = localStorage.location;
     this.LocationPincode = localStorage.pincode;
+    this.hideLocations = false;
   }
 
   //get categories
@@ -501,7 +507,7 @@ export class HeaderComponent implements OnInit {
     this.mainServe.getCartList().subscribe(response => {
       this.viewCart = response.json().data;
       this.summary = response.json().summary;
-      this.getDashboard();
+      // this.getDashboard();
     });
   }
 }

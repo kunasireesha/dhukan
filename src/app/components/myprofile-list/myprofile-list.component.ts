@@ -190,6 +190,9 @@ export class MyprofileListComponent implements OnInit {
 
   //add address
   addAddress() {
+
+
+
     let validData = true;
 
     if (this.address.firstName === '' || this.address.firstName === undefined || this.address.firstName === null || this.address.lastName === '' || this.address.lastName === undefined || this.address.lastName === null ||
@@ -216,8 +219,10 @@ export class MyprofileListComponent implements OnInit {
 
       this.profileSer.addAddress(inData).subscribe(response => {
         if (response.status === 200) {
-          swal("Address added successfully", " ", "Success");
+          swal("Address added successfully", " ", "success");
           this.getAddress();
+          this.showDeliveryAddress = true;
+          this.showChangeAddress = false;
         }
       })
     } else {

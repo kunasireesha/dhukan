@@ -31,6 +31,8 @@ import { ProductdetailsComponent } from './components/productdetails/productdeta
 import { DeliveryComponent } from './components/deliver.address/delivery.address';
 import { MyprofileListComponent } from './components/myprofile-list/myprofile-list.component';
 import { ViewcartComponent } from './components/viewcart/viewcart.component';
+import { AllProductsComponent } from './components/searchproducts/allproducts';
+import { SearchproductsComponent } from './components/searchproducts/searchproducts.component';
 
 //services
 
@@ -45,7 +47,6 @@ import { NumberOnlyDirective, AlphabetsOnly } from './directives/number';
 import { ProductsDirective } from './directives/products';
 import { OrdersComponent } from './components/orders/orders.component';
 import { StaticComponent } from './components/static/static.component';
-import { SearchproductsComponent } from './components/searchproducts/searchproducts.component';
 
 
 
@@ -91,6 +92,7 @@ export function getAuthServiceConfigs() {
 		OrdersComponent,
 		StaticComponent,
 		SearchproductsComponent,
+		AllProductsComponent
 	],
 	imports: [
 		BrowserModule,
@@ -194,6 +196,10 @@ export function getAuthServiceConfigs() {
 			{
 				path: 'search',
 				component: SearchproductsComponent
+			},
+			{
+				path: 'viewAll',
+				component: AllProductsComponent
 			}
 
 		], { useHash: true }),

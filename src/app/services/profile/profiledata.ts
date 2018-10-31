@@ -62,7 +62,8 @@ export class ProfileService {
         const headers = new Headers({
             'Content-Type': "application/x-www-form-urlencoded",
             'token': JSON.parse(localStorage.token),
-            'mobile': localStorage.userMobile
+            // 'mobile': localStorage.userMobile,
+            // 'Session_id': localStorage.session
         });
         return this.http.get(AppSettings.baseUrl + url, { headers: headers });
     }

@@ -292,13 +292,17 @@ body {
 }
 
 .product-image h3 {
-  font-size: 24px;
+  font-size: 18px;
   margin-bottom: 27px !important;
   top: -7px;
 }
 
 .product-image h4 {
   font-size: 16px;
+}
+
+.prodImage {
+  height: 150px;
 }
 
 .cart-dropdown-button p {

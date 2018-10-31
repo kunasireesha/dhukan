@@ -125,6 +125,18 @@ a {
 
 .location {
   padding: 8px;
+  position: absolute;
+  z-index: 20;
+  background: white;
+  color: black;
+  width: 233px;
+  border: 1px solid gray;
+  border-radius: 10px;
+  margin-top: 3px;
+}
+
+.locaton-btn {
+  background: none;
 }
 
 .dropdown-content-location::before {
@@ -390,14 +402,14 @@ a {
   width: 70%;
   color: #000000;
   padding: 5px;
-  font-size: 19px;
+  font-size: 15px;
 }
 
 .cost {
   width: 30%;
   color: #000000;
   padding: 5px;
-  font-size: 19px;
+  font-size: 16px;
 }
 
 .total-charges span {
@@ -413,8 +425,8 @@ a {
 }
 
 .myaccount-dropdown h4 {
-  background: #f19820;
-  color: #ffff;
+  /* background: #f19820;
+  color: #ffff; */
   padding: 7px !important;
   border-top-left-radius: 5px;
   font-size: 20px;
@@ -440,15 +452,29 @@ a {
   font-family: 'Aileron-Light';
 }
 
+.profile-dropdown a {
+  display: block;
+}
+
+.profile-dropdown a:hover {
+  background: #f19820;
+  color: #ffff;
+}
+
+.profile-dropdown a:active {
+  background: #f19820;
+  color: #ffff;
+}
+
 .profile-dropdown li {
   border-bottom: 2px solid #e8e8e8;
 }
 
-.profile-dropdown li:hover a {
+/* .profile-dropdown li:hover a {
   color: black;
   width: 100%;
   background: #dedcdd;
-}
+} */
 
 .profile-dropdown li:hover {
   color: black;

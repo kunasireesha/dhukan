@@ -11,14 +11,13 @@
             </li>
             <li>
 
-              <div class="dropdown">
-                <button class="btn  dropdown-toggle dropdown-button" type="button" id="dropdownMenuButton" data-toggle="dropdown"
-                  aria-haspopup="true" aria-expanded="false">
+              <div>
+                <button class="btn locaton-btn" type="button" (click)="showLocation()">
                   <img src="assets/images/location.png" class="header-icons">
                   <span class="city"> {{location}} {{LocationPincode}} </span>
                   <img src="assets/images/angle-arrow-down.png" class="dropdown-icon">
                 </button>
-                <div class="dropdown-menu dropdown-content-location" aria-labelledby="dropdownMenuButton">
+                <div *ngIf="hideLocations">
                   <div class="location">
                     <form>
                       <h5 class="text-center">{{ "choose.location" | translate}}
@@ -44,7 +43,7 @@
                       </div>
 
                       <div class="form-group mb-3" *ngIf="showSubLocations">
-                        <label for="inputState">Select Area</label>
+                        <label for="inputState">Pincode</label>
                         <select id="inputState" class="form-control" [(ngModel)]="formData.pincode" name="pincode"
                           (change)="changeSubLocation()">
                           <option selected value=''>Choose...</option>
@@ -137,11 +136,16 @@
                   <img src="assets/images/angle-arrow-down.png" class="dropdown-icon">
                 </button>
                 <div class="dropdown-menu myaccount-dropdown" aria-labelledby="dropdownMenuButton">
-                  <h4 routerLink="/myprofile">My profile</h4>
+
                   <ul class="profile-dropdown">
+                    <li routerLink="/myprofile">
+                      <a>My profile
+
+                      </a>
+                    </li>
                     <li routerLink="/viewcart">
                       <a>My cart
-                        <span>0 Items</span>
+                        <span>{{cartCount}} Items</span>
                       </a>
                     </li>
                     <li routerLink="/myorders">
