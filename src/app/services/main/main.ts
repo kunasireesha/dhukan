@@ -100,6 +100,11 @@ export class MainService {
     addAddress(params): Observable<any> {
         return this.postInputParamsUrl('users/add_address', params);
     }
+
+    updateAddress(params): Observable<any> {
+        return this.postInputParams('users/update_address', params);
+    }
+
     emptyCart(): Observable<any> {
         return this.deleteInputParams('cart/cart-list');
     }
@@ -114,5 +119,21 @@ export class MainService {
     }
     searchProducts(params): Observable<any> {
         return this.getInputParamsUrl('dhukan/prdsrc', params);
+    }
+
+
+    applyVocher(vocher, amount) {
+        var inData = "vocherCode=" + vocher + "&amount=" + amount;
+        const headers = new Headers({
+            'Content-Type': "application/x-www-form-urlencoded",
+        });
+
+        this.http.post(AppSettings.baseUrl + 'voucher/findvoucher', inData, { headers: headers }).subscribe(res => {
+            if (res.json().status === 200) {
+                swal(res.json().message, '', 'success');
+            } else {
+                swal(res.json().message, '', 'error');
+            }
+        })
     }
 };

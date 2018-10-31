@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, NavigationExtras } from '@angular/router';
 import { ProfileService } from '../../services/profile/profiledata';
-import { INgxMyDpOptions, IMyDateModel, IMyInputFieldChanged } from 'ngx-mydatepicker';
 import { Address } from '../../services/deliveraddressdata/address';
 import { AddressServices } from '../../services/deliveraddressdata/addressService';
 
@@ -17,6 +16,7 @@ export class MyprofileListComponent implements OnInit {
     this.page = this.route.snapshot.data[0]['page'];
     if (this.page === 'my-profile') {
       this.showProfile = true;
+      this.myprofileData = true;
       this.childPage = 'My Profile';
       this.getProfileDetails();
     } else if (this.page === 'myorders') {
@@ -27,31 +27,38 @@ export class MyprofileListComponent implements OnInit {
       })
       this.showOrders = true;
       this.showProfile = false;
+      this.myprofileData = true;
       this.childPage = 'My Orders';
     } else if (this.page === 'mywallet') {
       this.showProfile = false;
       this.showWallet = true;
+      this.myprofileData = true;
       this.childPage = 'My Wallet';
     } else if (this.page === 'changepassword') {
       this.ShowChangePassword = true;
       this.showProfile = false;
+      this.myprofileData = true;
       this.childPage = 'Change Password';
     } else if (this.page === 'deliveryaddress') {
       this.showDeliveryAddress = true;
       this.showProfile = false;
+      this.myprofileData = true;
       this.childPage = 'Delivery Address';
       this.getAddress();
     } else if (this.page === 'referfriends') {
       this.showReferFriends = true;
       this.showProfile = false;
+      this.myprofileData = true;
       this.childPage = 'Refer Friends';
     } else if (this.page === 'loyalitypoints') {
       this.showProfile = false;
       this.showLoyalityPoints = true;
+      this.myprofileData = true;
       this.childPage = 'My Loyalty Points';
     } else if (this.page === 'notifications') {
       this.showProfile = false;
       this.showNotifications = true;
+      this.myprofileData = true;
       this.childPage = 'Notification';
     }
 
@@ -68,6 +75,7 @@ export class MyprofileListComponent implements OnInit {
   showReferFriends = false;
   showLoyalityPoints = false;
   showNotifications = false;
+  myprofileData = true;
   showPaymentOptions = false;
   profileDetails;
   date;
@@ -97,7 +105,8 @@ export class MyprofileListComponent implements OnInit {
     area: '',
     pincode: '',
     street: '',
-    landmark: ''
+    landmark: '',
+    nickName: ''
 
   }
 
@@ -215,7 +224,8 @@ export class MyprofileListComponent implements OnInit {
         "&ua_pincode=" + this.address.pincode +
         "&ua_apartment_name=" + this.address.residentialComplex +
         "&ua_street_details=" + this.address.street +
-        "&ua_land_mark=" + this.address.landmark
+        "&ua_land_mark=" + this.address.landmark +
+        "&ua_nick_name=" + this.address.nickName
 
       this.profileSer.addAddress(inData).subscribe(response => {
         if (response.status === 200) {
@@ -275,7 +285,11 @@ export class MyprofileListComponent implements OnInit {
     } else {
       swal("Passwords missmatched", "", "error");
     }
+  }
 
+
+  deliverHere(addressData) {
+    this.profileSer.setDefaultAdd(addressData.ua_id);
   }
 
 }

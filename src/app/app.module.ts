@@ -18,7 +18,6 @@ import { CarouselModule } from 'ngx-bootstrap/carousel';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { MyDatePickerModule } from 'mydatepicker';
 
-
 //components
 import { AppComponent } from './app.component';
 import { MainComponent } from './components/main/main.component';
@@ -43,7 +42,7 @@ import { ProfileService } from './services/profile/profiledata';
 
 import { AddressServices } from './services/deliveraddressdata/addressService';
 // directive
-import { NumberOnlyDirective, AlphabetsOnly } from './directives/number';
+import { NumberOnlyDirective, AlphabetsOnly, AlphaNumericOnly } from './directives/number';
 import { ProductsDirective } from './directives/products';
 import { OrdersComponent } from './components/orders/orders.component';
 import { StaticComponent } from './components/static/static.component';
@@ -89,6 +88,7 @@ export function getAuthServiceConfigs() {
 		NumberOnlyDirective,
 		ProductsDirective,
 		AlphabetsOnly,
+		AlphaNumericOnly,
 		OrdersComponent,
 		StaticComponent,
 		SearchproductsComponent,

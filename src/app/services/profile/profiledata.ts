@@ -69,7 +69,7 @@ export class ProfileService {
     }
 
     getAddress(): Observable<any> {
-        return this.getInputParamsUrl('users/my_address');
+        return this.getInputParams('users/my_address');
     }
 
 
@@ -83,5 +83,21 @@ export class ProfileService {
     changePw(params): Observable<any> {
         return this.postInputParamsUrl('users/changepassword', params);
     }
+
+    setDefaultAdd(addId) {
+        const headers = new Headers({
+            'Content-Type': "application/x-www-form-urlencoded",
+            'token': JSON.parse(localStorage.token)
+        });
+        var params = "address_id=" + addId
+        this.http.post(AppSettings.baseUrl + 'users/set_default_address', params, { headers: headers }).subscribe(response => {
+            if (response.json().status === 200) {
+                swal('selected successfully', '', 'success');
+            } else {
+                swal(response.json().message, '', 'error');
+            }
+        })
+    }
+
 
 };

@@ -8,7 +8,9 @@
           <h5 class="delivery">Delivery Address</h5>
         </div>
         <div class="col-lg-6">
-          <p class="para">Default Address:{{address.houseNum}}, {{address.pincode}}, {{address.city}}
+          <p class="para"><strong>Default Address:</strong> &nbsp;&nbsp;{{address.ua_house_no}},
+            {{address.ua_pincode}},
+            {{address.ua_city}}
           </p>
         </div>
         <div class="col-lg-3">
@@ -28,16 +30,16 @@
             </div>
             <div class="row">
               <div class="col-lg-4">
-                <input class="form-control input-field" type="text" placeholder="Enter First Name" [(ngModel)]="address.firstName"
+                <input class="form-control input-field" type="text" placeholder="Enter First Name" [(ngModel)]="address.ua_first_name"
                   name="firstName">
               </div>
               <div class="col-lg-4">
-                <input class="form-control input-field" type="text" placeholder="Enter Last Name" [(ngModel)]="address.lastName"
+                <input class="form-control input-field" type="text" placeholder="Enter Last Name" [(ngModel)]="address.ua_last_name"
                   name="lastName">
               </div>
               <div class="col-lg-4">
-                <input class="form-control input-field" type="text" placeholder="Enter Contact Number" [(ngModel)]="address.contact"
-                  name="contact">
+                <input class="form-control input-field" myNumberOnly maxlength="10" minlength="10" type="text"
+                  placeholder="Enter Contact Number" [(ngModel)]="address.ua_mobile_number" name="contact">
               </div>
             </div>
             <div class="row header">
@@ -47,37 +49,37 @@
             </div>
             <div class="row">
               <div class="col-lg-4">
-                <input class="form-control input-field" type="text" placeholder="House. No" [(ngModel)]="address.houseNum"
+                <input class="form-control input-field" type="text" placeholder="House. No" [(ngModel)]="address.ua_house_no"
                   name="houseNum">
               </div>
               <div class="col-lg-8">
-                <input class="form-control input-field" type="text" placeholder="Enter Apartment Name" [(ngModel)]="address.apartmentName"
+                <input class="form-control input-field" type="text" placeholder="Enter Apartment Name" [(ngModel)]="address.ua_apartment_name"
                   name="apartmentName">
               </div>
             </div>
             <br>
             <div class="row">
               <div class="col-lg-6">
-                <input class="form-control input-field" type="text" placeholder="Street Details" [(ngModel)]="address.street"
+                <input class="form-control input-field" type="text" placeholder="Street Details" [(ngModel)]="address.ua_street_details"
                   name="street">
               </div>
               <div class="col-lg-6">
-                <input class="form-control input-field" type="text" placeholder="Enter Land Mark" [(ngModel)]="address.landmark"
+                <input class="form-control input-field" type="text" placeholder="Enter Land Mark" [(ngModel)]="address.ua_land_mark"
                   name="landmark">
               </div>
             </div>
             <br>
             <div class="row">
               <div class="col-lg-4">
-                <input class="form-control input-field" type="text" placeholder="Enter City" [(ngModel)]="address.city"
+                <input class="form-control input-field" type="text" placeholder="Enter City" [(ngModel)]="address.ua_city"
                   name="city">
               </div>
               <div class="col-lg-4">
-                <input class="form-control input-field" type="text" placeholder="Enter Area Details" [(ngModel)]="address.area"
+                <input class="form-control input-field" type="text" placeholder="Enter Area Details" [(ngModel)]="address.ua_area_details"
                   name="area">
               </div>
               <div class="col-lg-4">
-                <input class="form-control input-field" type="text" placeholder="Enter Pin-code" [(ngModel)]="address.pincode"
+                <input class="form-control input-field" type="text" placeholder="Enter Pin-code" [(ngModel)]="address.ua_pincode"
                   name="pincode">
               </div>
             </div>
@@ -111,7 +113,9 @@
           <h5 class="delivery">Delivery Options</h5>
         </div>
         <div class="col-lg-6">
-          <p class="para">Default Address:Home-4-66, 560038, Banglore, 560038
+          <p class="para"><strong>Default Address:</strong> &nbsp;&nbsp;{{address.ua_house_no}},
+            {{address.ua_pincode}},
+            {{address.ua_city}}
           </p>
         </div>
         <div class="col-lg-3">
@@ -245,9 +249,10 @@
             <form class="form-inline">
               <div class="form-group mx-sm-3 mb-2">
                 <label for="inputPassword2" class="sr-only">Enter Vocher Code</label>
-                <input type="text" class="form-control input-field" id="inputPassword2" placeholder="Enter Vocher Code">
+                <input type="text" class="form-control input-field" id="inputPassword2" placeholder="Enter Vocher Code"
+                  [(ngModel)]="vocher" name="vocher">
               </div>
-              <button type="submit" class="btn mb-2 apply-button">APPLY</button>
+              <button type="submit" class="btn mb-2 apply-button" (click)="applyVocher()">APPLY</button>
             </form>
             <span>
               <a href="#">You have 6 vochers available</a>
@@ -261,12 +266,12 @@
               <tr>
                 <th scope="row"></th>
                 <td>Basket value</td>
-                <td class="table-data2">Rs:30.43</td>
+                <td class="table-data2">Rs: {{summaryCart.selling_price}}</td>
               </tr>
               <tr>
                 <th scope="row"></th>
                 <td>Delivery Charges</td>
-                <td class="table-data2">Rs:80.00</td>
+                <td class="table-data2">Rs: {{summaryCart.delivery_charge}}</td>
               </tr>
               <tr>
                 <th scope="row"></th>
@@ -297,12 +302,12 @@
                 <td>
                   <b>Total Amount Payable</b>
                 </td>
-                <td class="table-data2">Rs:110.40</td>
+                <td class="table-data2">Rs: {{summaryCart.grand_total}}</td>
               </tr>
               <tr class="table-data3">
                 <th scope="row"></th>
                 <td>Your Total Saving</td>
-                <td class="table-data2">Rs:7.60</td>
+                <td class="table-data2">Rs: {{summaryCart.mrp - summaryCart.selling_price}}</td>
               </tr>
             </tbody>
           </table>

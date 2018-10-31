@@ -1,6 +1,7 @@
 import { MainService } from '../../services/main/main';
 import { Component, OnInit } from '@angular/core';
 import { AppSettings } from '../../config'
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -12,12 +13,21 @@ export class ViewcartComponent implements OnInit {
 
 
   viewCart = [];
-  constructor(private mainServe: MainService) { }
+  constructor(private mainServe: MainService, public router: Router) { }
   item = {
     quantity: 1
   }
   url;
-  summary;
+  summary = {
+    cart_count: '',
+    delivery_charge: '',
+    grand_total: '',
+    mrp: '',
+    realization: '',
+    selling_price: ''
+  };
+  showCart = true;
+  cartDetails;
   ngOnInit() {
     this.url = AppSettings.imageUrl;
     this.getCartList();
@@ -69,5 +79,12 @@ export class ViewcartComponent implements OnInit {
 
     })
 
+  }
+
+  chekOut() {
+    this.cartDetails = this.summary;
+    this.showCart = false;
+
+    // this.router.navigate(['/paymentoptions'])
   }
 }
