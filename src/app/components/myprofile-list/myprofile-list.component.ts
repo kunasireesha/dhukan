@@ -97,7 +97,8 @@ export class MyprofileListComponent implements OnInit {
     area: '',
     pincode: '',
     street: '',
-    landmark: ''
+    landmark: '',
+    nickName:''
 
   }
 
@@ -212,9 +213,12 @@ export class MyprofileListComponent implements OnInit {
         "&ua_pincode=" + this.address.pincode +
         "&ua_apartment_name=" + this.address.residentialComplex +
         "&ua_street_details=" + this.address.street +
-        "&ua_land_mark=" + this.address.landmark
+        "&ua_land_mark=" + this.address.landmark +
+        "&ua_nick_name="+this.address.nickName
 
       this.profileSer.addAddress(inData).subscribe(response => {
+        console.log(response);
+        debugger
         if (response.status === 200) {
           swal("Address added successfully", " ", "Success");
           this.getAddress();
