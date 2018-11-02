@@ -15,11 +15,11 @@ export class SearchproductsComponent implements OnInit {
     this.route.queryParams.subscribe(params => {
       this.searchProd = params.prodName;
       this.searchProducts();
+      // this.searchProdCat();
     })
   }
 
   ngOnInit() {
-    // this.searchProducts();
   }
   searchProducts() {
     var inData = this.searchProd;
@@ -35,4 +35,13 @@ export class SearchproductsComponent implements OnInit {
     });
 
   }
+  // searchProdCat() {
+  //   var inData = this.searchProd;
+  //   this.mainServe.searchProdCat(inData).subscribe(response => {
+  //     console.log(response);
+  //     debugger
+  //   }, erroe => {
+
+  //   })
+  // }
 }

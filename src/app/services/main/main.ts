@@ -120,6 +120,9 @@ export class MainService {
     searchProducts(params): Observable<any> {
         return this.getInputParamsUrl('dhukan/prdsrc', params);
     }
+    // searchProdCat(params): Observable<any> {
+    //     return this.getInputParamsUrl('dhukan/catprdsrc', params);
+    // }
 
 
     applyVocher(vocher, amount) {

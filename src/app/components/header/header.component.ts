@@ -457,13 +457,11 @@ export class HeaderComponent implements OnInit {
   showSubCat(cId, index) {
     this.showSubCats = true;
     this.selectedCat = index;
-    // for (var i = 0; i < this.categoriesWithSubCat.length; i++) {
-    //   if (cId === this.categoriesWithSubCat[i].id) {
-    //     this.subCatList = this.categoriesWithSubCat[i].subcategory;
-    //     console.log(this.subCatList);
-    //     debugger;
-    //   }
-    // }
+    for (var i = 0; i < this.categoriesWithSubCat.length; i++) {
+      if (cId === this.categoriesWithSubCat[i].id) {
+        this.subCatList = this.categoriesWithSubCat[i].subcategory;
+      }
+    }
     if (localStorage.token === undefined) {
       var inData = "Session_id =" + localStorage.session
     } else {
@@ -509,6 +507,26 @@ export class HeaderComponent implements OnInit {
       this.summary = response.json().summary;
       // this.getDashboard();
     });
+  }
+  deleteCart(id) {
+    alert(id)
+    var inData = id;
+    swal("Do you want to delete?", "", "warning", {
+      buttons: ["Cancel!", "Okay!"],
+    }).then((value) => {
+
+      if (value === true) {
+        this.mainServe.deleteCart(inData).subscribe(response => {
+          this.getCartList();
+          swal("Deleted successfully", "", "success");
+        }, error => {
+          console.log(error);
+        })
+      } else {
+        return;
+      }
+    });
+
   }
 }
 
