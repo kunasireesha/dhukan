@@ -142,32 +142,42 @@ export class MainComponent implements OnInit {
             swal('Please select Size', '', 'error');
             return;
         }
-        if (localStorage.token === undefined) {
-            swal('Pleaase Login', '', 'warning');
-        } else {
-            var inData = "product_id=" + prodId +
-                "&quantity=" + this.item.quantity +
-                "&product_sku_id=" + this.skId
+        // if (localStorage.token === undefined) {
+        //     swal('Please Login', '', 'warning');
+        // } else {
+        var inData = "product_id=" + prodId +
+            "&quantity=" + this.item.quantity +
+            "&product_sku_id=" + this.skId
 
 
-            this.mainServe.addCat(inData).subscribe(response => {
-                this.resData = response.json();
-                if (response.json().status === 200) {
-                    swal(response.json().message, "", "success");
-                    this.skId = undefined;
-                } else {
-                    swal(response.json().message, "", "error");
-                    this.skId = undefined;
-                }
-            }, error => {
-                swal(error.json().message, "", "success");
+        this.mainServe.addCat(inData).subscribe(response => {
+            this.resData = response.json();
+            this.getCartList();
+            if (response.json().status === 200) {
+                swal(response.json().message, "", "success");
                 this.skId = undefined;
-            })
-        }
+            } else {
+                swal(response.json().message, "", "error");
+                this.skId = undefined;
+            }
+        }, error => {
+            swal(error.json().message, "", "success");
+            this.skId = undefined;
+        })
+        // }
 
 
     }
+    viewCart;
 
+    getCartList() {
+        this.mainServe.getCartList().subscribe(response => {
+            this.viewCart = response.json().data;
+            console.log(this.viewCart);
+            debugger;
+            // this.summary = response.json().summary;
+        });
+    }
     viewAll(action) {
         let navigationExtras: NavigationExtras = {
             queryParams: {
@@ -175,6 +185,38 @@ export class MainComponent implements OnInit {
             }
         }
         this.router.navigate(['/viewAll'], navigationExtras);
+    }
+    addWish(prodId) {
+        if (this.skId === undefined) {
+            swal('Please select Size', '', 'error');
+            return;
+        }
+        // if (localStorage.token === undefined) {
+        //     swal('Please Login', '', 'warning');
+        // } else {
+        var inData =
+            "user_id=" + localStorage.userId +
+            "&product_id=" + prodId +
+            "&quantity=" + this.item.quantity +
+            "&session_id=" + localStorage.session +
+            "&product_sku_id=" + this.skId
+
+
+        this.mainServe.addWish(inData).subscribe(response => {
+            this.resData = response.json();
+            if (response.json().status === 200) {
+                swal(response.json().message, "", "success");
+                this.skId = undefined;
+            } else {
+                swal(response.json().message, "", "error");
+                this.skId = undefined;
+            }
+        }, error => {
+            swal(error.json().message, "", "success");
+            this.skId = undefined;
+        })
+        // }
+        // var inData = 
     }
 }
 

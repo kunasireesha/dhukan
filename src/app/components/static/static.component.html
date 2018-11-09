@@ -35,3 +35,15 @@
     </div>
   </div>
 </section>
+<section *ngIf="showRating">
+  <div class="container">
+    <div class="row">
+
+      <ngb-rating class="rate" [(rate)]="currentRate" (rateChange)="rateChange(currentRate)"></ngb-rating>
+      <hr>
+      <pre>Rate: <b>{{currentRate}}</b></pre>
+    </div>
+    <label>Feedback</label>
+    <textarea class="rate" maxlength="200"></textarea>
+  </div>
+</section>

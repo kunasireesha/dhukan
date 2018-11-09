@@ -177,6 +177,10 @@
                       <a>Notifications
                       </a>
                     </li>
+                    <li routerLink="/mywishlist">
+                      <a>My Wishlist
+                      </a>
+                    </li>
                     <li (click)="logout()">
                       <a>Logout
                       </a>
@@ -374,9 +378,9 @@
       <!-- show categories -->
       <div class="col-md-3">
         <div class="cats" *ngIf="showCategories">
-          <div *ngFor="let data of categories;let i =index" (click)="showSubCat(data.id,i)" [ngClass]="{'active':showSubCats && i==selectedCat}">
+          <div *ngFor="let data of categories;let i =index" (click)="showCatProd(data.id,i)">
             <a>{{data.name}}
-              <span class="float-right">
+              <span class="float-right" (click)="$event.stopPropagation();showSubCat(data.id,i)" [ngClass]="{'active':showSubCats && i==selectedCat}">
                 <fa name="chevron-right"></fa>
               </span>
             </a>

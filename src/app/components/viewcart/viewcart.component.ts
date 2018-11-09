@@ -32,13 +32,16 @@ export class ViewcartComponent implements OnInit {
     this.url = AppSettings.imageUrl;
     this.getCartList();
   }
-  itemIncrease() {
-    let thisObj = this;
+  itemIncrease(item) {
 
+    let thisObj = this;
+    // thisObj.item.quantity = item;
     thisObj.item.quantity = Math.floor(thisObj.item.quantity + 1);
 
   }
-  itemDecrease() {
+  selected;
+  itemDecrease(index) {
+    this.selected = index;
     let thisObj = this;
     if (thisObj.item.quantity === 0) {
       return;

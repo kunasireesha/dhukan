@@ -78,13 +78,13 @@
                 </button>
                 <input type="text" name="mycart" readonly="readonly" value="{{item.quantity}}" />
 
-                <button class="plus-btn" type="button" name="button" (click)="itemIncrease(products,products.id,i,products.title)">
+                <button class="plus-btn" type="button" name="button" (click)="itemIncrease(data,data.id,i,data.title)">
                   <i class="fa fa-plus" aria-hidden="true"></i>
                 </button>
               </div>
             </div>
             <div class="col-lg-12 col-md-12 col-sm-12 cart-btn cart-image-button">
-              <button class="btn category-btn" type="button" name="button" (click)="addCat(products.id)">
+              <button class="btn category-btn" type="button" name="button" (click)="addCat(data.id)">
                 <span>Add</span>
                 <img src="assets/images/online-shopping-cart.png">
               </button>

@@ -477,6 +477,7 @@ export class HeaderComponent implements OnInit {
 
   showSubCatProd(subId) {
     this.showCategories = false;
+    this.showSubCats = false;
     let navigationExtras: NavigationExtras = {
       queryParams: {
         'sId': subId
@@ -509,7 +510,6 @@ export class HeaderComponent implements OnInit {
     });
   }
   deleteCart(id) {
-    alert(id)
     var inData = id;
     swal("Do you want to delete?", "", "warning", {
       buttons: ["Cancel!", "Okay!"],
@@ -527,6 +527,14 @@ export class HeaderComponent implements OnInit {
       }
     });
 
+  }
+  showCatProd(catId, i) {
+    let navigationExtras: NavigationExtras = {
+      queryParams: {
+        'catId': catId
+      }
+    };
+    this.router.navigate(["/categoriesProducts"], navigationExtras)
   }
 }
 

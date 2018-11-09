@@ -13,6 +13,8 @@ export class StaticComponent implements OnInit {
   faqData;
   showTerms;
   termsData;
+  showRating;
+  currentRate;
   constructor(public mainServe: MainService, public router: Router, private route: ActivatedRoute) {
     this.pageNav = this.route.snapshot.data[0].page;
     if (this.pageNav === "faq") {
@@ -31,10 +33,33 @@ export class StaticComponent implements OnInit {
       }, error => {
 
       })
+    } else if (this.pageNav === "rateapp") {
+      this.showRating = true;
+      this.showFaq = false;
+      this.showTerms = false;
+      this.rateChange(this.Rate);
     }
+
+
   }
 
   ngOnInit() {
   }
+  Rate;
+  rateChange(rate) {
+    this.Rate = rate;
+    if (this.Rate == null || NaN) {
+      swal("Please select rate", "", "warning");
+      return;
+    } else {
+      var inData = {
+        "user_id": localStorage.userId,
+        "User_rating": this.Rate
+      }
+      this.mainServe.rateChange(inData).subscribe(response => {
+        swal("Ratting submitted successfully", "", "sucess");
+      })
+    }
 
+  }
 }

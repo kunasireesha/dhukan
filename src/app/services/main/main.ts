@@ -20,6 +20,7 @@ export class MainService {
         const headers = new Headers({
             'Content-Type': "application/x-www-form-urlencoded",
             'token': (localStorage.token === undefined) ? '' : JSON.parse(localStorage.token),
+            'session_id': localStorage.session
         });
         return this.http.post(AppSettings.baseUrl + url, params, { headers: headers });
     }
@@ -28,7 +29,7 @@ export class MainService {
         const headers = new Headers({
             'Content-Type': "application/x-www-form-urlencoded",
             'token': (localStorage.token === undefined) ? '' : JSON.parse(localStorage.token),
-            'Session_id': (localStorage.token !== undefined) ? '' : localStorage.session
+            'Session_id': localStorage.session
         });
         return this.http.get(AppSettings.baseUrl + url, { headers: headers });
     }
@@ -82,6 +83,9 @@ export class MainService {
     getSubProducts(catId): Observable<any> {
         return this.postInputParamsUrl('dhukan/subcatproducts/', catId);
     }
+    getCatProducts(params): Observable<any> {
+        return this.getInputParamsUrl('dhukan/catproducts', params)
+    }
 
     //get dashboard
     getDashboard(): Observable<any> {
@@ -93,6 +97,9 @@ export class MainService {
     }
     addCat(params): Observable<any> {
         return this.postInputParams('cart/cart-list', params);
+    }
+    addWish(params): Observable<any> {
+        return this.postInputParams('cart/wish_list', params);
     }
     deleteCart(params): Observable<any> {
         return this.deleteInputParamsUrl('cart/cart-list', params);
@@ -116,6 +123,9 @@ export class MainService {
     }
     terms(): Observable<any> {
         return this.getInputParams('users/terms_and_conditions')
+    }
+    rateChange(params): Observable<any> {
+        return this.postInputParams('users/rate/app', params)
     }
     searchProducts(params): Observable<any> {
         return this.getInputParamsUrl('dhukan/prdsrc', params);

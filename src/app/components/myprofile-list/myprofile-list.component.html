@@ -47,6 +47,9 @@
           <li routerLink="/notifications" [ngClass]="{'my-profile': showNotifications}">
             <a>Notification</a>
           </li>
+          <li routerLink="/mywishlist" [ngClass]="{'my-profile': showWish}">
+            <a>My Wishlist</a>
+          </li>
           <li>
             <a href="#">Logout</a>
           </li>
@@ -506,9 +509,10 @@
         <div class="row pb-3 get-referral-code justify-content-md-center">
           <div class="col-lg-8 text-center">
             <h2 class="text-center mt-3 mb-3">Your Referral Code</h2>
-            <a href="#" class="referral-link">https://dhukan.com/sgfgsh</a>
+            <!-- <a href="#" class="referral-link">https://dhukan.com/sgfgsh</a> -->
+            <input type="text">
             <p class="get-link">
-              <a href="#">Get Referral Code</a>
+              <a (click)="getRefCode()">Get Referral Code</a>
             </p>
           </div>
         </div>
@@ -646,8 +650,104 @@
           </div>
         </div>
       </div>
-
       <!-- notification-->
+      <!-- wish list -->
+      <div *ngIf="showWish">
+        <div class="container category">
+          <ul>
+            <li>
+              <a routerLink="/#">Vegetables</a>
+            </li>
+            <li>></li>
+            <li>Wish</li>
+            <li>></li>
+            <li>View Wishlist</li>
+          </ul>
+        </div>
+        <!-- <div class="container-fluid viewcart-banner">
+          <div class="container">
+            <h1>View Wishlist</h1>
+          </div>
+        </div> -->
+        <div class="container view-cart-table mt-5 table-responsive wish-table">
+          <table class="table">
+            <thead>
+              <tr>
+                <th scope="col">Product Details</th>
+                <th scope="col">Price</th>
+                <th scope="col">Quantity</th>
+                <th scope="col">Total</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="mt-1" *ngFor="let item of wishData">
+                <!-- <div *ngFor="let sku of item.sku"> -->
+                <td>
+                  <ul class="product-image">
+                    <li>
+                      <img [src]="item.product_image" class="img-fluid">
+                    </li>
+                    <li>
+                      <h3>{{item.title}}</h3>
+                      <!-- <h4>{{sku.size}}</h4> -->
+                    </li>
+                  </ul>
+                </td>
+                <td>
+                  <p>MRP :
+                    <span class="price">RS.0 </span>
+                    <span class="offer-price"> RS. 0</span>
+                  </p>
+                  <span class="text-danger">{{ "offer-price" | translate}}</span>
+                </td>
+                <!-- </div> -->
+                <td>
+                  <div class="quantity increase-buttons">
+                    <button class="minus-btn" type="button" name="button" (click)="itemDecrease()">
+                      <i class="fa fa-minus " aria-hidden="true"></i>
+                    </button>
+                    <input type="text" name="quantity" [(ngModel)]="item.quantity" readonly="readonly" value="{{item.quantity}}" />
+                    <button class="plus-btn" type="button" name="button" (click)="itemIncrease()">
+                      <i class="fa fa-plus" aria-hidden="true"></i>
+                    </button>
+                  </div>
+                </td>
+                <td>
+                  <div class="row mt-3">
+                    <div class="col-lg-8">
+                      <p>Rs {{item.selling_price}}</p>
+                    </div>
+                    <div class="col-lg-4">
+                      <span>
+                        <img src="assets/images/close.png" class="close-cart" (click)="deleteWish(item.id)">
+                      </span>
+                    </div>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="row empty-cart-details pb-5">
+            <!-- <div class="col-lg-8 mt-3">
+              <button type="submit" class="btn button" (click)="emptyWish()" *ngIf="wishData.length >0">
+                <img src="assets/images/empty-cart.png"> EMPTY WISHLILT </button>
+
+            </div> -->
+
+          </div>
+          <div class="container">
+            <div class="row  mt-5 mb-5">
+              <!-- <div class="col-lg-6">
+              <a href="#" class="view-cart-button btn">Continue Shopping</a>
+            </div> -->
+              <div class="col-lg-6 text-right">
+                <a (click)="chekOut()" class="view-cart-button btn">Checkout</a>
+              </div>
+            </div>
+          </div>
+
+        </div>
+        <!-- wish list -->
+      </div>
     </div>
   </div>
-</div>
