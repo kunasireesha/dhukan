@@ -21,13 +21,18 @@ export class AllProductsComponent implements OnInit {
     item = {
         quantity: 1
     }
+    allProducts = [];
     ngOnInit() {
         this.getAllProducts();
     }
     getAllProducts() {
 
         this.mainServe.getDashboard().subscribe(response => {
-            this.products = response.json().products;
+            this.allProducts = response.json().products;
+            for (var i = 0; i < this.allProducts.length; i++) {
+                this.allProducts[i].quantity = 1;
+
+            }
             if (response.json().status == 400) {
                 this.noData = response.json().message;
             }
@@ -37,47 +42,44 @@ export class AllProductsComponent implements OnInit {
         });
 
     }
-    selectOption(id) {
-        this.skId = id;
+    selectOption(skId) {
+        this.skId = skId
+        for (var i = 0; i < this.allProducts.length; i++) {
+            for (var j = 0; j < this.allProducts[i].sku.length; j++) {
+                if (this.allProducts[i].sku[j].skid === parseInt(skId)) {
+                    this.allProducts[i].actual_price = this.allProducts[i].sku[j].actual_price;
+                    this.allProducts[i].offer_price = this.allProducts[i].sku[j].offer_price;
+                }
+            }
+
+        }
     }
+
     resData;
     skId;
-    itemIncrease(data, prodId, index, title) {
-        // let thisObj = this;
-        // if (localStorage.name !== name) {
-        //     thisObj.item.quantity = 0;
-        // }
-        // for (var i = 0; i < data.length; i++) {
-        //     if (data[i].title === title) {
-        //         thisObj.item.quantity = parseInt(data[i].sku[0].mycart);
-        //     }
-        // }
-        // thisObj.item.quantity = Math.floor(thisObj.item.quantity + 1);
-        // if (name === data.title) {
-        //     thisObj.showInput = true;
-        //     this.selected = index;
-
-        //     localStorage.setItem('name', name);
-        //     thisObj.addCat(thisObj.item.quantity, prodId);
-        // } else {
-        //     thisObj.showInput = false;
-        // }
-        let thisObj = this;
-
-        thisObj.item.quantity = Math.floor(thisObj.item.quantity + 1);
-
+    itemIncrease(title) {
+        for (var i = 0; i < this.allProducts.length; i++) {
+            if (title === this.allProducts[i].title) {
+                this.allProducts[i].quantity = this.allProducts[i].quantity + 1;
+                return;
+            }
+        }
     }
     selected;
-    itemDecrease(index) {
-        this.selected = index;
-        let thisObj = this;
-        if (thisObj.item.quantity === 1) {
-            return;
+    itemDecrease(title) {
+        for (var i = 0; i < this.allProducts.length; i++) {
+            if (title === this.allProducts[i].title) {
+                if (this.allProducts[i].quantity === 1) {
+                    return;
+                } else {
+                    this.allProducts[i].quantity = this.allProducts[i].quantity - 1;
+                    return;
+                }
+            }
         }
-        thisObj.item.quantity = Math.floor(thisObj.item.quantity - 1);
-
     }
-    addCat(prodId) {
+    addCat(prodData) {
+        console.log(prodData)
         if (this.skId === undefined) {
             swal('Please select Size', '', 'error');
             return;
@@ -85,8 +87,8 @@ export class AllProductsComponent implements OnInit {
         if (localStorage.token === undefined) {
             swal('Pleaase Login', '', 'warning');
         } else {
-            var inData = "product_id=" + prodId +
-                "&quantity=" + this.item.quantity +
+            var inData = "product_id=" + prodData.id +
+                "&quantity=" + prodData.quantity +
                 "&product_sku_id=" + this.skId
 
 

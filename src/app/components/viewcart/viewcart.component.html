@@ -52,7 +52,7 @@
               <button class="minus-btn" type="button" name="button" (click)="itemDecrease()">
                 <i class="fa fa-minus " aria-hidden="true"></i>
               </button>
-              <input type="text" name="quantity" [(ngModel)]="item.quantity" readonly="readonly" value="{{item.quantity}}" />
+              <input type="text" name="quantity" readonly="readonly" value="{{item.quantity}}" />
               <button class="plus-btn" type="button" name="button" (click)="itemIncrease(item.quantity)">
                 <i class="fa fa-plus" aria-hidden="true"></i>
               </button>
@@ -85,7 +85,7 @@
             <tr>
               <td class="charges">{{summary.cart_count}} items</td>
               <td class="cost">
-                <span>:</span>RS {{summary.selling_price}}</td>
+                <span>:</span>RS {{summary.cart_count * summary.selling_price}}</td>
             </tr>
             <tr>
               <td class="charges">Sub Total</td>
@@ -100,7 +100,7 @@
             <tr>
               <th class="charges">Total</th>
               <th class="cost">
-                <span>:</span>Rs {{summary.grand_total}}</th>
+                <span>:</span>Rs {{(summary.cart_count * summary.selling_price) + (summary.delivery_charge)}}</th>
             </tr>
           </tbody>
         </table>
