@@ -41,6 +41,16 @@ export class MainService {
         });
         return this.http.get(AppSettings.baseUrl + url + "/" + params, { headers: headers });
     }
+    //put 
+    putInputParams(url, params) {
+        const headers = new Headers({
+            'Content-Type': "application/x-www-form-urlencoded",
+            'token': (localStorage.token === undefined) ? '' : JSON.parse(localStorage.token),
+            'Session_id': localStorage.session
+
+        });
+        return this.http.put(AppSettings.baseUrl + url, params, { headers: headers });
+    }
     deleteInputParamsUrl(url, params) {
         const headers = new Headers({
             'Content-Type': "application/x-www-form-urlencoded",
@@ -126,6 +136,9 @@ export class MainService {
     }
     rateChange(params): Observable<any> {
         return this.postInputParams('users/rate/app', params)
+    }
+    modifyCart(params): Observable<any> {
+        return this.putInputParams('cart/cart-list ', params);
     }
     searchProducts(params): Observable<any> {
         return this.getInputParamsUrl('dhukan/prdsrc', params);

@@ -41,15 +41,15 @@
       <!-- <h3 class="text-center">RATE OUR APP</h3> -->
       <br />
       <div class="rate">
-        <ngb-rating [(rate)]="currentRate" (rateChange)="rateChange(currentRate)"></ngb-rating><br />
+        <ngb-rating [(rate)]="currentRate" (rateChange)="rateChange(currentRate)" required></ngb-rating><br />
         <!-- <pre>Rate: <b>{{currentRate}}</b></pre> -->
         <div>
           <label for="title">Feedback </label>
           <br />
-          <textarea rows="3" id="title" name="title"></textarea>
+          <textarea rows="3" id="title" name="feedback" [(ngModel)]="feedback"></textarea>
         </div>
         <br>
-        <button class="btn btn-rate" (click)="rateSub()">Submit</button>
+        <button class="btn btn-rate" (click)="rateSub()" [disabled]="! currentRate">Submit</button>
       </div>
     </div>
   </div>

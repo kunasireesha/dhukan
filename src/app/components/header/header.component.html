@@ -260,11 +260,11 @@
                 <div class="col-lg-3">
                   <div class="quantity cart-quantity">
                     <form *ngFor="let data of item.sku">
-                      <button class="minus-btn" type="button" name="button" (click)="itemDecrease(item.title)">
+                      <button class="minus-btn" type="button" name="button" (click)="itemDecrease(item.title,item,data)">
                         <i class="fa fa-minus " aria-hidden="true"></i>
                       </button>
                       <input type="text" name="quantity" readonly="readonly" value="{{data.mycart}}" />
-                      <button class="plus-btn" type="button" name="button" (click)="itemIncrease(item.title)">
+                      <button class="plus-btn" type="button" name="button" (click)="itemIncrease(item.title,item,data)">
                         <i class="fa fa-plus" aria-hidden="true"></i>
                       </button>
                     </form>

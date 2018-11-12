@@ -347,9 +347,19 @@ export class HeaderComponent implements OnInit {
     // );
   }
 
-
+  prodId;
+  quantiy;
+  prodSku;
+  cartId;
+  quantity1;
   // cart items
-  itemIncrease(title) {
+  itemIncrease(title, data, skuData) {
+    this.prodId = data.product_id;
+    this.quantiy = skuData.mycart;
+    this.quantity1 = this.quantiy + 1;
+    this.prodSku = data.product_sku_id;
+    this.cartId = data.id;
+    this.modifyCart(this.prodId, this.quantity1, this.prodSku, this.cartId);
     for (var i = 0; i < this.viewCart.length; i++) {
       if (title === this.viewCart[i].title) {
         this.viewCart[i].sku[0].mycart = this.viewCart[i].sku[0].mycart + 1;
@@ -357,14 +367,34 @@ export class HeaderComponent implements OnInit {
         return;
       }
     }
-    var inData = "product_id="
   }
-  itemDecrease() {
-    let thisObj = this;
-    if (thisObj.item.quantity === 0) {
-      return;
+  itemDecrease(title, data, skuData) {
+    this.prodId = data.product_id;
+    this.quantiy = skuData.mycart;
+    this.quantity1 = this.quantiy - 1;
+    this.prodSku = data.product_sku_id;
+    this.cartId = data.id;
+    this.modifyCart(this.prodId, this.quantity1, this.prodSku, this.cartId);
+    for (var i = 0; i < this.viewCart.length; i++) {
+      if (title === this.viewCart[i].title) {
+        if (this.viewCart[i].sku[0].mycart === 1) {
+          return;
+        } else {
+          this.viewCart[i].sku[0].mycart = this.viewCart[i].sku[0].mycart - 1;
+          return;
+        }
+      }
     }
-    thisObj.item.quantity = Math.floor(thisObj.item.quantity - 1);
+  }
+  modifyCart(prodId, quantiy, prodSku, cartId) {
+    var inData = "product_id=" + prodId +
+      "&quantity=" + quantiy +
+      "&product_sku_id=" + prodSku +
+      "&Cartid=" + cartId
+    this.headerSer.modifyCart(inData).subscribe(response => {
+    }, error => {
+
+    })
   }
 
   //change country
@@ -515,13 +545,13 @@ export class HeaderComponent implements OnInit {
     this.mainServe.getCartList().subscribe(response => {
       this.viewCart = response.json().data;
       this.summary = response.json().summary;
+      this.getDashboard();
       for (var i = 0; i < this.viewCart.length; i++) {
         // if (title === this.viewCart[i].title) {
         this.viewCart[i].quantity = this.viewCart[i].sku[0].mycart;
         return;
         // }
       }
-      // this.getDashboard();
     });
   }
   deleteCart(id) {
@@ -533,6 +563,7 @@ export class HeaderComponent implements OnInit {
       if (value === true) {
         this.mainServe.deleteCart(inData).subscribe(response => {
           this.getCartList();
+          this.getDashboard();
           swal("Deleted successfully", "", "success");
         }, error => {
           console.log(error);
