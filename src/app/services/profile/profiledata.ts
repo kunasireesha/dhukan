@@ -28,6 +28,15 @@ export class ProfileService {
         return this.http.put(AppSettings.baseUrl + url, params, { headers: headers });
     }
 
+    //delete
+    deleteInputParams(url) {
+        const headers = new Headers({
+            'Content-Type': "application/x-www-form-urlencoded",
+            'token': (localStorage.token === undefined) ? '' : JSON.parse(localStorage.token),
+            'Session_id': (localStorage.token !== undefined) ? '' : localStorage.session
+        });
+        return this.http.delete(AppSettings.baseUrl + url, { headers: headers });
+    }
     //post
     postInputParamsUrl(url, params) {
         const headers = new Headers({
@@ -55,6 +64,9 @@ export class ProfileService {
     updateProfile(params): Observable<any> {
         return this.putInputParams('users/update_profile', params);
     }
+    getRefCode(email): Observable<any> {
+        return this.postInputParamsUrl('users/refferal/friend', email);
+    }
 
     //get address
 
@@ -71,7 +83,9 @@ export class ProfileService {
     getAddress(): Observable<any> {
         return this.getInputParams('users/my_address');
     }
-
+    deleteWish(params): Observable<any> {
+        return this.postInputParamsUrl('cart/deleteWishlistById', params);
+    }
 
     //add address
     addAddress(params): Observable<any> {
@@ -98,6 +112,10 @@ export class ProfileService {
             }
         })
     }
-
-
+    getWishList(): Observable<any> {
+        return this.getInputParams('cart/getwishlist');
+    }
+    emptyWish(): Observable<any> {
+        return this.deleteInputParams('cart/deleteWishlistByUserId');
+    }
 };

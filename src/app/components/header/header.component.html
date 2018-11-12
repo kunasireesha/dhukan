@@ -177,6 +177,10 @@
                       <a>Notifications
                       </a>
                     </li>
+                    <li routerLink="/mywishlist">
+                      <a>My Wishlist
+                      </a>
+                    </li>
                     <li (click)="logout()">
                       <a>Logout
                       </a>
@@ -252,12 +256,12 @@
                 </div>
                 <div class="col-lg-3">
                   <div class="quantity cart-quantity">
-                    <form>
-                      <button class="minus-btn" type="button" name="button" (click)="itemDecrease()">
+                    <form *ngFor="let data of item.sku">
+                      <button class="minus-btn" type="button" name="button" (click)="itemDecrease(item.title)">
                         <i class="fa fa-minus " aria-hidden="true"></i>
                       </button>
-                      <input type="text" name="quantity" [(ngModel)]="item.quantity" readonly="readonly" value="{{item.quantity}}" />
-                      <button class="plus-btn" type="button" name="button" (click)="itemIncrease()">
+                      <input type="text" name="quantity" readonly="readonly" value="{{data.mycart}}" />
+                      <button class="plus-btn" type="button" name="button" (click)="itemIncrease(item.title)">
                         <i class="fa fa-plus" aria-hidden="true"></i>
                       </button>
                     </form>
@@ -371,9 +375,9 @@
       <!-- show categories -->
       <div class="col-md-3">
         <div class="cats" *ngIf="showCategories">
-          <div *ngFor="let data of categories;let i =index" (click)="showSubCat(data.id,i)" [ngClass]="{'active':showSubCats && i==selectedCat}">
+          <div *ngFor="let data of categories;let i =index" (click)="showCatProd(data.id,i)">
             <a>{{data.name}}
-              <span class="float-right">
+              <span class="float-right" (click)="$event.stopPropagation();showSubCat(data.id,i)" [ngClass]="{'active':showSubCats && i==selectedCat}">
                 <fa name="chevron-right"></fa>
               </span>
             </a>

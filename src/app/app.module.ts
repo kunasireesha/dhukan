@@ -174,6 +174,11 @@ export function getAuthServiceConfigs() {
 				data: [{ page: 'deliveryaddress' }]
 			},
 			{
+				path: 'mywishlist',
+				component: MyprofileListComponent,
+				data: [{ page: 'mywishlist' }]
+			},
+			{
 				path: 'paymentoptions',
 				component: DeliveryComponent,
 				data: [{ page: 'paymentoptions' }]
@@ -192,6 +197,11 @@ export function getAuthServiceConfigs() {
 				path: 'termsandcond',
 				component: StaticComponent,
 				data: [{ page: 'termsandcond' }]
+			},
+			{
+				path: 'rateapp',
+				component: StaticComponent,
+				data: [{ page: 'rateapp' }]
 			},
 			{
 				path: 'search',

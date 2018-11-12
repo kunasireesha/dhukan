@@ -6,7 +6,7 @@
   <div class="row">
 
 
-    <div class="col-lg-3 col-md-3 col-sm-6 col-xs-6 product-data" *ngFor="let data of products;let i= index">
+    <div class="col-lg-3 col-md-3 col-sm-6 col-xs-6 product-data" *ngFor="let data of allProducts;let i= index">
       <div class="product">
         <div class="container">
           <div class="row">
@@ -29,21 +29,17 @@
                       <div class="form-group">
                         <select class="form-control input-field" id="exampleFormControlSelect1" (change)="selectOption($event.target.value)">
                           <option>Select Size..</option>
-                          <option>1 Kg</option>
-                          <option>2 Kg</option>
-                          <option>3 Kg</option>
-                          <option>4 Kg</option>
-                          <option>5 Kg</option>
+                          <option *ngFor="let sku of data.sku" [value]="sku.skid">{{sku.size}} </option>
                         </select>
                       </div>
                     </form>
                   </li>
                   <li>
-                    <h3 class="text-center">{{products.title}}</h3>
+                    <h3 class="text-center">{{data.title}}</h3>
                   </li>
                   <li>MRP :
-                    <span class="price">RS.48 </span>
-                    <span class="offer-price"> RS. 26</span>
+                    <span class="price">{{data.actual_price}} </span>
+                    <span class="offer-price"> {{data.offer_price}}</span>
                   </li>
                   <li>
                     <span class="text-danger">{{ "offer-price" | translate}}</span>
@@ -73,18 +69,18 @@
             <!-- product details -->
             <div class="col-lg-12 col-md-12 col-sm-12 cart-btn">
               <div class="quantity">
-                <button class="minus-btn" type="button" name="button" (click)="itemDecrease(i)">
+                <button class="minus-btn" type="button" name="button" (click)="itemDecrease(data.title)">
                   <i class="fa fa-minus " aria-hidden="true"></i>
                 </button>
-                <input type="text" name="mycart" readonly="readonly" value="{{item.quantity}}" />
+                <input type="text" name="mycart" readonly="readonly" value="{{data.quantity}}" />
 
-                <button class="plus-btn" type="button" name="button" (click)="itemIncrease(products,products.id,i,products.title)">
+                <button class="plus-btn" type="button" name="button" (click)="itemIncrease(data.title)">
                   <i class="fa fa-plus" aria-hidden="true"></i>
                 </button>
               </div>
             </div>
             <div class="col-lg-12 col-md-12 col-sm-12 cart-btn cart-image-button">
-              <button class="btn category-btn" type="button" name="button" (click)="addCat(products.id)">
+              <button class="btn category-btn" type="button" name="button" (click)="addCat(data)">
                 <span>Add</span>
                 <img src="assets/images/online-shopping-cart.png">
               </button>

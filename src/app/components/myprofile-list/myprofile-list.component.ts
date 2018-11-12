@@ -8,7 +8,7 @@ import { AddressServices } from '../../services/deliveraddressdata/addressServic
 @Component({
   selector: 'app-myprofile-list',
   templateUrl: './myprofile-list.component.html',
-  styleUrls: ['./myprofile-list.component.css']
+  styleUrls: ['./myprofile-list.component.css', '.././viewcart/viewcart.component.css']
 })
 export class MyprofileListComponent implements OnInit {
 
@@ -60,6 +60,12 @@ export class MyprofileListComponent implements OnInit {
       this.showNotifications = true;
       this.myprofileData = true;
       this.childPage = 'Notification';
+    } else if (this.page === 'mywishlist') {
+      this.getWishList();
+      this.showProfile = false;
+      this.showWish = true;
+      this.myprofileData = true;
+      this.childPage = 'My Wishlist';
     }
 
   }
@@ -75,6 +81,7 @@ export class MyprofileListComponent implements OnInit {
   showReferFriends = false;
   showLoyalityPoints = false;
   showNotifications = false;
+  showWish = false;
   myprofileData = true;
   showPaymentOptions = false;
   profileDetails;
@@ -291,5 +298,46 @@ export class MyprofileListComponent implements OnInit {
   deliverHere(addressData) {
     this.profileSer.setDefaultAdd(addressData.ua_id);
   }
+  getRefCode() {
+    var inData = "email=" + "jdlogan@mit.edu"
+    this.profileSer.getRefCode(inData).subscribe(response => {
+      swal("Referral code sent successfully", "", "success");
+    }, error => {
 
+    })
+  }
+  wishData;
+  getWishList() {
+    this.profileSer.getWishList().subscribe(response => {
+      this.wishData = response.json().data.data_message;
+    }, error => {
+
+    })
+  }
+  deleteWish(wishId) {
+    var inData = "whislistId=" + wishId
+    swal("Do you want to delete?", "", "warning", {
+      buttons: ["Cancel!", "Okay!"],
+    }).then((value) => {
+
+      if (value === true) {
+        this.profileSer.deleteWish(inData).subscribe(response => {
+          this.getWishList();
+          swal("Deleted successfully", "", "success");
+        }, error => {
+          console.log(error);
+        })
+      } else {
+        return;
+      }
+    });
+  }
+  emptyWish() {
+    this.profileSer.emptyWish().subscribe(response => {
+      swal("Successfully Cleared", "", "success");
+      this.getWishList();
+    }, error => {
+
+    })
+  }
 }

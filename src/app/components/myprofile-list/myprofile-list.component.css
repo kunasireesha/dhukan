@@ -26,7 +26,12 @@
   padding-top: 18px;
   padding-left: 23px;
 }
-
+.submit-button {
+  margin-bottom: 44px;
+}
+p.get-link {
+  cursor: pointer;
+}
 .my-profile,
 .my-order,
 .my-wallet,
@@ -107,7 +112,9 @@
   box-shadow: none !important;
   color: #ffffff;
 }
-
+.wish-table {
+  width: 143% !important;
+}
 .image {
   height: 15px;
   width: 15px;

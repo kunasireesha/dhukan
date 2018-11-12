@@ -37,6 +37,9 @@ export class HeaderComponent implements OnInit {
     private headerSer: HeaderService
   ) {
   }
+  data = {
+    mycart: 0
+  }
 
   ngOnInit() {
     this.phone = localStorage.userMobile;
@@ -346,9 +349,15 @@ export class HeaderComponent implements OnInit {
 
 
   // cart items
-  itemIncrease() {
-    let thisObj = this;
-    thisObj.item.quantity = Math.floor(thisObj.item.quantity + 1);
+  itemIncrease(title) {
+    for (var i = 0; i < this.viewCart.length; i++) {
+      if (title === this.viewCart[i].title) {
+        this.viewCart[i].sku[0].mycart = this.viewCart[i].sku[0].mycart + 1;
+
+        return;
+      }
+    }
+    var inData = "product_id="
   }
   itemDecrease() {
     let thisObj = this;
@@ -477,6 +486,7 @@ export class HeaderComponent implements OnInit {
 
   showSubCatProd(subId) {
     this.showCategories = false;
+    this.showSubCats = false;
     let navigationExtras: NavigationExtras = {
       queryParams: {
         'sId': subId
@@ -505,11 +515,16 @@ export class HeaderComponent implements OnInit {
     this.mainServe.getCartList().subscribe(response => {
       this.viewCart = response.json().data;
       this.summary = response.json().summary;
+      for (var i = 0; i < this.viewCart.length; i++) {
+        // if (title === this.viewCart[i].title) {
+        this.viewCart[i].quantity = this.viewCart[i].sku[0].mycart;
+        return;
+        // }
+      }
       // this.getDashboard();
     });
   }
   deleteCart(id) {
-    alert(id)
     var inData = id;
     swal("Do you want to delete?", "", "warning", {
       buttons: ["Cancel!", "Okay!"],
@@ -527,6 +542,14 @@ export class HeaderComponent implements OnInit {
       }
     });
 
+  }
+  showCatProd(catId, i) {
+    let navigationExtras: NavigationExtras = {
+      queryParams: {
+        'catId': catId
+      }
+    };
+    this.router.navigate(["/categoriesProducts"], navigationExtras)
   }
 }
 
