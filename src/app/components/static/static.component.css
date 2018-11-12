@@ -20,3 +20,7 @@ h5 {
   text-align: center;
   margin-left: 405px !important;
 }
+textarea { vertical-align: top; }
+.btn-rate{
+  background: #f19820 !important;
+}

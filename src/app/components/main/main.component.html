@@ -66,11 +66,8 @@
                       <div class="form-group">
                         <select class="form-control input-field" id="exampleFormControlSelect1" (change)="selectOption($event.target.value)">
                           <option>Select Size..</option>
-                          <option>1 </option>
-                          <option>2 </option>
-                          <option>3 </option>
-                          <option>4 </option>
-                          <option>5</option>
+                          <option *ngFor="let sku of products.sku">{{sku.size}} </option>
+                          <!-- <option>5</option> -->
                         </select>
                       </div>
                     </form>

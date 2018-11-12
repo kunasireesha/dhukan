@@ -173,8 +173,6 @@ export class MainComponent implements OnInit {
     getCartList() {
         this.mainServe.getCartList().subscribe(response => {
             this.viewCart = response.json().data;
-            console.log(this.viewCart);
-            debugger;
             // this.summary = response.json().summary;
         });
     }

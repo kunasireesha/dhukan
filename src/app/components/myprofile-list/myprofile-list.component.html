@@ -695,10 +695,10 @@
                 </td>
                 <td>
                   <p>MRP :
-                    <span class="price">RS.0 </span>
-                    <span class="offer-price"> RS. 0</span>
+                    <span class="price">RS.{{item.actual_price}} </span>
+                    <span class="offer-price"> RS. {{item.offer_price}}</span>
                   </p>
-                  <span class="text-danger">{{ "offer-price" | translate}}</span>
+                  <!-- <span class="text-danger">{{ "offer-price" | translate}}</span> -->
                 </td>
                 <!-- </div> -->
                 <td>
@@ -715,7 +715,7 @@
                 <td>
                   <div class="row mt-3">
                     <div class="col-lg-8">
-                      <p>Rs {{item.selling_price}}</p>
+                      <p>Rs {{item.offer_price}}</p>
                     </div>
                     <div class="col-lg-4">
                       <span>
