@@ -39,33 +39,34 @@
               </li>
             </ul>
           </td>
-          <td>
+          <td *ngFor="let skudata of item.sku">
             <p>MRP :
-              <span class="price">RS.0 </span>
-              <span class="offer-price"> RS. 0</span>
+              <span class="price">RS.{{skudata.actual_price}} </span>
+              <span class="offer-price"> RS. {{skudata.offer_price}}</span>
             </p>
-            <span class="text-danger">{{ "offer-price" | translate}}</span>
+            <span class="text-danger">{{ "offer-price" | translate}} &nbsp;
+              {{(skudata.actual_price)-(skudata.offer_price) }}</span>
           </td>
           <!-- </div> -->
           <td>
-            <div class="quantity increase-buttons">
-              <button class="minus-btn" type="button" name="button" (click)="itemDecrease()">
+            <div class="quantity increase-buttons" *ngFor="let data of item.sku">
+              <button class="minus-btn" type="button" name="button" (click)="itemDecrease(item.title,item,data)">
                 <i class="fa fa-minus " aria-hidden="true"></i>
               </button>
-              <input type="text" name="quantity" readonly="readonly" value="{{item.quantity}}" />
-              <button class="plus-btn" type="button" name="button" (click)="itemIncrease(item.quantity)">
+              <input type="text" name="quantity" readonly="readonly" value="{{data.mycart}}" />
+              <button class="plus-btn" type="button" name="button" (click)="itemIncrease(item.title,item,data)">
                 <i class="fa fa-plus" aria-hidden="true"></i>
               </button>
             </div>
           </td>
-          <td>
+          <td *ngFor="let data of item.sku">
             <div class="row mt-3">
               <div class="col-lg-8">
-                <p>Rs {{item.selling_price}}</p>
+                <p>Rs {{(data.mycart) * (data.offer_price)}}</p>
               </div>
               <div class="col-lg-4">
                 <span>
-                  <img src="assets/images/close.png" class="close-cart" (click)="deleteCart(item.id)">
+                  <img src="assets/images/close.png" class="close-cart" (click)="deleteCart(item.product_sku_id)">
                 </span>
               </div>
             </div>

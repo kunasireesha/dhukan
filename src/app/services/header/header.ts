@@ -23,7 +23,16 @@ export class HeaderService {
         });
         return this.http.get(AppSettings.baseUrl + url + "/" + params, { headers: headers });
     }
+    //put 
+    putInputParams(url, params) {
+        const headers = new Headers({
+            'Content-Type': "application/x-www-form-urlencoded",
+            'token': (localStorage.token === undefined) ? '' : JSON.parse(localStorage.token),
+            'Session_id': localStorage.session
 
+        });
+        return this.http.put(AppSettings.baseUrl + url, params, { headers: headers });
+    }
     //post methode
     postInputParams(url, params) {
         const headers = new Headers({
@@ -77,5 +86,7 @@ export class HeaderService {
     forgotPassword(params): Observable<any> {
         return this.postInputParams('users/forgot_password ', params);
     }
-
+    modifyCart(params): Observable<any> {
+        return this.putInputParams('cart/cart-list ', params);
+    }
 };

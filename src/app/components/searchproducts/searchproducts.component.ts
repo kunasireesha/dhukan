@@ -23,52 +23,48 @@ export class SearchproductsComponent implements OnInit {
   }
   skId;
   skuId;
-  selectOption(id) {
-    this.skId = id;
-  }
   item = {
     quantity: 1
   }
   selected;
   showInput = false;
-  //add to cart
-  itemIncrease(data, prodId, index, title) {
-    // let thisObj = this;
-    // if (localStorage.name !== name) {
-    //     thisObj.item.quantity = 0;
-    // }
-    // for (var i = 0; i < data.length; i++) {
-    //     if (data[i].title === title) {
-    //         thisObj.item.quantity = parseInt(data[i].sku[0].mycart);
-    //     }
-    // }
-    // thisObj.item.quantity = Math.floor(thisObj.item.quantity + 1);
-    // if (name === data.title) {
-    //     thisObj.showInput = true;
-    //     this.selected = index;
+  selectOption(skId) {
+    this.skId = skId
+    for (var i = 0; i < this.products.length; i++) {
+      for (var j = 0; j < this.products[i].sku.length; j++) {
+        if (this.products[i].sku[j].skid === parseInt(skId)) {
+          this.products[i].actual_price = this.products[i].sku[j].actual_price;
+          this.products[i].offer_price = this.products[i].sku[j].offer_price;
+        }
+      }
 
-    //     localStorage.setItem('name', name);
-    //     thisObj.addCat(thisObj.item.quantity, prodId);
-    // } else {
-    //     thisObj.showInput = false;
-    // }
-    let thisObj = this;
-
-    thisObj.item.quantity = Math.floor(thisObj.item.quantity + 1);
-
+    }
   }
 
-  itemDecrease(index) {
-    this.selected = index;
-    let thisObj = this;
-    if (thisObj.item.quantity === 1) {
-      return;
+  //add to cart
+  itemIncrease(title) {
+    for (var i = 0; i < this.products.length; i++) {
+      if (title === this.products[i].title) {
+        this.products[i].quantity = this.products[i].quantity + 1;
+        return;
+      }
     }
-    thisObj.item.quantity = Math.floor(thisObj.item.quantity - 1);
+  }
 
+  itemDecrease(title) {
+    for (var i = 0; i < this.products.length; i++) {
+      if (title === this.products[i].title) {
+        if (this.products[i].quantity === 1) {
+          return;
+        } else {
+          this.products[i].quantity = this.products[i].quantity - 1;
+          return;
+        }
+      }
+    }
   }
   resData;
-  addCat(prodId) {
+  addCat(prodData) {
     if (this.skId === undefined) {
       swal('Please select Size', '', 'error');
       return;
@@ -76,8 +72,8 @@ export class SearchproductsComponent implements OnInit {
     if (localStorage.token === undefined) {
       swal('Pleaase Login', '', 'warning');
     } else {
-      var inData = "product_id=" + prodId +
-        "&quantity=" + this.item.quantity +
+      var inData = "product_id=" + prodData.id +
+        "&quantity=" + prodData.quantity +
         "&product_sku_id=" + this.skId
 
 
@@ -102,6 +98,10 @@ export class SearchproductsComponent implements OnInit {
     var inData = this.searchProd;
     this.mainServe.searchProducts(inData).subscribe(response => {
       this.products = response.json().products;
+      for (var i = 0; i < this.products.length; i++) {
+        this.products[i].quantity = 1;
+
+      }
       console.log(this.products);
       if (response.json().status == 400) {
         this.noData = response.json().message;
@@ -111,5 +111,35 @@ export class SearchproductsComponent implements OnInit {
 
     });
 
+  }
+  addWish(prodData) {
+    if (this.skId === undefined) {
+      swal('Please select Size', '', 'error');
+      return;
+    }
+    // if (localStorage.token === undefined) {
+    //     swal('Please Login', '', 'warning');
+    // } else {
+    var inData =
+      "user_id=" + localStorage.userId +
+      "&product_id=" + prodData.id +
+      "&quantity=" + prodData.quantity +
+      "&session_id=" + localStorage.session +
+      "&product_sku_id=" + this.skId
+
+
+    this.mainServe.addWish(inData).subscribe(response => {
+      this.resData = response.json();
+      if (response.json().status === 200) {
+        swal(response.json().message, "", "success");
+        this.skId = undefined;
+      } else {
+        swal(response.json().message, "", "error");
+        this.skId = undefined;
+      }
+    }, error => {
+      swal(error.json().message, "", "success");
+      this.skId = undefined;
+    })
   }
 }

@@ -182,7 +182,7 @@ export class MainComponent implements OnInit {
         }
         this.router.navigate(['/viewAll'], navigationExtras);
     }
-    addWish(prodId) {
+    addWish(prodData) {
         if (this.skId === undefined) {
             swal('Please select Size', '', 'error');
             return;
@@ -192,8 +192,8 @@ export class MainComponent implements OnInit {
         // } else {
         var inData =
             "user_id=" + localStorage.userId +
-            "&product_id=" + prodId +
-            "&quantity=" + this.item.quantity +
+            "&product_id=" + prodData.id +
+            "&quantity=" + prodData.quantity +
             "&session_id=" + localStorage.session +
             "&product_sku_id=" + this.skId
 

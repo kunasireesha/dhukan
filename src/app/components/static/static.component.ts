@@ -15,6 +15,7 @@ export class StaticComponent implements OnInit {
     termsData;
     showRating;
     currentRate;
+    feedback;
     constructor(public mainServe: MainService, public router: Router, private route: ActivatedRoute) {
         this.pageNav = this.route.snapshot.data[0].page;
         if (this.pageNav === "faq") {
@@ -54,15 +55,15 @@ export class StaticComponent implements OnInit {
         if (this.Rate == null || NaN) {
             // swal("Please select rate", "", "warning");
             return;
-        } else if (this.Rate == undefined) {
-            return;
         } else {
             var inData = {
                 "user_id": localStorage.userId,
-                "User_rating": this.Rate
+                "User_rating": this.Rate,
+                "feedback": this.feedback
             }
             this.mainServe.rateChange(inData).subscribe(response => {
                 swal("Ratting submitted successfully", "", "sucess");
+                this.feedback = this.Rate = '';
             })
         }
 

@@ -109,4 +109,34 @@ export class AllProductsComponent implements OnInit {
 
 
     }
+    addWish(prodData) {
+        if (this.skId === undefined) {
+            swal('Please select Size', '', 'error');
+            return;
+        }
+        // if (localStorage.token === undefined) {
+        //     swal('Please Login', '', 'warning');
+        // } else {
+        var inData =
+            "user_id=" + localStorage.userId +
+            "&product_id=" + prodData.id +
+            "&quantity=" + prodData.quantity +
+            "&session_id=" + localStorage.session +
+            "&product_sku_id=" + this.skId
+
+
+        this.mainServe.addWish(inData).subscribe(response => {
+            this.resData = response.json();
+            if (response.json().status === 200) {
+                swal(response.json().message, "", "success");
+                this.skId = undefined;
+            } else {
+                swal(response.json().message, "", "error");
+                this.skId = undefined;
+            }
+        }, error => {
+            swal(error.json().message, "", "success");
+            this.skId = undefined;
+        })
+    }
 }

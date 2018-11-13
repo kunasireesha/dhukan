@@ -17,6 +17,9 @@ export class ViewcartComponent implements OnInit {
   item = {
     quantity: 1
   }
+  data = {
+    mycart: 0
+  }
   url;
   summary = {
     cart_count: '',
@@ -32,23 +35,56 @@ export class ViewcartComponent implements OnInit {
     this.url = AppSettings.imageUrl;
     this.getCartList();
   }
-  itemIncrease(item) {
+  prodId;
+  quantiy;
+  prodSku;
+  cartId;
+  quantity1;
+  itemIncrease(title, data, skuData) {
+    this.prodId = data.product_id;
+    this.quantiy = skuData.mycart;
+    this.quantity1 = this.quantiy + 1;
+    this.prodSku = data.product_sku_id;
+    this.cartId = data.id;
+    this.modifyCart(this.prodId, this.quantity1, this.prodSku, this.cartId);
+    for (var i = 0; i < this.viewCart.length; i++) {
+      if (title === this.viewCart[i].title) {
+        this.viewCart[i].sku[0].mycart = this.viewCart[i].sku[0].mycart + 1;
 
-    let thisObj = this;
-    // thisObj.item.quantity = item;
-    thisObj.item.quantity = Math.floor(thisObj.item.quantity + 1);
-
-  }
-  selected;
-  itemDecrease(index) {
-    this.selected = index;
-    let thisObj = this;
-    if (thisObj.item.quantity === 0) {
-      return;
+        return;
+      }
     }
-    thisObj.item.quantity = Math.floor(thisObj.item.quantity - 1);
-
   }
+  itemDecrease(title, data, skuData) {
+    this.prodId = data.product_id;
+    this.quantiy = skuData.mycart;
+    this.quantity1 = this.quantiy - 1;
+    this.prodSku = data.product_sku_id;
+    this.cartId = data.id;
+    this.modifyCart(this.prodId, this.quantity1, this.prodSku, this.cartId);
+    for (var i = 0; i < this.viewCart.length; i++) {
+      if (title === this.viewCart[i].title) {
+        if (this.viewCart[i].sku[0].mycart === 1) {
+          return;
+        } else {
+          this.viewCart[i].sku[0].mycart = this.viewCart[i].sku[0].mycart - 1;
+          return;
+        }
+      }
+    }
+  }
+  modifyCart(prodId, quantiy, prodSku, cartId) {
+    var inData = "product_id=" + prodId +
+      "&quantity=" + quantiy +
+      "&product_sku_id=" + prodSku +
+      "&Cartid=" + cartId
+    this.mainServe.modifyCart(inData).subscribe(response => {
+    }, error => {
+
+    })
+  }
+
+
   getCartList() {
     this.mainServe.getCartList().subscribe(response => {
       this.viewCart = response.json().data;
@@ -63,6 +99,7 @@ export class ViewcartComponent implements OnInit {
 
       if (value === true) {
         this.mainServe.deleteCart(inData).subscribe(response => {
+          this.mainServe.getDashboard();
           this.getCartList();
           swal("Deleted successfully", "", "success");
         }, error => {
@@ -83,6 +120,7 @@ export class ViewcartComponent implements OnInit {
     })
 
   }
+
 
   chekOut() {
     this.cartDetails = this.summary;
