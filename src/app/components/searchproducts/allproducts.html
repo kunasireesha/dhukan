@@ -1,4 +1,4 @@
-<div class="container best-deal products-list">
+<div class="container best-deal products-list" *ngIf="showAll">
   <h2 class="text-center">{{title}}</h2>
   <hr>
   <!-- <p class="red">View All</p> -->
@@ -95,6 +95,102 @@
 
   </div>
 </div>
-<div class="col-lg-3 col-md-3 col-sm-6 col-xs-6" *ngIf="noData && !products">
+<div class="container best-deal products-list" *ngIf="showWish">
+  <h2 class="text-center">My Wishlist</h2>
+  <hr>
+  <!-- <p class="red">View All</p> -->
+  <br />
+  <div class="row">
+
+    <div class="col-lg-3 col-md-3 col-sm-6 col-xs-6 product-data" *ngFor="let data of allProducts;let i= index">
+      <div class="product">
+        <div class="container">
+          <div class="row">
+
+            <div class="col-md-12 text-right">
+              <a>
+                <fa name="heart"></fa>
+              </a>
+            </div>
+
+            <div class="col-md-12 text-center">
+              <img [src]="data.product_image" class="img-fluid prodImage" (click)="ShowProductDetails(products.id)">
+            </div>
+
+            <div class="col-md-12">
+              <div class="product-names text-center">
+                <ul>
+                  <li>
+                    <form>
+                      <div class="form-group">
+                        <select class="form-control input-field" id="exampleFormControlSelect1" (change)="selectOption($event.target.value)">
+                          <option>Select Size..</option>
+                          <option *ngFor="let sku of data.sku" [value]="sku.skid">{{sku.size}} </option>
+                        </select>
+                      </div>
+                    </form>
+                  </li>
+                  <li>
+                    <h3 class="text-center">{{data.title}}</h3>
+                  </li>
+                  <li>MRP :
+                    <span class="price">{{data.actual_price}} </span>
+                    <span class="offer-price"> {{data.offer_price}}</span>
+                  </li>
+                  <li>
+                    <span class="text-danger">{{ "offer-price" | translate}}</span>
+                  </li>
+                  <li>
+                    <ul class="rating">
+                      <li>
+                        <fa name="star"></fa>
+                      </li>
+                      <li>
+                        <fa name="star"></fa>
+                      </li>
+                      <li>
+                        <fa name="star"></fa>
+                      </li>
+                      <li>
+                        <fa name="star"></fa>
+                      </li>
+                      <li>
+                        <fa name="star-half"></fa>
+                      </li>
+                    </ul>
+                  </li>
+                </ul>
+              </div>
+            </div>
+            <!-- product details -->
+            <div class="col-lg-12 col-md-12 col-sm-12 cart-btn">
+              <div class="quantity">
+                <button class="minus-btn" type="button" name="button" (click)="itemDecrease(data.title)">
+                  <i class="fa fa-minus " aria-hidden="true"></i>
+                </button>
+                <input type="text" name="mycart" readonly="readonly" value="{{data.quantity}}" />
+
+                <button class="plus-btn" type="button" name="button" (click)="itemIncrease(data.title)">
+                  <i class="fa fa-plus" aria-hidden="true"></i>
+                </button>
+              </div>
+            </div>
+            <div class="col-lg-12 col-md-12 col-sm-12 cart-btn cart-image-button">
+              <button class="btn category-btn" type="button" name="button" (click)="addCat(data)">
+                <span>Add</span>
+                <img src="assets/images/online-shopping-cart.png">
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- <app-product></app-product> -->
+
+
+  </div>
+</div>
+<div class="col-lg-3 col-md-3 col-sm-6 col-xs-6" *ngIf="noData && !products&&wishData">
   No data found
 </div>

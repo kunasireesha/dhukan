@@ -380,7 +380,7 @@ export class HeaderComponent implements OnInit {
       if (title === this.viewCart[i].title) {
         if (this.viewCart[i].sku[0].mycart === 1) {
           this.viewCart[i].sku[0].mycart = this.viewCart[i].sku[0].mycart - 1;
-          this.deleteCart(data.product_sku_id);
+          this.mainServe.deleteCart(data.product_sku_id);
           this.mainServe.getDashboard();
           this.getCartList();
         } else {
@@ -459,8 +459,8 @@ export class HeaderComponent implements OnInit {
 
 
   //search products
-  searchProducts() {
-    var prodName = this.formData.searchParam;
+  searchProducts(param) {
+    var prodName = param;
     let navigationExtras: NavigationExtras = {
       queryParams: {
         prodName: prodName
@@ -547,38 +547,39 @@ export class HeaderComponent implements OnInit {
     });
   }
   getCartList() {
-    this.mainServe.getCartList().subscribe(response => {
-      this.viewCart = response.json().data;
-      this.summary = response.json().summary;
-      this.getDashboard();
-      for (var i = 0; i < this.viewCart.length; i++) {
-        // if (title === this.viewCart[i].title) {
-        this.viewCart[i].quantity = this.viewCart[i].sku[0].mycart;
-        return;
-        // }
-      }
-    });
+    this.mainServe.getCartList();
+    // .subscribe(response => {
+    //   this.viewCart = response.json().data;
+    //   this.summary = response.json().summary;
+    //   this.getDashboard();
+    //   for (var i = 0; i < this.viewCart.length; i++) {
+    //     // if (title === this.viewCart[i].title) {
+    //     this.viewCart[i].quantity = this.viewCart[i].sku[0].mycart;
+    //     return;
+    //     // }
+    //   }
+    // });
   }
-  deleteCart(id) {
-    var inData = id;
-    swal("Do you want to delete?", "", "warning", {
-      buttons: ["Cancel!", "Okay!"],
-    }).then((value) => {
+  // deleteCart(id) {
+  //   var inData = id;
+  //   swal("Do you want to delete?", "", "warning", {
+  //     buttons: ["Cancel!", "Okay!"],
+  //   }).then((value) => {
 
-      if (value === true) {
-        this.mainServe.deleteCart(inData).subscribe(response => {
-          this.getCartList();
-          this.getDashboard();
-          swal("Deleted successfully", "", "success");
-        }, error => {
-          console.log(error);
-        })
-      } else {
-        return;
-      }
-    });
+  //     if (value === true) {
+  //       this.mainServe.deleteCart(inData).subscribe(response => {
+  //         this.getCartList();
+  //         this.getDashboard();
+  //         swal("Deleted successfully", "", "success");
+  //       }, error => {
+  //         console.log(error);
+  //       })
+  //     } else {
+  //       return;
+  //     }
+  //   });
 
-  }
+  // }
   showCatProd(catId, i, name) {
     this.showCategories = false;
     this.showSubCats = false;

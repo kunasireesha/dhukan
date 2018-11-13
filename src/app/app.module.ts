@@ -173,11 +173,11 @@ export function getAuthServiceConfigs() {
 				component: MyprofileListComponent,
 				data: [{ page: 'deliveryaddress' }]
 			},
-			{
-				path: 'mywishlist',
-				component: MyprofileListComponent,
-				data: [{ page: 'mywishlist' }]
-			},
+			// {
+			// 	path: 'mywishlist',
+			// 	component: MyprofileListComponent,
+			// 	data: [{ page: 'mywishlist' }]
+			// },
 			{
 				path: 'paymentoptions',
 				component: DeliveryComponent,
@@ -207,9 +207,19 @@ export function getAuthServiceConfigs() {
 				path: 'search',
 				component: SearchproductsComponent
 			},
+			// {
+			// 	path: 'viewAll',
+			// 	component: AllProductsComponent
+			// },
+			{
+				path: 'mywishlist',
+				component: AllProductsComponent,
+				data: [{ page: 'mywishlist' }]
+			},
 			{
 				path: 'viewAll',
-				component: AllProductsComponent
+				component: AllProductsComponent,
+				data: [{ page: 'viewAll' }]
 			}
 
 		], { useHash: true }),

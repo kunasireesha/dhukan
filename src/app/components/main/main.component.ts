@@ -10,12 +10,13 @@ import { Post } from '../../services/products';
 @Component({
     selector: 'app-main',
     templateUrl: './main.component.html',
-    styleUrls: ['./main.component.less'],
+    styleUrls: ['./main.component.less', '../../components/header/header.component.css'],
+    providers: [HeaderComponent]
 })
 
 export class MainComponent implements OnInit {
 
-    constructor(public mainServe: MainService, public router: Router, private headerSer: HeaderService) { }
+    constructor(public mainServe: MainService, public router: Router, private headerSer: HeaderService, public headerComp: HeaderComponent) { }
     posts: Post[];
     bannerImageOne = true;
 
@@ -31,15 +32,28 @@ export class MainComponent implements OnInit {
     allProducts = [];
     productsData = [];
     pro;
+    cartCount;
+    deliveryCharge;
+    subTotal;
+    Total
     ngOnInit() {
         window.scrollTo(0, 0);
 
         this.getAllCategoriesWithSubCat();
+        this.getDashboard();
 
+
+    }
+
+    getDashboard() {
         this.mainServe.getDashboard().subscribe(response => {
             this.dashboardData = response.json();
             this.allProducts = response.json().products;
             this.posts = this.allProducts;
+            this.cartCount = response.json().cart.cart_count;
+            this.deliveryCharge = response.json().cart.delivery_charge.toFixed(2);
+            this.subTotal = response.json().cart.selling_price.toFixed(2);
+            this.Total = response.json().cart.grand_total.toFixed(2);
             for (var i = 0; i < this.allProducts.length; i++) {
                 this.allProducts[i].quantity = 1;
 
@@ -151,7 +165,8 @@ export class MainComponent implements OnInit {
         this.mainServe.addCat(inData).subscribe(response => {
             this.resData = response.json();
             this.getCartList();
-            this.mainServe.getDashboard();
+            this.getDashboard();
+            // this.mainServe.getDashboard();
             if (response.json().status === 200) {
                 swal(response.json().message, "", "success");
                 this.skId = undefined;
@@ -167,14 +182,8 @@ export class MainComponent implements OnInit {
 
 
     }
-    viewCart;
 
-    getCartList() {
-        this.mainServe.getCartList().subscribe(response => {
-            this.viewCart = response.json().data;
-            // this.summary = response.json().summary;
-        });
-    }
+
     viewAll(action) {
         let navigationExtras: NavigationExtras = {
             queryParams: {
@@ -213,5 +222,76 @@ export class MainComponent implements OnInit {
             this.skId = undefined;
         })
     }
+
+
+    //header
+    searchParam;
+    viewCart;
+
+    getCartList() {
+        this.getDashboard();
+        this.mainServe.getCartList();
+    }
+
+
+    searchProducts() {
+        this.mainServe.searchProducts(this.searchParam)
+    }
+
+
+    itemHeaderDecrease(title, data, skuData) {
+        this.mainServe.itemHeaderDecrease(title, data, skuData);
+    }
+
+    itemHeaderIncrease(title, item, data) {
+        this.mainServe.itemHeaderIncrease(title, item, data);
+    }
+
+    showCat() {
+        this.mainServe.showCat();
+    }
+
+    showSubCat(id, i) {
+        this.mainServe.showSubCat(id, i);
+    }
+
+
+    showSubCatProd(subId, index, name) {
+        this.mainServe.showCategories = false;
+        this.mainServe.showSubCats = false;
+        let navigationExtras: NavigationExtras = {
+            queryParams: {
+                'sId': subId,
+                'catName': name
+            }
+        };
+        this.router.navigate(["/categoriesProducts"], navigationExtras)
+    }
+
+   
+    deleteCart(id) {
+        var inData = id;
+        swal("Do you want to delete?", "", "warning", {
+            buttons: ["Cancel!", "Okay!"],
+        }).then((value) => {
+
+            if (value === true) {
+                this.mainServe.deleteCart(inData).subscribe(response => {
+                    this.getCartList();
+                    this.getDashboard();
+                    swal("Deleted successfully", "", "success");
+                }, error => {
+                    console.log(error);
+                })
+            } else {
+                return;
+            }
+        });
+
+    }
+
+
+
+
 }
 

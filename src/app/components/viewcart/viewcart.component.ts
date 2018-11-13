@@ -7,7 +7,7 @@ import { Router } from '@angular/router';
 @Component({
   selector: 'app-viewcart',
   templateUrl: './viewcart.component.html',
-  styleUrls: ['./viewcart.component.css']
+  styleUrls: ['./viewcart.component.css', '../../components/header/header.component.css']
 })
 export class ViewcartComponent implements OnInit {
 
@@ -50,7 +50,6 @@ export class ViewcartComponent implements OnInit {
     for (var i = 0; i < this.viewCart.length; i++) {
       if (title === this.viewCart[i].title) {
         this.viewCart[i].sku[0].mycart = this.viewCart[i].sku[0].mycart + 1;
-
         return;
       }
     }
@@ -68,7 +67,7 @@ export class ViewcartComponent implements OnInit {
           this.viewCart[i].sku[0].mycart = this.viewCart[i].sku[0].mycart - 1;
           this.deleteCart(data.product_sku_id);
           this.mainServe.getDashboard();
-          this.getCartList();
+          this.mainServe.getCartList();
         } else {
           this.viewCart[i].sku[0].mycart = this.viewCart[i].sku[0].mycart - 1;
           return;
@@ -76,26 +75,25 @@ export class ViewcartComponent implements OnInit {
       }
     }
   }
-  modifyCart(prodId, quantiy, prodSku, cartId) {
-    var inData = "product_id=" + prodId +
-      "&quantity=" + quantiy +
-      "&product_sku_id=" + prodSku +
-      "&Cartid=" + cartId
-    this.mainServe.modifyCart(inData).subscribe(response => {
-      this.getCartList();
-      this.mainServe.getDashboard();
-    }, error => {
 
-    })
+  modifyCart(prodId, quantiy, prodSku, cartId) {
+    this.mainServe.modifyCart(prodId, quantiy, prodSku, cartId);
+    // .subscribe(response => {
+    //   this.getCartList();
+    //   this.mainServe.getDashboard();
+    // }, error => {
+
+    // })
   }
 
 
   getCartList() {
-    this.mainServe.getCartList().subscribe(response => {
-      this.viewCart = response.json().data;
-      this.summary = response.json().summary;
-      this.mainServe.getDashboard();
-    });
+    this.mainServe.getCartList()
+    // .subscribe(response => {
+    //   this.viewCart = response.json().data;
+    //   this.summary = response.json().summary;
+    //   this.mainServe.getDashboard();
+    // });
   }
   deleteCart(id) {
     var inData = id;

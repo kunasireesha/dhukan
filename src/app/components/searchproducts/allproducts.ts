@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
 import { MainService } from './../../services/main/main';
+import { ProfileService } from '../../services/profile/profiledata';
 
 @Component({
     selector: 'app-allproducts',
@@ -11,24 +12,42 @@ export class AllProductsComponent implements OnInit {
     title;
     products;
     noData;
-    constructor(private router: Router, private route: ActivatedRoute, public mainServe: MainService) {
+    page;
+    constructor(private router: Router, private route: ActivatedRoute, public mainServe: MainService, public profileSer: ProfileService) {
         this.route.queryParams.subscribe(params => {
             this.title = params.title;
 
         })
+        this.page = this.route.snapshot.data[0]['page'];
+        if (this.page === 'mywishlist') {
+            this.showAll = false;
+            this.showWish = true;
+            this.getWishList();
+            // this.myprofileData = true;
+            // this.childPage = 'My Profile';
+            // this.getProfileDetails();
+        } else if (this.page === 'viewAll') {
+            this.getAllProducts();
+            this.showAll = true;
+            this.showWish = false;
+        }
     }
 
     item = {
         quantity: 1
     }
     allProducts = [];
+    showAll = false;
+    showWish = false;
     ngOnInit() {
-        this.getAllProducts();
+        // this.getAllProducts();
+        // this.getWishList();
     }
     getAllProducts() {
 
         this.mainServe.getDashboard().subscribe(response => {
             this.allProducts = response.json().products;
+            this.showAll = true;
             for (var i = 0; i < this.allProducts.length; i++) {
                 this.allProducts[i].quantity = 1;
 
@@ -137,6 +156,15 @@ export class AllProductsComponent implements OnInit {
         }, error => {
             swal(error.json().message, "", "success");
             this.skId = undefined;
+        })
+    }
+    wishData;
+    getWishList() {
+        this.profileSer.getWishList().subscribe(response => {
+            this.allProducts = response.json().data.data_message;
+            this.showAll = false;
+        }, error => {
+
         })
     }
 }

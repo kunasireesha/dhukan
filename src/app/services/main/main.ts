@@ -1,13 +1,15 @@
 import { Injectable } from '@angular/core';
 import { Http, Headers } from '@angular/http';
 import { AppSettings } from '../../config';
-import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { TranslateService } from '@ngx-translate/core';
+import { Router, NavigationExtras, ActivatedRoute } from '@angular/router';
+import { HeaderService } from '../../services/header/header';
+
 
 @Injectable()
 export class MainService {
-    constructor(private http: Http, public router: Router, private translate: TranslateService
+    constructor(private http: Http, public router: Router, private translate: TranslateService, public headerSer: HeaderService
     ) { }
 
     postInputParamsUrl(url, sId) {
@@ -101,10 +103,7 @@ export class MainService {
     getDashboard(): Observable<any> {
         return this.postParams('dashboard');
     }
-    getCartList(): Observable<any> {
 
-        return this.getInputParams('cart/cart-list');
-    }
     addCat(params): Observable<any> {
         return this.postInputParams('cart/cart-list', params);
     }
@@ -137,12 +136,12 @@ export class MainService {
     rateChange(params): Observable<any> {
         return this.postInputParams('users/rate/app', params)
     }
-    modifyCart(params): Observable<any> {
-        return this.putInputParams('cart/cart-list ', params);
-    }
-    searchProducts(params): Observable<any> {
-        return this.getInputParamsUrl('dhukan/prdsrc', params);
-    }
+    // modifyCart(params): Observable<any> {
+    //     return this.putInputParams('cart/cart-list ', params);
+    // }
+    // searchProducts(params): Observable<any> {
+    //     return this.getInputParamsUrl('dhukan/prdsrc', params);
+    // }
     // searchProdCat(params): Observable<any> {
     //     return this.getInputParamsUrl('dhukan/catprdsrc', params);
     // }
@@ -162,4 +161,248 @@ export class MainService {
             }
         })
     }
-};
+    viewCart;
+
+    getCartList() {
+        // this.http.post(AppSettings.baseUrl + 'voucher/findvoucher', inData, { headers: headers }).subscribe(res => {
+        //     if (res.json().status === 200) {
+        //         swal(res.json().message, '', 'success');
+        //     } else {
+        //         swal(res.json().message, '', 'error');
+        //     }
+        // })
+
+        const headers = new Headers({
+            'Content-Type': "application/x-www-form-urlencoded",
+            'token': (localStorage.token === undefined) ? '' : JSON.parse(localStorage.token),
+            'Session_id': localStorage.session
+        });
+        this.http.get(AppSettings.baseUrl + 'cart/cart-list', { headers: headers }).subscribe(response => {
+            this.viewCart = response.json().data;
+        })
+
+    }
+
+    prodId;
+    quantiy;
+    quantity1;
+    cartId;
+    prodSku;
+
+    itemHeaderDecrease(title, data, skuData) {
+        this.prodId = data.product_id;
+        this.quantiy = skuData.mycart;
+        this.quantity1 = this.quantiy - 1;
+        this.prodSku = data.product_sku_id;
+        this.cartId = data.id;
+        this.modifyCart(this.prodId, this.quantity1, this.prodSku, this.cartId);
+        for (var i = 0; i < this.viewCart.length; i++) {
+            if (title === this.viewCart[i].title) {
+                if (this.viewCart[i].sku[0].mycart === 1) {
+                    this.viewCart[i].sku[0].mycart = this.viewCart[i].sku[0].mycart - 1;
+                    this.deleteCart(data.product_sku_id);
+                    this.getDashboard();
+                    this.getCartList();
+                } else {
+                    this.viewCart[i].sku[0].mycart = this.viewCart[i].sku[0].mycart - 1;
+                    return;
+                }
+            }
+        }
+    }
+
+
+    itemHeaderIncrease(title, data, skuData) {
+        this.prodId = data.product_id;
+        this.quantiy = skuData.mycart;
+        this.quantity1 = this.quantiy + 1;
+        this.prodSku = data.product_sku_id;
+        this.cartId = data.id;
+        this.modifyCart(this.prodId, this.quantity1, this.prodSku, this.cartId);
+        for (var i = 0; i < this.viewCart.length; i++) {
+            if (title === this.viewCart[i].title) {
+                this.viewCart[i].sku[0].mycart = this.viewCart[i].sku[0].mycart + 1;
+
+                return;
+            }
+        }
+    }
+
+
+    modifyCart(prodId, quantiy, prodSku, cartId) {
+        var inData = "product_id=" + prodId +
+            "&quantity=" + quantiy +
+            "&product_sku_id=" + prodSku +
+            "&Cartid=" + cartId
+
+
+        const headers = new Headers({
+            'Content-Type': "application/x-www-form-urlencoded",
+            'token': (localStorage.token === undefined) ? '' : JSON.parse(localStorage.token),
+            'Session_id': localStorage.session
+
+        });
+
+        this.http.put(AppSettings.baseUrl + 'cart/cart-list', inData, { headers: headers }).subscribe(response => {
+            // this.viewCart = response.json().data;
+            this.getCartList();
+        })
+
+
+        // this.headerSer.modifyCart(inData).subscribe(response => {
+        // }, error => {
+
+        // })
+    }
+
+    //search products
+    searchProducts(param) {
+        var prodName = param;
+        let navigationExtras: NavigationExtras = {
+            queryParams: {
+                prodName: prodName
+            }
+        }
+        if (prodName === '') {
+            swal("Required field is missing", "", "warning");
+        } else {
+            this.router.navigate(["/search"], navigationExtras);
+        }
+
+    }
+    showCategories = false;
+    showSubCats = false;
+    selectedCat;
+
+    categoriesWithSubCat = [];
+    subCatList = [];
+    categories = [];
+    //show categories
+    showCat() {
+        this.showCategories = !this.showCategories;
+        if (this.showCategories === false) {
+            this.showSubCats = false;
+        }
+        this.getCategories();
+        this.getAllCategoriesWithSubCat();
+    }
+
+
+
+    showSubCatProd(subId, index, name) {
+        this.showCategories = false;
+        this.showSubCats = false;
+        let navigationExtras: NavigationExtras = {
+            queryParams: {
+                'sId': subId,
+                'catName': name
+            }
+        };
+        this.router.navigate(["/categoriesProducts"], navigationExtras)
+    }
+    results: any;
+    banners = [];
+
+    //get categories and subcategories
+    getAllCategoriesWithSubCat() {
+
+
+        const headers = new Headers({
+            'Content-Type': "application/x-www-form-urlencoded",
+        });
+        this.http.post(AppSettings.baseUrl + 'dhukan/categories-list', { headers: headers }).subscribe(res => {
+            this.results = res.json().result;
+            this.categoriesWithSubCat = this.results.category;
+            this.banners = this.results.banner;
+        })
+
+
+        // this.headerSer.getAllCatAndSubCat().subscribe(response => {
+        //     this.results = response.json().result;
+        //     this.categoriesWithSubCat = this.results.category;
+        //     this.banners = this.results.banner;
+        // });
+    }
+
+    //show Sub categories
+    showSubCat(cId, index) {
+        this.getAllCategoriesWithSubCat();
+        this.showSubCats = true;
+        this.selectedCat = index;
+        for (var i = 0; i < this.categoriesWithSubCat.length; i++) {
+            if (cId === this.categoriesWithSubCat[i].id) {
+                this.subCatList = this.categoriesWithSubCat[i].subcategory;
+                return;
+            }
+        }
+        if (localStorage.token === undefined) {
+            var inData = "Session_id =" + localStorage.session
+        } else {
+            var inData = "token =" + JSON.parse(localStorage.token);
+        }
+
+
+        // const headers = new Headers({
+        //     'Content-Type': "application/x-www-form-urlencoded",
+        //     'token': (localStorage.token === undefined) ? '' : JSON.parse(localStorage.token),
+        //     'Session_id': localStorage.session
+
+        // });
+
+        // this.http.post(AppSettings.baseUrl + 'dhukan/categories-list', inData, { headers: headers }).subscribe(response => {
+        //     // this.viewCart = response.json().data;
+        //     // this.getCartList();
+        // })
+
+
+    }
+
+
+    //get categories
+    getCategories() {
+
+
+        const headers = new Headers({
+            'Content-Type': "application/x-www-form-urlencoded",
+        });
+        this.http.get(AppSettings.baseUrl + 'dhukan/categories', { headers: headers }).subscribe(res => {
+            this.categories = res.json().result;
+        })
+
+    }
+
+
+    // deleteCart(id) {
+    //     var inData = id;
+    //     swal("Do you want to delete?", "", "warning", {
+    //         buttons: ["Cancel!", "Okay!"],
+    //     }).then((value) => {
+
+    //         if (value === true) {
+
+    //             const headers = new Headers({
+    //                 'Content-Type': "application/x-www-form-urlencoded",
+    //                 'token': (localStorage.token === undefined) ? '' : JSON.parse(localStorage.token),
+    //                 'Session_id': localStorage.session
+    //             });
+    //             this.http.delete(AppSettings.baseUrl + 'cart/cart-list' + "/" + inData, { headers: headers }).subscribe(res => {
+    //                 this.getCartList();
+    //                 // this.getDashboard();
+    //                 swal("Deleted successfully", "", "success");
+    //             })
+    //             //     this.mainServe.deleteCart(inData).subscribe(response => {
+    //             //       this.getCartList();
+    //             //       this.getDashboard();
+    //             //       swal("Deleted successfully", "", "success");
+    //             //     }, error => {
+    //             //       console.log(error);
+    //             //     })
+    //             //   } else {
+    //             //     return;
+    //             //   }
+
+
+    //         }
+    //     })
+    // }
+}
