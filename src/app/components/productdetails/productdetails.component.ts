@@ -65,11 +65,13 @@ export class ProductdetailsComponent implements OnInit {
     this.zoomedImageSrc = image;
     this.smallImageSrc = image;
   }
+  skuData;
   showProductDetails() {
     var inData = this.prodId;
     this.mainSer.showProductDetails(inData).subscribe(response => {
       this.prodData = response.json().products[0];
-      console.log(this.prodData);
+      this.skuData = response.json().products[0].sku;
+      console.log(this.skuData);
     }, error => {
 
     })

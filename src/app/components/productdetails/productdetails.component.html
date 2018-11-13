@@ -40,10 +40,10 @@
           <li>
             <ul class="quantity-review">
               <li>
-                <h2>1 kg </h2>
+                <h2>{{skuData.size}} </h2>
               </li>
               <!-- rating -->
-              <li>
+              <!-- <li>
                 <ul class="rating">
                   <li>
                     <fa name="star"></fa>
@@ -61,16 +61,26 @@
                     <fa name="star-half"></fa>
                   </li>
                 </ul>
-              </li>
+              </li> -->
               <!-- rating -->
-              <li>|</li>
-              <li>10 Reviews</li>
+              <!-- <li>|</li>
+              <li>10 Reviews</li> -->
             </ul>
           </li>
           <!-- rating and review -->
           <!-- price -->
           <li>
             <ul class="quantity-review">
+              <li>
+                <form>
+                  <div class="form-group">
+                    <select class="form-control input-field" id="exampleFormControlSelect1" (change)="selectOption($event.target.value)">
+                      <option>Select Size..</option>
+                      <option *ngFor="let sku of skuData" [value]="sku.skid">{{sku.size}} </option>
+                    </select>
+                  </div>
+                </form>
+              </li>
               <li>
                 <h4>MRP :
                   <span class="price">Rs 48</span>
