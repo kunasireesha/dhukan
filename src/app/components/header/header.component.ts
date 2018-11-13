@@ -36,6 +36,7 @@ export class HeaderComponent implements OnInit {
     // private socialAuthService: AuthService,
     private headerSer: HeaderService
   ) {
+    this.getDashboard();
   }
   data = {
     mycart: 0
@@ -378,7 +379,10 @@ export class HeaderComponent implements OnInit {
     for (var i = 0; i < this.viewCart.length; i++) {
       if (title === this.viewCart[i].title) {
         if (this.viewCart[i].sku[0].mycart === 1) {
-          return;
+          this.viewCart[i].sku[0].mycart = this.viewCart[i].sku[0].mycart - 1;
+          this.deleteCart(data.product_sku_id);
+          this.mainServe.getDashboard();
+          this.getCartList();
         } else {
           this.viewCart[i].sku[0].mycart = this.viewCart[i].sku[0].mycart - 1;
           return;

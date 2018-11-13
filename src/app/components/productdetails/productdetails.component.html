@@ -40,7 +40,7 @@
           <li>
             <ul class="quantity-review">
               <li>
-                <h2>{{skuData.size}} </h2>
+                <h2>{{skuData?.size}} </h2>
               </li>
               <!-- rating -->
               <!-- <li>
@@ -71,30 +71,32 @@
           <!-- price -->
           <li>
             <ul class="quantity-review">
+              <div>
+                <li>
+                  <form>
+                    <div class="form-group">
+                      <select class="form-control input-field" id="exampleFormControlSelect1" (change)="selectOption($event.target.value)">
+                        <option>Select Size..</option>
+                        <option *ngFor="let sku of skuData" [value]="sku.skid">{{sku.size}} </option>
+                      </select>
+                    </div>
+                  </form>
+                </li>
+              </div>
               <li>
-                <form>
-                  <div class="form-group">
-                    <select class="form-control input-field" id="exampleFormControlSelect1" (change)="selectOption($event.target.value)">
-                      <option>Select Size..</option>
-                      <option *ngFor="let sku of skuData" [value]="sku.skid">{{sku.size}} </option>
-                    </select>
-                  </div>
-                </form>
+                <h6>MRP :
+                  <span class="price">Rs. {{actual_price}}</span>
+                </h6>
+                <h4 class="text-danger"></h4>
               </li>
               <li>
-                <h4>MRP :
-                  <span class="price">Rs 48</span>
-                </h4>
-                <h4 class="text-danger">Get 52% off</h4>
-              </li>
-              <li>
-                <h4 class="final-price">RS.26</h4>
+                <h4 class="final-price">RS.{{offer_price || 0}}</h4>
               </li>
             </ul>
           </li>
           <!-- price -->
           <li>
-            <h3 class="text-danger">BIG SAVE PRICE : RS 22</h3>
+            <h5 class="text-danger">BIG SAVE PRICE : RS {{actual_price-offer_price || 0}}</h5>
           </li>
         </ul>
         <div class="row">
