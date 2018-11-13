@@ -326,8 +326,7 @@
   </div>
   <!-- main-header -->
   <!-- menu header -->
-  <div class="
-                    container-fluid main-menu">
+  <div class="container-fluid main-menu">
     <div class="container main-menu">
       <div class="row">
         <div class="col-lg-3 categories text-center">
@@ -379,7 +378,7 @@
       <!-- show categories -->
       <div class="col-md-3">
         <div class="cats" *ngIf="showCategories">
-          <div *ngFor="let data of categories;let i =index" (click)="showCatProd(data.id,i)">
+          <div *ngFor="let data of categories;let i =index" (click)="showCatProd(data.id,i,data.name)">
             <a>{{data.name}}
               <span class="float-right" (click)="$event.stopPropagation();showSubCat(data.id,i)" [ngClass]="{'active':showSubCats && i==selectedCat}">
                 <fa name="chevron-right"></fa>

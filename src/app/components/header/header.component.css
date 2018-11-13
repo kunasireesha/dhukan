@@ -607,6 +607,8 @@ a {
   background-color: white;
   width: 100%;
   left: 0px;
+  height: 500px;
+  overflow: auto;
 }
 
 .subcats {

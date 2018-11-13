@@ -16,6 +16,7 @@ export class CategoriesComponent implements OnInit {
         this.route.queryParams.subscribe(params => {
             this.catId = params.catId;
             this.subCatId = params["sId"];
+            this.catName = params["catName"];
             if (params["sId"] == undefined) {
                 this.catId = params.catId;
                 this.getCatProducts(this.catId);
