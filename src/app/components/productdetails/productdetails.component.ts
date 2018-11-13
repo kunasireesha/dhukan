@@ -42,7 +42,7 @@ export class ProductdetailsComponent implements OnInit {
   }
   itemDecrease() {
     let thisObj = this;
-    if (thisObj.item.quantity === 0) {
+    if (thisObj.item.quantity === 1) {
       return;
     }
     thisObj.item.quantity = Math.floor(thisObj.item.quantity - 1);
@@ -66,15 +66,66 @@ export class ProductdetailsComponent implements OnInit {
     this.smallImageSrc = image;
   }
   skuData;
+  proId;
   showProductDetails() {
     var inData = this.prodId;
     this.mainSer.showProductDetails(inData).subscribe(response => {
       this.prodData = response.json().products[0];
       this.skuData = response.json().products[0].sku;
       console.log(this.skuData);
+      // for (var i = 0; i < this.prodData.length; i++) {
+      this.actual_price = response.json().products[0].actual_price;
+      this.offer_price = response.json().products[0].offer_price;
+      this.proId = response.json().products[0].id;
+      // }
+
     }, error => {
 
     })
+  }
+  skId;
+  actual_price;
+  offer_price;
+  selectOption(skId) {
+    this.skId = skId;
+    for (var i = 0; i < this.skuData.length; i++) {
+      if (this.skuData[i].skid === parseInt(skId)) {
+        this.actual_price = this.skuData[i].actual_price;
+        this.offer_price = this.skuData[i].offer_price;
+      }
+    }
+  }
+  resData;
+  addCat(prodData) {
+    if (this.skId === undefined) {
+      swal('Please select Size', '', 'error');
+      return;
+    }
+    // if (localStorage.token === undefined) {
+    //     swal('Please Login', '', 'warning');
+    // } else {
+    var inData = "product_id=" + this.proId +
+      "&quantity=" + this.item.quantity +
+      "&product_sku_id=" + this.skId
+
+
+    this.mainSer.addCat(inData).subscribe(response => {
+      this.resData = response.json();
+      this.mainSer.getCartList();
+      if (response.json().status === 200) {
+        swal(response.json().message, "", "success");
+        this.skId = undefined;
+      } else {
+        swal(response.json().message, "", "error");
+        this.skId = undefined;
+      }
+    }, error => {
+      swal(error.json().message, "", "success");
+      this.skId = undefined;
+    })
+    // }
+
+
   }
 
 }

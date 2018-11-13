@@ -100,15 +100,13 @@ export class SearchproductsComponent implements OnInit {
       this.products = response.json().products;
       for (var i = 0; i < this.products.length; i++) {
         this.products[i].quantity = 1;
+      }
 
-      }
-      console.log(this.products);
-      if (response.json().status == 400) {
-        this.noData = response.json().message;
-      }
 
     }, error => {
-
+      if (error.json().status == 400) {
+        this.noData = error.json().message;
+      }
     });
 
   }

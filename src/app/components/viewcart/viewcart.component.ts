@@ -94,6 +94,7 @@ export class ViewcartComponent implements OnInit {
     this.mainServe.getCartList().subscribe(response => {
       this.viewCart = response.json().data;
       this.summary = response.json().summary;
+      this.mainServe.getDashboard();
     });
   }
   deleteCart(id) {

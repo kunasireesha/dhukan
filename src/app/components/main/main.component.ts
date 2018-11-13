@@ -151,6 +151,7 @@ export class MainComponent implements OnInit {
         this.mainServe.addCat(inData).subscribe(response => {
             this.resData = response.json();
             this.getCartList();
+            this.mainServe.getDashboard();
             if (response.json().status === 200) {
                 swal(response.json().message, "", "success");
                 this.skId = undefined;

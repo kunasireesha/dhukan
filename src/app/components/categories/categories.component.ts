@@ -97,12 +97,10 @@ export class CategoriesComponent implements OnInit {
         this.mainServe.getCatProducts(inData).subscribe(response => {
             this.allProducts = response.json().products;
             this.showveg = true;
-            // if (this.allProducts! == undefined) {
-            //   for (var i = 0; i < this.allProducts.length; i++) {
-            //     this.catName = this.allProducts[0].category1;
-            //     console.log(this.catName);
-            //   }
-            // }
+            for (var i = 0; i < this.allProducts.length; i++) {
+                this.allProducts[i].quantity = 1;
+
+            }
 
             if (response.json().status == 400) {
                 this.showveg = false;
@@ -140,19 +138,28 @@ export class CategoriesComponent implements OnInit {
     selectOption(id) {
         this.skId = id;
     }
-    itemIncrease() {
-        let thisObj = this;
-        thisObj.item.quantity = Math.floor(thisObj.item.quantity + 1);
-    }
-    selected;
-    itemDecrease(index) {
-        this.selected = index;
-        let thisObj = this;
-        if (thisObj.item.quantity === 1) {
-            return;
+    itemIncrease(title) {
+        for (var i = 0; i < this.allProducts.length; i++) {
+            if (title === this.allProducts[i].title) {
+                this.allProducts[i].quantity = this.allProducts[i].quantity + 1;
+                return;
+            }
         }
-        thisObj.item.quantity = Math.floor(thisObj.item.quantity - 1);
     }
+
+    itemDecrease(title) {
+        for (var i = 0; i < this.allProducts.length; i++) {
+            if (title === this.allProducts[i].title) {
+                if (this.allProducts[i].quantity === 1) {
+                    return;
+                } else {
+                    this.allProducts[i].quantity = this.allProducts[i].quantity - 1;
+                    return;
+                }
+            }
+        }
+    }
+
     resData;
     addCat(prodId) {
         if (this.skId === undefined) {
@@ -183,5 +190,35 @@ export class CategoriesComponent implements OnInit {
         }
 
 
+    }
+    addWish(prodData) {
+        if (this.skId === undefined) {
+            swal('Please select Size', '', 'error');
+            return;
+        }
+        // if (localStorage.token === undefined) {
+        //     swal('Please Login', '', 'warning');
+        // } else {
+        var inData =
+            "user_id=" + localStorage.userId +
+            "&product_id=" + prodData.id +
+            "&quantity=" + prodData.quantity +
+            "&session_id=" + localStorage.session +
+            "&product_sku_id=" + this.skId
+
+
+        this.mainServe.addWish(inData).subscribe(response => {
+            this.resData = response.json();
+            if (response.json().status === 200) {
+                swal(response.json().message, "", "success");
+                this.skId = undefined;
+            } else {
+                swal(response.json().message, "", "error");
+                this.skId = undefined;
+            }
+        }, error => {
+            swal(error.json().message, "", "success");
+            this.skId = undefined;
+        })
     }
 }
