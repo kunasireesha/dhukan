@@ -392,7 +392,7 @@
       <div class="col-md-3">
         <div class="subcats" *ngIf="showSubCats">
           <div *ngFor="let data of subCatList">
-            <a (click)="showSubCatProd(data.id,i)">{{data.name}}
+            <a (click)="showSubCatProd(data.id,i,data.name)">{{data.name}}
               <!-- <span class="float-right">
                 <fa name="chevron-right"></fa>
               </span> -->

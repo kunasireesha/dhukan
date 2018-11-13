@@ -518,12 +518,13 @@ export class HeaderComponent implements OnInit {
   }
 
 
-  showSubCatProd(subId) {
+  showSubCatProd(subId, index, name) {
     this.showCategories = false;
     this.showSubCats = false;
     let navigationExtras: NavigationExtras = {
       queryParams: {
-        'sId': subId
+        'sId': subId,
+        'catName': name
       }
     };
     this.router.navigate(["/categoriesProducts"], navigationExtras)

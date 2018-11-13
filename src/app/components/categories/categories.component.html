@@ -1,5 +1,5 @@
 <!-- vegetables category -->
-<div *ngIf="showveg">
+<div>
   <div class="container category">
     <ul>
       <li>
@@ -53,7 +53,7 @@
       </div>
     </div>
   </div>
-  <div class="container mt-5 mb-3">
+  <div class="container mt-5 mb-3" *ngIf="showveg">
     <div class="row">
       <!-- category list -->
       <div class="col-lg-3">
@@ -356,6 +356,7 @@
 <div class="container" *ngIf="nonveg">
   <h2>Non veg</h2>
 </div>
+<br />
 <div class="noData" *ngIf="noData&&!showveg">
-  {{noData}}
+  <h3>{{noData}}</h3>
 </div>

@@ -16,16 +16,17 @@ export class CategoriesComponent implements OnInit {
         this.route.queryParams.subscribe(params => {
             this.catId = params.catId;
             this.subCatId = params["sId"];
-            this.catName = params["catName"];
+
             if (params["sId"] == undefined) {
                 this.catId = params.catId;
                 this.getCatProducts(this.catId);
+                this.catName = params["catName"];
             } else {
                 this.subCatId = params["sId"];
+                this.catName = params["catName"];
+
                 this.getSubProducts(this.subCatId);
             }
-
-
         });
 
     }
@@ -46,6 +47,7 @@ export class CategoriesComponent implements OnInit {
     results: any;
     subId;
     showProductPrice = true;
+    subcatName;
     item = {
         quantity: 1
     }
