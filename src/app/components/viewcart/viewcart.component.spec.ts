@@ -8,9 +8,9 @@ describe('ViewcartComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ViewcartComponent ]
+      declarations: [ViewcartComponent]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {

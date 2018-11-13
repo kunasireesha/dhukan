@@ -65,7 +65,10 @@ export class ViewcartComponent implements OnInit {
     for (var i = 0; i < this.viewCart.length; i++) {
       if (title === this.viewCart[i].title) {
         if (this.viewCart[i].sku[0].mycart === 1) {
-          return;
+          this.viewCart[i].sku[0].mycart = this.viewCart[i].sku[0].mycart - 1;
+          this.deleteCart(data.product_sku_id);
+          this.mainServe.getDashboard();
+          this.getCartList();
         } else {
           this.viewCart[i].sku[0].mycart = this.viewCart[i].sku[0].mycart - 1;
           return;
@@ -79,6 +82,8 @@ export class ViewcartComponent implements OnInit {
       "&product_sku_id=" + prodSku +
       "&Cartid=" + cartId
     this.mainServe.modifyCart(inData).subscribe(response => {
+      this.getCartList();
+      this.mainServe.getDashboard();
     }, error => {
 
     })
@@ -114,6 +119,7 @@ export class ViewcartComponent implements OnInit {
   emptyCart() {
     this.mainServe.emptyCart().subscribe(response => {
       this.getCartList();
+      this.mainServe.getDashboard();
       swal("Successfully cleared", "", "success");
     }, error => {
 

@@ -701,13 +701,13 @@
                   <!-- <span class="text-danger">{{ "offer-price" | translate}}</span> -->
                 </td>
                 <!-- </div> -->
-                <td>
+                <td *ngFor="let data of item.sku">
                   <div class="quantity increase-buttons">
-                    <button class="minus-btn" type="button" name="button" (click)="itemDecrease()">
+                    <button class="minus-btn" type="button" name="button" (click)="itemDecrease(item.title,item,data)">
                       <i class="fa fa-minus " aria-hidden="true"></i>
                     </button>
-                    <input type="text" name="quantity" [(ngModel)]="item.quantity" readonly="readonly" value="{{item.quantity}}" />
-                    <button class="plus-btn" type="button" name="button" (click)="itemIncrease()">
+                    <input type="text" name="quantity" readonly="readonly" value="{{item.mycart}}" />
+                    <button class="plus-btn" type="button" name="button" (click)=itemIncrease(item.title,item,data)>
                       <i class="fa fa-plus" aria-hidden="true"></i>
                     </button>
                   </div>

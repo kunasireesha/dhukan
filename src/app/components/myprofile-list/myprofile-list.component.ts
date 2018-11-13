@@ -3,6 +3,7 @@ import { ActivatedRoute, Router, NavigationExtras } from '@angular/router';
 import { ProfileService } from '../../services/profile/profiledata';
 import { Address } from '../../services/deliveraddressdata/address';
 import { AddressServices } from '../../services/deliveraddressdata/addressService';
+import { HeaderService } from '../../services/header/header';
 
 
 @Component({
@@ -12,7 +13,7 @@ import { AddressServices } from '../../services/deliveraddressdata/addressServic
 })
 export class MyprofileListComponent implements OnInit {
 
-  constructor(private route: ActivatedRoute, private profileSer: ProfileService, private addressSer: AddressServices, private router: Router) {
+  constructor(private route: ActivatedRoute, private profileSer: ProfileService, private addressSer: AddressServices, private router: Router, private headerSer: HeaderService) {
     this.page = this.route.snapshot.data[0]['page'];
     if (this.page === 'my-profile') {
       this.showProfile = true;
@@ -336,6 +337,54 @@ export class MyprofileListComponent implements OnInit {
     this.profileSer.emptyWish().subscribe(response => {
       swal("Successfully Cleared", "", "success");
       this.getWishList();
+    }, error => {
+
+    })
+  }
+  prodId;
+  quantiy;
+  quantity1;
+  prodSku;
+  cartId;
+  itemIncrease(title, data, skuData) {
+    this.prodId = data.product_id;
+    this.quantiy = skuData.mycart;
+    this.quantity1 = this.quantiy + 1;
+    this.prodSku = data.product_sku_id;
+    this.cartId = data.id;
+    this.modifyCart(this.prodId, this.quantity1, this.prodSku, this.cartId);
+    for (var i = 0; i < this.wishData.length; i++) {
+      if (title === this.wishData[i].title) {
+        this.wishData[i].sku[0].mycart = this.wishData[i].sku[0].mycart + 1;
+
+        return;
+      }
+    }
+  }
+  itemDecrease(title, data, skuData) {
+    this.prodId = data.product_id;
+    this.quantiy = skuData.mycart;
+    this.quantity1 = this.quantiy - 1;
+    this.prodSku = data.product_sku_id;
+    this.cartId = data.id;
+    this.modifyCart(this.prodId, this.quantity1, this.prodSku, this.cartId);
+    for (var i = 0; i < this.wishData.length; i++) {
+      if (title === this.wishData[i].title) {
+        if (this.wishData[i].sku[0].mycart === 1) {
+          return;
+        } else {
+          this.wishData[i].sku[0].mycart = this.wishData[i].sku[0].mycart - 1;
+          return;
+        }
+      }
+    }
+  }
+  modifyCart(prodId, quantiy, prodSku, cartId) {
+    var inData = "product_id=" + prodId +
+      "&quantity=" + quantiy +
+      "&product_sku_id=" + prodSku +
+      "&Cartid=" + cartId
+    this.headerSer.modifyCart(inData).subscribe(response => {
     }, error => {
 
     })
