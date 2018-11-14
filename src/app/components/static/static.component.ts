@@ -43,7 +43,8 @@ export class StaticComponent implements OnInit {
             this.rateSub();
         }
 
-
+        this.getDashboard();
+        this.getCartList();
     }
 
     ngOnInit() {

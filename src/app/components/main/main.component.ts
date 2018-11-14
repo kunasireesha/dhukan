@@ -16,7 +16,10 @@ import { Post } from '../../services/products';
 
 export class MainComponent implements OnInit {
 
-    constructor(public mainServe: MainService, public router: Router, private headerSer: HeaderService, public headerComp: HeaderComponent) { }
+    constructor(public mainServe: MainService, public router: Router, private headerSer: HeaderService, public headerComp: HeaderComponent) {
+        this.getDashboard();
+        this.getCartList();
+    }
     posts: Post[];
     bannerImageOne = true;
 
@@ -35,7 +38,7 @@ export class MainComponent implements OnInit {
     cartCount;
     deliveryCharge;
     subTotal;
-    Total
+    Total;
     ngOnInit() {
         window.scrollTo(0, 0);
 

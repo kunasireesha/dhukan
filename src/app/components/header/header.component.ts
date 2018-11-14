@@ -37,6 +37,7 @@ export class HeaderComponent implements OnInit {
     private headerSer: HeaderService
   ) {
     this.getDashboard();
+    this.getCartList();
   }
   data = {
     mycart: 0
@@ -51,10 +52,21 @@ export class HeaderComponent implements OnInit {
       this.showProfile = true;
       this.showLoginButton = false;
     }
-    if (localStorage.location !== undefined) {
+    if (localStorage.location == "undefined") {
+      this.location = '';
+      this.LocationPincode = '';
+    } else {
       this.location = localStorage.location;
       this.LocationPincode = localStorage.pincode;
     }
+    // if (localStorage.location !== undefined) {
+    //   this.location = localStorage.location;
+    //   this.LocationPincode = localStorage.pincode;
+    // } else if (localStorage.location == "undefined") {
+    //   alert('hi');
+    //   this.location = '';
+    //   this.LocationPincode = '';
+    // }
   }
 
   showProfile: boolean;
@@ -442,11 +454,22 @@ export class HeaderComponent implements OnInit {
 
   //submit location
   submitLocation(location, pin) {
-    localStorage.setItem('location', location);
-    localStorage.setItem('pincode', pin);
-    this.location = localStorage.location;
-    this.LocationPincode = localStorage.pincode;
-    this.hideLocations = false;
+    if (location == undefined) {
+      location = '';
+      pin = '';
+      localStorage.setItem('location', location);
+      localStorage.setItem('pincode', pin);
+      this.location = localStorage.location;
+      this.LocationPincode = localStorage.pincode;
+      this.hideLocations = false;
+    } else {
+      localStorage.setItem('location', location);
+      localStorage.setItem('pincode', pin);
+      this.location = localStorage.location;
+      this.LocationPincode = localStorage.pincode;
+      this.hideLocations = false;
+    }
+
   }
 
   //get categories

@@ -70,7 +70,8 @@ export class MyprofileListComponent implements OnInit {
       this.myprofileData = true;
       this.childPage = 'My Wishlist';
     }
-
+    this.getDashboard();
+    this.getCartList();
   }
   childPage: string;
   page: string;

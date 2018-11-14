@@ -283,7 +283,7 @@ export class MainService {
                 prodName: prodName
             }
         }
-        if (prodName === '') {
+        if (prodName == undefined) {
             swal("Required field is missing", "", "warning");
         } else {
             this.router.navigate(["/search"], navigationExtras);

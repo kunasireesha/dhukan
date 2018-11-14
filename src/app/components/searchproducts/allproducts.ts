@@ -32,6 +32,8 @@ export class AllProductsComponent implements OnInit {
             this.showAll = true;
             this.showWish = false;
         }
+        this.getDashboard();
+        this.getCartList();
     }
 
     item = {

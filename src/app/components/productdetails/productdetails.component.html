@@ -306,7 +306,7 @@
                 <li>
                   <form>
                     <div class="form-group">
-                      <select class="form-control input-field" id="exampleFormControlSelect1" (change)="selectOption($event.target.value)">
+                      <select class="form-control input-field select-size" id="exampleFormControlSelect1" (change)="selectOption($event.target.value)">
                         <option>Select Size..</option>
                         <option *ngFor="let sku of skuData" [value]="sku.skid">{{sku.size}} </option>
                       </select>

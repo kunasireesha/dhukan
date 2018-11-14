@@ -15,6 +15,8 @@ export class ProductdetailsComponent implements OnInit {
     this.route.queryParams.subscribe(params => {
       this.prodId = params.prodId;
     });
+    this.getDashboard();
+    this.getCartList();
   }
   item = {
     quantity: 1

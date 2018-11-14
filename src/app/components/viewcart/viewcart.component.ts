@@ -17,7 +17,10 @@ export class ViewcartComponent implements OnInit {
 
 
   viewCart = [];
-  constructor(private mainServe: MainService, public router: Router, public headerComp: HeaderComponent) { }
+  constructor(private mainServe: MainService, public router: Router, public headerComp: HeaderComponent) {
+    this.getDashboard();
+    this.getCartList();
+  }
   item = {
     quantity: 1
   }
@@ -84,12 +87,8 @@ export class ViewcartComponent implements OnInit {
 
   modifyCart(prodId, quantiy, prodSku, cartId) {
     this.mainServe.modifyCart(prodId, quantiy, prodSku, cartId);
-    // .subscribe(response => {
-    //   this.getCartList();
-    //   this.mainServe.getDashboard();
-    // }, error => {
-
-    // })
+    this.getDashboard();
+    this.getCartList();
   }
 
 
@@ -136,6 +135,7 @@ export class ViewcartComponent implements OnInit {
 
   itemHeaderIncrease(title, item, data) {
     this.mainServe.itemHeaderIncrease(title, item, data);
+    this.getDashboard();
   }
 
   showCat() {

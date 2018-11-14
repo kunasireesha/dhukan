@@ -34,7 +34,9 @@
   background: none;
   text-align: center;
 }
-
+.select-size {
+  width: 141% !important;
+}
 .quantity i {
   font-size: 10px;
 }

@@ -19,6 +19,8 @@ export class SearchproductsComponent implements OnInit {
       this.searchProductsData();
       // this.searchProdCat();
     })
+    this.getDashboard();
+    this.getCartList();
   }
 
   ngOnInit() {

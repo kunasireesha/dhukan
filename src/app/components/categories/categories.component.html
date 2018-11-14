@@ -500,7 +500,7 @@
                             <li>
                               <span class="text-danger savedPrice" *ngIf="showProductPrice">{{ "offer-price" |
                                 translate}}
-                                <fa name="rupee"></fa> {{products.discount_price}}
+                                <fa name="rupee"></fa> {{products.actual_price-products.offer_price || 0}}
                               </span>
                               <span class="text-danger savedPrice" *ngIf="!showProductPrice">{{ "offer-price" |
                                 translate}}
@@ -545,7 +545,7 @@
                       </div>
                     </div>
                     <div class="col-lg-12 col-md-12 col-sm-12 cart-btn cart-image-button">
-                      <button class="btn category-btn" type="button" name="button" (click)="addCat(products.id)">
+                      <button class="btn category-btn" type="button" name="button" (click)="addCat(products.id,products)">
                         <span>Add</span>
                         <img src="assets/images/online-shopping-cart.png">
                       </button>
