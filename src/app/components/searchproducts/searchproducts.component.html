@@ -1,3 +1,230 @@
+<!-- start header -->
+<div class="container main-header">
+  <div class="row">
+    <div class="col-lg-3">
+      <a routerLink="/">
+        <img src="assets/images/logo.png" class="img-fluid">
+      </a>
+    </div>
+    <div class="col-lg-6">
+      <form>
+        <div class="input-group mt-3 search-btn">
+          <input type="text" class="form-control" placeholder="Search" aria-label="Recipient's username"
+            aria-describedby="basic-addon2" [(ngModel)]="searchParam" name="searchParam">
+          <div class="input-group-append">
+            <button class="btn btn-outline-secondary search-icon" type="button" (click)="searchProducts()">
+              <img src="assets/images/search-icon.png">
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+    <div class="col-lg-3  mt-3 w-100">
+      <div class="dropdown show">
+        <button class="btn btn-secondary dropdown-toggle dropdown-button" href="#" role="button" id="dropdownMenuLink"
+          data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <ul class="cart">
+            <li>
+              <img src="assets/images/cart.png" (click)="getCartList()">
+            </li>
+            <li>
+              <h4 (click)="getCartList()">Shopping Cart</h4>
+              <span (click)="getCartList()">{{cartCount}}</span>
+            </li>
+          </ul>
+        </button>
+
+        <div class="dropdown-menu cart-dropdown dropdown-content-cart" aria-labelledby="dropdownMenuLink">
+          <div class="container-fluid cart-dropdown-content">
+            <!-- <p class="text-center" style="color:red">{{errorMessage}}</p> -->
+            <!-- cart item -->
+            <div class="row">
+              <div class="col-lg-12 text-right">
+                <img src="assets/images/close.png" class="close-cart">
+              </div>
+            </div>
+            <div class="row cart-product" *ngFor="let item of mainServe.viewCart">
+
+              <div class="col-lg-12 text-right">
+                <img src="assets/images/close.png" class="close-cart" (click)="deleteCart(item.product_sku_id)">
+              </div>
+              <div class="col-lg-5">
+                <ul class="product-image">
+                  <li>
+                    <img [src]="item.product_image" class="img-fluid">
+                  </li>
+                  <li>
+                    <h3>{{item.title}}</h3>
+                    <!-- <h4>1 X 26</h4> -->
+                  </li>
+                </ul>
+              </div>
+              <div class="col-lg-3">
+                <div class="quantity cart-quantity">
+                  <form *ngFor="let data of item.sku">
+                    <button class="minus-btn" type="button" name="button" (click)="itemHeaderDecrease(item.title,item,data)">
+                      <i class="fa fa-minus " aria-hidden="true"></i>
+                    </button>
+                    <input type="text" name="quantity" readonly="readonly" value="{{data.mycart}}" />
+                    <button class="plus-btn" type="button" name="button" (click)="itemHeaderIncrease(item.title,item,data)">
+                      <i class="fa fa-plus" aria-hidden="true"></i>
+                    </button>
+                  </form>
+                </div>
+              </div>
+              <div class="col-lg-4">
+                <ul class="product-cart-price">
+                  <li>
+                    <!-- <p>Rs.36</p> -->
+                    <!-- <p class="text-danger">BIG SAVE PRICE: RS 32</p> -->
+                  </li>
+                </ul>
+              </div>
+            </div>
+            <!-- cart item -->
+            <!-- charges -->
+            <div class="row table-responsive total-charges">
+              <table class="table">
+                <tbody>
+                  <tr>
+                    <td class="charges">Sub Total</td>
+                    <td class="cost">
+                      <span>:</span>{{subTotal}}</td>
+                  </tr>
+                  <tr>
+                    <td class="charges">Delivery Charges</td>
+                    <td class="cost">
+                      <span>:</span>{{deliveryCharge}}</td>
+                  </tr>
+                  <tr>
+                    <td class="charges">Total</td>
+                    <td class="cost">
+                      <span>:</span>{{Total}}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <!-- charges -->
+            <!-- proceed buttons -->
+            <div class="row cart-dropdown-button mb-5">
+              <p>
+                <up>*</up>Actual Delivery Charges Computed at Checkout
+              </p>
+              <div class="col-lg-6 ">
+                <a routerLink="/viewcart">View Cart</a>
+              </div>
+              <div class="col-lg-6 ">
+                <a routerLink="/viewcart">CheckOut</a>
+              </div>
+
+            </div>
+            <!-- proceed button -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- main-header -->
+<!-- menu header -->
+<div class="container-fluid main-menu">
+  <div class="container main-menu">
+    <div class="row">
+      <div class="col-lg-3 categories text-center">
+        <div>
+          <a id="dLabel" role="button" class="btn btn-primary dropdown-button" (click)="showCat()">
+            CATEGORIES
+            <img src="assets/images/drop-down.png" class="angle-down">
+          </a>
+        </div>
+      </div>
+      <nav class="navbar navbar-expand-lg navbar-light s col-xl-9">
+
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav"
+          aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class=""></div>
+        <div class="collapse navbar-collapse menu-list" id="navbarNav">
+          <ul class="navbar-nav ">
+            <li class="nav-item ">
+              <a class="nav-link menu" href="#">HOME
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link menu" href="#">SMART BASKET</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link menu" href="#">ALL OFFERS</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link menu" href="#">DEAL OF THE DAY</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link menu" href="#">NEW ARRIVALS</a>
+            </li>
+          </ul>
+        </div>
+      </nav>
+    </div>
+  </div>
+</div>
+
+
+<section>
+  <div class="container">
+    <div class="row">
+      <!-- show categories -->
+      <div class="col-md-3">
+        <div class="cats" *ngIf="mainServe.showCategories">
+          <div *ngFor="let data of mainServe.categories;let i =index" (click)="headerComp.showCatProd(data.id,i,data.name)">
+            <a>{{data.name}}
+              <span class="float-right" (click)="$event.stopPropagation();showSubCat(data.id,i)" [ngClass]="{'active':showSubCats && i==selectedCat}">
+                <fa name="chevron-right"></fa>
+              </span>
+            </a>
+          </div>
+        </div>
+      </div>
+      <!-- show sub categories -->
+
+      <div class="col-md-3">
+        <div class="subcats" *ngIf="mainServe.showSubCats">
+          <div *ngFor="let data of mainServe.subCatList">
+            <a (click)="showSubCatProd(data.id,i,data.name)">{{data.name}}
+              <!-- <span class="float-right">
+                  <fa name="chevron-right"></fa>
+                </span> -->
+            </a>
+          </div>
+        </div>
+      </div>
+      <!-- <div class="col-md-6">
+          <div class="subcats" *ngIf="showSubCats">
+            <div class="sub-category">
+              <div class="sub-category-list">
+                <ul class=" category-dropdown category-main-list" *ngFor="let subsubData of subData.subcategory">
+                  <li>
+                    <a>{{subsubData.name}}
+                    </a>
+                  </li>
+  
+                  <img class="offer-image" src="assets/images/classmate.jpg">
+                </ul>
+              </div>
+              <div class="sub-category-list">
+                <img src="assets/images/offer.jpg" class="img-fluid">
+              </div>
+            </div>
+          </div>
+        </div> -->
+    </div>
+  </div>
+</section>
+
+
+<!-- end header -->
+
 <div class="container best-deal products-list">
   <h2 class="text-center">PRODUCTS</h2>
   <hr>
@@ -96,6 +323,6 @@
 
   </div>
 </div>
-<div class="col-lg-3 col-md-3 col-sm-6 col-xs-6 noData" *ngIf="noData && !products">
+<div class="col-lg-3 col-md-3 col-sm-6 col-xs-6 noData" *ngIf="noData">
   No data found
 </div>

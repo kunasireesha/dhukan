@@ -1,17 +1,18 @@
 import { Component, OnInit } from '@angular/core';
-import { RouterModule, Router, NavigationExtras, ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, NavigationExtras, Router, Params } from '@angular/router';
 import { MainService } from '../../services/main/main';
 import { HeaderService } from '../../services/header/header';
-
+import { HeaderComponent } from '../header/header.component';
 
 @Component({
     selector: 'app-categories',
     templateUrl: './categories.component.html',
-    styleUrls: ['./categories.component.css']
+    styleUrls: ['./categories.component.css', '../../components/header/header.component.css'],
+    providers: [HeaderComponent]
 })
 export class CategoriesComponent implements OnInit {
     catId;
-    constructor(private route: ActivatedRoute, private mainServe: MainService, private headerSer: HeaderService) {
+    constructor(private route: ActivatedRoute, public router: Router, private mainServe: MainService, private headerSer: HeaderService, public headerComp: HeaderComponent) {
 
         this.route.queryParams.subscribe(params => {
             this.catId = params.catId;
@@ -76,24 +77,6 @@ export class CategoriesComponent implements OnInit {
             });
     }
 
-    // getCategories() {
-    //   if (localStorage.token === undefined) {
-    //     var inData = "Session_id =" + localStorage.session;
-    //   } else {
-    //     var inData = "token =" + JSON.parse(localStorage.token);
-    //   }
-
-    //   // this.headerSer.getAllCatAndSubCat(inData).subscribe(response => {
-    //   //   this.results = response.json().result;
-    //   //   this.categoriesWithSubCat = this.results.category;
-    //   //   for (var i = 0; i < this.categoriesWithSubCat.length; i++) {
-    //   //     if (this.catName === this.categoriesWithSubCat[i].name) {
-    //   //       this.subcats = this.categoriesWithSubCat[i].subcategory;
-    //   //     }
-    //   //   }
-
-    //   // });
-    // }
     noData;
     getCatProducts(catId) {
         var inData = catId;
@@ -138,10 +121,20 @@ export class CategoriesComponent implements OnInit {
         this.getSubProducts(sId);
     }
     skId
-    selectOption(id) {
-        this.skId = id;
+    selectOption(skId) {
+        this.skId = skId;
+        for (var i = 0; i < this.allProducts.length; i++) {
+            for (var j = 0; j < this.allProducts[i].sku.length; j++) {
+                if (this.allProducts[i].sku[j].skid === parseInt(skId)) {
+                    this.allProducts[i].actual_price = this.allProducts[i].sku[j].actual_price;
+                    this.allProducts[i].offer_price = this.allProducts[i].sku[j].offer_price;
+                }
+            }
+
+        }
     }
     itemIncrease(title) {
+        alert(title);
         for (var i = 0; i < this.allProducts.length; i++) {
             if (title === this.allProducts[i].title) {
                 this.allProducts[i].quantity = this.allProducts[i].quantity + 1;
@@ -222,6 +215,85 @@ export class CategoriesComponent implements OnInit {
         }, error => {
             swal(error.json().message, "", "success");
             this.skId = undefined;
+        })
+    }
+    //header
+    searchParam;
+    viewCart;
+
+    getCartList() {
+        this.getDashboard();
+        this.mainServe.getCartList();
+    }
+
+
+    searchProducts() {
+        this.mainServe.searchProducts(this.searchParam)
+    }
+
+
+    itemHeaderDecrease(title, data, skuData) {
+        this.mainServe.itemHeaderDecrease(title, data, skuData);
+    }
+
+    itemHeaderIncrease(title, item, data) {
+        this.mainServe.itemHeaderIncrease(title, item, data);
+    }
+
+    showCat() {
+        this.mainServe.showCat();
+    }
+
+    showSubCat(id, i) {
+        this.mainServe.showSubCat(id, i);
+    }
+
+
+    showSubCatProd(subId, index, name) {
+        this.mainServe.showCategories = false;
+        this.mainServe.showSubCats = false;
+        let navigationExtras: NavigationExtras = {
+            queryParams: {
+                'sId': subId,
+                'catName': name
+            }
+        };
+        this.router.navigate(["/categoriesProducts"], navigationExtras)
+    }
+
+
+    deleteCart(id) {
+        var inData = id;
+        swal("Do you want to delete?", "", "warning", {
+            buttons: ["Cancel!", "Okay!"],
+        }).then((value) => {
+
+            if (value === true) {
+                this.mainServe.deleteCart(inData).subscribe(response => {
+                    this.mainServe.getCartList();
+                    this.getDashboard();
+                    swal("Deleted successfully", "", "success");
+                }, error => {
+                    console.log(error);
+                })
+            } else {
+                return;
+            }
+        });
+
+    }
+
+    cartCount;
+    deliveryCharge;
+    subTotal;
+    Total;
+    getDashboard() {
+        this.mainServe.getDashboard().subscribe(response => {
+            this.cartCount = response.json().cart.cart_count;
+            this.deliveryCharge = response.json().cart.delivery_charge.toFixed(2);
+            this.subTotal = response.json().cart.selling_price.toFixed(2);
+            this.Total = response.json().cart.grand_total.toFixed(2);
+
         })
     }
 }

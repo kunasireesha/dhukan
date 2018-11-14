@@ -124,8 +124,8 @@ body {
 }
 
 .best-deal {
-  padding-top: 2%;
-  padding-bottom: 3%;
+  padding-top: 5%;
+  /* padding-bottom: 2%; */
 }
 
 .best-deal h2 {
@@ -237,8 +237,8 @@ body {
 
 .best-deal-products {
   background: #f3f3f5;
-  padding-top: 3%;
-  padding-bottom: 3%;
+  padding-top: 5%;
+  /* padding-bottom: 2%; */
 }
 
 .quantity button {

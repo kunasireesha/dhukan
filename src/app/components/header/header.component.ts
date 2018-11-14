@@ -380,8 +380,8 @@ export class HeaderComponent implements OnInit {
       if (title === this.viewCart[i].title) {
         if (this.viewCart[i].sku[0].mycart === 1) {
           this.viewCart[i].sku[0].mycart = this.viewCart[i].sku[0].mycart - 1;
-          this.mainServe.deleteCart(data.product_sku_id);
-          this.mainServe.getDashboard();
+          this.deleteCart(data.product_sku_id);
+          this.getDashboard();
           this.getCartList();
         } else {
           this.viewCart[i].sku[0].mycart = this.viewCart[i].sku[0].mycart - 1;
@@ -560,26 +560,26 @@ export class HeaderComponent implements OnInit {
     //   }
     // });
   }
-  // deleteCart(id) {
-  //   var inData = id;
-  //   swal("Do you want to delete?", "", "warning", {
-  //     buttons: ["Cancel!", "Okay!"],
-  //   }).then((value) => {
+  deleteCart(id) {
+    var inData = id;
+    swal("Do you want to delete?", "", "warning", {
+      buttons: ["Cancel!", "Okay!"],
+    }).then((value) => {
 
-  //     if (value === true) {
-  //       this.mainServe.deleteCart(inData).subscribe(response => {
-  //         this.getCartList();
-  //         this.getDashboard();
-  //         swal("Deleted successfully", "", "success");
-  //       }, error => {
-  //         console.log(error);
-  //       })
-  //     } else {
-  //       return;
-  //     }
-  //   });
+      if (value === true) {
+        this.mainServe.deleteCart(inData).subscribe(response => {
+          this.getCartList();
+          this.getDashboard();
+          swal("Deleted successfully", "", "success");
+        }, error => {
+          console.log(error);
+        })
+      } else {
+        return;
+      }
+    });
 
-  // }
+  }
   showCatProd(catId, i, name) {
     this.showCategories = false;
     this.showSubCats = false;

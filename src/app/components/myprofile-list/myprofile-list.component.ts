@@ -4,16 +4,18 @@ import { ProfileService } from '../../services/profile/profiledata';
 import { Address } from '../../services/deliveraddressdata/address';
 import { AddressServices } from '../../services/deliveraddressdata/addressService';
 import { HeaderService } from '../../services/header/header';
-
-
+import { HeaderComponent } from '../header/header.component';
+import { MainService } from './../../services/main/main';
+import { AppSettings } from '../../config';
 @Component({
   selector: 'app-myprofile-list',
   templateUrl: './myprofile-list.component.html',
-  styleUrls: ['./myprofile-list.component.css', '.././viewcart/viewcart.component.css']
+  styleUrls: ['./myprofile-list.component.css', '.././viewcart/viewcart.component.css', '../../components/header/header.component.css'],
+  providers: [HeaderComponent]
 })
 export class MyprofileListComponent implements OnInit {
 
-  constructor(private route: ActivatedRoute, private profileSer: ProfileService, private addressSer: AddressServices, private router: Router, private headerSer: HeaderService) {
+  constructor(private route: ActivatedRoute, private profileSer: ProfileService, private addressSer: AddressServices, private router: Router, private headerSer: HeaderService, public headerComp: HeaderComponent, public mainSer: MainService) {
     this.page = this.route.snapshot.data[0]['page'];
     if (this.page === 'my-profile') {
       this.showProfile = true;
@@ -300,11 +302,17 @@ export class MyprofileListComponent implements OnInit {
     this.profileSer.setDefaultAdd(addressData.ua_id);
   }
   getRefCode() {
-    var inData = "email=" + "jdlogan@mit.edu"
+    var inData = "email=" + "jdlogan@mit.edu";
     this.profileSer.getRefCode(inData).subscribe(response => {
       swal("Referral code sent successfully", "", "success");
-    }, error => {
+      if (response.json().status == 400) {
+        swal(response.json().message, "", "error");
+      }
 
+    }, error => {
+      if (error.json().status == 400) {
+        swal(error.json().message, "", "error");
+      }
     })
   }
   wishData;
@@ -389,4 +397,84 @@ export class MyprofileListComponent implements OnInit {
 
     })
   }
+  //header
+  searchParam;
+  viewCart;
+
+  getCartList() {
+    this.getDashboard();
+    this.mainSer.getCartList();
+  }
+
+
+  searchProducts() {
+    this.mainSer.searchProducts(this.searchParam)
+  }
+
+
+  itemHeaderDecrease(title, data, skuData) {
+    this.mainSer.itemHeaderDecrease(title, data, skuData);
+  }
+
+  itemHeaderIncrease(title, item, data) {
+    this.mainSer.itemHeaderIncrease(title, item, data);
+  }
+
+  showCat() {
+    this.mainSer.showCat();
+  }
+
+  showSubCat(id, i) {
+    this.mainSer.showSubCat(id, i);
+  }
+
+
+  showSubCatProd(subId, index, name) {
+    this.mainSer.showCategories = false;
+    this.mainSer.showSubCats = false;
+    let navigationExtras: NavigationExtras = {
+      queryParams: {
+        'sId': subId,
+        'catName': name
+      }
+    };
+    this.router.navigate(["/categoriesProducts"], navigationExtras)
+  }
+
+
+  deleteCart(id) {
+    var inData = id;
+    swal("Do you want to delete?", "", "warning", {
+      buttons: ["Cancel!", "Okay!"],
+    }).then((value) => {
+
+      if (value === true) {
+        this.mainSer.deleteCart(inData).subscribe(response => {
+          this.mainSer.getCartList();
+          this.getDashboard();
+          swal("Deleted successfully", "", "success");
+        }, error => {
+          console.log(error);
+        })
+      } else {
+        return;
+      }
+    });
+
+  }
+
+  cartCount;
+  deliveryCharge;
+  subTotal;
+  Total;
+  getDashboard() {
+    this.mainSer.getDashboard().subscribe(response => {
+      this.cartCount = response.json().cart.cart_count;
+      this.deliveryCharge = response.json().cart.delivery_charge.toFixed(2);
+      this.subTotal = response.json().cart.selling_price.toFixed(2);
+      this.Total = response.json().cart.grand_total.toFixed(2);
+
+    })
+  }
+
 }

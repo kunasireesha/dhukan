@@ -22,7 +22,7 @@ export class MainService {
         const headers = new Headers({
             'Content-Type': "application/x-www-form-urlencoded",
             'token': (localStorage.token === undefined) ? '' : JSON.parse(localStorage.token),
-            'session_id': localStorage.session
+            'Session_id': localStorage.session
         });
         return this.http.post(AppSettings.baseUrl + url, params, { headers: headers });
     }
@@ -139,9 +139,9 @@ export class MainService {
     // modifyCart(params): Observable<any> {
     //     return this.putInputParams('cart/cart-list ', params);
     // }
-    // searchProducts(params): Observable<any> {
-    //     return this.getInputParamsUrl('dhukan/prdsrc', params);
-    // }
+    getsearchProducts(params): Observable<any> {
+        return this.getInputParamsUrl('dhukan/prdsrc', params);
+    }
     // searchProdCat(params): Observable<any> {
     //     return this.getInputParamsUrl('dhukan/catprdsrc', params);
     // }
@@ -195,15 +195,20 @@ export class MainService {
         this.quantity1 = this.quantiy - 1;
         this.prodSku = data.product_sku_id;
         this.cartId = data.id;
-        this.modifyCart(this.prodId, this.quantity1, this.prodSku, this.cartId);
+
         for (var i = 0; i < this.viewCart.length; i++) {
             if (title === this.viewCart[i].title) {
-                if (this.viewCart[i].sku[0].mycart === 1) {
-                    this.viewCart[i].sku[0].mycart = this.viewCart[i].sku[0].mycart - 1;
-                    this.deleteCart(data.product_sku_id);
-                    this.getDashboard();
-                    this.getCartList();
+                if (this.quantiy === 1) {
+                    this.viewCart[i].sku[0].mycart = this.quantiy - 1;
+                    this.deleteCart(data.product_sku_id).subscribe(res => {
+                        this.getCartList();
+                        swal("Deleted successfully", "", "success");
+                        this.getDashboard();
+                    });
+                    return;
                 } else {
+                    this.modifyCart(this.prodId, this.quantity1, this.prodSku, this.cartId);
+
                     this.viewCart[i].sku[0].mycart = this.viewCart[i].sku[0].mycart - 1;
                     return;
                 }
@@ -254,6 +259,21 @@ export class MainService {
 
         // })
     }
+
+
+    deleteCartData(prodId) {
+        const headers = new Headers({
+            'Content-Type': "application/x-www-form-urlencoded",
+            'token': (localStorage.token === undefined) ? '' : JSON.parse(localStorage.token),
+            'Session_id': localStorage.session
+        });
+
+        this.http.delete(AppSettings.baseUrl + 'cart/cart-list' + '/' + prodId, { headers: headers }).subscribe(response => {
+            // this.viewCart = response.json().data;
+            this.getCartList();
+        })
+    }
+
 
     //search products
     searchProducts(param) {
@@ -370,6 +390,8 @@ export class MainService {
         })
 
     }
+
+
 
 
     // deleteCart(id) {

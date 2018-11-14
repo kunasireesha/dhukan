@@ -1,7 +1,8 @@
+<!-- start header -->
 <div class="container main-header">
   <div class="row">
     <div class="col-lg-3">
-      <a (click)="goHome()">
+      <a routerLink="/">
         <img src="assets/images/logo.png" class="img-fluid">
       </a>
     </div>
@@ -124,6 +125,107 @@
     </div>
   </div>
 </div>
+<!-- main-header -->
+<!-- menu header -->
+<div class="container-fluid main-menu">
+  <div class="container main-menu">
+    <div class="row">
+      <div class="col-lg-3 categories text-center">
+        <div>
+          <a id="dLabel" role="button" class="btn btn-primary dropdown-button" (click)="showCat()">
+            CATEGORIES
+            <img src="assets/images/drop-down.png" class="angle-down">
+          </a>
+        </div>
+      </div>
+      <nav class="navbar navbar-expand-lg navbar-light s col-xl-9">
+
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav"
+          aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class=""></div>
+        <div class="collapse navbar-collapse menu-list" id="navbarNav">
+          <ul class="navbar-nav ">
+            <li class="nav-item ">
+              <a class="nav-link menu" href="#">HOME
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link menu" href="#">SMART BASKET</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link menu" href="#">ALL OFFERS</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link menu" href="#">DEAL OF THE DAY</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link menu" href="#">NEW ARRIVALS</a>
+            </li>
+          </ul>
+        </div>
+      </nav>
+    </div>
+  </div>
+</div>
+
+
+<section>
+  <div class="container">
+    <div class="row">
+      <!-- show categories -->
+      <div class="col-md-3">
+        <div class="cats" *ngIf="mainServe.showCategories">
+          <div *ngFor="let data of mainServe.categories;let i =index" (click)="headerComp.showCatProd(data.id,i,data.name)">
+            <a>{{data.name}}
+              <span class="float-right" (click)="$event.stopPropagation();showSubCat(data.id,i)" [ngClass]="{'active':showSubCats && i==selectedCat}">
+                <fa name="chevron-right"></fa>
+              </span>
+            </a>
+          </div>
+        </div>
+      </div>
+      <!-- show sub categories -->
+
+      <div class="col-md-3">
+        <div class="subcats" *ngIf="mainServe.showSubCats">
+          <div *ngFor="let data of mainServe.subCatList">
+            <a (click)="showSubCatProd(data.id,i,data.name)">{{data.name}}
+              <!-- <span class="float-right">
+                  <fa name="chevron-right"></fa>
+                </span> -->
+            </a>
+          </div>
+        </div>
+      </div>
+      <!-- <div class="col-md-6">
+          <div class="subcats" *ngIf="showSubCats">
+            <div class="sub-category">
+              <div class="sub-category-list">
+                <ul class=" category-dropdown category-main-list" *ngFor="let subsubData of subData.subcategory">
+                  <li>
+                    <a>{{subsubData.name}}
+                    </a>
+                  </li>
+  
+                  <img class="offer-image" src="assets/images/classmate.jpg">
+                </ul>
+              </div>
+              <div class="sub-category-list">
+                <img src="assets/images/offer.jpg" class="img-fluid">
+              </div>
+            </div>
+          </div>
+        </div> -->
+    </div>
+  </div>
+</section>
+
+
+<!-- end header -->
+
+
 <div *ngIf="showCart">
   <div class="container category">
     <ul>
@@ -176,11 +278,11 @@
           <!-- </div> -->
           <td>
             <div class="quantity increase-buttons" *ngFor="let data of item.sku">
-              <button class="minus-btn" type="button" name="button" (click)="mainServe.itemHeaderDecrease(item.title,item,data)">
+              <button class="minus-btn" type="button" name="button" (click)="itemDecrease(item.title,item,data)">
                 <i class="fa fa-minus " aria-hidden="true"></i>
               </button>
               <input type="text" name="quantity" readonly="readonly" value="{{data.mycart}}" />
-              <button class="plus-btn" type="button" name="button" (click)="mainServe.itemHeaderIncrease(item.title,item,data)">
+              <button class="plus-btn" type="button" name="button" (click)="itemIncrease(item.title,item,data)">
                 <i class="fa fa-plus" aria-hidden="true"></i>
               </button>
             </div>
@@ -201,33 +303,33 @@
       </tbody>
     </table>
     <div class="row empty-cart-details pb-5">
-      <div class="col-lg-8 mt-3">
-        <button type="submit" class="btn button" (click)="emptyCart()" *ngIf="mainServe.viewCart.length >0">
+      <div class="col-lg-5 mt-3">
+        <button type="submit" class="btn button" (click)="emptyCart()" *ngIf="viewCart.length >0">
           <img src="assets/images/empty-cart.png"> EMPTY CART </button>
 
       </div>
-      <div class="col-lg-4 table-responsive total-charges">
+      <div class="col-lg-7 table-responsive total-charges">
         <table class="table text-right">
           <tbody>
             <tr>
-              <td class="charges">{{summary.cart_count}} items</td>
+              <td class="charges">{{cartCount}} items</td>
               <td class="cost">
-                <span>:</span>RS {{summary.selling_price}}</td>
+                <span>:</span>RS {{subTotal}}</td>
             </tr>
             <tr>
               <td class="charges">Sub Total</td>
               <td class="cost">
-                <span>:</span>RS&nbsp; {{summary.selling_price}}</td>
+                <span>:</span>RS&nbsp; {{subTotal}}</td>
             </tr>
             <tr>
               <td class="charges">Delivery Charges</td>
               <td class="cost">
-                <span>:</span>Rs {{summary.delivery_charge}}</td>
+                <span>:</span>Rs {{deliveryCharge}}</td>
             </tr>
             <tr>
               <th class="charges">Total</th>
               <th class="cost">
-                <span>:</span>Rs {{(summary.grand_total)}}</th>
+                <span>:</span>Rs {{Total}}</th>
             </tr>
           </tbody>
         </table>

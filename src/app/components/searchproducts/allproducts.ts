@@ -2,18 +2,19 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
 import { MainService } from './../../services/main/main';
 import { ProfileService } from '../../services/profile/profiledata';
-
+import { HeaderComponent } from '../header/header.component';
 @Component({
     selector: 'app-allproducts',
     templateUrl: './allproducts.html',
-    styleUrls: ['./searchproducts.component.css']
+    styleUrls: ['./searchproducts.component.css', '../../components/header/header.component.css'],
+    providers: [HeaderComponent]
 })
 export class AllProductsComponent implements OnInit {
     title;
     products;
     noData;
     page;
-    constructor(private router: Router, private route: ActivatedRoute, public mainServe: MainService, public profileSer: ProfileService) {
+    constructor(private router: Router, private route: ActivatedRoute, public mainSer: MainService, public profileSer: ProfileService, public headerComp: HeaderComponent) {
         this.route.queryParams.subscribe(params => {
             this.title = params.title;
 
@@ -42,11 +43,13 @@ export class AllProductsComponent implements OnInit {
     ngOnInit() {
         // this.getAllProducts();
         // this.getWishList();
+        this.getDashboard();
     }
     getAllProducts() {
 
-        this.mainServe.getDashboard().subscribe(response => {
+        this.mainSer.getDashboard().subscribe(response => {
             this.allProducts = response.json().products;
+            console.log(this.allProducts);
             this.showAll = true;
             for (var i = 0; i < this.allProducts.length; i++) {
                 this.allProducts[i].quantity = 1;
@@ -111,7 +114,7 @@ export class AllProductsComponent implements OnInit {
                 "&product_sku_id=" + this.skId
 
 
-            this.mainServe.addCat(inData).subscribe(response => {
+            this.mainSer.addCat(inData).subscribe(response => {
                 this.resData = response.json();
                 if (response.json().status === 200) {
                     swal(response.json().message, "", "success");
@@ -144,7 +147,7 @@ export class AllProductsComponent implements OnInit {
             "&product_sku_id=" + this.skId
 
 
-        this.mainServe.addWish(inData).subscribe(response => {
+        this.mainSer.addWish(inData).subscribe(response => {
             this.resData = response.json();
             if (response.json().status === 200) {
                 swal(response.json().message, "", "success");
@@ -167,4 +170,84 @@ export class AllProductsComponent implements OnInit {
 
         })
     }
+    //header
+    searchParam;
+    viewCart;
+
+    getCartList() {
+        this.getDashboard();
+        this.mainSer.getCartList();
+    }
+
+
+    searchProducts() {
+        this.mainSer.searchProducts(this.searchParam)
+    }
+
+
+    itemHeaderDecrease(title, data, skuData) {
+        this.mainSer.itemHeaderDecrease(title, data, skuData);
+    }
+
+    itemHeaderIncrease(title, item, data) {
+        this.mainSer.itemHeaderIncrease(title, item, data);
+    }
+
+    showCat() {
+        this.mainSer.showCat();
+    }
+
+    showSubCat(id, i) {
+        this.mainSer.showSubCat(id, i);
+    }
+
+
+    showSubCatProd(subId, index, name) {
+        this.mainSer.showCategories = false;
+        this.mainSer.showSubCats = false;
+        let navigationExtras: NavigationExtras = {
+            queryParams: {
+                'sId': subId,
+                'catName': name
+            }
+        };
+        this.router.navigate(["/categoriesProducts"], navigationExtras)
+    }
+
+
+    deleteCart(id) {
+        var inData = id;
+        swal("Do you want to delete?", "", "warning", {
+            buttons: ["Cancel!", "Okay!"],
+        }).then((value) => {
+
+            if (value === true) {
+                this.mainSer.deleteCart(inData).subscribe(response => {
+                    this.mainSer.getCartList();
+                    this.getDashboard();
+                    swal("Deleted successfully", "", "success");
+                }, error => {
+                    console.log(error);
+                })
+            } else {
+                return;
+            }
+        });
+
+    }
+
+    cartCount;
+    deliveryCharge;
+    subTotal;
+    Total;
+    getDashboard() {
+        this.mainSer.getDashboard().subscribe(response => {
+            this.cartCount = response.json().cart.cart_count;
+            this.deliveryCharge = response.json().cart.delivery_charge.toFixed(2);
+            this.subTotal = response.json().cart.selling_price.toFixed(2);
+            this.Total = response.json().cart.grand_total.toFixed(2);
+
+        })
+    }
+
 }

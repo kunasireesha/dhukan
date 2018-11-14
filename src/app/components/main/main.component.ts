@@ -45,26 +45,8 @@ export class MainComponent implements OnInit {
 
     }
 
-    getDashboard() {
-        this.mainServe.getDashboard().subscribe(response => {
-            this.dashboardData = response.json();
-            this.allProducts = response.json().products;
-            this.posts = this.allProducts;
-            this.cartCount = response.json().cart.cart_count;
-            this.deliveryCharge = response.json().cart.delivery_charge.toFixed(2);
-            this.subTotal = response.json().cart.selling_price.toFixed(2);
-            this.Total = response.json().cart.grand_total.toFixed(2);
-            for (var i = 0; i < this.allProducts.length; i++) {
-                this.allProducts[i].quantity = 1;
-
-            }
-            console.log(this.allProducts);
 
 
-
-            this.image = response.json().offer.TOP1[0].pic;
-        })
-    }
     bannerImageOneOffer() {
         this.bannerImageOne = true;
         this.bannerImageTwo = false;
@@ -164,7 +146,7 @@ export class MainComponent implements OnInit {
 
         this.mainServe.addCat(inData).subscribe(response => {
             this.resData = response.json();
-            this.getCartList();
+            this.mainServe.getCartList();
             this.getDashboard();
             // this.mainServe.getDashboard();
             if (response.json().status === 200) {
@@ -268,7 +250,7 @@ export class MainComponent implements OnInit {
         this.router.navigate(["/categoriesProducts"], navigationExtras)
     }
 
-   
+
     deleteCart(id) {
         var inData = id;
         swal("Do you want to delete?", "", "warning", {
@@ -277,7 +259,7 @@ export class MainComponent implements OnInit {
 
             if (value === true) {
                 this.mainServe.deleteCart(inData).subscribe(response => {
-                    this.getCartList();
+                    this.mainServe.getCartList();
                     this.getDashboard();
                     swal("Deleted successfully", "", "success");
                 }, error => {
@@ -290,6 +272,24 @@ export class MainComponent implements OnInit {
 
     }
 
+
+    getDashboard() {
+        this.mainServe.getDashboard().subscribe(response => {
+            this.dashboardData = response.json();
+            this.allProducts = response.json().products;
+            this.posts = this.allProducts;
+            this.cartCount = response.json().cart.cart_count;
+            this.deliveryCharge = response.json().cart.delivery_charge.toFixed(2);
+            this.subTotal = response.json().cart.selling_price.toFixed(2);
+            this.Total = response.json().cart.grand_total.toFixed(2);
+            for (var i = 0; i < this.allProducts.length; i++) {
+                this.allProducts[i].quantity = 1;
+
+            }
+            console.log(this.allProducts);
+            this.image = response.json().offer.TOP1[0].pic;
+        })
+    }
 
 
 
