@@ -437,6 +437,10 @@ img {
   top: -7px;
 }
 
+.addbtn {
+  top: -7px !important;
+}
+
 @media (max-width:1000px) {
   .product .cart-image-button {
     margin-top: 28px;

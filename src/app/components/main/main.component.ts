@@ -41,10 +41,9 @@ export class MainComponent implements OnInit {
     Total;
     ngOnInit() {
         window.scrollTo(0, 0);
-
         this.getAllCategoriesWithSubCat();
         this.getDashboard();
-
+        this.mainServe.getCartList();
 
     }
 
@@ -73,22 +72,36 @@ export class MainComponent implements OnInit {
     selected;
     showInput = false;
     //add to cart
-    itemIncrease(title) {
+    itemIncrease(products, title) {
         for (var i = 0; i < this.allProducts.length; i++) {
             if (title === this.allProducts[i].title) {
                 this.allProducts[i].quantity = this.allProducts[i].quantity + 1;
+                this.addCat(products);
                 return;
             }
         }
     }
 
-    itemDecrease(title) {
+    itemDecrease(title, products) {
+        console.log(products);
         for (var i = 0; i < this.allProducts.length; i++) {
             if (title === this.allProducts[i].title) {
                 if (this.allProducts[i].quantity === 1) {
-                    return;
+                    this.allProducts[i].quantity = this.allProducts[i].quantity - 1;
+                    // this.mainServe.modifyCart(id,this.allProducts[i].quantity,this.skId,)
+                    this.deleteCart(this.skId);
+                    this.mainServe.getCartList();
+                    this.skId = undefined;
+                    this.products.quantity = 1
+                    this.notInCart = false;
+                    this.selected = undefined;
+                    // if (this.mainServe.viewCart === undefined) {
+                    //     this.mainServe.cartCount = 0;
+                    // }
+
                 } else {
                     this.allProducts[i].quantity = this.allProducts[i].quantity - 1;
+                    this.addCat(products);
                     return;
                 }
             }
@@ -121,23 +134,33 @@ export class MainComponent implements OnInit {
     }
     skId;
     skuId;
-    notInCart = false;
-    selectOption(skId) {
-        this.skId = skId
+    notInCart = true;
+    selectOption(skId, index) {
+        this.selected = index;
+
         for (var i = 0; i < this.allProducts.length; i++) {
             for (var j = 0; j < this.allProducts[i].sku.length; j++) {
                 if (this.allProducts[i].sku[j].skid === parseInt(skId)) {
+                    this.skId = skId
                     this.allProducts[i].actual_price = this.allProducts[i].sku[j].actual_price;
                     this.allProducts[i].offer_price = this.allProducts[i].sku[j].offer_price;
                     this.allProducts[i].quantity = this.allProducts[i].sku[j].mycart;
+                    this.allProducts[i].product_image = this.allProducts[i].sku[j].image;
+
                     if (this.allProducts[i].sku[j].mycart === 0 || undefined) {
                         this.allProducts[i].quantity = 1;
+                        this.notInCart = true;
+                    } else {
                         this.notInCart = false;
                     }
                 }
             }
 
+
         }
+    }
+    products = {
+        quantity: 1
     }
 
     addCat(prodData) {
@@ -154,20 +177,23 @@ export class MainComponent implements OnInit {
 
 
         this.mainServe.addCat(inData).subscribe(response => {
-            this.resData = response.json();
-            this.mainServe.getCartList();
-            this.getDashboard();
             // this.mainServe.getDashboard();
             if (response.json().status === 200) {
+                this.resData = response.json();
                 swal(response.json().message, "", "success");
+                this.mainServe.getCartList();
+                this.getDashboard();
                 this.skId = undefined;
+                this.products.quantity = 1
+                this.notInCart = false;
+                this.selected = undefined
             } else {
                 swal(response.json().message, "", "error");
-                this.skId = undefined;
+                // this.skId = undefined;
             }
         }, error => {
             swal(error.json().message, "", "success");
-            this.skId = undefined;
+            // this.skId = undefined;
         })
         // }
 
@@ -232,6 +258,7 @@ export class MainComponent implements OnInit {
 
     itemHeaderDecrease(title, data, skuData) {
         this.mainServe.itemHeaderDecrease(title, data, skuData);
+        this.mainServe.getCartList();
         this.getDashboard();
     }
 
@@ -270,9 +297,13 @@ export class MainComponent implements OnInit {
 
             if (value === true) {
                 this.mainServe.deleteCart(inData).subscribe(response => {
-                    this.mainServe.getCartList();
-                    this.getDashboard();
-                    swal("Deleted successfully", "", "success");
+                    if (response.json().status === 200) {
+                        this.mainServe.getCartList();
+                        this.getDashboard();
+                        swal(response.json().message, "", "success");
+                    } else {
+                        swal(response.json().message, "", "error");
+                    }
                 }, error => {
                     console.log(error);
                 })
@@ -285,6 +316,7 @@ export class MainComponent implements OnInit {
 
 
     getDashboard() {
+
         this.mainServe.getDashboard().subscribe(response => {
             this.dashboardData = response.json();
             this.allProducts = response.json().products;
@@ -296,13 +328,16 @@ export class MainComponent implements OnInit {
             for (var i = 0; i < this.allProducts.length; i++) {
                 for (var j = 0; j < this.allProducts[i].sku.length; j++) {
                     this.allProducts[i].quantity = this.allProducts[i].sku[j].mycart;
-                    if (this.allProducts[i].sku[j].mycart === 0 || undefined) {
-                        this.allProducts[i].quantity = 1;
-                        this.notInCart = true;
-                    }
+
+                    // if (this.allProducts[i].sku[j].mycart === 0 || undefined) {
+                    //     this.allProducts[i].quantity = 1;
+                    //     this.notInCart = true;
+                    // }
                     this.allProducts[i].quantity = 1;
 
                 }
+                this.allProducts[i].product_image = this.allProducts[i].pic[0].product_image;
+
             }
             console.log(this.allProducts);
             this.image = response.json().offer.TOP1[0].pic;

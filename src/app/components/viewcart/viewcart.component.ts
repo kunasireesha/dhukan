@@ -100,9 +100,14 @@ export class ViewcartComponent implements OnInit {
 
   emptyCart() {
     this.mainServe.emptyCart().subscribe(response => {
-      this.getCartList();
-      this.getDashboard();
-      swal("Successfully cleared", "", "success");
+      if (response.json().status === 200) {
+        this.getCartList();
+        this.getDashboard();
+        swal(response.json().message, "", "success");
+      } else {
+        swal(response.json().message, "", "error");
+      }
+
     }, error => {
 
     })
@@ -173,9 +178,14 @@ export class ViewcartComponent implements OnInit {
 
       if (value === true) {
         this.mainServe.deleteCart(inData).subscribe(response => {
-          this.mainServe.getCartList();
-          this.getDashboard();
-          swal("Deleted successfully", "", "success");
+          if (response.json().status === 200) {
+            this.mainServe.getCartList();
+            this.getDashboard();
+            swal(response.json().message, "", "success");
+          } else {
+            swal(response.json().message, "", "error");
+          }
+
         }, error => {
           console.log(error);
         })

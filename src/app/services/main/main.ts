@@ -162,6 +162,7 @@ export class MainService {
         })
     }
     viewCart;
+    cartCount;
 
     getCartList() {
         // this.http.post(AppSettings.baseUrl + 'voucher/findvoucher', inData, { headers: headers }).subscribe(res => {
@@ -179,6 +180,18 @@ export class MainService {
         });
         this.http.get(AppSettings.baseUrl + 'cart/cart-list', { headers: headers }).subscribe(response => {
             this.viewCart = response.json().data;
+            for (var i = 0; i < this.viewCart.length; i++) {
+                this.viewCart[i].product_image = this.viewCart[i].sku[0].image;
+                this.viewCart[i].mrp = this.viewCart[i].sku[0].mrp;
+                this.viewCart[i].selling_price = this.viewCart[i].sku[0].selling_price;
+            }
+            if (response.json().summary === undefined) {
+                this.cartCount = 0;
+            } else {
+                this.cartCount = response.json().summary.cart_count || 0;
+
+            }
+
         })
 
     }
@@ -202,9 +215,14 @@ export class MainService {
                     if (this.quantiy === 1) {
                         this.viewCart[i].sku[0].mycart = this.quantiy - 1;
                         this.deleteCart(data.product_sku_id).subscribe(res => {
-                            this.getCartList();
-                            swal("Deleted successfully", "", "success");
-                            this.getDashboard();
+                            if (res.json().status === 200) {
+                                swal(res.json().message, "", "success");
+                                this.getDashboard();
+                                this.getCartList();
+                            } else {
+                                swal(res.json().message, "", "error");
+                            }
+
                         });
                         return;
                     } else {

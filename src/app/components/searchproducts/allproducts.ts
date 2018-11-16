@@ -28,7 +28,7 @@ export class AllProductsComponent implements OnInit {
             // this.childPage = 'My Profile';
             // this.getProfileDetails();
         } else if (this.page === 'viewAll') {
-            this.getAllProducts();
+            // this.getAllProducts();
             this.showAll = true;
             this.showWish = false;
         }
@@ -42,39 +42,16 @@ export class AllProductsComponent implements OnInit {
     allProducts = [];
     showAll = false;
     showWish = false;
+
+    notInCart = true;
     ngOnInit() {
         // this.getAllProducts();
         // this.getWishList();
         this.getDashboard();
     }
-    getAllProducts() {
 
-        this.mainSer.getDashboard().subscribe(response => {
-            this.allProducts = response.json().products;
-            this.showAll = true;
-            for (var i = 0; i < this.allProducts.length; i++) {
-                if (this.allProducts[i].sku.length === 0) {
-                    this.allProducts[i].quantity = 1;
-                }
-                for (var j = 0; j < this.allProducts[i].sku.length; j++) {
-                    this.allProducts[i].quantity = this.allProducts[i].sku[j].mycart;
-                    if (this.allProducts[i].sku[j].mycart === 0 || this.allProducts[i].sku.length === []) {
-                        this.allProducts[i].quantity = 1;
-                    }
-
-                    this.allProducts[i].quantity = 1;
-                }
-            }
-            if (response.json().status == 400) {
-                this.noData = response.json().message;
-            }
-
-        }, error => {
-
-        });
-
-    }
-    selectOption(skId) {
+    selectOption(skId, index) {
+        this.selected = index;
         this.skId = skId
         for (var i = 0; i < this.allProducts.length; i++) {
             for (var j = 0; j < this.allProducts[i].sku.length; j++) {
@@ -84,6 +61,9 @@ export class AllProductsComponent implements OnInit {
                     this.allProducts[i].quantity = this.allProducts[i].sku[j].mycart;
                     if (this.allProducts[i].sku[j].mycart === 0 || this.allProducts[i].sku[j].length === 0) {
                         this.allProducts[i].quantity = 1;
+                        this.notInCart = true;
+                    } else {
+                        this.notInCart = false;
                     }
                 }
             }
@@ -133,6 +113,11 @@ export class AllProductsComponent implements OnInit {
                 if (response.json().status === 200) {
                     swal(response.json().message, "", "success");
                     this.skId = undefined;
+                    this.skId = undefined;
+                    this.products.quantity = 1
+                    this.notInCart = false;
+                    this.selected = undefined;
+                    this.getDashboard();
                 } else {
                     swal(response.json().message, "", "error");
                     this.skId = undefined;
@@ -269,6 +254,26 @@ export class AllProductsComponent implements OnInit {
             this.deliveryCharge = response.json().cart.delivery_charge.toFixed(2);
             this.subTotal = response.json().cart.selling_price.toFixed(2);
             this.Total = response.json().cart.grand_total.toFixed(2);
+            this.allProducts = response.json().products;
+            this.showAll = true;
+            for (var i = 0; i < this.allProducts.length; i++) {
+                if (this.allProducts[i].sku.length === 0) {
+                    this.allProducts[i].quantity = 1;
+                }
+                for (var j = 0; j < this.allProducts[i].sku.length; j++) {
+                    this.allProducts[i].quantity = this.allProducts[i].sku[j].mycart;
+                    this.allProducts[i].product_image = this.allProducts[i].pic[0].product_image;
+
+                    if (this.allProducts[i].sku[j].mycart === 0 || this.allProducts[i].sku.length === []) {
+                        this.allProducts[i].quantity = 1;
+                    }
+
+                    this.allProducts[i].quantity = 1;
+                }
+            }
+            if (response.json().status == 400) {
+                this.noData = response.json().message;
+            }
 
         })
     }
