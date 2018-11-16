@@ -270,7 +270,7 @@
           <td *ngFor="let skudata of item.sku">
             <p>MRP :
               <span class="price">RS.{{skudata.actual_price}} </span>
-              <span class="offer-price"> RS. {{skudata.offer_price}}</span>
+              <span class="offer-price"> RS. {{skudata.selling_price}}</span>
             </p>
             <span class="text-danger">{{ "offer-price" | translate}} &nbsp;
               {{(skudata.actual_price)-(skudata.offer_price) }}</span>
@@ -290,7 +290,7 @@
           <td *ngFor="let data of item.sku">
             <div class="row mt-3">
               <div class="col-lg-8">
-                <p>Rs {{(data.mycart) * (data.offer_price)}}</p>
+                <p>Rs {{(data.mycart) * (data.selling_price)}}</p>
               </div>
               <div class="col-lg-4">
                 <span>
