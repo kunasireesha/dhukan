@@ -56,10 +56,13 @@ export class ViewcartComponent implements OnInit {
     this.cartId = data.id;
     this.modifyCart(this.prodId, this.quantity1, this.prodSku, this.cartId);
     for (var i = 0; i < this.mainServe.viewCart.length; i++) {
-      if (title === this.mainServe.viewCart[i].title) {
-        this.mainServe.viewCart[i].sku[0].mycart = this.mainServe.viewCart[i].sku[0].mycart + 1;
-        return;
+      for (var j = 0; j < this.mainServe.viewCart[i].sku.length; j++) {
+        if (skuData.skid === this.mainServe.viewCart[i].sku[j].skid) {
+          this.mainServe.viewCart[i].sku[0].mycart = this.mainServe.viewCart[i].sku[0].mycart + 1;
+          return;
+        }
       }
+
     }
   }
   itemDecrease(title, data, skuData) {
@@ -69,17 +72,19 @@ export class ViewcartComponent implements OnInit {
     this.prodSku = data.product_sku_id;
     this.cartId = data.id;
     for (var i = 0; i < this.mainServe.viewCart.length; i++) {
-      if (title === this.mainServe.viewCart[i].title) {
-        if (this.mainServe.viewCart[i].sku[0].mycart === 1) {
-          this.mainServe.viewCart[i].sku[0].mycart = this.mainServe.viewCart[i].sku[0].mycart - 1;
-          // this.modifyCart(this.prodId, this.mainServe.viewCart[i].sku[0].mycart, this.prodSku, this.cartId);
-          this.deleteCart(data.product_sku_id);
-          this.mainServe.getDashboard();
-          this.mainServe.getCartList();
-        } else {
-          this.modifyCart(this.prodId, this.quantity1, this.prodSku, this.cartId);
-          this.mainServe.viewCart[i].sku[0].mycart = this.mainServe.viewCart[i].sku[0].mycart - 1;
-          return;
+      for (var j = 0; j < this.mainServe.viewCart[i].sku.length; j++) {
+        if (skuData.skid === this.mainServe.viewCart[i].sku[j].skid) {
+          if (this.mainServe.viewCart[i].sku[0].mycart === 1) {
+            this.mainServe.viewCart[i].sku[0].mycart = this.mainServe.viewCart[i].sku[0].mycart - 1;
+            // this.modifyCart(this.prodId, this.mainServe.viewCart[i].sku[0].mycart, this.prodSku, this.cartId);
+            this.deleteCart(data.product_sku_id);
+            this.mainServe.getDashboard();
+            this.mainServe.getCartList();
+          } else {
+            this.modifyCart(this.prodId, this.quantity1, this.prodSku, this.cartId);
+            this.mainServe.viewCart[i].sku[0].mycart = this.mainServe.viewCart[i].sku[0].mycart - 1;
+            return;
+          }
         }
       }
     }
@@ -96,7 +101,7 @@ export class ViewcartComponent implements OnInit {
   emptyCart() {
     this.mainServe.emptyCart().subscribe(response => {
       this.getCartList();
-      this.mainServe.getDashboard();
+      this.getDashboard();
       swal("Successfully cleared", "", "success");
     }, error => {
 

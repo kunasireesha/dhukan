@@ -21,9 +21,11 @@ export class SearchproductsComponent implements OnInit {
     })
     this.getDashboard();
     this.getCartList();
+    this.searchProductsData();
   }
 
   ngOnInit() {
+    this.searchProductsData();
   }
   skId;
   skuId;
@@ -151,6 +153,14 @@ export class SearchproductsComponent implements OnInit {
       this.skId = undefined;
     })
   }
+  ShowProductDetails(Id) {
+    let navigationExtras: NavigationExtras = {
+      queryParams: {
+        prodId: Id
+      }
+    }
+    this.router.navigate(['/productdetails'], navigationExtras);
+  }
 
 
 
@@ -165,7 +175,7 @@ export class SearchproductsComponent implements OnInit {
 
 
   searchProducts() {
-    this.mainServe.searchProducts(this.searchParam)
+    this.mainServe.searchProducts(this.searchParam);
   }
 
 

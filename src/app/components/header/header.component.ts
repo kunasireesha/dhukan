@@ -557,7 +557,7 @@ export class HeaderComponent implements OnInit {
     this.mainServe.getDashboard().subscribe(response => {
       this.cart = response.json();
       // if(response.json().cart.status === 200 ){
-      this.cartCount = response.json().cart.cart_count;
+      this.cartCount = response.json().cart.cart_count || 0;
       this.deliveryCharge = response.json().cart.delivery_charge.toFixed(2);
       this.subTotal = response.json().cart.selling_price.toFixed(2);
       this.Total = response.json().cart.grand_total.toFixed(2);

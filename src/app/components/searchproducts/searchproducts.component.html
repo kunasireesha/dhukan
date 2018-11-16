@@ -51,7 +51,7 @@
               <div class="col-lg-5">
                 <ul class="product-image">
                   <li>
-                    <img [src]="item.product_image" class="img-fluid">
+                    <img [src]="item.product_image" class="img-fluid" (click)="ShowProductDetails(item.id)">
                   </li>
                   <li>
                     <h3>{{item.title}}</h3>
@@ -245,7 +245,7 @@
             </div>
 
             <div class="col-md-12 text-center">
-              <img [src]="data.product_image" class="img-fluid prodImage" (click)="ShowProductDetails(products.id)">
+              <img [src]="data.product_image" class="img-fluid prodImage" (click)="ShowProductDetails(data.id)">
             </div>
 
             <div class="col-md-12">
@@ -323,6 +323,6 @@
 
   </div>
 </div>
-<div class="col-lg-3 col-md-3 col-sm-6 col-xs-6 noData" *ngIf="noData">
+<div class="col-lg-3 col-md-3 col-sm-6 col-xs-6 noData" *ngIf="noData&&!products">
   No data found
 </div>

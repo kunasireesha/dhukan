@@ -197,20 +197,22 @@ export class MainService {
         this.cartId = data.id;
 
         for (var i = 0; i < this.viewCart.length; i++) {
-            if (title === this.viewCart[i].title) {
-                if (this.quantiy === 1) {
-                    this.viewCart[i].sku[0].mycart = this.quantiy - 1;
-                    this.deleteCart(data.product_sku_id).subscribe(res => {
-                        this.getCartList();
-                        swal("Deleted successfully", "", "success");
-                        this.getDashboard();
-                    });
-                    return;
-                } else {
-                    this.modifyCart(this.prodId, this.quantity1, this.prodSku, this.cartId);
+            for (var j = 0; j < this.viewCart[i].sku.length; j++) {
+                if (skuData.skid === this.viewCart[i].sku[j].skid) {
+                    if (this.quantiy === 1) {
+                        this.viewCart[i].sku[0].mycart = this.quantiy - 1;
+                        this.deleteCart(data.product_sku_id).subscribe(res => {
+                            this.getCartList();
+                            swal("Deleted successfully", "", "success");
+                            this.getDashboard();
+                        });
+                        return;
+                    } else {
+                        this.modifyCart(this.prodId, this.quantity1, this.prodSku, this.cartId);
 
-                    this.viewCart[i].sku[0].mycart = this.viewCart[i].sku[0].mycart - 1;
-                    return;
+                        this.viewCart[i].sku[0].mycart = this.viewCart[i].sku[0].mycart - 1;
+                        return;
+                    }
                 }
             }
         }
@@ -225,10 +227,12 @@ export class MainService {
         this.cartId = data.id;
         this.modifyCart(this.prodId, this.quantity1, this.prodSku, this.cartId);
         for (var i = 0; i < this.viewCart.length; i++) {
-            if (title === this.viewCart[i].title) {
-                this.viewCart[i].sku[0].mycart = this.viewCart[i].sku[0].mycart + 1;
+            for (var j = 0; j < this.viewCart[i].sku.length; j++) {
+                if (skuData.skid === this.viewCart[i].sku[j].skid) {
+                    this.viewCart[i].sku[0].mycart = this.viewCart[i].sku[0].mycart + 1;
 
-                return;
+                    return;
+                }
             }
         }
     }

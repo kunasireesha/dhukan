@@ -51,11 +51,19 @@ export class AllProductsComponent implements OnInit {
 
         this.mainSer.getDashboard().subscribe(response => {
             this.allProducts = response.json().products;
-            console.log(this.allProducts);
             this.showAll = true;
             for (var i = 0; i < this.allProducts.length; i++) {
-                this.allProducts[i].quantity = 1;
+                if (this.allProducts[i].sku.length === 0) {
+                    this.allProducts[i].quantity = 1;
+                }
+                for (var j = 0; j < this.allProducts[i].sku.length; j++) {
+                    this.allProducts[i].quantity = this.allProducts[i].sku[j].mycart;
+                    if (this.allProducts[i].sku[j].mycart === 0 || this.allProducts[i].sku.length === []) {
+                        this.allProducts[i].quantity = 1;
+                    }
 
+                    this.allProducts[i].quantity = 1;
+                }
             }
             if (response.json().status == 400) {
                 this.noData = response.json().message;
@@ -73,6 +81,10 @@ export class AllProductsComponent implements OnInit {
                 if (this.allProducts[i].sku[j].skid === parseInt(skId)) {
                     this.allProducts[i].actual_price = this.allProducts[i].sku[j].actual_price;
                     this.allProducts[i].offer_price = this.allProducts[i].sku[j].offer_price;
+                    this.allProducts[i].quantity = this.allProducts[i].sku[j].mycart;
+                    if (this.allProducts[i].sku[j].mycart === 0 || this.allProducts[i].sku[j].length === 0) {
+                        this.allProducts[i].quantity = 1;
+                    }
                 }
             }
 
@@ -172,6 +184,15 @@ export class AllProductsComponent implements OnInit {
 
         })
     }
+    ShowProductDetails(Id) {
+        let navigationExtras: NavigationExtras = {
+            queryParams: {
+                prodId: Id
+            }
+        }
+        this.router.navigate(['/productdetails'], navigationExtras);
+    }
+
     //header
     searchParam;
     viewCart;
