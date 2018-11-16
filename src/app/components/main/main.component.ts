@@ -143,7 +143,7 @@ export class MainComponent implements OnInit {
                 if (this.allProducts[i].sku[j].skid === parseInt(skId)) {
                     this.skId = skId
                     this.allProducts[i].actual_price = this.allProducts[i].sku[j].actual_price;
-                    this.allProducts[i].offer_price = this.allProducts[i].sku[j].offer_price;
+                    this.allProducts[i].selling_price = this.allProducts[i].sku[j].selling_price;
                     this.allProducts[i].quantity = this.allProducts[i].sku[j].mycart;
                     this.allProducts[i].product_image = this.allProducts[i].sku[j].image;
 
