@@ -104,6 +104,9 @@
                 </tbody>
               </table>
             </div>
+            <div *ngIf="!mainServe.viewCart">
+              No products
+            </div>
             <!-- charges -->
             <!-- proceed buttons -->
             <div class="row cart-dropdown-button mb-5">
@@ -313,7 +316,8 @@
                     <span class="offer-price"> {{products.offer_price}}</span>
                   </li>
                   <li>
-                    <span class="text-danger">{{ "offer-price" | translate}}</span>
+                    <span class="text-danger">{{ "offer-price" | translate}} {{products.actual_price -
+                      products.offer_price || 0}}</span>
                   </li>
                   <li>
                     <ul class="rating">
@@ -340,10 +344,10 @@
             <!-- product details -->
             <div class="col-lg-12 col-md-12 col-sm-12 cart-btn">
               <div class="quantity">
-                <button class="minus-btn" type="button" name="button" (click)="itemDecrease(products.title)">
+                <button class="minus-btn" type="button" name="button" [disabled]="notInCart == 'true'" (click)="itemDecrease(products.title)">
                   <i class="fa fa-minus " aria-hidden="true"></i>
                 </button>
-                <input type="text" name="mycart" readonly="readonly" value="{{products.quantity}}" />
+                <input type="text" name="mycart" readonly="readonly" [value]="products.quantity" />
 
                 <button class="plus-btn" type="button" name="button" (click)="itemIncrease(products.title)">
                   <i class="fa fa-plus" aria-hidden="true"></i>

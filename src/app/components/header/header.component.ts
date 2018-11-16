@@ -37,6 +37,7 @@ export class HeaderComponent implements OnInit {
     private headerSer: HeaderService
   ) {
     this.getDashboard();
+    this.getCartList();
   }
   data = {
     mycart: 0
@@ -51,10 +52,21 @@ export class HeaderComponent implements OnInit {
       this.showProfile = true;
       this.showLoginButton = false;
     }
-    if (localStorage.location !== undefined) {
+    if (localStorage.location == "undefined") {
+      this.location = '';
+      this.LocationPincode = '';
+    } else {
       this.location = localStorage.location;
       this.LocationPincode = localStorage.pincode;
     }
+    // if (localStorage.location !== undefined) {
+    //   this.location = localStorage.location;
+    //   this.LocationPincode = localStorage.pincode;
+    // } else if (localStorage.location == "undefined") {
+    //   alert('hi');
+    //   this.location = '';
+    //   this.LocationPincode = '';
+    // }
   }
 
   showProfile: boolean;
@@ -442,11 +454,22 @@ export class HeaderComponent implements OnInit {
 
   //submit location
   submitLocation(location, pin) {
-    localStorage.setItem('location', location);
-    localStorage.setItem('pincode', pin);
-    this.location = localStorage.location;
-    this.LocationPincode = localStorage.pincode;
-    this.hideLocations = false;
+    if (location == undefined) {
+      location = '';
+      pin = '';
+      localStorage.setItem('location', location);
+      localStorage.setItem('pincode', pin);
+      this.location = localStorage.location;
+      this.LocationPincode = localStorage.pincode;
+      this.hideLocations = false;
+    } else {
+      localStorage.setItem('location', location);
+      localStorage.setItem('pincode', pin);
+      this.location = localStorage.location;
+      this.LocationPincode = localStorage.pincode;
+      this.hideLocations = false;
+    }
+
   }
 
   //get categories
@@ -534,7 +557,7 @@ export class HeaderComponent implements OnInit {
     this.mainServe.getDashboard().subscribe(response => {
       this.cart = response.json();
       // if(response.json().cart.status === 200 ){
-      this.cartCount = response.json().cart.cart_count;
+      this.cartCount = response.json().cart.cart_count || 0;
       this.deliveryCharge = response.json().cart.delivery_charge.toFixed(2);
       this.subTotal = response.json().cart.selling_price.toFixed(2);
       this.Total = response.json().cart.grand_total.toFixed(2);

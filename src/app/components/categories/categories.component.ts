@@ -29,7 +29,8 @@ export class CategoriesComponent implements OnInit {
                 this.getSubProducts(this.subCatId);
             }
         });
-
+        this.getDashboard();
+        this.getCartList();
     }
 
     ngOnInit() {
@@ -66,7 +67,7 @@ export class CategoriesComponent implements OnInit {
                 this.allProducts = response.json().products;
                 for (var i = 0; i < this.allProducts.length; i++) {
                     this.catName = this.allProducts[0].category_name;
-                    console.log(this.catName);
+                    this.allProducts[i].quantity = 1;
                 }
                 this.showveg = true;
             }, error => {
@@ -134,7 +135,6 @@ export class CategoriesComponent implements OnInit {
         }
     }
     itemIncrease(title) {
-        alert(title);
         for (var i = 0; i < this.allProducts.length; i++) {
             if (title === this.allProducts[i].title) {
                 this.allProducts[i].quantity = this.allProducts[i].quantity + 1;
@@ -157,7 +157,7 @@ export class CategoriesComponent implements OnInit {
     }
 
     resData;
-    addCat(prodId) {
+    addCat(prodId, products) {
         if (this.skId === undefined) {
             swal('Please select Size', '', 'error');
             return;
@@ -166,7 +166,7 @@ export class CategoriesComponent implements OnInit {
             swal('Pleaase Login', '', 'warning');
         } else {
             var inData = "product_id=" + prodId +
-                "&quantity=" + this.item.quantity +
+                "&quantity=" + products.quantity +
                 "&product_sku_id=" + this.skId
 
 

@@ -244,7 +244,7 @@
             </div>
 
             <div class="col-md-12 text-center">
-              <img [src]="data.product_image" class="img-fluid prodImage" (click)="ShowProductDetails(products.id)">
+              <img [src]="data.product_image" class="img-fluid prodImage" (click)="ShowProductDetails(data.id)">
             </div>
 
             <div class="col-md-12">
@@ -333,14 +333,14 @@
         <div class="container">
           <div class="row">
 
-            <div class="col-md-12 text-right">
+            <!-- <div class="col-md-12 text-right">
               <a>
                 <fa name="heart"></fa>
               </a>
-            </div>
+            </div> -->
 
             <div class="col-md-12 text-center">
-              <img [src]="data.product_image" class="img-fluid prodImage" (click)="ShowProductDetails(products.id)">
+              <img [src]="data.product_image" class="img-fluid prodImage" (click)="ShowProductDetails(data.id)">
             </div>
 
             <div class="col-md-12">

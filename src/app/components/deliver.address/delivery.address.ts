@@ -60,6 +60,7 @@ export class DeliveryComponent implements OnInit {
   }
 
   //UPDATE ADDRESS
+  changeDef;
   updateAddress() {
     var inData = "ua_id=" + this.address.ua_id + "&ua_first_name=" + this.address.ua_first_name + "&ua_last_name=" + this.address.ua_last_name + "&ua_mobile_number=" + this.address.ua_mobile_number
       + "&ua_city=" + this.address.ua_city + "&ua_house_no=" + this.address.ua_house_no + "&ua_area_details=" + this.address.ua_area_details + "&ua_pincode=" + this.address.ua_pincode;
@@ -67,10 +68,13 @@ export class DeliveryComponent implements OnInit {
     this.mainServ.updateAddress(inData).subscribe(response => {
       if (response.json().status === 200) {
         swal(response.json().message, '', 'success');
+        this.changeDef = response.json();
       } else {
         swal(response.json().message, '', 'error');
       }
     });
+    this.profileSer.setDefaultAdd(this.address.ua_id);
+
   }
 
   //apply vocher

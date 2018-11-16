@@ -14,7 +14,7 @@
               <div>
                 <button class="btn locaton-btn" type="button" (click)="showLocation()">
                   <img src="assets/images/location.png" class="header-icons">
-                  <span class="city"> {{location}} {{LocationPincode}} </span>
+                  <span class="city"> {{location || "Choose location"}} {{LocationPincode}} </span>
                   <img src="assets/images/angle-arrow-down.png" class="dropdown-icon">
                 </button>
                 <div *ngIf="hideLocations">

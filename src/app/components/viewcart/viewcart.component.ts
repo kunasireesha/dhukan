@@ -17,7 +17,10 @@ export class ViewcartComponent implements OnInit {
 
 
   viewCart = [];
-  constructor(private mainServe: MainService, public router: Router, public headerComp: HeaderComponent) { }
+  constructor(private mainServe: MainService, public router: Router, public headerComp: HeaderComponent) {
+    this.getDashboard();
+    this.getCartList();
+  }
   item = {
     quantity: 1
   }
@@ -53,10 +56,13 @@ export class ViewcartComponent implements OnInit {
     this.cartId = data.id;
     this.modifyCart(this.prodId, this.quantity1, this.prodSku, this.cartId);
     for (var i = 0; i < this.mainServe.viewCart.length; i++) {
-      if (title === this.mainServe.viewCart[i].title) {
-        this.mainServe.viewCart[i].sku[0].mycart = this.mainServe.viewCart[i].sku[0].mycart + 1;
-        return;
+      for (var j = 0; j < this.mainServe.viewCart[i].sku.length; j++) {
+        if (skuData.skid === this.mainServe.viewCart[i].sku[j].skid) {
+          this.mainServe.viewCart[i].sku[0].mycart = this.mainServe.viewCart[i].sku[0].mycart + 1;
+          return;
+        }
       }
+
     }
   }
   itemDecrease(title, data, skuData) {
@@ -66,17 +72,19 @@ export class ViewcartComponent implements OnInit {
     this.prodSku = data.product_sku_id;
     this.cartId = data.id;
     for (var i = 0; i < this.mainServe.viewCart.length; i++) {
-      if (title === this.mainServe.viewCart[i].title) {
-        if (this.mainServe.viewCart[i].sku[0].mycart === 1) {
-          this.mainServe.viewCart[i].sku[0].mycart = this.mainServe.viewCart[i].sku[0].mycart - 1;
-          // this.modifyCart(this.prodId, this.mainServe.viewCart[i].sku[0].mycart, this.prodSku, this.cartId);
-          this.deleteCart(data.product_sku_id);
-          this.mainServe.getDashboard();
-          this.mainServe.getCartList();
-        } else {
-          this.modifyCart(this.prodId, this.quantity1, this.prodSku, this.cartId);
-          this.mainServe.viewCart[i].sku[0].mycart = this.mainServe.viewCart[i].sku[0].mycart - 1;
-          return;
+      for (var j = 0; j < this.mainServe.viewCart[i].sku.length; j++) {
+        if (skuData.skid === this.mainServe.viewCart[i].sku[j].skid) {
+          if (this.mainServe.viewCart[i].sku[0].mycart === 1) {
+            this.mainServe.viewCart[i].sku[0].mycart = this.mainServe.viewCart[i].sku[0].mycart - 1;
+            // this.modifyCart(this.prodId, this.mainServe.viewCart[i].sku[0].mycart, this.prodSku, this.cartId);
+            this.deleteCart(data.product_sku_id);
+            this.mainServe.getDashboard();
+            this.mainServe.getCartList();
+          } else {
+            this.modifyCart(this.prodId, this.quantity1, this.prodSku, this.cartId);
+            this.mainServe.viewCart[i].sku[0].mycart = this.mainServe.viewCart[i].sku[0].mycart - 1;
+            return;
+          }
         }
       }
     }
@@ -84,12 +92,8 @@ export class ViewcartComponent implements OnInit {
 
   modifyCart(prodId, quantiy, prodSku, cartId) {
     this.mainServe.modifyCart(prodId, quantiy, prodSku, cartId);
-    // .subscribe(response => {
-    //   this.getCartList();
-    //   this.mainServe.getDashboard();
-    // }, error => {
-
-    // })
+    this.getDashboard();
+    this.getCartList();
   }
 
 
@@ -97,7 +101,7 @@ export class ViewcartComponent implements OnInit {
   emptyCart() {
     this.mainServe.emptyCart().subscribe(response => {
       this.getCartList();
-      this.mainServe.getDashboard();
+      this.getDashboard();
       swal("Successfully cleared", "", "success");
     }, error => {
 
@@ -136,6 +140,7 @@ export class ViewcartComponent implements OnInit {
 
   itemHeaderIncrease(title, item, data) {
     this.mainServe.itemHeaderIncrease(title, item, data);
+    this.getDashboard();
   }
 
   showCat() {
