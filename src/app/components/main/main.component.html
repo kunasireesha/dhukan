@@ -81,7 +81,8 @@
                 <ul class="product-cart-price">
                   <li>
                     <p>Rs : {{item.selling_price}}</p>
-                    <p class="text-danger">BIG SAVE PRICE : RS {{item.mrp}}</p>
+                    <p class="text-danger" *ngFor="let sku of item.sku">BIG SAVE PRICE : RS {{sku.actual_price -
+                      sku.selling_price}}</p>
                   </li>
                 </ul>
               </div>
