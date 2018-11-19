@@ -30,6 +30,7 @@
             <li>
               <h4 (click)="getCartList()">Shopping Cart</h4>
               <span (click)="getCartList()">{{cartCount}}</span>
+
             </li>
           </ul>
         </button>
@@ -75,8 +76,9 @@
               <div class="col-lg-4">
                 <ul class="product-cart-price">
                   <li>
-                    <!-- <p>Rs.36</p> -->
-                    <!-- <p class="text-danger">BIG SAVE PRICE: RS 32</p> -->
+                    <p>Rs : {{item.selling_price}}</p>
+                    <p class="text-danger" *ngFor="let sku of item.sku">BIG SAVE PRICE : RS {{sku.actual_price -
+                      sku.selling_price}}</p>
                   </li>
                 </ul>
               </div>

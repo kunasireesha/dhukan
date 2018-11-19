@@ -59,6 +59,7 @@ export class AllProductsComponent implements OnInit {
                     this.allProducts[i].actual_price = this.allProducts[i].sku[j].actual_price;
                     this.allProducts[i].offer_price = this.allProducts[i].sku[j].offer_price;
                     this.allProducts[i].quantity = this.allProducts[i].sku[j].mycart;
+                    this.allProducts[i].product_image = this.allProducts[i].sku[j].image;
                     if (this.allProducts[i].sku[j].mycart === 0 || this.allProducts[i].sku[j].length === 0) {
                         this.allProducts[i].quantity = 1;
                         this.notInCart = true;
@@ -73,22 +74,32 @@ export class AllProductsComponent implements OnInit {
 
     resData;
     skId;
-    itemIncrease(title) {
+    itemIncrease(data, title) {
         for (var i = 0; i < this.allProducts.length; i++) {
             if (title === this.allProducts[i].title) {
                 this.allProducts[i].quantity = this.allProducts[i].quantity + 1;
-                return;
+                this.addCat(data);
             }
         }
     }
+    data = {
+        quantity: 1
+    }
     selected;
-    itemDecrease(title) {
+    itemDecrease(title, products) {
+
         for (var i = 0; i < this.allProducts.length; i++) {
             if (title === this.allProducts[i].title) {
                 if (this.allProducts[i].quantity === 1) {
-                    return;
+                    this.deleteCart(this.skId);
+                    this.mainSer.getCartList();
+                    this.skId = undefined;
+                    this.data.quantity = 1
+                    this.notInCart = false;
+                    this.selected = undefined;
                 } else {
                     this.allProducts[i].quantity = this.allProducts[i].quantity - 1;
+                    this.addCat(products);
                     return;
                 }
             }
@@ -100,33 +111,31 @@ export class AllProductsComponent implements OnInit {
             swal('Please select Size', '', 'error');
             return;
         }
-        if (localStorage.token === undefined) {
-            swal('Pleaase Login', '', 'warning');
-        } else {
-            var inData = "product_id=" + prodData.id +
-                "&quantity=" + prodData.quantity +
-                "&product_sku_id=" + this.skId
+
+        var inData = "product_id=" + prodData.id +
+            "&quantity=" + prodData.quantity +
+            "&product_sku_id=" + this.skId
 
 
-            this.mainSer.addCat(inData).subscribe(response => {
-                this.resData = response.json();
-                if (response.json().status === 200) {
-                    swal(response.json().message, "", "success");
-                    this.skId = undefined;
-                    this.skId = undefined;
-                    this.products.quantity = 1
-                    this.notInCart = false;
-                    this.selected = undefined;
-                    this.getDashboard();
-                } else {
-                    swal(response.json().message, "", "error");
-                    this.skId = undefined;
-                }
-            }, error => {
-                swal(error.json().message, "", "success");
+        this.mainSer.addCat(inData).subscribe(response => {
+            this.resData = response.json();
+            if (response.json().status === 200) {
+                swal(response.json().message, "", "success");
+                this.mainSer.getCartList();
+                this.getDashboard();
                 this.skId = undefined;
-            })
-        }
+                this.data.quantity = 1
+                this.notInCart = false;
+                this.selected = undefined
+            } else {
+                swal(response.json().message, "", "error");
+                this.skId = undefined;
+            }
+        }, error => {
+            swal(error.json().message, "", "success");
+            this.skId = undefined;
+        })
+
 
 
     }
@@ -233,6 +242,7 @@ export class AllProductsComponent implements OnInit {
                 this.mainSer.deleteCart(inData).subscribe(response => {
                     this.mainSer.getCartList();
                     this.getDashboard();
+                    this.selected = undefined;
                     swal("Deleted successfully", "", "success");
                 }, error => {
                     console.log(error);

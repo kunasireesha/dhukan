@@ -90,6 +90,38 @@ export class ViewcartComponent implements OnInit {
     }
   }
 
+
+  //   addCat(prodData) {
+  //     console.log(prodData)
+
+
+  //     var inData = "product_id=" + prodData.id +
+  //         "&quantity=" + prodData.quantity +
+  //         "&product_sku_id=" + this.skId
+
+
+  //     this.mainServe.addCat(inData).subscribe(response => {
+  //         this.resData = response.json();
+  //         if (response.json().status === 200) {
+  //             swal(response.json().message, "", "success");
+  //             this.mainServe.getCartList();
+  //             this.getDashboard();
+  //             this.skId = undefined;
+  //             this.products.quantity = 1
+  //             this.notInCart = false;
+  //             this.selected = undefined
+  //         } else {
+  //             swal(response.json().message, "", "error");
+  //             this.skId = undefined;
+  //         }
+  //     }, error => {
+  //         swal(error.json().message, "", "success");
+  //         this.skId = undefined;
+  //     })
+
+
+
+  // }
   modifyCart(prodId, quantiy, prodSku, cartId) {
     this.mainServe.modifyCart(prodId, quantiy, prodSku, cartId);
     this.getDashboard();

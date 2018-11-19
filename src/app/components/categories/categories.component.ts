@@ -54,6 +54,9 @@ export class CategoriesComponent implements OnInit {
         quantity: 1
     }
 
+    products = {
+        quantity: 1
+    }
     //get products
     catName;
     getSubProducts(sId) {
@@ -66,8 +69,13 @@ export class CategoriesComponent implements OnInit {
             this.mainServe.getSubProducts(this.subId).subscribe(response => {
                 this.allProducts = response.json().products;
                 for (var i = 0; i < this.allProducts.length; i++) {
+                    for (var j = 0; j < this.allProducts[i].sku.length; j++) {
+                        this.allProducts[i].quantity = this.allProducts[i].sku[j].mycart;
+                        this.allProducts[i].quantity = 1;
+                    }
                     this.catName = this.allProducts[0].category_name;
                     this.allProducts[i].quantity = 1;
+                    this.allProducts[i].product_image = this.allProducts[i].pic[0].product_image;
                 }
                 this.showveg = true;
             }, error => {
@@ -121,35 +129,54 @@ export class CategoriesComponent implements OnInit {
     showCatProducts(sId) {
         this.getSubProducts(sId);
     }
-    skId
-    selectOption(skId) {
+    skId;
+    selected;
+    notInCart = true;
+    selectOption(skId, index) {
+        this.selected = index;
         this.skId = skId;
         for (var i = 0; i < this.allProducts.length; i++) {
             for (var j = 0; j < this.allProducts[i].sku.length; j++) {
                 if (this.allProducts[i].sku[j].skid === parseInt(skId)) {
                     this.allProducts[i].actual_price = this.allProducts[i].sku[j].actual_price;
                     this.allProducts[i].offer_price = this.allProducts[i].sku[j].offer_price;
+                    this.allProducts[i].quantity = this.allProducts[i].sku[j].mycart;
+                    this.allProducts[i].product_image = this.allProducts[i].sku[j].image;
+
+                    if (this.allProducts[i].sku[j].mycart === 0 || undefined) {
+                        this.allProducts[i].quantity = 1;
+                        this.notInCart = true;
+                    } else {
+                        this.notInCart = false;
+                    }
                 }
             }
 
         }
     }
-    itemIncrease(title) {
+    itemIncrease(title, products) {
         for (var i = 0; i < this.allProducts.length; i++) {
             if (title === this.allProducts[i].title) {
                 this.allProducts[i].quantity = this.allProducts[i].quantity + 1;
+                this.addCat(products);
                 return;
             }
         }
     }
 
-    itemDecrease(title) {
+    itemDecrease(products, title) {
         for (var i = 0; i < this.allProducts.length; i++) {
             if (title === this.allProducts[i].title) {
                 if (this.allProducts[i].quantity === 1) {
-                    return;
+                    this.deleteCart(this.skId);
+                    this.mainServe.getCartList();
+                    this.skId = undefined;
+                    this.products.quantity = 1
+                    this.notInCart = false;
+                    this.selected = undefined;
                 } else {
                     this.allProducts[i].quantity = this.allProducts[i].quantity - 1;
+                    this.addCat(products);
                     return;
                 }
             }
@@ -157,7 +184,7 @@ export class CategoriesComponent implements OnInit {
     }
 
     resData;
-    addCat(prodId, products) {
+    addCat(products) {
         if (this.skId === undefined) {
             swal('Please select Size', '', 'error');
             return;
@@ -165,7 +192,7 @@ export class CategoriesComponent implements OnInit {
         if (localStorage.token === undefined) {
             swal('Pleaase Login', '', 'warning');
         } else {
-            var inData = "product_id=" + prodId +
+            var inData = "product_id=" + products.id +
                 "&quantity=" + products.quantity +
                 "&product_sku_id=" + this.skId
 
@@ -174,7 +201,14 @@ export class CategoriesComponent implements OnInit {
                 this.resData = response.json();
                 if (response.json().status === 200) {
                     swal(response.json().message, "", "success");
+                    this.resData = response.json();
+                    swal(response.json().message, "", "success");
+                    this.mainServe.getCartList();
+                    this.getDashboard();
                     this.skId = undefined;
+                    this.products.quantity = 1
+                    this.notInCart = false;
+                    this.selected = undefined
                 } else {
                     swal(response.json().message, "", "error");
                     this.skId = undefined;

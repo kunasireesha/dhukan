@@ -32,8 +32,12 @@ export class SearchproductsComponent implements OnInit {
   item = {
     quantity: 1
   }
+  data = {
+    quantity: 1
+  }
   selected;
   showInput = false;
+  notInCart = true;
   selectOption(skId) {
     this.skId = skId
     if (this.products !== undefined) {
@@ -42,6 +46,14 @@ export class SearchproductsComponent implements OnInit {
           if (this.products[i].sku[j].skid === parseInt(skId)) {
             this.products[i].actual_price = this.products[i].sku[j].actual_price;
             this.products[i].offer_price = this.products[i].sku[j].offer_price;
+            this.products[i].quantity = this.products[i].sku[j].mycart;
+            this.products[i].product_image = this.products[i].sku[j].image;
+            if (this.products[i].sku[j].mycart === 0 || this.products[i].sku[j].length === 0) {
+              this.products[i].quantity = 1;
+              this.notInCart = true;
+            } else {
+              this.notInCart = false;
+            }
           }
         }
 
@@ -50,27 +62,52 @@ export class SearchproductsComponent implements OnInit {
   }
 
   //add to cart
-  itemIncrease(title) {
+  itemIncrease(products, title) {
     for (var i = 0; i < this.products.length; i++) {
       if (title === this.products[i].title) {
         this.products[i].quantity = this.products[i].quantity + 1;
-        return;
+        this.addCat(products);
       }
     }
   }
 
-  itemDecrease(title) {
+  itemDecrease(title, products) {
     for (var i = 0; i < this.products.length; i++) {
       if (title === this.products[i].title) {
         if (this.products[i].quantity === 1) {
-          return;
+          this.products[i].quantity = this.products[i].quantity - 1;
+          // this.mainServe.modifyCart(id,this.allProducts[i].quantity,this.skId,)
+          this.deleteCart(this.skId);
+          this.mainServe.getCartList();
+          this.skId = undefined;
+          this.data.quantity = 1
+          this.notInCart = false;
+          this.selected = undefined;
+          // if (this.mainServe.viewCart === undefined) {
+          //     this.mainServe.cartCount = 0;
+          // }
+
         } else {
           this.products[i].quantity = this.products[i].quantity - 1;
+          this.addCat(products);
           return;
         }
       }
     }
   }
+
+  // itemDecrease(title) {
+  //   for (var i = 0; i < this.products.length; i++) {
+  //     if (title === this.products[i].title) {
+  //       if (this.products[i].quantity === 1) {
+  //         return;
+  //       } else {
+  //         this.products[i].quantity = this.products[i].quantity - 1;
+  //         return;
+  //       }
+  //     }
+  //   }
+  // }
   resData;
   addCat(prodData) {
     if (this.skId === undefined) {
@@ -90,6 +127,12 @@ export class SearchproductsComponent implements OnInit {
         if (response.json().status === 200) {
           swal(response.json().message, "", "success");
           this.skId = undefined;
+          this.mainServe.getCartList();
+          this.getDashboard();
+          this.skId = undefined;
+          this.data.quantity = 1
+          this.notInCart = false;
+          this.selected = undefined
         } else {
           swal(response.json().message, "", "error");
           this.skId = undefined;

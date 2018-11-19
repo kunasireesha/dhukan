@@ -17,7 +17,7 @@ import { Post } from '../../services/products';
 export class MainComponent implements OnInit {
 
     constructor(public mainServe: MainService, public router: Router, private headerSer: HeaderService, public headerComp: HeaderComponent) {
-        this.getDashboard();
+        this.getDashboard('');
         this.getCartList();
     }
     posts: Post[];
@@ -39,10 +39,13 @@ export class MainComponent implements OnInit {
     deliveryCharge;
     subTotal;
     Total;
+    select = {
+        skId: ''
+    }
     ngOnInit() {
         window.scrollTo(0, 0);
         this.getAllCategoriesWithSubCat();
-        this.getDashboard();
+        this.getDashboard('');
         this.mainServe.getCartList();
 
     }
@@ -72,18 +75,17 @@ export class MainComponent implements OnInit {
     selected;
     showInput = false;
     //add to cart
-    itemIncrease(products, title) {
+    itemIncrease(products, title, index) {
         for (var i = 0; i < this.allProducts.length; i++) {
             if (title === this.allProducts[i].title) {
                 this.allProducts[i].quantity = this.allProducts[i].quantity + 1;
-                this.addCat(products);
+                this.addCat(products, index);
                 return;
             }
         }
     }
 
-    itemDecrease(title, products) {
-        console.log(products);
+    itemDecrease(title, products, index) {
         for (var i = 0; i < this.allProducts.length; i++) {
             if (title === this.allProducts[i].title) {
                 if (this.allProducts[i].quantity === 1) {
@@ -101,7 +103,7 @@ export class MainComponent implements OnInit {
 
                 } else {
                     this.allProducts[i].quantity = this.allProducts[i].quantity - 1;
-                    this.addCat(products);
+                    this.addCat(products, index);
                     return;
                 }
             }
@@ -132,12 +134,11 @@ export class MainComponent implements OnInit {
             //   console.log(this.banners);
         });
     }
-    skId;
+    skId = '';
     skuId;
     notInCart = true;
     selectOption(skId, index) {
         this.selected = index;
-
         for (var i = 0; i < this.allProducts.length; i++) {
             for (var j = 0; j < this.allProducts[i].sku.length; j++) {
                 if (this.allProducts[i].sku[j].skid === parseInt(skId)) {
@@ -155,15 +156,12 @@ export class MainComponent implements OnInit {
                     }
                 }
             }
-
-
         }
     }
     products = {
         quantity: 1
     }
-
-    addCat(prodData) {
+    addCat(prodData, index) {
         if (this.skId === undefined) {
             swal('Please select Size', '', 'error');
             return;
@@ -177,16 +175,14 @@ export class MainComponent implements OnInit {
 
 
         this.mainServe.addCat(inData).subscribe(response => {
-            // this.mainServe.getDashboard();
             if (response.json().status === 200) {
                 this.resData = response.json();
+                this.cartCount = response.json().summary.cart_count;
                 swal(response.json().message, "", "success");
+                this.getDashboard(index);
                 this.mainServe.getCartList();
-                this.getDashboard();
-                this.skId = undefined;
-                this.products.quantity = 1
-                this.notInCart = false;
-                this.selected = undefined
+                // this.skId = undefined;
+                // this.products.quantity = 1;
             } else {
                 swal(response.json().message, "", "error");
                 // this.skId = undefined;
@@ -246,7 +242,7 @@ export class MainComponent implements OnInit {
     viewCart;
 
     getCartList() {
-        this.getDashboard();
+        this.getDashboard('');
         this.mainServe.getCartList();
     }
 
@@ -259,12 +255,12 @@ export class MainComponent implements OnInit {
     itemHeaderDecrease(title, data, skuData) {
         this.mainServe.itemHeaderDecrease(title, data, skuData);
         this.mainServe.getCartList();
-        this.getDashboard();
+        this.getDashboard('');
     }
 
     itemHeaderIncrease(title, item, data) {
         this.mainServe.itemHeaderIncrease(title, item, data);
-        this.getDashboard();
+        this.getDashboard('');
     }
 
     showCat() {
@@ -298,8 +294,8 @@ export class MainComponent implements OnInit {
             if (value === true) {
                 this.mainServe.deleteCart(inData).subscribe(response => {
                     if (response.json().status === 200) {
-                        this.mainServe.getCartList();
-                        this.getDashboard();
+                        this.cartCount = response.json().summary.cart_count;
+                        this.getDashboard('');
                         swal(response.json().message, "", "success");
                     } else {
                         swal(response.json().message, "", "error");
@@ -315,7 +311,7 @@ export class MainComponent implements OnInit {
     }
 
 
-    getDashboard() {
+    getDashboard(index) {
 
         this.mainServe.getDashboard().subscribe(response => {
             this.dashboardData = response.json();
@@ -325,16 +321,19 @@ export class MainComponent implements OnInit {
             this.deliveryCharge = response.json().cart.delivery_charge.toFixed(2);
             this.subTotal = response.json().cart.selling_price.toFixed(2);
             this.Total = response.json().cart.grand_total.toFixed(2);
+            if (index !== '') {
+                this.notInCart = false;
+                this.selected = index;
+                this.skId = this.skId;
+            }
             for (var i = 0; i < this.allProducts.length; i++) {
                 for (var j = 0; j < this.allProducts[i].sku.length; j++) {
                     this.allProducts[i].quantity = this.allProducts[i].sku[j].mycart;
-
                     // if (this.allProducts[i].sku[j].mycart === 0 || undefined) {
                     //     this.allProducts[i].quantity = 1;
                     //     this.notInCart = true;
                     // }
                     this.allProducts[i].quantity = 1;
-
                 }
                 this.allProducts[i].product_image = this.allProducts[i].pic[0].product_image;
 

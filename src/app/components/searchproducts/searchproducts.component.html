@@ -29,7 +29,8 @@
             </li>
             <li>
               <h4 (click)="getCartList()">Shopping Cart</h4>
-              <span (click)="getCartList()">{{cartCount}}</span>
+              <span (click)="getCartList()" *ngIf="mainServe.cartCount!==undefined">{{mainServe.cartCount}}</span>
+              <span (click)="getCartList()" *ngIf="mainServe.cartCount==undefined">0</span>
             </li>
           </ul>
         </button>
@@ -75,8 +76,9 @@
               <div class="col-lg-4">
                 <ul class="product-cart-price">
                   <li>
-                    <!-- <p>Rs.36</p> -->
-                    <!-- <p class="text-danger">BIG SAVE PRICE: RS 32</p> -->
+                    <p>Rs : {{item.selling_price}}</p>
+                    <p class="text-danger" *ngFor="let sku of item.sku">BIG SAVE PRICE : RS {{sku.actual_price -
+                      sku.selling_price}}</p>
                   </li>
                 </ul>
               </div>
@@ -297,6 +299,18 @@
             <!-- product details -->
             <div class="col-lg-12 col-md-12 col-sm-12 cart-btn">
               <div class="quantity">
+                <button class="minus-btn" type="button" name="button" (click)="itemDecrease(data.title,data)" *ngIf="!notInCart && i === selected">
+                  <i class="fa fa-minus " aria-hidden="true"></i>
+                </button>
+                <lable *ngIf="notInCart || i !== selected">Quantity : </lable>
+                <input type="text" name="mycart" readonly="readonly" [value]="data.quantity" />
+                &nbsp;<lable *ngIf="!notInCart && i === selected">in cart</lable>&nbsp;
+                <button class="plus-btn" type="button" name="button" (click)="itemIncrease(data,data.title)" *ngIf="!notInCart && i === selected">
+                  <i class="fa fa-plus" aria-hidden="true"></i>
+                </button>
+              </div><br *ngIf="!notInCart && i === selected" />
+
+              <!-- <div class="quantity">
                 <button class="minus-btn" type="button" name="button" (click)="itemDecrease(data.title)">
                   <i class="fa fa-minus " aria-hidden="true"></i>
                 </button>
@@ -305,9 +319,9 @@
                 <button class="plus-btn" type="button" name="button" (click)="itemIncrease(data.title)">
                   <i class="fa fa-plus" aria-hidden="true"></i>
                 </button>
-              </div>
+              </div> -->
             </div>
-            <div class="col-lg-12 col-md-12 col-sm-12 cart-btn cart-image-button">
+            <div class="col-lg-12 col-md-12 col-sm-12 cart-btn cart-image-button" *ngIf="notInCart || i !== selected">
               <button class="btn category-btn" type="button" name="button" (click)="addCat(data)">
                 <span>Add</span>
                 <img src="assets/images/online-shopping-cart.png">
