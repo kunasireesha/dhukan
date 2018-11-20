@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { MatDialog, MatDialogConfig } from '@angular/material';
+import { MatDialog, MatDialogConfig, MAT_CHIPS_DEFAULT_OPTIONS } from '@angular/material';
 import { HeaderComponent } from '../header/header.component';
 import { MainService } from '../../services/main/main';
 import { HeaderService } from '../../services/header/header';
@@ -17,7 +17,7 @@ import { Post } from '../../services/products';
 export class MainComponent implements OnInit {
 
     constructor(public mainServe: MainService, public router: Router, private headerSer: HeaderService, public headerComp: HeaderComponent) {
-        this.getDashboard('');
+        this.getDashboard('', '', '');
         this.getCartList();
     }
     posts: Post[];
@@ -39,13 +39,16 @@ export class MainComponent implements OnInit {
     deliveryCharge;
     subTotal;
     Total;
-    select = {
-        skId: ''
+
+    notInCart = true;
+    selecte = {
+        skid: ''
     }
+
     ngOnInit() {
         window.scrollTo(0, 0);
         this.getAllCategoriesWithSubCat();
-        this.getDashboard('');
+        this.getDashboard('', '', '');
         this.mainServe.getCartList();
 
     }
@@ -79,7 +82,7 @@ export class MainComponent implements OnInit {
         for (var i = 0; i < this.allProducts.length; i++) {
             if (title === this.allProducts[i].title) {
                 this.allProducts[i].quantity = this.allProducts[i].quantity + 1;
-                this.addCat(products, index);
+                // this.addCat(products, index, this.allProducts[i].quantity);
                 return;
             }
         }
@@ -103,7 +106,7 @@ export class MainComponent implements OnInit {
 
                 } else {
                     this.allProducts[i].quantity = this.allProducts[i].quantity - 1;
-                    this.addCat(products, index);
+                    // this.addCat(products, index, this.allProducts[i].quantity);
                     return;
                 }
             }
@@ -136,32 +139,42 @@ export class MainComponent implements OnInit {
     }
     skId = '';
     skuId;
-    notInCart = true;
     selectOption(skId, index) {
-        this.selected = index;
+        // this.getDashboard(index, '', '');
+
+
         for (var i = 0; i < this.allProducts.length; i++) {
             for (var j = 0; j < this.allProducts[i].sku.length; j++) {
                 if (this.allProducts[i].sku[j].skid === parseInt(skId)) {
-                    this.skId = skId
+                    this.skId = skId;
+                    this.selecte.skid = skId;
                     this.allProducts[i].actual_price = this.allProducts[i].sku[j].actual_price;
                     this.allProducts[i].selling_price = this.allProducts[i].sku[j].selling_price;
                     this.allProducts[i].quantity = this.allProducts[i].sku[j].mycart;
-                    this.allProducts[i].product_image = this.allProducts[i].sku[j].image;
-
+                    this.allProducts[i].product_image = this.allProducts[i].sku[j].skuImage[0];
                     if (this.allProducts[i].sku[j].mycart === 0 || undefined) {
                         this.allProducts[i].quantity = 1;
                         this.notInCart = true;
                     } else {
                         this.notInCart = false;
+                        this.selected = index;
                     }
+                } else {
+                    this.selecte.skid = '';
+                    this.allProducts[i].quantity = 1;
                 }
             }
         }
+
+        //  else {
+        //     this.notInCart = true;
+        // }
     }
     products = {
         quantity: 1
     }
-    addCat(prodData, index) {
+    addCat(prodData, index, quantity) {
+
         if (this.skId === undefined) {
             swal('Please select Size', '', 'error');
             return;
@@ -179,9 +192,11 @@ export class MainComponent implements OnInit {
                 this.resData = response.json();
                 this.cartCount = response.json().summary.cart_count;
                 swal(response.json().message, "", "success");
-                this.getDashboard(index);
+                // this.getDashboard(index, quantity, prodData);
                 this.mainServe.getCartList();
                 // this.skId = undefined;
+                this.notInCart = false;
+                // this.selected = index;
                 // this.products.quantity = 1;
             } else {
                 swal(response.json().message, "", "error");
@@ -242,7 +257,7 @@ export class MainComponent implements OnInit {
     viewCart;
 
     getCartList() {
-        this.getDashboard('');
+        // this.getDashboard('', '', '');
         this.mainServe.getCartList();
     }
 
@@ -255,12 +270,12 @@ export class MainComponent implements OnInit {
     itemHeaderDecrease(title, data, skuData) {
         this.mainServe.itemHeaderDecrease(title, data, skuData);
         this.mainServe.getCartList();
-        this.getDashboard('');
+        // this.getDashboard('', '', '');
     }
 
     itemHeaderIncrease(title, item, data) {
         this.mainServe.itemHeaderIncrease(title, item, data);
-        this.getDashboard('');
+        // this.getDashboard('', '', '');
     }
 
     showCat() {
@@ -295,7 +310,7 @@ export class MainComponent implements OnInit {
                 this.mainServe.deleteCart(inData).subscribe(response => {
                     if (response.json().status === 200) {
                         this.cartCount = response.json().summary.cart_count;
-                        this.getDashboard('');
+                        this.getDashboard('', '', '');
                         swal(response.json().message, "", "success");
                     } else {
                         swal(response.json().message, "", "error");
@@ -309,10 +324,11 @@ export class MainComponent implements OnInit {
         });
 
     }
-
-
-    getDashboard(index) {
-
+    sku = {
+        skid: ''
+    }
+    skid;
+    getDashboard(index, quantity, prodData) {
         this.mainServe.getDashboard().subscribe(response => {
             this.dashboardData = response.json();
             this.allProducts = response.json().products;
@@ -324,21 +340,41 @@ export class MainComponent implements OnInit {
             if (index !== '') {
                 this.notInCart = false;
                 this.selected = index;
-                this.skId = this.skId;
-            }
-            for (var i = 0; i < this.allProducts.length; i++) {
-                for (var j = 0; j < this.allProducts[i].sku.length; j++) {
-                    this.allProducts[i].quantity = this.allProducts[i].sku[j].mycart;
-                    // if (this.allProducts[i].sku[j].mycart === 0 || undefined) {
-                    //     this.allProducts[i].quantity = 1;
-                    //     this.notInCart = true;
-                    // }
-                    this.allProducts[i].quantity = 1;
-                }
-                this.allProducts[i].product_image = this.allProducts[i].pic[0].product_image;
+                this.selecte.skid = this.skId;
+                // this.skId = this.skId;
+                for (var i = 0; i < this.allProducts.length; i++) {
+                    for (var j = 0; j < this.allProducts[i].sku.length; j++) {
 
+                        if (prodData.id === this.allProducts[i].id) {
+                            this.allProducts[i].quantity = this.allProducts[i].sku[j].mycart;
+                            // if (this.allProducts[i].sku[j].mycart === 0 || undefined) {
+                            //     this.allProducts[i].quantity = 1;
+                            //     this.notInCart = true;
+                            // }
+                            this.allProducts[i].quantity = quantity;
+                            this.selecte.skid = this.skId;
+                            // 
+                        } else {
+                            this.allProducts[i].quantity = 1;
+                            this.selecte.skid = '';
+                        }
+                    }
+                    this.allProducts[i].product_image = this.allProducts[i].pic[0].product_image;
+                }
+
+            } else {
+                for (var i = 0; i < this.allProducts.length; i++) {
+                    for (var j = 0; j < this.allProducts[i].sku.length; j++) {
+                        this.allProducts[i].quantity = this.allProducts[i].sku[j].mycart;
+                        // if (this.allProducts[i].sku[j].mycart === 0 || undefined) {
+                        //     this.allProducts[i].quantity = 1;
+                        //     this.notInCart = true;
+                        // }
+                        this.allProducts[i].quantity = 1;
+                    }
+                    this.allProducts[i].product_image = this.allProducts[i].pic[0].product_image;
+                }
             }
-            console.log(this.allProducts);
             this.image = response.json().offer.TOP1[0].pic;
         })
     }

@@ -47,7 +47,7 @@ export class SearchproductsComponent implements OnInit {
             this.products[i].actual_price = this.products[i].sku[j].actual_price;
             this.products[i].offer_price = this.products[i].sku[j].offer_price;
             this.products[i].quantity = this.products[i].sku[j].mycart;
-            this.products[i].product_image = this.products[i].sku[j].image;
+            this.products[i].product_image = this.products[i].sku[j].skuImage[0];
             if (this.products[i].sku[j].mycart === 0 || this.products[i].sku[j].length === 0) {
               this.products[i].quantity = 1;
               this.notInCart = true;

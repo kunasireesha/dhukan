@@ -29,8 +29,8 @@
             </li>
             <li>
               <h4 (click)="getCartList()">Shopping Cart</h4>
-              <span (click)="getCartList()" *ngIf="cartCount!==undefined">{{cartCount}}</span>
-              <span (click)="getCartList()" *ngIf="cartCount==undefined">0</span>
+              <span (click)="getCartList()" *ngIf="mainServe.cartCount!==undefined">{{mainServe.cartCount}}</span>
+              <span (click)="getCartList()" *ngIf="mainServe.cartCount==undefined">0</span>
             </li>
           </ul>
         </button>
@@ -307,11 +307,13 @@
                   <li>
                     <form>
                       <div class="form-group">
-                        <select class="form-control input-field" id="exampleFormControlSelect1" (change)="selectOption($event.target.value,i)"
-                          [(ngModel)]="skId" name="skId">
-                          <option [ngValue]=''>Select Size..</option>
-                          <!-- <option value='' *ngIf="selected!==i">Select Size..</option> -->
-                          <option *ngFor="let sku of products.sku" [ngValue]="sku.skid">{{sku.size}} </option>
+                        <!-- <select [(ngModel)]="skid" (ngModelChange)="selectOption(skid)">
+                          <option *ngFor="let sku of products.sku">{{sku.sku}} </option>
+                        </select> -->
+                        <select class="form-control input-field" id="exampleFormControlSelect1" [(ngModel)]="selecte.skid"
+                          name="skid" (change)="selectOption($event.target.value,i)">
+                          <option value="">Select Size..</option>
+                          <option *ngFor="let sku of products.sku" value="{{sku.skid}}">{{sku.size}} </option>
                         </select>
                       </div>
                     </form>
@@ -373,10 +375,10 @@
                   *ngIf="!notInCart && i === selected">
                   <i class="fa fa-plus" aria-hidden="true"></i>
                 </button>
-              </div><br *ngIf="!notInCart && i === selected" />
+              </div>
             </div>
-            <div class="col-lg-12 col-md-12 col-sm-12 cart-btn cart-image-button" *ngIf="notInCart || i !== selected">
-              <button class="btn category-btn" type="button" name="button" (click)="addCat(products,i)">
+            <div class="col-lg-12 col-md-12 col-sm-12 cart-btn cart-image-button">
+              <button class="btn category-btn" type="button" name="button" (click)="addCat(products,i,products.quantity)">
                 <span class="addbtn">Add</span>
                 <img class="addbtn" src="assets/images/online-shopping-cart.png">
               </button>

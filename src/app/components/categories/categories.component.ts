@@ -141,7 +141,7 @@ export class CategoriesComponent implements OnInit {
                     this.allProducts[i].actual_price = this.allProducts[i].sku[j].actual_price;
                     this.allProducts[i].offer_price = this.allProducts[i].sku[j].offer_price;
                     this.allProducts[i].quantity = this.allProducts[i].sku[j].mycart;
-                    this.allProducts[i].product_image = this.allProducts[i].sku[j].image;
+                    this.allProducts[i].product_image = this.allProducts[i].sku[j].skuImage[0];
 
                     if (this.allProducts[i].sku[j].mycart === 0 || undefined) {
                         this.allProducts[i].quantity = 1;
