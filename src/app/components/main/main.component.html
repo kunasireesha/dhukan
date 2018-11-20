@@ -310,11 +310,18 @@
                         <!-- <select [(ngModel)]="skid" (ngModelChange)="selectOption(skid)">
                           <option *ngFor="let sku of products.sku">{{sku.sku}} </option>
                         </select> -->
-                        <select class="form-control input-field" id="exampleFormControlSelect1" [(ngModel)]="selecte.skid"
+
+                        <p (click)="showSizes(i)" *ngIf="showselecteddata && selected!==i" name="skid" class="sizes">select
+                          size</p>
+                        <p (click)="showSizes(i)" *ngIf="showselecteddata && selected==i" name="skid" [ngClass]="{'sizes':selecte.skid!==''}">{{selecte.skid}}</p>
+                        <div *ngIf="showSizeData && selected==i" class="sizes">
+                          <p *ngFor="let sku of products.sku" (click)="showselected(sku.skid,sku.size,i)">{{sku.size}}</p>
+                        </div>
+                        <!-- <select class="form-control input-field" id="exampleFormControlSelect1" [(ngModel)]="selecte.skid"
                           name="skid" (change)="selectOption($event.target.value,i)">
-                          <option value="">Select Size..</option>
+                          <option value="" disabled selected>Select Size..</option>
                           <option *ngFor="let sku of products.sku" value="{{sku.skid}}">{{sku.size}} </option>
-                        </select>
+                        </select> -->
                       </div>
                     </form>
                   </li>
@@ -364,14 +371,14 @@
                 </button> -->
               <!-- </div> -->
               <div class="quantity">
-                <button class="minus-btn" type="button" name="button" (click)="itemDecrease(products.title,products,i)"
+                <button class="minus-btn" type="button" name="button" (click)="itemDecrease(products.id,products,i)"
                   *ngIf="!notInCart && i === selected">
                   <i class="fa fa-minus " aria-hidden="true"></i>
                 </button>
                 <lable *ngIf="notInCart || i !== selected">Quantity : </lable>
                 <input type="text" name="mycart" readonly="readonly" [value]="products.quantity" />
                 &nbsp;<lable *ngIf="!notInCart && i === selected">in cart</lable>&nbsp;
-                <button class="plus-btn" type="button" name="button" (click)="itemIncrease(products,products.title,i)"
+                <button class="plus-btn" type="button" name="button" (click)="itemIncrease(products,products.id,i)"
                   *ngIf="!notInCart && i === selected">
                   <i class="fa fa-plus" aria-hidden="true"></i>
                 </button>

@@ -2,6 +2,7 @@
 @import '~bootstrap/dist/css/bootstrap.css';
 @import '~bootstrap/dist/css/bootstrap.min.css';
 @import '~@angular/material/prebuilt-themes/deeppurple-amber.css';
+@import "~@ng-select/ng-select/themes/default.theme.css";
 
 @font-face {
   font-family: 'Aileron-Regular';
@@ -446,4 +447,10 @@ img {
     margin-top: 28px;
     margin-left: -9px;
   }
+}
+
+
+.sizes {
+  border: 1px solid gray;
+  padding: 5px;
 }

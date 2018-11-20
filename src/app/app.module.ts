@@ -17,6 +17,7 @@ import { TooltipModule } from 'ngx-bootstrap/tooltip';
 import { CarouselModule } from 'ngx-bootstrap/carousel';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { MyDatePickerModule } from 'mydatepicker';
+import { NgSelectModule } from '@ng-select/ng-select';
 
 //components
 import { AppComponent } from './app.component';
@@ -103,6 +104,7 @@ export function getAuthServiceConfigs() {
 		AngularFontAwesomeModule,
 		ImageZoomModule,
 		HttpModule,
+		NgSelectModule,
 		SocialLoginModule,
 		TooltipModule.forRoot(),
 		CarouselModule.forRoot(),
