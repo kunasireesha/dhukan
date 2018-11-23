@@ -249,28 +249,45 @@
               <img [src]="data.product_image" class="img-fluid prodImage" (click)="ShowProductDetails(data.id)">
             </div>
 
-            <div class="col-md-12">
+            <div class="col-md-12 prices">
+              <div>
+                <!-- <li> -->
+                <form>
+                  <div class="form-group">
+                    <!-- <select [(ngModel)]="skid" (ngModelChange)="selectOption(skid)">
+                                <option *ngFor="let sku of products.sku">{{sku.sku}} </option>
+                              </select> -->
+
+                    <p (click)="showSizes(i)" *ngIf="showselecteddata && selected!==i" name="skid" class="sizes">{{data.sku[0].size}}</p>
+                    <p (click)="showSizes(i)" *ngIf="showselecteddata && selected==i" name="skid" [ngClass]="{'sizes':selecte.skid!==''}">{{selecte.skid}}</p>
+                    <!-- <p (click)="showSizes(i)" *ngIf="showselecteddata" name="skid" [ngClass]="{'sizes':selecte.skid!==''}">{{selecte.skid}}</p> -->
+
+
+                    <div *ngIf="showSizeData && selected==i" class="sizes size-drop">
+                      <p *ngFor="let sku of data.sku" (click)="showselected(sku.skid,sku.size,i,sku)">{{sku.size}}</p>
+                    </div>
+                    <!-- <select class="form-control input-field" id="exampleFormControlSelect1" [(ngModel)]="selecte.skid"
+                                name="skid" (change)="selectOption($event.target.value,i)">
+                                <option value="" disabled selected>Select Size..</option>
+                                <option *ngFor="let sku of products.sku" value="{{sku.skid}}">{{sku.size}} </option>
+                              </select> -->
+                  </div>
+                </form>
+                <!-- </li> -->
+              </div>
               <div class="product-names text-center">
                 <ul>
-                  <li>
-                    <form>
-                      <div class="form-group">
-                        <select class="form-control input-field" id="exampleFormControlSelect1" (change)="selectOption($event.target.value,i)">
-                          <option>Select Size..</option>
-                          <option *ngFor="let sku of data.sku" [value]="sku.skid">{{sku.size}} </option>
-                        </select>
-                      </div>
-                    </form>
-                  </li>
+
                   <li>
                     <h3 class="text-center">{{data.title}}</h3>
                   </li>
                   <li>MRP :
-                    <span class="price">{{data.actual_price}} </span>
-                    <span class="offer-price"> {{data.offer_price}}</span>
+                    <span class="price">{{data.skuActualPrice}} </span>
+                    <span class="offer-price"> {{data.sellingPrice}}</span>
                   </li>
                   <li>
-                    <span class="text-danger">{{ "offer-price" | translate}}</span>
+                    <span class="text-danger">{{ "offer-price" | translate}} {{data.skuActualPrice -
+                      data.sellingPrice || 0}}</span>
                   </li>
                   <li>
                     <ul class="rating">
@@ -307,7 +324,28 @@
                   <i class="fa fa-plus" aria-hidden="true"></i>
                 </button>
               </div> -->
-              <div class="quantity">
+              <div class="quantity" [ngClass]="{'top':!notInCart && i === selected}">
+                <button class="minus-btn" type="button" name="button" (click)="itemDecrease(data.id,data,i)" *ngIf="!notInCart && i === selected">
+                  <i class="fa fa-minus " aria-hidden="true"></i>
+                </button>
+                <lable *ngIf="notInCart || i !== selected">Quantity : </lable>
+                <input type="text" name="mycart" readonly="readonly" [value]="data.quantity" />
+                &nbsp;<lable *ngIf="!notInCart && i === selected">in cart</lable>&nbsp;
+                <button class="plus-btn" type="button" name="button" (click)="itemIncrease(data,data.id,i)" *ngIf="!notInCart && i === selected">
+                  <i class="fa fa-plus" aria-hidden="true"></i>
+                </button>
+              </div>
+              <br *ngIf="!notInCart && i === selected" />
+            </div>
+            <div class="col-lg-12 col-md-12 col-sm-12 cart-btn cart-image-button" *ngIf="notInCart || i !== selected">
+              <button class="btn category-btn" type="button" name="button" (click)="addCat(data,i,data.quantity)">
+                <span class="addbtn">Add</span>
+                <img class="addbtn" src="assets/images/online-shopping-cart.png">
+              </button>
+            </div>
+
+
+            <!-- <div class="quantity">
                 <button class="minus-btn" type="button" name="button" (click)="itemDecrease(data.title,data)" *ngIf="!notInCart && i === selected">
                   <i class="fa fa-minus " aria-hidden="true"></i>
                 </button>
@@ -317,8 +355,8 @@
                 <button class="plus-btn" type="button" name="button" (click)="itemIncrease(data,data.title)" *ngIf="!notInCart && i === selected">
                   <i class="fa fa-plus" aria-hidden="true"></i>
                 </button>
-              </div><br *ngIf="!notInCart && i === selected" />
-              <!-- <div class="quantity">
+              </div><br *ngIf="!notInCart && i === selected" /> -->
+            <!-- <div class="quantity">
                 <button class="minus-btn" type="button" name="button" (click)="itemDecrease(data.title)">
                   <i class="fa fa-minus " aria-hidden="true"></i>
                 </button>
@@ -328,13 +366,13 @@
                   <i class="fa fa-plus" aria-hidden="true"></i>
                 </button>
               </div> -->
-            </div>
+            <!-- </div>
             <div class="col-lg-12 col-md-12 col-sm-12 cart-btn cart-image-button" *ngIf="notInCart || i !== selected">
               <button class="btn category-btn" type="button" name="button" (click)="addCat(data)">
                 <span class="addbtn">Add</span>
                 <img class="addbtn" src="assets/images/online-shopping-cart.png">
               </button>
-            </div>
+            </div> -->
           </div>
         </div>
       </div>
@@ -414,7 +452,27 @@
             </div>
             <!-- product details -->
             <div class="col-lg-12 col-md-12 col-sm-12 cart-btn">
+
               <div class="quantity">
+                <button class="minus-btn" type="button" name="button" (click)="itemDecrease(data.id,data,i)" *ngIf="!notInCart && i === selected">
+                  <i class="fa fa-minus " aria-hidden="true"></i>
+                </button>
+                <lable *ngIf="notInCart || i !== selected">Quantity : </lable>
+                <input type="text" name="mycart" readonly="readonly" [value]="data.quantity" />
+                &nbsp;<lable *ngIf="!notInCart && i === selected">in cart</lable>&nbsp;
+                <button class="plus-btn" type="button" name="button" (click)="itemIncrease(data,data.id,i)" *ngIf="!notInCart && i === selected">
+                  <i class="fa fa-plus" aria-hidden="true"></i>
+                </button>
+              </div>
+              <br *ngIf="!notInCart && i === selected" />
+            </div>
+            <div class="col-lg-12 col-md-12 col-sm-12 cart-btn cart-image-button" *ngIf="notInCart || i !== selected">
+              <button class="btn category-btn" type="button" name="button" (click)="addCat(data,i,data.quantity)">
+                <span class="addbtn">Add</span>
+                <img class="addbtn" src="assets/images/online-shopping-cart.png">
+              </button>
+            </div>
+            <!-- <div class="quantity">
                 <button class="minus-btn" type="button" name="button" (click)="itemDecrease(data.title)">
                   <i class="fa fa-minus " aria-hidden="true"></i>
                 </button>
@@ -430,7 +488,7 @@
                 <span>Add</span>
                 <img src="assets/images/online-shopping-cart.png">
               </button>
-            </div>
+            </div> -->
           </div>
         </div>
       </div>

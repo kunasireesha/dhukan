@@ -90,6 +90,21 @@ export class HeaderService {
         return this.putInputParams('cart/cart-list ', params);
     }
 
+    forgotChangePassword(params): Observable<any> {
+        return this.postInputParams('users/changepassword', params);
+    }
+
+    jsonPstUrl(url, params) {
+        const headers = new Headers({
+            'Content-Type': "application/json"
+
+        });
+        return this.http.post(AppSettings.baseUrl + url, params, { headers: headers });
+    }
+
+    verifyPassword(params): Observable<any> {
+        return this.jsonPstUrl('users/verifyOTP', params);
+    }
 
 
 };

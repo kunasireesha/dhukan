@@ -181,14 +181,15 @@ export class MainService {
         this.http.get(AppSettings.baseUrl + 'cart/cart-list', { headers: headers }).subscribe(response => {
             this.viewCart = response.json().data;
             for (var i = 0; i < this.viewCart.length; i++) {
-                this.viewCart[i].product_image = this.viewCart[i].sku[0].image;
+                this.viewCart[i].product_image = this.viewCart[i].sku[0].skuImages[0];
                 this.viewCart[i].mrp = this.viewCart[i].sku[0].mrp;
+                this.viewCart[i].selling_price = this.viewCart[i].sku[0].selling_price;
                 this.viewCart[i].selling_price = this.viewCart[i].sku[0].selling_price;
             }
             if (response.json().summary === undefined) {
                 this.cartCount = 0;
             } else {
-                this.cartCount = response.json().summary.cart_count || 0;
+                this.cartCount = response.json().summary.cart_count;
 
             }
 

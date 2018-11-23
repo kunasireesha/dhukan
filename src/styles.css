@@ -454,3 +454,22 @@ img {
   border: 1px solid gray;
   padding: 5px;
 }
+
+.product-names .afterdrop {
+  margin-top: 26% !important;
+}
+
+.prices {
+  height: 150px;
+}
+
+.top {
+  height: 83px;
+}
+
+.size-drop {
+  position: absolute;
+  width: 85%;
+  background-color: white;
+  z-index: 20;
+}
