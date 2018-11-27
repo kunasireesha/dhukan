@@ -26,6 +26,7 @@ export class ProductdetailsComponent implements OnInit {
   thumbImgSrc;
   thumbImgSrc1;
   thumbImgSrc2;
+  notInCart;
   prodData: any[];
   url;
   selecte = { skId: '' };
@@ -44,15 +45,19 @@ export class ProductdetailsComponent implements OnInit {
     let thisObj = this;
 
     thisObj.item.quantity = Math.floor(thisObj.item.quantity + 1);
+    this.addCat();
 
   }
   itemDecrease() {
     let thisObj = this;
     if (thisObj.item.quantity === 1) {
+      thisObj.item.quantity = Math.floor(thisObj.item.quantity - 1);
+      this.deleteCart(this.selecte.skId);
+      this.notInCart = false;
       return;
     }
     thisObj.item.quantity = Math.floor(thisObj.item.quantity - 1);
-
+    this.addCat();
   }
 
   showImage(image) {
@@ -82,6 +87,11 @@ export class ProductdetailsComponent implements OnInit {
       for (var i = 0; i < response.json().products[0].pic.length; i++) {
         this.images.push(response.json().products[0].pic[i].product_image);
       }
+      if (response.json().products[0].sku[0].mycart !== 0) {
+        this.notInCart = true;
+      } else {
+        this.notInCart = false;
+      }
 
       console.log(this.prodData);
       // }
@@ -109,8 +119,11 @@ export class ProductdetailsComponent implements OnInit {
         this.item.quantity = this.skuData[i].mycart;
         if (this.skuData[i].mycart === 0 || undefined) {
           this.item.quantity = 1;
+          this.notInCart = false;
         } else {
           this.item.quantity = this.skuData[i].mycart;
+          this.notInCart = true;
+
         }
         for (var i = 0; i < prodData.sku.length; i++) {
           if (prodData.sku[i].skid === parseInt(skId)) {
@@ -123,7 +136,7 @@ export class ProductdetailsComponent implements OnInit {
     }
   }
   resData;
-  addCat(prodData) {
+  addCat() {
     if (this.selecte.skId === undefined) {
       swal('Please select Size', '', 'error');
       return;
@@ -144,6 +157,7 @@ export class ProductdetailsComponent implements OnInit {
         this.showProductDetails();
         this.getDashboard();
         this.mainSer.getCartList();
+        this.notInCart = true;
 
       } else {
         swal(response.json().message, "", "error");

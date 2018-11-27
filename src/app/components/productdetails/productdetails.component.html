@@ -332,7 +332,21 @@
         </ul>
         <div class="row">
           <div class="col-md-4 col-sm-12 cart-btn">
-            <div class="quantity">
+            <div class="quantity" [ngClass]="{'top':notInCart}">
+              <button class="minus-btn" type="button" name="button" (click)="itemDecrease(item.product_id,products)"
+                *ngIf="notInCart">
+                <i class="fa fa-minus " aria-hidden="true"></i>
+              </button>
+              <lable *ngIf="!notInCart">Quantity : </lable>
+              <input type="text" name="mycart" readonly="readonly" [value]="item.quantity" />
+              &nbsp;<lable *ngIf="notInCart">in cart</lable>&nbsp;
+              <button class="plus-btn" type="button" name="button" (click)="itemIncrease(item,item.product_id)" *ngIf="notInCart">
+                <i class="fa fa-plus" aria-hidden="true"></i>
+              </button>
+            </div>
+
+
+            <!-- <div class="quantity">
               <button class="minus-btn" type="button" name="button" (click)="itemDecrease()">
                 <i class="fa fa-minus" aria-hidden="true"></i>
               </button>
@@ -340,7 +354,8 @@
               <button class="plus-btn" type="button" name="button" (click)="itemIncrease()">
                 <i class="fa fa-plus" aria-hidden="true"></i>
               </button>
-            </div>
+            </div> -->
+
           </div>
           <div class="col-lg-8 col-md-8 col-sm-12 text-left cart-btn  cart-image-button">
             <button class="btn category-btn" type="button" name="button" (click)="addCat()">Add

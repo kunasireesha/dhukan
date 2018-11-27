@@ -70,7 +70,7 @@ export class MyprofileListComponent implements OnInit {
       this.myprofileData = true;
       this.childPage = 'My Wishlist';
     }
-    this.getDashboard();
+
     this.getCartList();
   }
   childPage: string;
@@ -107,23 +107,24 @@ export class MyprofileListComponent implements OnInit {
   }
 
   address = {
-    firstName: '',
-    lastName: '',
-    phone: '',
-    city: '',
-    houseNum: '',
+    ua_first_name: '',
+    ua_last_name: '',
+    ua_mobile_number: '',
+    ua_city: '',
+    ua_house_no: '',
     residentialComplex: '',
-    area: '',
-    pincode: '',
-    street: '',
-    landmark: '',
-    nickName: ''
+    ua_area_details: '',
+    ua_pincode: '',
+    ua_street_details: '',
+    ua_land_mark: '',
+    ua_nick_name: ''
 
   }
 
 
   ngOnInit() {
-    window.scrollTo(0, 0)
+    window.scrollTo(0, 0);
+    this.getDashboard();
   }
 
 
@@ -202,7 +203,7 @@ export class MyprofileListComponent implements OnInit {
   //my address
   getAddress() {
     this.profileSer.getAddress().subscribe(response => {
-      this.address = response.json().data;
+      this.addressData = response.json().data;
       console.log(this.address);
 
     })
@@ -215,28 +216,28 @@ export class MyprofileListComponent implements OnInit {
 
     let validData = true;
 
-    if (this.address.firstName === '' || this.address.firstName === undefined || this.address.firstName === null || this.address.lastName === '' || this.address.lastName === undefined || this.address.lastName === null ||
-      this.address.phone === '' || this.address.phone === undefined || this.address.phone === null || this.address.city === '' || this.address.city === undefined || this.address.city === null
-      || this.address.houseNum === '' || this.address.houseNum === undefined || this.address.houseNum === null
-      || this.address.area === '' || this.address.area === undefined || this.address.area === null ||
-      this.address.pincode === '' || this.address.pincode === undefined || this.address.pincode === null) {
+    // if (this.address.firstName === '' || this.address.firstName === undefined || this.address.firstName === null || this.address.lastName === '' || this.address.lastName === undefined || this.address.lastName === null ||
+    //   this.address.phone === '' || this.address.phone === undefined || this.address.phone === null || this.address.city === '' || this.address.city === undefined || this.address.city === null
+    //   || this.address.houseNum === '' || this.address.houseNum === undefined || this.address.houseNum === null
+    //   || this.address.area === '' || this.address.area === undefined || this.address.area === null ||
+    //   this.address.pincode === '' || this.address.pincode === undefined || this.address.pincode === null) {
 
-      validData = false;
-    }
+    //   validData = false;
+    // }
 
 
     if (validData) {
-      var inData = "ua_first_name=" + this.address.firstName +
-        "&ua_last_name=" + this.address.lastName +
-        "&ua_mobile_number=" + this.address.phone +
-        "&ua_city=" + this.address.city +
-        "&ua_house_no=" + this.address.houseNum +
-        "&ua_area_details=" + this.address.area +
-        "&ua_pincode=" + this.address.pincode +
+      var inData = "ua_first_name=" + this.address.ua_first_name +
+        "&ua_last_name=" + this.address.ua_last_name +
+        "&ua_mobile_number=" + this.address.ua_mobile_number +
+        "&ua_city=" + this.address.ua_city +
+        "&ua_house_no=" + this.address.ua_house_no +
+        "&ua_area_details=" + this.address.ua_area_details +
+        "&ua_pincode=" + this.address.ua_pincode +
         "&ua_apartment_name=" + this.address.residentialComplex +
-        "&ua_street_details=" + this.address.street +
-        "&ua_land_mark=" + this.address.landmark +
-        "&ua_nick_name=" + this.address.nickName
+        "&ua_street_details=" + this.address.ua_street_details +
+        "&ua_land_mark=" + this.address.ua_land_mark +
+        "&ua_nick_name=" + this.address.ua_nick_name
 
       this.profileSer.addAddress(inData).subscribe(response => {
         if (response.status === 200) {

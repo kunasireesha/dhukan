@@ -473,3 +473,27 @@ img {
   background-color: white;
   z-index: 20;
 }
+
+.fa-heart {
+  color: #c4c4c4 !important;
+}
+
+
+.sizes p {
+  border-bottom: 1px solid;
+  padding: 4px !important;
+  margin: 0px !important;
+}
+
+.sizes p:last-child {
+  border-bottom: 0px !important;
+}
+
+.size-drop {
+  width: 89% !important;
+  top: -1px !important;
+}
+
+.sizes {
+  padding: 3px !important;
+}
