@@ -581,7 +581,7 @@
       <!-- delivery address -->
       <div class="col-lg-8" *ngIf="showDeliveryAddress">
         <div class="row">
-          <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 delivery-block2" *ngFor="let getaddress of address">
+          <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 delivery-block2" *ngFor="let getaddress of addressData">
             <h4>Name: &nbsp;&nbsp;{{getaddress.ua_first_name}}</h4>
             <p>Address: &nbsp;&nbsp;{{getaddress.ua_area_details}}<br />
               {{getaddress.ua_street_details}} {{address.ua_land_mark}}<br />
@@ -612,7 +612,7 @@
                   <span class="float-right">:</span>
                 </label>
                 <div class="col-sm-8">
-                  <input type="email" class="form-control input-field" id="inputtext15" placeholder="" [(ngModel)]="address.nickName"
+                  <input type="email" class="form-control input-field" id="inputtext15" placeholder="" [(ngModel)]="address.ua_nick_name"
                     name="nickName">
                 </div>
               </div>
@@ -622,7 +622,7 @@
                   <span class="float-right">:</span>
                 </label>
                 <div class="col-sm-8">
-                  <input type="email" class="form-control input-field" id="inputtext14" placeholder="" [(ngModel)]="address.firstName"
+                  <input type="email" class="form-control input-field" id="inputtext14" placeholder="" [(ngModel)]="address.ua_first_name"
                     name="firstName">
                 </div>
               </div>
@@ -631,7 +631,7 @@
                   <span class="float-right">:</span>
                 </label>
                 <div class="col-sm-8">
-                  <input type="text" class="form-control input-field" id="inputtext13" placeholder="" [(ngModel)]="address.lastName"
+                  <input type="text" class="form-control input-field" id="inputtext13" placeholder="" [(ngModel)]="address.ua_last_name"
                     name="lastName">
                 </div>
               </div>
@@ -641,7 +641,7 @@
                 </label>
                 <div class="col-sm-8">
                   <input type="text" myNumberOnly maxlength="10" minlength="10" class="form-control input-field" id="inputtext"
-                    placeholder="" [(ngModel)]="address.phone" name="phone">
+                    placeholder="" [(ngModel)]="address.ua_mobile_number" name="phone">
                 </div>
               </div>
               <div class="form-group row required">
@@ -649,7 +649,7 @@
                   <span class="float-right">:</span>
                 </label>
                 <div class="col-sm-8">
-                  <select class="form-control input-field" id="exampleFormControlSelect1" [(ngModel)]="address.city"
+                  <select class="form-control input-field" id="exampleFormControlSelect1" [(ngModel)]="address.ua_city"
                     name="city">
                     <option value="bangalore">bangalore</option>
                     <option value="Hyderabad">Hyderabad</option>
@@ -662,7 +662,7 @@
                   <span class="colan float-right">:</span>
                 </label>
                 <div class="col-sm-8">
-                  <input type="text" class="form-control input-field" id="inputtext11" placeholder="" [(ngModel)]="address.houseNum"
+                  <input type="text" class="form-control input-field" id="inputtext11" placeholder="" [(ngModel)]="address.ua_house_no"
                     name="houseNum">
                 </div>
               </div>
@@ -680,7 +680,7 @@
                   <span class="float-right">:</span>
                 </label>
                 <div class="col-sm-8">
-                  <input type="text" class="form-control input-field" id="inputtext9" placeholder="" [(ngModel)]="address.area"
+                  <input type="text" class="form-control input-field" id="inputtext9" placeholder="" [(ngModel)]="address.ua_area_details"
                     name="area">
                 </div>
               </div>
@@ -690,7 +690,7 @@
                 </label>
                 <div class="col-sm-8">
                   <input type="text" myNumberOnly class="form-control input-field" id="inputext8" placeholder=""
-                    [(ngModel)]="address.pincode" name="pincode">
+                    [(ngModel)]="address.ua_pincode" name="pincode">
                 </div>
               </div>
               <div class="form-group row">
@@ -698,7 +698,7 @@
                   <span class="float-right">:</span>
                 </label>
                 <div class="col-sm-8">
-                  <input type="text" class="form-control input-field" id="inputtext7" placeholder="" [(ngModel)]="address.street"
+                  <input type="text" class="form-control input-field" id="inputtext7" placeholder="" [(ngModel)]="address.ua_street_details"
                     name="street">
                 </div>
               </div>
@@ -707,7 +707,7 @@
                   <span class="float-right">:</span>
                 </label>
                 <div class="col-sm-8">
-                  <input type="text" class="form-control input-field" id="inputext6" placeholder="" [(ngModel)]="address.landmark"
+                  <input type="text" class="form-control input-field" id="inputext6" placeholder="" [(ngModel)]="address.ua_land_mark"
                     name="landmark">
                 </div>
               </div>

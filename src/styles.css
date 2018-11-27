@@ -454,3 +454,46 @@ img {
   border: 1px solid gray;
   padding: 5px;
 }
+
+.product-names .afterdrop {
+  margin-top: 26% !important;
+}
+
+.prices {
+  height: 150px;
+}
+
+.top {
+  height: 83px;
+}
+
+.size-drop {
+  position: absolute;
+  width: 85%;
+  background-color: white;
+  z-index: 20;
+}
+
+.fa-heart {
+  color: #c4c4c4 !important;
+}
+
+
+.sizes p {
+  border-bottom: 1px solid;
+  padding: 4px !important;
+  margin: 0px !important;
+}
+
+.sizes p:last-child {
+  border-bottom: 0px !important;
+}
+
+.size-drop {
+  width: 89% !important;
+  top: -1px !important;
+}
+
+.sizes {
+  padding: 3px !important;
+}

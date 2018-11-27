@@ -26,84 +26,118 @@ export class ProductdetailsComponent implements OnInit {
   thumbImgSrc;
   thumbImgSrc1;
   thumbImgSrc2;
-  prodData = [];
+  notInCart;
+  prodData: any[];
   url;
+  selecte = { skId: '' };
   ngOnInit() {
     window.scrollTo(0, 0);
-    this.zoomedImageSrc = 'assets/images/product.png';
-    this.smallImageSrc = 'assets/images/product.png';
-    this.thumbImgSrc = 'assets/images/product.png';
-    this.thumbImgSrc1 = 'assets/images/capsicums.png';
-    this.thumbImgSrc2 = 'assets/images/corn.png';
+    // this.zoomedImageSrc = 'assets/images/product.png';
+    // this.smallImageSrc = 'assets/images/product.png';
+    // this.thumbImgSrc = 'assets/images/product.png';
+    // this.thumbImgSrc1 = 'assets/images/capsicums.png';
+    // this.thumbImgSrc2 = 'assets/images/corn.png';
     this.showProductDetails();
-    this.url = AppSettings.imageUrl
+    this.url = AppSettings.imageUrl;
+    this.mainSer.getCartList();
   }
   itemIncrease() {
     let thisObj = this;
 
     thisObj.item.quantity = Math.floor(thisObj.item.quantity + 1);
+    this.addCat();
 
   }
   itemDecrease() {
     let thisObj = this;
     if (thisObj.item.quantity === 1) {
+      thisObj.item.quantity = Math.floor(thisObj.item.quantity - 1);
+      this.deleteCart(this.selecte.skId);
+      this.notInCart = false;
       return;
     }
     thisObj.item.quantity = Math.floor(thisObj.item.quantity - 1);
-
+    this.addCat();
   }
 
-  showImage() {
-    this.zoomedImageSrc = this.thumbImgSrc;
-    this.smallImageSrc = this.thumbImgSrc;
+  showImage(image) {
+    this.zoomedImageSrc = image;
+    this.smallImageSrc = image;
   }
-  showImage1() {
-    this.zoomedImageSrc = this.thumbImgSrc1;
-    this.smallImageSrc = this.thumbImgSrc1;
-  }
-  showImage2() {
-    this.zoomedImageSrc = this.thumbImgSrc2;
-    this.smallImageSrc = this.thumbImgSrc2;
-  }
+
   showImageDynamic(image) {
     this.zoomedImageSrc = image;
     this.smallImageSrc = image;
   }
   skuData;
   proId;
+  images = [];
   selling_price;
   showProductDetails() {
     var inData = this.prodId;
     this.mainSer.showProductDetails(inData).subscribe(response => {
       this.prodData = response.json().products[0];
+      this.smallImageSrc = response.json().products[0].pic[0].product_image;
       this.skuData = response.json().products[0].sku;
-      console.log(this.skuData);
-      this.actual_price = response.json().products[0].actual_price;
-      this.selling_price = response.json().products[0].selling_price;
+      this.selecte.skId = response.json().products[0].sku[0].skid;
+      // for (var i = 0; i < this.prodData.length; i++) {
+      this.actual_price = response.json().products[0].sku[0].actual_price;
+      this.selling_price = response.json().products[0].sku[0].selling_price;
+      this.percentage = Math.round(100 - (this.selling_price / this.actual_price * 100));
       this.proId = response.json().products[0].id;
+      for (var i = 0; i < response.json().products[0].pic.length; i++) {
+        this.images.push(response.json().products[0].pic[i].product_image);
+      }
+      if (response.json().products[0].sku[0].mycart !== 0) {
+        this.notInCart = true;
+      } else {
+        this.notInCart = false;
+      }
+
+      console.log(this.prodData);
       // }
 
     }, error => {
 
     })
   }
-  skId;
+
   actual_price;
-  offer_price;
-  image;
-  selectOption(skId) {
-    this.skId = skId;
+  percentage;
+  size;
+  selectOption(skId, prodData) {
+    this.images = [];
+    this.selecte.skId = skId;
     for (var i = 0; i < this.skuData.length; i++) {
       if (this.skuData[i].skid === parseInt(skId)) {
         this.actual_price = this.skuData[i].actual_price;
-        this.offer_price = this.skuData[i].offer_price;
-        this.image = this.skuData[i].image;
+        this.selling_price = this.skuData[i].selling_price;
+        this.size = this.skuData[i].size;
+        this.selecte.skId = this.skuData[i].skid;
+        this.percentage = Math.round(100 - (this.selling_price / this.actual_price * 100));
+
+        this.item.quantity = this.skuData[i].mycart;
+        if (this.skuData[i].mycart === 0 || undefined) {
+          this.item.quantity = 1;
+          this.notInCart = false;
+        } else {
+          this.item.quantity = this.skuData[i].mycart;
+          this.notInCart = true;
+
+        }
+        for (var i = 0; i < prodData.sku.length; i++) {
+          if (prodData.sku[i].skid === parseInt(skId)) {
+            this.images = prodData.sku[i].skuImages;
+            console.log(this.images);
+            return;
+          }
+        }
       }
     }
   }
   resData;
-  addCat(prodData) {
-    if (this.skId === undefined) {
+  addCat() {
+    if (this.selecte.skId === undefined) {
       swal('Please select Size', '', 'error');
       return;
     }
@@ -112,22 +146,26 @@ export class ProductdetailsComponent implements OnInit {
     // } else {
     var inData = "product_id=" + this.proId +
       "&quantity=" + this.item.quantity +
-      "&product_sku_id=" + this.skId
+      "&product_sku_id=" + this.selecte.skId
 
 
     this.mainSer.addCat(inData).subscribe(response => {
       this.resData = response.json();
-      this.mainSer.getCartList();
       if (response.json().status === 200) {
         // swal(response.json().message, "", "success");
-        this.skId = undefined;
+        this.item.quantity = 1;
+        this.showProductDetails();
+        this.getDashboard();
+        this.mainSer.getCartList();
+        this.notInCart = true;
+
       } else {
         swal(response.json().message, "", "error");
-        this.skId = undefined;
+        this.selecte.skId = '';
       }
     }, error => {
       swal(error.json().message, "", "error");
-      this.skId = undefined;
+      this.selecte.skId = '';
     })
     // }
 
@@ -153,10 +191,14 @@ export class ProductdetailsComponent implements OnInit {
 
   itemHeaderDecrease(title, data, skuData) {
     this.mainSer.itemHeaderDecrease(title, data, skuData);
+    this.mainSer.getCartList();
+    this.getDashboard();
   }
 
   itemHeaderIncrease(title, item, data) {
     this.mainSer.itemHeaderIncrease(title, item, data);
+    this.mainSer.getCartList();
+    this.getDashboard();
   }
 
   showCat() {
@@ -215,5 +257,6 @@ export class ProductdetailsComponent implements OnInit {
 
     })
   }
+
 
 }

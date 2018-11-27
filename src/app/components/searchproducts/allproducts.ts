@@ -14,6 +14,13 @@ export class AllProductsComponent implements OnInit {
     products;
     noData;
     page;
+    showSizeData = false;
+    prodId;
+    showselecteddifdata = true;
+    skudata;
+    selecte = {
+        skid: ''
+    }
     constructor(private router: Router, private route: ActivatedRoute, public mainSer: MainService, public profileSer: ProfileService, public headerComp: HeaderComponent) {
         this.route.queryParams.subscribe(params => {
             this.title = params.title;
@@ -31,8 +38,9 @@ export class AllProductsComponent implements OnInit {
             // this.getAllProducts();
             this.showAll = true;
             this.showWish = false;
+            this.getDashboard('', '', '');
         }
-        this.getDashboard();
+
         this.getCartList();
     }
 
@@ -47,7 +55,7 @@ export class AllProductsComponent implements OnInit {
     ngOnInit() {
         // this.getAllProducts();
         // this.getWishList();
-        this.getDashboard();
+        // this.getDashboard('', '', '');
     }
 
     selectOption(skId, index) {
@@ -56,10 +64,10 @@ export class AllProductsComponent implements OnInit {
         for (var i = 0; i < this.allProducts.length; i++) {
             for (var j = 0; j < this.allProducts[i].sku.length; j++) {
                 if (this.allProducts[i].sku[j].skid === parseInt(skId)) {
-                    this.allProducts[i].actual_price = this.allProducts[i].sku[j].actual_price;
-                    this.allProducts[i].offer_price = this.allProducts[i].sku[j].offer_price;
+                    this.allProducts[i].skuActualPrice = this.allProducts[i].sku[j].actual_price;
+                    this.allProducts[i].sellingPrice = this.allProducts[i].sku[j].selling_price;
                     this.allProducts[i].quantity = this.allProducts[i].sku[j].mycart;
-                    this.allProducts[i].product_image = this.allProducts[i].sku[j].skuImage[0];
+                    this.allProducts[i].product_image = this.allProducts[i].sku[j].skuImages[0];
                     if (this.allProducts[i].sku[j].mycart === 0 || this.allProducts[i].sku[j].length === 0) {
                         this.allProducts[i].quantity = 1;
                         this.notInCart = true;
@@ -74,11 +82,11 @@ export class AllProductsComponent implements OnInit {
 
     resData;
     skId;
-    itemIncrease(data, title) {
+    itemIncrease(data, id, index) {
         for (var i = 0; i < this.allProducts.length; i++) {
-            if (title === this.allProducts[i].title) {
+            if (id === this.allProducts[i].id) {
                 this.allProducts[i].quantity = this.allProducts[i].quantity + 1;
-                this.addCat(data);
+                this.addCat(data, index, this.allProducts[i].quantity);
             }
         }
     }
@@ -86,10 +94,10 @@ export class AllProductsComponent implements OnInit {
         quantity: 1
     }
     selected;
-    itemDecrease(title, products) {
+    itemDecrease(id, products, index) {
 
         for (var i = 0; i < this.allProducts.length; i++) {
-            if (title === this.allProducts[i].title) {
+            if (id === this.allProducts[i].id) {
                 if (this.allProducts[i].quantity === 1) {
                     this.deleteCart(this.skId);
                     this.mainSer.getCartList();
@@ -99,17 +107,31 @@ export class AllProductsComponent implements OnInit {
                     this.selected = undefined;
                 } else {
                     this.allProducts[i].quantity = this.allProducts[i].quantity - 1;
-                    this.addCat(products);
+                    this.addCat(products, index, this.allProducts[i].quantity);
                     return;
                 }
             }
         }
     }
-    addCat(prodData) {
-        console.log(prodData)
-        if (this.skId === undefined) {
-            swal('Please select Size', '', 'error');
-            return;
+    addCat(prodData, index, quantity) {
+        if (this.skId === undefined || this.skId === '' || this.prodId !== prodData.id) {
+            for (var i = 0; i < this.allProducts.length; i++) {
+                if (prodData.id === this.allProducts[i].id) {
+                    this.skId = this.allProducts[i].sku[0].skid;
+                    this.skudata = this.allProducts[i].sku[0]
+                    this.selecte.skid = this.allProducts[i].sku[0].size;
+                }
+            }
+        } else {
+            for (var i = 0; i < this.allProducts.length; i++) {
+                for (var j = 0; j < this.allProducts[i].sku.length; j++) {
+                    if (prodData.id === this.allProducts[i].id) {
+                        this.skId = this.allProducts[i].sku[j].skid;
+                        this.skudata = this.allProducts[i].sku[0]
+                        this.selecte.skid = this.allProducts[i].sku[j].size;
+                    }
+                }
+            }
         }
 
         var inData = "product_id=" + prodData.id +
@@ -122,11 +144,11 @@ export class AllProductsComponent implements OnInit {
             if (response.json().status === 200) {
                 // swal(response.json().message, "", "success");
                 this.mainSer.getCartList();
-                this.getDashboard();
-                this.skId = undefined;
-                this.data.quantity = 1
+                this.getDashboard(index, quantity, prodData);
+                // this.skId = undefined;
+                // this.data.quantity = quantity;
                 this.notInCart = false;
-                this.selected = undefined
+                this.selected = index;
             } else {
                 swal(response.json().message, "", "error");
                 this.skId = undefined;
@@ -140,34 +162,40 @@ export class AllProductsComponent implements OnInit {
 
     }
     addWish(prodData) {
-        if (this.skId === undefined) {
-            swal('Please select Size', '', 'error');
-            return;
-        }
-        // if (localStorage.token === undefined) {
-        //     swal('Please Login', '', 'warning');
-        // } else {
-        var inData =
-            "user_id=" + localStorage.userId +
-            "&product_id=" + prodData.id +
-            "&quantity=" + prodData.quantity +
-            "&session_id=" + localStorage.session +
-            "&product_sku_id=" + this.skId
-
-
-        this.mainSer.addWish(inData).subscribe(response => {
-            this.resData = response.json();
-            if (response.json().status === 200) {
-                swal(response.json().message, "", "success");
-                this.skId = undefined;
-            } else {
-                swal(response.json().message, "", "error");
-                this.skId = undefined;
+        if (this.skId === undefined || this.skId === '' || this.prodId !== prodData.id) {
+            for (var i = 0; i < this.allProducts.length; i++) {
+                if (prodData.id === this.allProducts[i].id) {
+                    this.skId = this.allProducts[i].sku[0].skid;
+                    this.skudata = this.allProducts[i].sku[0]
+                    // this.selecte.skid = this.allProducts[i].sku[0].size;
+                }
             }
-        }, error => {
-            swal(error.json().message, "", "success");
-            this.skId = undefined;
-        })
+        }
+        if (localStorage.token === undefined) {
+            swal('Please Login', '', 'warning');
+        } else {
+            var inData =
+                "user_id=" + localStorage.userId +
+                "&product_id=" + prodData.id +
+                "&quantity=" + prodData.quantity +
+                "&session_id=" + localStorage.session +
+                "&product_sku_id=" + this.skId
+
+
+            this.mainSer.addWish(inData).subscribe(response => {
+                this.resData = response.json();
+                if (response.json().status === 200) {
+                    swal(response.json().message, "", "success");
+                    this.skId = undefined;
+                } else {
+                    swal(response.json().message, "", "error");
+                    this.skId = undefined;
+                }
+            }, error => {
+                swal(error.json().message, "", "success");
+                this.skId = undefined;
+            })
+        }
     }
     wishData;
     getWishList() {
@@ -192,7 +220,7 @@ export class AllProductsComponent implements OnInit {
     viewCart;
 
     getCartList() {
-        this.getDashboard();
+        this.getDashboard('', '', '');
         this.mainSer.getCartList();
     }
 
@@ -204,10 +232,12 @@ export class AllProductsComponent implements OnInit {
 
     itemHeaderDecrease(title, data, skuData) {
         this.mainSer.itemHeaderDecrease(title, data, skuData);
+        this.getDashboard('', '', data);
     }
 
     itemHeaderIncrease(title, item, data) {
         this.mainSer.itemHeaderIncrease(title, item, data);
+        this.getDashboard('', '', data);
     }
 
     showCat() {
@@ -241,7 +271,7 @@ export class AllProductsComponent implements OnInit {
             if (value === true) {
                 this.mainSer.deleteCart(inData).subscribe(response => {
                     this.mainSer.getCartList();
-                    this.getDashboard();
+                    this.getDashboard('', '', '');
                     this.selected = undefined;
                     swal("Deleted successfully", "", "success");
                 }, error => {
@@ -258,34 +288,131 @@ export class AllProductsComponent implements OnInit {
     deliveryCharge;
     subTotal;
     Total;
-    getDashboard() {
+    getDashboard(index, quantity, prodData) {
         this.mainSer.getDashboard().subscribe(response => {
             this.cartCount = response.json().cart.cart_count;
             this.deliveryCharge = response.json().cart.delivery_charge.toFixed(2);
             this.subTotal = response.json().cart.selling_price.toFixed(2);
             this.Total = response.json().cart.grand_total.toFixed(2);
             this.allProducts = response.json().products;
-            this.showAll = true;
-            for (var i = 0; i < this.allProducts.length; i++) {
-                if (this.allProducts[i].sku.length === 0) {
-                    this.allProducts[i].quantity = 1;
-                }
-                for (var j = 0; j < this.allProducts[i].sku.length; j++) {
-                    this.allProducts[i].quantity = this.allProducts[i].sku[j].mycart;
-                    this.allProducts[i].product_image = this.allProducts[i].pic[0].product_image;
+            // this.showAll = true;
 
-                    if (this.allProducts[i].sku[j].mycart === 0 || this.allProducts[i].sku.length === []) {
-                        this.allProducts[i].quantity = 1;
+            if (index !== '') {
+                // this.selecte.skid = this.skId;
+                for (var i = 0; i < prodData.sku.length; i++) {
+                    if (this.selecte.skid === prodData.sku[i].size) {
+                        this.selecte.skid = prodData.sku[i].size;
+                        this.selected = index;
                     }
+                }
+                // this.skId = this.skId;
+                for (var i = 0; i < this.allProducts.length; i++) {
+                    for (var j = 0; j < this.allProducts[i].sku.length; j++) {
+                        if (prodData.id === this.allProducts[i].id) {
+                            // this.allProducts[i].quantity = this.allProducts[i].sku[j].mycart;
 
-                    this.allProducts[i].quantity = 1;
+                            this.allProducts[i].quantity = quantity;
+                            this.allProducts[i].skuActualPrice = this.skudata.actual_price;
+                            this.allProducts[i].sellingPrice = this.skudata.selling_price;
+                            this.allProducts[i].product_image = this.skudata.skuImages[0];
+                            // this.selecte.skid = this.allProducts[i].sku[j].size;
+                            this.notInCart = false;
+                            this.selected = index;
+                        } else {
+                            this.allProducts[i].quantity = 1;
+                            this.allProducts[i].product_image = this.allProducts[i].pic[0].product_image;
+                            // this.notInCart = true;
+                        }
+
+                    }
+                }
+            } else {
+                for (var i = 0; i < this.allProducts.length; i++) {
+                    for (var j = 0; j < this.allProducts[i].sku.length; j++) {
+                        this.allProducts[i].quantity = this.allProducts[i].sku[j].mycart;
+                        this.allProducts[i].skuActualPrice = this.allProducts[i].sku[0].actual_price;
+                        this.allProducts[i].sellingPrice = this.allProducts[i].sku[0].selling_price;
+                        // if (this.allProducts[i].sku[j].mycart === 0 || undefined) {
+                        //     this.allProducts[i].quantity = 1;
+                        //     this.notInCart = true;
+                        // }
+                        this.allProducts[i].quantity = 1;
+                        // this.selecte.skid = this.allProducts[i].sku[0].size;
+                    }
+                    this.allProducts[i].product_image = this.allProducts[i].pic[0].product_image;
                 }
             }
+            if (prodData.product_id !== undefined) {
+                this.notInCart = true;
+            }
+            console.log(this.selected);
+            console.log(this.showselecteddata);
+
+
+            // for (var i = 0; i < this.allProducts.length; i++) {
+            //     if (this.allProducts[i].sku.length === 0) {
+            //         this.allProducts[i].quantity = 1;
+            //     }
+            //     for (var j = 0; j < this.allProducts[i].sku.length; j++) {
+            //         this.allProducts[i].quantity = this.allProducts[i].sku[j].mycart;
+            //         this.allProducts[i].product_image = this.allProducts[i].pic[0].product_image;
+
+            //         if (this.allProducts[i].sku[j].mycart === 0 || this.allProducts[i].sku.length === []) {
+            //             this.allProducts[i].quantity = 1;
+            //         }
+
+            //         this.allProducts[i].quantity = 1;
+            //     }
+            // }
             if (response.json().status == 400) {
                 this.noData = response.json().message;
             }
 
         })
+    }
+
+
+
+    showselecteddata = true;
+    showSizes(index) {
+        this.selecte.skid = '';
+        this.selected = index;
+        this.showSizeData = true;
+        this.showselecteddifdata = true;
+        this.notInCart = true;
+        this.showselecteddata = true;
+
+    }
+    showselected(skId, size, index, skus) {
+        // this.selected = index;
+        this.showselecteddifdata = false;
+        this.selecte.skid = size;
+        this.showselecteddata = true;
+        this.showSizeData = false;
+        this.skudata = skus;
+        // this.notInCart = false;
+        // this.getDashboard(index, '', '');
+        for (var i = 0; i < this.allProducts.length; i++) {
+            for (var j = 0; j < this.allProducts[i].sku.length; j++) {
+                if (this.allProducts[i].sku[j].skid === parseInt(skId)) {
+                    this.skId = skId;
+                    this.prodId = skus.product_id;
+                    this.selecte.skid = this.allProducts[i].sku[j].size;
+                    this.allProducts[i].skuActualPrice = this.allProducts[i].sku[j].actual_price;
+                    this.allProducts[i].sellingPrice = this.allProducts[i].sku[j].selling_price;
+                    this.allProducts[i].product_image = this.allProducts[i].sku[j].skuImages[0];
+                    if (this.allProducts[i].sku[j].mycart === 0 || undefined) {
+                        this.allProducts[i].quantity = 1;
+                        this.notInCart = true;
+                    } else {
+                        this.notInCart = false;
+                        this.allProducts[i].quantity = this.allProducts[i].sku[j].mycart;
+                        this.selected = index;
+                    }
+                }
+
+            }
+        }
     }
 
 }

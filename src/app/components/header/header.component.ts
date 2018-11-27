@@ -87,6 +87,7 @@ export class HeaderComponent implements OnInit {
   showForgotPassword = false;
   showCategories = false;
   showSubCats = false;
+  showChangePassword = false;
   otpData;
   location: string;
   LocationPincode: any;
@@ -103,6 +104,7 @@ export class HeaderComponent implements OnInit {
   offersList = [];
   banners = [];
   results: any;
+  showPasswordOtp = false;
   formData = {
     firstName: '',
     lastName: '',
@@ -116,7 +118,8 @@ export class HeaderComponent implements OnInit {
     searchParam: ''
   }
   forData = {
-    forEmail: ''
+    forEmail: '',
+    newPassword: ''
   }
   phone;
 
@@ -145,9 +148,9 @@ export class HeaderComponent implements OnInit {
     this.showForgotPassword = false;
     this.showOtp = false;
     this.formData.phone = '';
-
+    this.showChangePassword = false;
     this.formData.password = '';
-
+    this.showPasswordOtp = false;
   }
 
   //registration link
@@ -166,7 +169,8 @@ export class HeaderComponent implements OnInit {
     this.formData.password = '';
     this.formData.referalCode = '';
     this.formData.otp = '';
-
+    this.showChangePassword = false;
+    this.showPasswordOtp = false;
   }
 
   //forgot password
@@ -174,13 +178,14 @@ export class HeaderComponent implements OnInit {
     this.showForgotPassword = true;
     this.showOpacity = true;
     this.showLoginandRegistration = false;
+    this.showChangePassword = false;
     this.showOtp = false;
     this.formData.email = '';
-
+    this.showPasswordOtp = false;
   }
 
   forgotPassword() {
-    var inData = "email=" + this.forData.forEmail;
+    var inData = "email=" + this.forData.forEmail + "&phone=" + this.forData.forEmail;
 
     if (this.forData.forEmail === '' || this.forData.forEmail === undefined || this.forData.forEmail === null) {
       swal('Missing Mandatory field', '', 'error');
@@ -190,8 +195,64 @@ export class HeaderComponent implements OnInit {
         if (response.json().status === 400) {
           swal(response.json().message, "", "error");
         } else {
-          swal("mail sent succesfully", "", "success");
+          swal("OTP sent to your Mobile/Email succesfully", "", "success");
+          // this.forData.forEmail = '';
+          this.showForgotPassword = false;
+          this.showModal = true;
+          this.showOpacity = true;
+          this.showPasswordOtp = true;
+          // this.onCloseCancel();
+        }
+      }, error => {
+        console.log(error);
+      })
+    }
+  }
+
+  verifyOtp() {
+    var inData = {
+      email: this.forData.forEmail,
+      phone: this.forData.forEmail,
+      otp: this.formData.otp
+    };
+    if (this.formData.otp === '' || this.formData.otp === undefined || this.formData.otp === null) {
+      swal('Missing Mandatory field', '', 'error');
+
+    }
+    else {
+      this.headerSer.verifyPassword(inData).subscribe(response => {
+        if (response.json().status === 400) {
+          swal(response.json().message, "", "error");
+        } else {
+          swal("OTP sent to your Mobile/Email succesfully", "", "success");
+          // this.forData.forEmail = '';
+          this.showOpacity = true;
+          this.showModal = true;
+          this.showChangePassword = true;
+          // this.onCloseCancel();
+        }
+      }, error => {
+        console.log(error);
+      })
+    }
+  }
+
+  changePassword(pp) {
+    var inData = "phone=" + this.forData.forEmail + "&password=" + this.forData.newPassword;
+    if (this.forData.newPassword === '' || this.forData.newPassword === undefined || this.forData.newPassword === null) {
+      swal('Missing Mandatory field', '', 'error');
+    } else {
+      this.headerSer.forgotChangePassword(inData).subscribe(response => {
+        if (response.json().status === 400) {
+          swal(response.json().message, "", "error");
+        } else {
+          swal("OTP sent to your Mobile/Email succesfully", "", "success");
           this.forData.forEmail = '';
+          this.showPasswordOtp = false;
+          this.showOpacity = false;
+          this.showModal = false;
+          this.showChangePassword = false;
+
           this.onCloseCancel();
         }
       }, error => {
@@ -199,6 +260,8 @@ export class HeaderComponent implements OnInit {
       })
     }
   }
+
+
 
   logout() {
     localStorage.removeItem('userData');
@@ -275,16 +338,14 @@ export class HeaderComponent implements OnInit {
       var inData = "phone=" + this.formData.phone;
       this.loginService.requestOtp(inData).subscribe(response => {
         this.otpData = response.json();
-        if (response.json().status === 200) {
-          swal("Otp Sent to your mobile number", " ", "success");
-          this.showForgotPassword = false;
-          this.showLoginandRegistration = false;
-          this.showModal = true;
-          this.showOpacity = true;
-          this.showOtp = true;
-        } else {
-          swal(response.json().message, " ", "error");
-        }
+        // if (response.json().error_field === '') {
+        swal("Otp Sent to your mobile number", " ", "success");
+        this.showForgotPassword = false;
+        this.showLoginandRegistration = false;
+        this.showModal = true;
+        this.showOpacity = true;
+        this.showOtp = true;
+        // } 
 
       }, err => {
         if (err.json().status === 400) {
@@ -301,7 +362,7 @@ export class HeaderComponent implements OnInit {
   registration() {
     // var inData = "phone=" + this.formData.phone;
     var validOtp = false;
-    if (this.formData.otp === '' || this.formData.otp === undefined || this.formData.otp === null || parseInt(this.formData.otp) !== this.otpData.otp) {
+    if (this.formData.otp === '' || this.formData.otp === undefined || this.formData.otp === null) {
       swal('Missing Mandatory fields', '', 'error');
       validOtp = false;
     } else {
@@ -321,16 +382,15 @@ export class HeaderComponent implements OnInit {
 
       this.loginService.registration(inData).subscribe(response => {
         this.otpData = response.json();
-        if (response.json().status === 200) {
+        if (response.json().err_field !== '') {
+          swal(response.json().message, '', 'error');
+        } else {
           swal("Thank you for registering with us Welcome to DHUKHAN", " ", "success");
           this.onCloseCancel();
           this.router.navigate(["/"]);
           this.showModal = false;
           this.showOpacity = false;
-        } else {
-          swal(response.json().message, " ", "error");
         }
-
       }, err => {
         if (err.json().status === 400) {
           this.msg = this.translate.instant("common.loginErrMsg");
