@@ -120,7 +120,7 @@ export class AllProductsComponent implements OnInit {
         this.mainSer.addCat(inData).subscribe(response => {
             this.resData = response.json();
             if (response.json().status === 200) {
-                swal(response.json().message, "", "success");
+                // swal(response.json().message, "", "success");
                 this.mainSer.getCartList();
                 this.getDashboard();
                 this.skId = undefined;
@@ -132,7 +132,7 @@ export class AllProductsComponent implements OnInit {
                 this.skId = undefined;
             }
         }, error => {
-            swal(error.json().message, "", "success");
+            swal(error.json().message, "", "error");
             this.skId = undefined;
         })
 

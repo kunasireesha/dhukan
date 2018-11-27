@@ -71,15 +71,15 @@ export class ProductdetailsComponent implements OnInit {
   }
   skuData;
   proId;
+  selling_price;
   showProductDetails() {
     var inData = this.prodId;
     this.mainSer.showProductDetails(inData).subscribe(response => {
       this.prodData = response.json().products[0];
       this.skuData = response.json().products[0].sku;
       console.log(this.skuData);
-      // for (var i = 0; i < this.prodData.length; i++) {
       this.actual_price = response.json().products[0].actual_price;
-      this.offer_price = response.json().products[0].offer_price;
+      this.selling_price = response.json().products[0].selling_price;
       this.proId = response.json().products[0].id;
       // }
 
@@ -90,12 +90,14 @@ export class ProductdetailsComponent implements OnInit {
   skId;
   actual_price;
   offer_price;
+  image;
   selectOption(skId) {
     this.skId = skId;
     for (var i = 0; i < this.skuData.length; i++) {
       if (this.skuData[i].skid === parseInt(skId)) {
         this.actual_price = this.skuData[i].actual_price;
         this.offer_price = this.skuData[i].offer_price;
+        this.image = this.skuData[i].image;
       }
     }
   }
@@ -117,14 +119,14 @@ export class ProductdetailsComponent implements OnInit {
       this.resData = response.json();
       this.mainSer.getCartList();
       if (response.json().status === 200) {
-        swal(response.json().message, "", "success");
+        // swal(response.json().message, "", "success");
         this.skId = undefined;
       } else {
         swal(response.json().message, "", "error");
         this.skId = undefined;
       }
     }, error => {
-      swal(error.json().message, "", "success");
+      swal(error.json().message, "", "error");
       this.skId = undefined;
     })
     // }

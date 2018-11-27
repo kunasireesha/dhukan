@@ -125,7 +125,7 @@ export class SearchproductsComponent implements OnInit {
       this.mainServe.addCat(inData).subscribe(response => {
         this.resData = response.json();
         if (response.json().status === 200) {
-          swal(response.json().message, "", "success");
+          // swal(response.json().message, "", "success");
           this.skId = undefined;
           this.mainServe.getCartList();
           this.getDashboard();
@@ -138,7 +138,7 @@ export class SearchproductsComponent implements OnInit {
           this.skId = undefined;
         }
       }, error => {
-        swal(error.json().message, "", "success");
+        swal(error.json().message, "", "error");
         this.skId = undefined;
       })
     }

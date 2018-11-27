@@ -190,7 +190,7 @@ export class MainComponent implements OnInit {
             if (response.json().status === 200) {
                 this.resData = response.json();
                 this.cartCount = response.json().summary.cart_count;
-                swal(response.json().message, "", "success");
+                // swal(response.json().message, "", "success");
                 this.getDashboard(index, quantity, prodData);
                 this.mainServe.getCartList();
                 // this.skId = undefined;
@@ -203,7 +203,7 @@ export class MainComponent implements OnInit {
                 // this.skId = undefined;
             }
         }, error => {
-            swal(error.json().message, "", "success");
+            swal(error.json().message, "", "error");
             // this.skId = undefined;
         })
         // }

@@ -200,9 +200,8 @@ export class CategoriesComponent implements OnInit {
             this.mainServe.addCat(inData).subscribe(response => {
                 this.resData = response.json();
                 if (response.json().status === 200) {
-                    swal(response.json().message, "", "success");
+                    // swal(response.json().message, "", "success");
                     this.resData = response.json();
-                    swal(response.json().message, "", "success");
                     this.mainServe.getCartList();
                     this.getDashboard();
                     this.skId = undefined;

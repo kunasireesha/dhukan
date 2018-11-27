@@ -108,7 +108,7 @@ export class ProductComponent implements OnInit {
                 if (this.resData.status == 400) {
                     swal("Already added", "", "error");
                 } else {
-                    swal("Succeessfully added", "", "success");
+                    // swal("Succeessfully added", "", "success");
                 }
 
             }, error => {
