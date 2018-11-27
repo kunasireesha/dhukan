@@ -20,7 +20,7 @@ export class CategoriesComponent implements OnInit {
 
             if (params["sId"] == undefined) {
                 this.catId = params.catId;
-                this.getCatProducts(this.catId);
+                this.getCatProducts(this.catId, '', '', '');
                 this.catName = params["catName"];
             } else {
                 this.subCatId = params["sId"];
@@ -53,10 +53,18 @@ export class CategoriesComponent implements OnInit {
     item = {
         quantity: 1
     }
-
+    showSizeData = false;
+    prodId;
+    showselecteddata = true;
+    showselecteddifdata = true;
+    skudata;
     products = {
         quantity: 1
     }
+    selecte = {
+        skid: ''
+    }
+
     //get products
     catName;
     getSubProducts(sId) {
@@ -87,16 +95,49 @@ export class CategoriesComponent implements OnInit {
     }
 
     noData;
-    getCatProducts(catId) {
+    getCatProducts(catId, index, prodData, quantity) {
         var inData = catId;
         this.mainServe.getCatProducts(inData).subscribe(response => {
             this.allProducts = response.json().products;
             this.showveg = true;
-            for (var i = 0; i < this.allProducts.length; i++) {
-                this.allProducts[i].quantity = 1;
 
+            if (index !== '') {
+                // this.selecte.skid = this.skId;
+                // for (var i = 0; i < prodData.sku.length; i++) {
+                //     if (this.selecte.skid === prodData.sku[i].size) {
+                //         this.selecte.skid = prodData.sku[i].size;
+                //         this.selected = index;
+                //     }
+                // }
+                // this.skId = this.skId;
+                for (var i = 0; i < this.allProducts.length; i++) {
+                    for (var j = 0; j < this.allProducts[i].sku.length; j++) {
+                        if (prodData.id === this.allProducts[i].id) {
+                            this.allProducts[i].quantity = quantity;
+                            this.allProducts[i].skuActualPrice = this.skudata.actual_price;
+                            this.allProducts[i].sellingPrice = this.skudata.selling_price;
+                            this.allProducts[i].product_image = this.skudata.skuImages[0];
+                            // this.selecte.skid = this.allProducts[i].sku[j].size;
+                            this.notInCart = false;
+                            this.selected = index;
+                        } else {
+                            this.allProducts[i].quantity = 1;
+                            this.allProducts[i].product_image = this.allProducts[i].pic[0].product_image;
+                            // this.notInCart = true;
+                        }
+
+                    }
+                }
+            } else {
+                for (var i = 0; i < this.allProducts.length; i++) {
+                    for (var j = 0; j < this.allProducts[i].sku.length; j++) {
+                        this.allProducts[i].skuActualPrice = this.allProducts[i].sku[0].actual_price;
+                        this.allProducts[i].sellingPrice = this.allProducts[i].sku[0].selling_price;
+                    }
+                    this.allProducts[i].quantity = 1;
+                    this.allProducts[i].product_image = this.allProducts[i].pic[0].product_image;
+                }
             }
-
             if (response.json().status == 400) {
                 this.showveg = false;
                 this.noData = true;
@@ -131,7 +172,7 @@ export class CategoriesComponent implements OnInit {
     }
     skId;
     selected;
-    notInCart = true;
+    notInCart;
     selectOption(skId, index) {
         this.selected = index;
         this.skId = skId;
@@ -154,19 +195,19 @@ export class CategoriesComponent implements OnInit {
 
         }
     }
-    itemIncrease(title, products) {
+    itemIncrease(products, id, index) {
         for (var i = 0; i < this.allProducts.length; i++) {
-            if (title === this.allProducts[i].title) {
+            if (id === this.allProducts[i].id) {
                 this.allProducts[i].quantity = this.allProducts[i].quantity + 1;
-                this.addCat(products);
+                this.addCat(products, index, this.allProducts[i].quantity);
                 return;
             }
         }
     }
 
-    itemDecrease(products, title) {
+    itemDecrease(id, products, index) {
         for (var i = 0; i < this.allProducts.length; i++) {
-            if (title === this.allProducts[i].title) {
+            if (id === this.allProducts[i].id) {
                 if (this.allProducts[i].quantity === 1) {
                     this.deleteCart(this.skId);
                     this.mainServe.getCartList();
@@ -176,7 +217,7 @@ export class CategoriesComponent implements OnInit {
                     this.selected = undefined;
                 } else {
                     this.allProducts[i].quantity = this.allProducts[i].quantity - 1;
-                    this.addCat(products);
+                    this.addCat(products, index, this.allProducts[i].quantity);
                     return;
                 }
             }
@@ -184,39 +225,59 @@ export class CategoriesComponent implements OnInit {
     }
 
     resData;
-    addCat(products) {
-        if (this.skId === undefined) {
-            swal('Please select Size', '', 'error');
-            return;
-        }
-        if (localStorage.token === undefined) {
-            swal('Pleaase Login', '', 'warning');
-        } else {
-            var inData = "product_id=" + products.id +
-                "&quantity=" + products.quantity +
-                "&product_sku_id=" + this.skId
-
-
-            this.mainServe.addCat(inData).subscribe(response => {
-                this.resData = response.json();
-                if (response.json().status === 200) {
-                    // swal(response.json().message, "", "success");
-                    this.resData = response.json();
-                    this.mainServe.getCartList();
-                    this.getDashboard();
-                    this.skId = undefined;
-                    this.products.quantity = 1
-                    this.notInCart = false;
-                    this.selected = undefined
-                } else {
-                    swal(response.json().message, "", "error");
-                    this.skId = undefined;
+    addCat(products, index, quantity) {
+        if (this.skId === undefined || this.skId === '' || this.prodId !== products.id) {
+            for (var i = 0; i < this.allProducts.length; i++) {
+                if (products.id === this.allProducts[i].id) {
+                    this.skId = this.allProducts[i].sku[0].skid;
+                    this.skudata = this.allProducts[i].sku[0]
+                    this.selecte.skid = this.allProducts[i].sku[0].size;
                 }
-            }, error => {
-                swal(error.json().message, "", "success");
-                this.skId = undefined;
-            })
+            }
+        } else {
+            for (var i = 0; i < this.allProducts.length; i++) {
+                for (var j = 0; j < this.allProducts[i].sku.length; j++) {
+                    if (products.id === this.allProducts[i].id) {
+                        this.skId = this.allProducts[i].sku[j].skid;
+                        this.skudata = this.allProducts[i].sku[0]
+                        this.selecte.skid = this.allProducts[i].sku[j].size;
+                    }
+                }
+            }
         }
+        // if (localStorage.token === undefined) {
+        //     swal('Pleaase Login', '', 'warning');
+        // } else {
+        var inData = "product_id=" + products.id +
+            "&quantity=" + products.quantity +
+            "&product_sku_id=" + this.skId
+
+
+        this.mainServe.addCat(inData).subscribe(response => {
+            this.resData = response.json();
+            if (response.json().status === 200) {
+                // swal(response.json().message, "", "success");
+                this.resData = response.json();
+                // this.mainServe.getCartList();
+                // this.getDashboard();
+                // this.skId = undefined;
+                this.products.quantity = 1
+                this.notInCart = false;
+                this.selected = index;
+                if (this.catId !== undefined) {
+                    this.getCatProducts(this.catId, index, products, quantity);
+                } else {
+                    this.getSubProducts(this.subCatId);
+                }
+            } else {
+                swal(response.json().message, "", "error");
+                this.skId = undefined;
+            }
+        }, error => {
+            swal(error.json().message, "", "success");
+            this.skId = undefined;
+        })
+        // }
 
 
     }
@@ -329,4 +390,67 @@ export class CategoriesComponent implements OnInit {
 
         })
     }
+
+    showSizes(index) {
+        this.selecte.skid = '';
+        this.selected = index;
+        this.showSizeData = true;
+        this.showselecteddifdata = true;
+        this.notInCart = true;
+        this.showselecteddata = true;
+        for (var i = 0; i < this.allProducts.length; i++) {
+            this.allProducts[i].quantity = 1;
+        }
+    }
+    showselected(skId, size, index, skus) {
+        // this.selected = index;
+        this.showselecteddifdata = false;
+        this.selecte.skid = size;
+        this.showselecteddata = true;
+        this.showSizeData = false;
+        this.skudata = skus;
+        // this.notInCart = false;
+        // this.getDashboard(index, '', '');
+        for (var i = 0; i < this.allProducts.length; i++) {
+            for (var j = 0; j < this.allProducts[i].sku.length; j++) {
+                if (this.allProducts[i].sku[j].skid === parseInt(skId)) {
+                    this.skId = skId;
+                    this.prodId = skus.product_id;
+                    this.selecte.skid = this.allProducts[i].sku[j].size;
+                    this.allProducts[i].skuActualPrice = this.allProducts[i].sku[j].actual_price;
+                    this.allProducts[i].sellingPrice = this.allProducts[i].sku[j].selling_price;
+                    this.allProducts[i].product_image = this.allProducts[i].sku[j].skuImages[0];
+                    // if (this.allProducts[i].sku[j].mycart === 0 || undefined) {
+                    //     this.allProducts[i].quantity = 1;
+                    //     this.notInCart = true;
+                    // } else {
+                    //     this.notInCart = false;
+                    //     this.allProducts[i].quantity = this.allProducts[i].sku[j].mycart;
+                    //     this.selected = index;
+                    // }
+                    if (skus.mycart === 0 || undefined) {
+                        this.allProducts[i].quantity = 1;
+                        this.notInCart = true;
+                    } else {
+                        this.notInCart = false;
+                        this.selected = index;
+                        this.allProducts[i].quantity = skus.mycart;
+                    }
+                }
+
+            }
+        }
+
+
+    }
+
+    ShowProductDetails(Id) {
+        let navigationExtras: NavigationExtras = {
+            queryParams: {
+                prodId: Id
+            }
+        }
+        this.router.navigate(['/productdetails'], navigationExtras);
+    }
+
 }

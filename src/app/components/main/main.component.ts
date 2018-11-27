@@ -48,6 +48,11 @@ export class MainComponent implements OnInit {
         skid: ''
     }
 
+    showSizeData = false;
+    prodId;
+    showselecteddata = true;
+    showselecteddifdata = true;
+    skudata;
     ngOnInit() {
         window.scrollTo(0, 0);
         this.getAllCategoriesWithSubCat();
@@ -416,11 +421,7 @@ export class MainComponent implements OnInit {
         })
     }
 
-    showSizeData = false;
-    prodId;
-    showselecteddata = true;
-    showselecteddifdata = true;
-    skudata;
+
     showSizes(index) {
         this.selecte.skid = '';
         this.selected = index;
