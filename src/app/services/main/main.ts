@@ -93,7 +93,7 @@ export class MainService {
     }
 
     getSubProducts(catId): Observable<any> {
-        return this.postInputParamsUrl('dhukan/subcatproducts/', catId);
+        return this.getInputParamsUrl('dhukan/subcatproducts', catId);
     }
     getCatProducts(params): Observable<any> {
         return this.getInputParamsUrl('dhukan/catproducts', params)

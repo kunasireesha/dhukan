@@ -15,18 +15,19 @@ export class CategoriesComponent implements OnInit {
     constructor(private route: ActivatedRoute, public router: Router, private mainServe: MainService, private headerSer: HeaderService, public headerComp: HeaderComponent) {
 
         this.route.queryParams.subscribe(params => {
-            this.catId = params.catId;
-            this.subCatId = params["sId"];
+            // this.catId = params.catId;
+            // this.subCatId = params["sId"];
 
-            if (params["sId"] == undefined) {
-                this.catId = params.catId;
+            if (params["action"] !== undefined) {
+                this.action = params["action"];
+                this.catId = params['sId'];
                 this.getCatProducts(this.catId, '', '', '');
                 this.catName = params["catName"];
             } else {
                 this.subCatId = params["sId"];
                 this.catName = params["catName"];
 
-                this.getSubProducts(this.subCatId);
+                this.getSubProducts(this.subCatId, '', '', '');
             }
         });
         this.getDashboard();
@@ -35,8 +36,10 @@ export class CategoriesComponent implements OnInit {
 
     ngOnInit() {
         // this.getCategories();
+        this.mainServe.showCategories = false;
     }
     page: string;
+    action;
     showveg: boolean;
     grocery: boolean;
     nonveg: boolean;
@@ -67,31 +70,62 @@ export class CategoriesComponent implements OnInit {
 
     //get products
     catName;
-    getSubProducts(sId) {
+    getSubProducts(sId, index, prodData, quantity) {
         if (sId === '') {
             this.subId = this.subCatId;
         } else {
             this.subId = sId;
         }
-        var data = "" + + "&sortType=" +
-            this.mainServe.getSubProducts(this.subId).subscribe(response => {
-                this.allProducts = response.json().products;
+
+        this.mainServe.getSubProducts(this.subId).subscribe(response => {
+            this.allProducts = response.json().products;
+            if (index !== '') {
+                // this.selecte.skid = this.skId;
+                // for (var i = 0; i < prodData.sku.length; i++) {
+                //     if (this.selecte.skid === prodData.sku[i].size) {
+                //         this.selecte.skid = prodData.sku[i].size;
+                //         this.selected = index;
+                //     }
+                // }
+                // this.skId = this.skId;
                 for (var i = 0; i < this.allProducts.length; i++) {
                     for (var j = 0; j < this.allProducts[i].sku.length; j++) {
-                        this.allProducts[i].quantity = this.allProducts[i].sku[j].mycart;
-                        this.allProducts[i].quantity = 1;
+                        if (prodData.id === this.allProducts[i].id) {
+                            this.allProducts[i].quantity = quantity;
+                            this.allProducts[i].skuActualPrice = this.skudata.actual_price;
+                            this.allProducts[i].sellingPrice = this.skudata.selling_price;
+                            this.allProducts[i].product_image = this.skudata.skuImages[0];
+                            // this.selecte.skid = this.allProducts[i].sku[j].size;
+                            this.notInCart = false;
+                            this.selected = index;
+                            console.log(this.skudata);
+                        } else {
+                            this.allProducts[i].quantity = 1;
+                            this.allProducts[i].product_image = this.allProducts[i].sku[0].skuImages[0];
+                            this.allProducts[i].skuActualPrice = this.allProducts[i].sku[0].actual_price;
+                            this.allProducts[i].sellingPrice = this.allProducts[i].sku[0].selling_price;
+                            // this.notInCart = true;
+                        }
+
                     }
-                    this.catName = this.allProducts[0].category_name;
+                }
+            } else {
+                for (var i = 0; i < this.allProducts.length; i++) {
+                    for (var j = 0; j < this.allProducts[i].sku.length; j++) {
+                        this.allProducts[i].skuActualPrice = this.allProducts[i].sku[0].actual_price;
+                        this.allProducts[i].sellingPrice = this.allProducts[i].sku[0].selling_price;
+                    }
                     this.allProducts[i].quantity = 1;
-                    this.allProducts[i].product_image = this.allProducts[i].pic[0].product_image;
+                    this.allProducts[i].product_image = this.allProducts[i].sku[0].skuImages[0];
                 }
-                this.showveg = true;
-            }, error => {
-                if (error.json().status == 400) {
-                    this.noData = true;
-                    this.noData = error.json().message;
-                }
-            });
+            }
+            this.showveg = true;
+        }, error => {
+            if (error.json().status == 400) {
+                this.noData = true;
+                this.noData = error.json().message;
+            }
+        });
     }
 
     noData;
@@ -100,6 +134,13 @@ export class CategoriesComponent implements OnInit {
         this.mainServe.getCatProducts(inData).subscribe(response => {
             this.allProducts = response.json().products;
             this.showveg = true;
+            if (response.json().status == 400) {
+                this.showveg = false;
+                this.noData = true;
+                this.noData = response.json().message;
+            } else {
+                this.noData = false;
+            }
 
             if (index !== '') {
                 // this.selecte.skid = this.skId;
@@ -120,9 +161,12 @@ export class CategoriesComponent implements OnInit {
                             // this.selecte.skid = this.allProducts[i].sku[j].size;
                             this.notInCart = false;
                             this.selected = index;
+                            console.log(this.skudata);
                         } else {
                             this.allProducts[i].quantity = 1;
-                            this.allProducts[i].product_image = this.allProducts[i].pic[0].product_image;
+                            this.allProducts[i].product_image = this.allProducts[i].sku[0].skuImages[0];
+                            this.allProducts[i].skuActualPrice = this.allProducts[i].sku[0].actual_price;
+                            this.allProducts[i].sellingPrice = this.allProducts[i].sku[0].selling_price;
                             // this.notInCart = true;
                         }
 
@@ -135,13 +179,8 @@ export class CategoriesComponent implements OnInit {
                         this.allProducts[i].sellingPrice = this.allProducts[i].sku[0].selling_price;
                     }
                     this.allProducts[i].quantity = 1;
-                    this.allProducts[i].product_image = this.allProducts[i].pic[0].product_image;
+                    this.allProducts[i].product_image = this.allProducts[i].sku[0].skuImages[0];
                 }
-            }
-            if (response.json().status == 400) {
-                this.showveg = false;
-                this.noData = true;
-                this.noData = response.json().message;
             }
         }, error => {
             if (error.json().status == 400) {
@@ -167,9 +206,13 @@ export class CategoriesComponent implements OnInit {
         }
     }
     //show products
-    showCatProducts(sId) {
-        this.getSubProducts(sId);
+    catProducts(cId, name) {
+        // this.allProducts = [];
+        this.getCatProducts(cId, '', '', '');
+        this.catName = name;
+        this.catId = cId;
     }
+
     skId;
     selected;
     notInCart;
@@ -232,6 +275,41 @@ export class CategoriesComponent implements OnInit {
                     this.skId = this.allProducts[i].sku[0].skid;
                     this.skudata = this.allProducts[i].sku[0]
                     this.selecte.skid = this.allProducts[i].sku[0].size;
+
+                    var inData = "product_id=" + products.id +
+                        "&quantity=" + products.quantity +
+                        "&product_sku_id=" + this.skId
+
+
+                    this.mainServe.addCat(inData).subscribe(response => {
+                        this.resData = response.json();
+                        if (response.json().status === 200) {
+                            // swal(response.json().message, "", "success");
+                            this.resData = response.json();
+                            this.mainServe.getCartList();
+
+                            // this.getDashboard();
+                            // this.skId = undefined;
+                            this.products.quantity = 1
+                            this.notInCart = false;
+                            this.selected = index;
+                            if (this.catId !== undefined) {
+                                this.getCatProducts(this.catId, index, products, quantity);
+                                this.mainServe.getAllCategoriesWithSubCat();
+                            } else {
+                                this.getSubProducts(this.subCatId, index, products, quantity);
+                                this.mainServe.getAllCategoriesWithSubCat();
+                            }
+                        } else {
+                            swal(response.json().message, "", "error");
+                            this.skId = undefined;
+                        }
+                    }, error => {
+                        swal(error.json().message, "", "success");
+                        this.skId = undefined;
+                    })
+                    // }
+                    return;
                 }
             }
         } else {
@@ -240,7 +318,40 @@ export class CategoriesComponent implements OnInit {
                     if (products.id === this.allProducts[i].id) {
                         this.skId = this.allProducts[i].sku[j].skid;
                         this.skudata = this.allProducts[i].sku[0]
-                        this.selecte.skid = this.allProducts[i].sku[j].size;
+                        // this.selecte.skid = this.allProducts[i].sku[j].size;
+
+                        var inData = "product_id=" + products.id +
+                            "&quantity=" + products.quantity +
+                            "&product_sku_id=" + this.skId
+
+
+                        this.mainServe.addCat(inData).subscribe(response => {
+                            this.resData = response.json();
+                            if (response.json().status === 200) {
+                                // swal(response.json().message, "", "success");
+                                this.resData = response.json();
+                                this.mainServe.getCartList();
+                                this.mainServe.getAllCategoriesWithSubCat();
+                                // this.getDashboard();
+                                // this.skId = undefined;
+                                this.products.quantity = 1
+                                this.notInCart = false;
+                                this.selected = index;
+                                // if (this.catId !== undefined) {
+                                //     this.getCatProducts(this.catId, index, products, quantity);
+                                // } else {
+                                //     this.getSubProducts(this.subCatId, index, products, quantity);
+                                // }
+                            } else {
+                                swal(response.json().message, "", "error");
+                                this.skId = undefined;
+                            }
+                        }, error => {
+                            swal(error.json().message, "", "success");
+                            this.skId = undefined;
+                        })
+                        // }
+                        return;
                     }
                 }
             }
@@ -248,36 +359,7 @@ export class CategoriesComponent implements OnInit {
         // if (localStorage.token === undefined) {
         //     swal('Pleaase Login', '', 'warning');
         // } else {
-        var inData = "product_id=" + products.id +
-            "&quantity=" + products.quantity +
-            "&product_sku_id=" + this.skId
 
-
-        this.mainServe.addCat(inData).subscribe(response => {
-            this.resData = response.json();
-            if (response.json().status === 200) {
-                // swal(response.json().message, "", "success");
-                this.resData = response.json();
-                // this.mainServe.getCartList();
-                // this.getDashboard();
-                // this.skId = undefined;
-                this.products.quantity = 1
-                this.notInCart = false;
-                this.selected = index;
-                if (this.catId !== undefined) {
-                    this.getCatProducts(this.catId, index, products, quantity);
-                } else {
-                    this.getSubProducts(this.subCatId);
-                }
-            } else {
-                swal(response.json().message, "", "error");
-                this.skId = undefined;
-            }
-        }, error => {
-            swal(error.json().message, "", "success");
-            this.skId = undefined;
-        })
-        // }
 
 
     }
@@ -451,6 +533,20 @@ export class CategoriesComponent implements OnInit {
             }
         }
         this.router.navigate(['/productdetails'], navigationExtras);
+    }
+
+    showCatProd(catId, i, name) {
+        this.mainServe.showCategories = false;
+        this.mainServe.showSubCats = false;
+        // this.headerComp.showCatProd(catId, i, name);
+        let navigationExtras: NavigationExtras = {
+            queryParams: {
+                'sId': catId,
+                'catName': name,
+                'action': 'category'
+            }
+        };
+        this.router.navigate(["/categoriesProducts"], navigationExtras)
     }
 
 }

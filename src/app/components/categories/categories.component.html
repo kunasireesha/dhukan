@@ -179,7 +179,7 @@
       <!-- show categories -->
       <div class="col-md-3">
         <div class="cats" *ngIf="mainServe.showCategories">
-          <div *ngFor="let data of mainServe.categories;let i =index" (click)="headerComp.showCatProd(data.id,i,data.name)">
+          <div *ngFor="let data of mainServe.categories;let i =index" (click)="showCatProd(data.id,i,data.name)">
             <a>{{data.name}}
               <span class="float-right" (click)="$event.stopPropagation();showSubCat(data.id,i)" [ngClass]="{'active':showSubCats && i==selectedCat}">
                 <fa name="chevron-right"></fa>
@@ -281,7 +281,7 @@
       </div>
     </div>
   </div>
-  <div class="container mt-5 mb-3" *ngIf="showveg">
+  <div class="container mt-5 mb-3">
     <div class="row">
       <!-- category list -->
       <div class="col-lg-3">
@@ -289,7 +289,7 @@
           <h2 class="category-heading">Category</h2>
           <ul class="categories-list">
 
-            <li class="active-category" *ngFor="let data of subcats" (click)="showCatProducts(data.id)">{{data.name}}
+            <li class="active-category" *ngFor="let data of mainServe.categoriesWithSubCat" (click)="catProducts(data.id,data.name)">{{data.name}}
             </li>
 
           </ul>
@@ -448,7 +448,7 @@
         <!-- heading -->
         <div class="row mt-5 ">
           <!-- <div class="col-lg-4 mb-3"> -->
-          <div class="row">
+          <div class="row" *ngIf="!noData">
             <div class="col-lg-4 col-md-6 col-sm-6 col-xs-6" *ngFor="let products of allProducts;let i = index">
               <div class="product">
                 <div class="container">
@@ -572,20 +572,29 @@
               </div>
 
             </div>
+
+
           </div>
+
+
+          <div class="row mt-5 noData" *ngIf="noData">
+            <h3>{{noData}}</h3>
+          </div>
+
 
           <!-- </div> -->
 
 
         </div>
-        <div class="row justify-content-center show-more-button mb-5">
+        <!-- <div class="row justify-content-center show-more-button mb-5">
           <div class="col-lg-2">
             <button type="submit" class="btn button submit-button">Show More</button>
           </div>
-        </div>
+        </div> -->
       </div>
     </div>
   </div>
+
 
 </div>
 <!-- vegetables category -->
@@ -599,6 +608,3 @@
   <h2>Non veg</h2>
 </div>
 <br />
-<div class="noData" *ngIf="noData&&!showveg">
-  <h3>{{noData}}</h3>
-</div>

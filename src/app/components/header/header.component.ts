@@ -568,12 +568,12 @@ export class HeaderComponent implements OnInit {
   }
 
   //show categories
-  showCat() {
-    this.showCategories = !this.showCategories;
-    if (this.showCategories === false) {
-      this.showSubCats = false;
-    }
-  }
+  // showCat() {
+  //   this.showCategories = !this.showCategories;
+  //   if (this.showCategories === false) {
+  //     this.showSubCats = false;
+  //   }
+  // }
 
   goHome() {
     this.showCategories = false;
@@ -602,8 +602,7 @@ export class HeaderComponent implements OnInit {
 
 
   showSubCatProd(subId, index, name) {
-    this.showCategories = false;
-    this.showSubCats = false;
+
     let navigationExtras: NavigationExtras = {
       queryParams: {
         'sId': subId,
@@ -664,12 +663,11 @@ export class HeaderComponent implements OnInit {
 
   }
   showCatProd(catId, i, name) {
-    this.showCategories = false;
-    this.showSubCats = false;
     let navigationExtras: NavigationExtras = {
       queryParams: {
-        'catId': catId,
-        'catName': name
+        'sId': catId,
+        'catName': name,
+        'action': 'category'
       }
     };
     this.router.navigate(["/categoriesProducts"], navigationExtras)

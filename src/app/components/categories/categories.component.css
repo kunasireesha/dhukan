@@ -12,9 +12,10 @@
   padding: 0px;
   margin: 0px;
   background: #f3f3f3;
-  height: 512px;
+  height: auto;
   overflow: auto;
 }
+
 .categories-list li {
   border-bottom: 1px solid #71706e;
   padding: 9px;
@@ -83,6 +84,7 @@
   align-items: center;
   top: 7% !important;
 }
+
 .noData {
   margin-left: 44%;
 }

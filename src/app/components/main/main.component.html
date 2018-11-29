@@ -185,7 +185,7 @@
     <div class="row">
       <!-- show categories -->
       <div class="col-md-3">
-        <div class="cats" *ngIf="showCategories">
+        <div class="cats" *ngIf="mainServe.showCategories">
           <div *ngFor="let data of mainServe.categories;let i =index" (click)="showCatProd(data.id,i,data.name)">
             <a>{{data.name}}
               <span class="float-right" (click)="$event.stopPropagation();showSubCat(data.id,i)" [ngClass]="{'active':showSubCats && i==selectedCat}">
@@ -243,13 +243,11 @@
   </ol>
   <ol class="slider-selector ">
     <li data-target="#carouselExampleIndicators" *ngFor="let image of results; let i = index" data-slide-to="i" class="bottom-indicators active">
-      Test content</li>
-    <!-- <li data-target="#carouselExampleIndicators" data-slide-to="1" class="bottom-indicators">Test content</li>
-    <li data-target="#carouselExampleIndicators" data-slide-to="2" class="bottom-indicators">Test content</li> -->
+      {{image.type}}</li>
   </ol>
   <div class="carousel-inner">
     <div class="carousel-item banner" *ngFor="let image of results; let i = index" [ngClass]="{'active' : i == 0}">
-      <img class="d-block w-100" [src]="url  + image.pic_web" alt="First slide">
+      <img class="d-block w-100" [src]="image.website_banner[0].image_path" alt="{{image.type}}">
       <div class="carousel-caption d-none d-md-block slider-text">
         <div class="shop-now-btn">
           <!-- <button class="btn button" type="submit">Shop now</button> -->
