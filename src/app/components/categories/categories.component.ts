@@ -151,35 +151,39 @@ export class CategoriesComponent implements OnInit {
                 //     }
                 // }
                 // this.skId = this.skId;
-                for (var i = 0; i < this.allProducts.length; i++) {
-                    for (var j = 0; j < this.allProducts[i].sku.length; j++) {
-                        if (prodData.id === this.allProducts[i].id) {
-                            this.allProducts[i].quantity = quantity;
-                            this.allProducts[i].skuActualPrice = this.skudata.actual_price;
-                            this.allProducts[i].sellingPrice = this.skudata.selling_price;
-                            this.allProducts[i].product_image = this.skudata.skuImages[0];
-                            // this.selecte.skid = this.allProducts[i].sku[j].size;
-                            this.notInCart = false;
-                            this.selected = index;
-                            console.log(this.skudata);
-                        } else {
-                            this.allProducts[i].quantity = 1;
-                            this.allProducts[i].product_image = this.allProducts[i].sku[0].skuImages[0];
-                            this.allProducts[i].skuActualPrice = this.allProducts[i].sku[0].actual_price;
-                            this.allProducts[i].sellingPrice = this.allProducts[i].sku[0].selling_price;
-                            // this.notInCart = true;
-                        }
+                if (this.allProducts !== undefined) {
+                    for (var i = 0; i < this.allProducts.length; i++) {
+                        for (var j = 0; j < this.allProducts[i].sku.length; j++) {
+                            if (prodData.id === this.allProducts[i].id) {
+                                this.allProducts[i].quantity = quantity;
+                                this.allProducts[i].skuActualPrice = this.skudata.actual_price;
+                                this.allProducts[i].sellingPrice = this.skudata.selling_price;
+                                this.allProducts[i].product_image = this.skudata.skuImages[0];
+                                // this.selecte.skid = this.allProducts[i].sku[j].size;
+                                this.notInCart = false;
+                                this.selected = index;
+                                console.log(this.skudata);
+                            } else {
+                                this.allProducts[i].quantity = 1;
+                                this.allProducts[i].product_image = this.allProducts[i].sku[0].skuImages[0];
+                                this.allProducts[i].skuActualPrice = this.allProducts[i].sku[0].actual_price;
+                                this.allProducts[i].sellingPrice = this.allProducts[i].sku[0].selling_price;
+                                // this.notInCart = true;
+                            }
 
+                        }
                     }
                 }
             } else {
-                for (var i = 0; i < this.allProducts.length; i++) {
-                    for (var j = 0; j < this.allProducts[i].sku.length; j++) {
-                        this.allProducts[i].skuActualPrice = this.allProducts[i].sku[0].actual_price;
-                        this.allProducts[i].sellingPrice = this.allProducts[i].sku[0].selling_price;
+                if (this.allProducts !== undefined) {
+                    for (var i = 0; i < this.allProducts.length; i++) {
+                        for (var j = 0; j < this.allProducts[i].sku.length; j++) {
+                            this.allProducts[i].skuActualPrice = this.allProducts[i].sku[0].actual_price;
+                            this.allProducts[i].sellingPrice = this.allProducts[i].sku[0].selling_price;
+                        }
+                        this.allProducts[i].quantity = 1;
+                        this.allProducts[i].product_image = this.allProducts[i].sku[0].skuImages[0];
                     }
-                    this.allProducts[i].quantity = 1;
-                    this.allProducts[i].product_image = this.allProducts[i].sku[0].skuImages[0];
                 }
             }
         }, error => {
