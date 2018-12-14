@@ -73,28 +73,41 @@ export class ProductdetailsComponent implements OnInit {
   proId;
   images = [];
   selling_price;
+  description;
+  terms_and_conditions;
+  specification;
+  quantityImage;
+  question;
+  answer;
   showProductDetails() {
     var inData = this.prodId;
     this.mainSer.showProductDetails(inData).subscribe(response => {
       this.prodData = response.json().products[0];
-      this.smallImageSrc = response.json().products[0].pic[0].product_image;
+      this.smallImageSrc = response.json().products[0].sku[0].skuImages[0];
       this.skuData = response.json().products[0].sku;
       this.selecte.skId = response.json().products[0].sku[0].skid;
+      this.quantityImage = response.json().products[0].sku[0].quality_image;
+      // quality_image
       // for (var i = 0; i < this.prodData.length; i++) {
       this.actual_price = response.json().products[0].sku[0].actual_price;
+      this.description = response.json().products[0].sku[0].description;
+      this.specification = response.json().products[0].sku[0].specification;
+      this.terms_and_conditions = response.json().products[0].sku[0].terms;
+      this.question = response.json().products[0].sku[0].faq.question;
+      this.answer = response.json().products[0].sku[0].faq.answer;
+      // terms_and_conditions
       this.selling_price = response.json().products[0].sku[0].selling_price;
       this.percentage = Math.round(100 - (this.selling_price / this.actual_price * 100));
       this.proId = response.json().products[0].id;
-      for (var i = 0; i < response.json().products[0].pic.length; i++) {
-        this.images.push(response.json().products[0].pic[i].product_image);
-      }
+      // for (var i = 0; i < response.json().products[0].sku.length; i++) {
+      this.images = response.json().products[0].sku[0].skuImages;
+      // }
       if (response.json().products[0].sku[0].mycart !== 0) {
         this.notInCart = true;
       } else {
         this.notInCart = false;
       }
 
-      console.log(this.prodData);
       // }
 
     }, error => {
@@ -125,10 +138,16 @@ export class ProductdetailsComponent implements OnInit {
           this.notInCart = true;
 
         }
+
         for (var i = 0; i < prodData.sku.length; i++) {
           if (prodData.sku[i].skid === parseInt(skId)) {
+            this.quantityImage = prodData.sku[i].quality_image;
             this.images = prodData.sku[i].skuImages;
-            console.log(this.images);
+            this.description = prodData.sku[i].description;
+            this.specification = prodData.sku[i].specification;
+            this.terms_and_conditions = prodData.sku[i].terms;
+            this.question = prodData.sku[i].faq.question;
+            this.answer = prodData.sku[i].faq.answer;
             return;
           }
         }

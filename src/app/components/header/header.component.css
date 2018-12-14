@@ -88,6 +88,7 @@ a {
 
 .main-menu {
   background: #f3f1f1;
+  /* margin-left: 8%; */
 }
 
 .menu-list {
@@ -609,6 +610,7 @@ a {
   left: 0px;
   height: 500px;
   overflow: auto;
+  margin-left: 6%;
 }
 
 .subcats {
@@ -619,6 +621,7 @@ a {
   left: 0px;
   height: 400px;
   overflow: auto;
+  margin-left: 6%;
 }
 
 .subcats div {

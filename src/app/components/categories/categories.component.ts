@@ -320,7 +320,7 @@ export class CategoriesComponent implements OnInit {
             for (var i = 0; i < this.allProducts.length; i++) {
                 for (var j = 0; j < this.allProducts[i].sku.length; j++) {
                     if (products.id === this.allProducts[i].id) {
-                        this.skId = this.allProducts[i].sku[j].skid;
+                        // this.skId = this.allProducts[i].sku[j].skid;
                         this.skudata = this.allProducts[i].sku[0]
                         // this.selecte.skid = this.allProducts[i].sku[j].size;
 

@@ -14,7 +14,7 @@
               <div>
                 <button class="btn locaton-btn" type="button" (click)="showLocation()">
                   <img src="assets/images/location.png" class="header-icons">
-                  <span class="city"> {{location || "Choose location"}} {{LocationPincode}} </span>
+                  <span class="city"> {{location|| "Choose location"}} </span>
                   <img src="assets/images/angle-arrow-down.png" class="dropdown-icon">
                 </button>
                 <div *ngIf="hideLocations">
@@ -25,36 +25,43 @@
                       </h5>
                       <div class="form-group mb-3">
                         <label for="inputState">Select country</label>
-                        <select id="inputState" class="form-control" (change)="changeCountry($event.target.value)">
-                          <option selected>Choose...</option>
-                          <option value="IND">India</option>
-                          <option value="UAE">UAE</option>
+                        <select required class="form-control border-primary" id="exampleSelectPrimary" [(ngModel)]="country"
+                          name="country" (change)="getStates($event.target.value)">
+                          <option value="" disabled selected hidden>Select Country</option>
+                          <option *ngFor="let country of countrys" value="{{country}}">{{country}}</option>
                         </select>
                       </div>
 
-                      <div class="form-group mb-3" *ngIf="showLocations">
-                        <label for="inputState">Select Location</label>
-                        <select id="inputState" class="form-control" [(ngModel)]="formData.lId" name="lId" (change)="changeLocation($event.target.value)">
-                          <option selected value=''>Choose...</option>
-                          <option *ngFor="let data of locationData" value="{{data.id}}">
-                            {{data.location_name}}
-                          </option>
+                      <div class="form-group mb-3" *ngIf="showState">
+                        <label for="inputState">state</label>
+                        <select required class="form-control border-primary" id="exampleSelectPrimary" [(ngModel)]="state"
+                          name="stateName" (change)="getCitys($event.target.value)">
+                          <option value="" disabled selected hidden>Select state</option>
+                          <option *ngFor="let state of states" value="{{state}}">{{state}}</option>
                         </select>
                       </div>
 
-                      <div class="form-group mb-3" *ngIf="showSubLocations">
-                        <label for="inputState">Pincode</label>
-                        <select id="inputState" class="form-control" [(ngModel)]="formData.pincode" name="pincode"
-                          (change)="changeSubLocation()">
-                          <option selected value=''>Choose...</option>
-                          <option *ngFor="let data of subLocationData" value="{{data.pincode}}">
-                            {{data.address}}
-                          </option>
+                      <div class="form-group mb-3" *ngIf="showCity">
+                        <label for="inputState">City</label>
+                        <select required class="form-control border-primary" id="exampleSelectPrimary" [(ngModel)]="city"
+                          name="city" (change)="getArea($event.target.value)">
+                          <option value="" disabled selected hidden>Select City</option>
+                          <option *ngFor="let city of citys" value="{{city}}">{{city}}</option>
                         </select>
                       </div>
+
+                      <div class="form-group mb-3" *ngIf="showArea">
+                        <label for="inputState">Area</label>
+                        <select required class="form-control border-primary" id="exampleSelectPrimary" [(ngModel)]="area"
+                          name="area" (change)="changeArea($event.target.value)">
+                          <option value="" disabled selected hidden>Select Area</option>
+                          <option *ngFor="let area of areas" value="{{area}}">{{area}}</option>
+                        </select>
+                      </div>
+
                       <div class="row justify-content-center ">
                         <div class="col-8">
-                          <button type="submit" class="btn button submit-button" (click)="submitLocation(subLocationName,pincodeOfLocation)">Submit</button>
+                          <button type="submit" class="btn button submit-button" (click)="submitLocation()">Submit</button>
                         </div>
                       </div>
                     </form>

@@ -6,6 +6,9 @@ import { HeaderService } from '../../services/header/header';
 import { TranslateService } from '@ngx-translate/core';
 import { Router, NavigationExtras, ActivatedRoute } from '@angular/router';
 import swal from 'sweetalert';
+import { Http, Headers } from '@angular/http';
+import { AppSettings } from '../../config';
+import * as _ from 'underscore';
 
 
 // import {
@@ -33,6 +36,7 @@ export class HeaderComponent implements OnInit {
     public mainServe: MainService,
     public dialog: MatDialog,
     public router: Router,
+    public http: Http,
     // private socialAuthService: AuthService,
     private headerSer: HeaderService
   ) {
@@ -46,6 +50,7 @@ export class HeaderComponent implements OnInit {
   ngOnInit() {
     this.phone = localStorage.userMobile;
     this.getDashboard();
+    this.getLocation();
     this.getCategories();
     this.getAllCategoriesWithSubCat();
     if (localStorage.userData !== undefined) {
@@ -103,6 +108,7 @@ export class HeaderComponent implements OnInit {
   selectedCat;
   offersList = [];
   banners = [];
+  countriesData = [];
   results: any;
   showPasswordOtp = false;
   formData = {
@@ -513,22 +519,12 @@ export class HeaderComponent implements OnInit {
   }
 
   //submit location
-  submitLocation(location, pin) {
-    if (location == undefined) {
-      location = '';
-      pin = '';
-      localStorage.setItem('location', location);
-      localStorage.setItem('pincode', pin);
-      this.location = localStorage.location;
-      this.LocationPincode = localStorage.pincode;
-      this.hideLocations = false;
-    } else {
-      localStorage.setItem('location', location);
-      localStorage.setItem('pincode', pin);
-      this.location = localStorage.location;
-      this.LocationPincode = localStorage.pincode;
-      this.hideLocations = false;
-    }
+  submitLocation() {
+
+    var location = this.city + ',' + this.area;;
+    localStorage.setItem('location', location);
+    this.location = localStorage.location;
+    this.hideLocations = false;
 
   }
 
@@ -672,5 +668,105 @@ export class HeaderComponent implements OnInit {
     };
     this.router.navigate(["/categoriesProducts"], navigationExtras)
   }
+  countryData = [];
+  countrys = [];
+  country;
+  statesData = [];
+  states = [];
+  state;
+  citysData = [];
+  areas = []
+  citys = [];
+  city;
+  area;
+  areasData = [];
+  countryVales = [];
+  showState = false;
+  showCity = false;
+  showArea = false;
+  getLocation() {
+
+    this.http.get(AppSettings.baseUrl + 'users/get_locations').subscribe(res => {
+      this.countriesData = res.json().result;
+      for (var i = 0; i < this.countriesData.length; i++) {
+        this.countryVales.push(this.countriesData[i].country);
+      }
+
+      for (var i = 0; i < this.countryVales.length; i++) {
+        this.countrys = _.uniq(this.countryVales, function (obj) {
+          return obj;
+        });
+      }
+    })
+
+
+    console.log(this.countrys);
+  }
+
+
+
+
+  //get state
+  getStates(country) {
+    this.showState = true;
+    this.country = country;
+    this.statesData = [];
+
+    for (var i = 0; i < this.countriesData.length; i++) {
+      if (this.countriesData[i].country === country) {
+        this.statesData.push(this.countriesData[i].state);
+      }
+    }
+
+    for (var i = 0; i < this.statesData.length; i++) {
+      this.states = _.uniq(this.statesData, function (obj) {
+        return obj;
+      });
+      // this.sValues.push(this.states);
+    }
+  }
+
+  //get city
+  getCitys(state) {
+    this.showCity = true;
+    this.state = state;
+    this.citysData = [];
+    this.areas = [];
+    for (var i = 0; i < this.countriesData.length; i++) {
+      if (this.countriesData[i].state === state) {
+        this.citysData.push(this.countriesData[i].city);
+      }
+    }
+
+    for (var i = 0; i < this.citysData.length; i++) {
+      this.citys = _.uniq(this.citysData, function (obj) {
+        return obj;
+      });
+    }
+  }
+
+  //get area
+  getArea(city) {
+    this.showArea = true;
+    this.city = city;
+    this.areasData = [];
+    for (var i = 0; i < this.countriesData.length; i++) {
+      if (this.countriesData[i].city === city) {
+        this.areasData.push(this.countriesData[i].area);
+      }
+    }
+
+    for (var i = 0; i < this.areasData.length; i++) {
+      this.areas = _.uniq(this.areasData, function (obj) {
+        return obj;
+      });
+    }
+  }
+
+  //chage area
+  changeArea(area) {
+    this.area = area;
+  }
+
 }
 

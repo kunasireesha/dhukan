@@ -7,6 +7,14 @@ import { AppSettings } from '../../config';
 import { NavigationExtras, Router, ActivatedRoute } from '@angular/router';
 import { Post } from '../../services/products';
 import { NgSelectModule, NgOption } from '@ng-select/ng-select';
+import { FormControl } from '@angular/forms';
+import { Observable } from 'rxjs';
+import { map, startWith } from 'rxjs/operators';
+import * as _ from 'underscore';
+
+export interface prod {
+    name: string;
+}
 
 @Component({
     selector: 'app-main',
@@ -15,7 +23,14 @@ import { NgSelectModule, NgOption } from '@ng-select/ng-select';
     providers: [HeaderComponent]
 })
 
+
+
 export class MainComponent implements OnInit {
+
+
+    stateCtrl = new FormControl();
+    filteredStates: Observable<prod[]>;
+
 
     constructor(public mainServe: MainService, public router: Router, private headerSer: HeaderService, public headerComp: HeaderComponent) {
         this.getDashboard('', '', '');
@@ -36,6 +51,7 @@ export class MainComponent implements OnInit {
     image;
     resData = [];
     allProducts = [];
+    allProductsData: prod[];
     productsData = [];
     pro;
     cartCount;
@@ -62,9 +78,10 @@ export class MainComponent implements OnInit {
     }
 
 
-
-    bannerImageOneOffer() {
-        this.bannerImageOne = true;
+    bigImage;
+    bannerImageOneOffer(image, index) {
+        this.bigImage = image;
+        this.bannerImageOne = index;
         this.bannerImageTwo = false;
         this.bannerImageThree = false;
     }
@@ -143,7 +160,7 @@ export class MainComponent implements OnInit {
     getAllCategoriesWithSubCat() {
         this.headerSer.getAllCatAndSubCat().subscribe(response => {
             this.results = response.json().result.banner.TOP1;
-            console.log('http://versatilemobitech.co.in/DHUKAN/' + this.results[0].website_banner[0])
+            // console.log('http://versatilemobitech.co.in/DHUKAN/' + this.results[0].website_banner[0])
             //   console.log(this.results);
             //   this.banners = this.results.banner.TOP1;
             //   console.log(this.banners);
@@ -169,6 +186,7 @@ export class MainComponent implements OnInit {
                         this.notInCart = false;
                         this.selected = index;
                     }
+
                 } else {
                     this.selecte.skid = '';
                     // this.allProducts[i].quantity = 1;
@@ -220,7 +238,7 @@ export class MainComponent implements OnInit {
             for (var i = 0; i < this.allProducts.length; i++) {
                 for (var j = 0; j < this.allProducts[i].sku.length; j++) {
                     if (prodData.id === this.allProducts[i].id) {
-                        this.skId = this.allProducts[i].sku[j].skid;
+                        // this.skId = this.allProducts[i].sku[j].skid;
                         this.skudata = this.allProducts[i].sku[0]
                         // this.selecte.skid = this.allProducts[i].sku[j].size;
 
@@ -390,15 +408,44 @@ export class MainComponent implements OnInit {
         skid: ''
     }
     skid;
+    mainBaners = [];
+    dealsBaners = [];
+    discountBanner = [];
+    discountApplicance = [];
+    bestDiscountAppliances = [];
+    brandsData = [];
     getDashboard(index, quantity, prodData) {
         this.mainServe.getDashboard().subscribe(response => {
             this.dashboardData = response.json();
             this.allProducts = response.json().products;
+            this.allProductsData = this.allProducts;
             this.posts = this.allProducts;
             this.cartCount = response.json().cart.cart_count || 0;
             this.deliveryCharge = response.json().cart.delivery_charge.toFixed(2);
             this.subTotal = response.json().cart.selling_price.toFixed(2);
             this.Total = response.json().cart.grand_total.toFixed(2);
+            this.mainBaners = _.filter(response.json().offer, function (obj) {
+                return obj.banner_position === "Main banners";
+            });
+            this.dealsBaners = _.filter(response.json().offer, function (obj) {
+                return obj.banner_position === "Best Deals";
+            });
+            this.bigImage = this.dealsBaners[0].banner[0].website_bannerimage;
+            this.discountBanner = _.filter(response.json().offer, function (obj) {
+                return obj.banner_position === "Best Discount";
+            });
+
+            this.discountApplicance = _.filter(response.json().offer, function (obj) {
+                return obj.banner_position === "Best Appliances";
+            });
+            this.bestDiscountAppliances = _.filter(response.json().offer, function (obj) {
+                return obj.banner_position === "Best Discount Appliances";
+            });
+
+            this.brandsData = _.filter(response.json().offer, function (obj) {
+                return obj.banner_position === "Popular Brands";
+            });
+
             if (index !== '') {
                 // this.selecte.skid = this.skId;
                 // for (var i = 0; i < prodData.sku.length; i++) {
@@ -457,7 +504,7 @@ export class MainComponent implements OnInit {
                         // this.allProducts[i].quantity = this.allProducts[i].sku[0].mycart;
                         this.allProducts[i].skuActualPrice = this.allProducts[i].sku[0].actual_price;
                         this.allProducts[i].sellingPrice = this.allProducts[i].sku[0].selling_price;
-                        this.allProducts[i].product_image = this.allProducts[i].sku[j].skuImages[0];
+                        this.allProducts[i].product_image = this.allProducts[i].sku[0].skuImages[0];
                         this.allProducts[i].quantity = 1;
                         if (this.allProducts[i].sku[j].mycart === 0 || undefined) {
                             this.allProducts[i].quantity = 1;

@@ -149,6 +149,13 @@
 
 }
 
+.quality-image {
+  
+  position: absolute;
+  top: 10px;
+  left: 24%;
+}
+
 .multi-images .prod-details-img {
   left: 20%;
   border: 1px solid gray;

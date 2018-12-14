@@ -38,7 +38,11 @@ export class AllProductsComponent implements OnInit {
             // this.getAllProducts();
             this.showAll = true;
             this.showWish = false;
-            this.getDashboard('', '', '');
+            if (this.title === 'BEST DEALS OF THE DAY') {
+                this.getDashboard('', '', '');
+            } else {
+                this.noData = true;
+            }
         }
 
         this.getCartList();
@@ -97,7 +101,7 @@ export class AllProductsComponent implements OnInit {
     itemDecrease(id, products, index) {
 
         for (var i = 0; i < this.allProducts.length; i++) {
-            if (id === this.allProducts[i].id) {
+            if (id === this.allProducts[i].id) { 
                 if (this.allProducts[i].quantity === 1) {
                     this.deleteCart(this.skId);
                     this.mainSer.getCartList();
@@ -320,7 +324,7 @@ export class AllProductsComponent implements OnInit {
                             this.selected = index;
                         } else {
                             this.allProducts[i].quantity = 1;
-                            this.allProducts[i].product_image = this.allProducts[i].pic[0].product_image;
+                            this.allProducts[i].product_image = this.allProducts[i].sku[0].skuImages[0];
                             // this.notInCart = true;
                         }
 
@@ -339,7 +343,7 @@ export class AllProductsComponent implements OnInit {
                         this.allProducts[i].quantity = 1;
                         // this.selecte.skid = this.allProducts[i].sku[0].size;
                     }
-                    this.allProducts[i].product_image = this.allProducts[i].pic[0].product_image;
+                    this.allProducts[i].product_image = this.allProducts[i].sku[0].skuImages[0];
                 }
             }
             if (prodData.product_id !== undefined) {
