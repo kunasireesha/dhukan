@@ -14,7 +14,8 @@ export class ProfileService {
     getInputParams(url) {
         const headers = new Headers({
             'Content-Type': "application/x-www-form-urlencoded",
-            'token': JSON.parse(localStorage.token)
+            'token': JSON.parse(localStorage.token),
+
         });
         return this.http.get(AppSettings.baseUrl + url, { headers: headers });
     }
@@ -29,13 +30,13 @@ export class ProfileService {
     }
 
     //delete
-    deleteInputParams(url) {
+    deleteInputParams(url, params) {
         const headers = new Headers({
-            'Content-Type': "application/x-www-form-urlencoded",
-            'token': (localStorage.token === undefined) ? '' : JSON.parse(localStorage.token),
-            'Session_id': (localStorage.token !== undefined) ? '' : localStorage.session
+            'Content-Type': "application/json",
+            'token': JSON.parse(localStorage.token),
+
         });
-        return this.http.delete(AppSettings.baseUrl + url, { headers: headers });
+        return this.http.post(AppSettings.baseUrl + url, params, { headers: headers });
     }
     //post
     postInputParamsUrl(url, params) {
@@ -115,7 +116,8 @@ export class ProfileService {
     getWishList(): Observable<any> {
         return this.getInputParams('cart/getwishlist');
     }
-    emptyWish(): Observable<any> {
-        return this.deleteInputParams('cart/deleteWishlistByUserId');
+    emptyWish(params): Observable<any> {
+        return this.deleteInputParams('cart/deleteWishlistByUserId', params);
     }
 };
+

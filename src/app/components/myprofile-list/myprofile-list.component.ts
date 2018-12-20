@@ -343,14 +343,14 @@ export class MyprofileListComponent implements OnInit {
       }
     });
   }
-  emptyWish() {
-    this.profileSer.emptyWish().subscribe(response => {
-      swal("Successfully Cleared", "", "success");
-      this.getWishList();
-    }, error => {
+  // emptyWish() {
+  //   this.profileSer.emptyWish().subscribe(response => {
+  //     swal("Successfully Cleared", "", "success");
+  //     this.getWishList();
+  //   }, error => {
 
-    })
-  }
+  //   })
+  // }
   prodId;
   quantiy;
   quantity1;

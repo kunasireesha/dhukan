@@ -9,12 +9,16 @@ import { TranslateService } from '@ngx-translate/core';
 export class AppComponent {
   title = 'app';
   constructor(private translate: TranslateService) {
-    translate.setDefaultLang('en');
+    if (localStorage.lan === undefined) {
+      localStorage.setItem('lan', 'en');
+    }
+    translate.setDefaultLang(localStorage.lan);
 
   }
   randomkey;
   switchLanguage(language: string) {
     this.translate.use(language);
+    localStorage.setItem('lan', language);
   }
 
 

@@ -9,6 +9,7 @@ import swal from 'sweetalert';
 import { Http, Headers } from '@angular/http';
 import { AppSettings } from '../../config';
 import * as _ from 'underscore';
+import { AppComponent } from '../../app.component';
 
 
 // import {
@@ -38,7 +39,8 @@ export class HeaderComponent implements OnInit {
     public router: Router,
     public http: Http,
     // private socialAuthService: AuthService,
-    private headerSer: HeaderService
+    private headerSer: HeaderService,
+    public app: AppComponent
   ) {
     this.getDashboard();
     this.getCartList();
@@ -230,7 +232,7 @@ export class HeaderComponent implements OnInit {
         if (response.json().status === 400) {
           swal(response.json().message, "", "error");
         } else {
-          swal("OTP sent to your Mobile/Email succesfully", "", "success");
+          swal("OTP verified successfully", "", "success");
           // this.forData.forEmail = '';
           this.showOpacity = true;
           this.showModal = true;
@@ -252,7 +254,7 @@ export class HeaderComponent implements OnInit {
         if (response.json().status === 400) {
           swal(response.json().message, "", "error");
         } else {
-          swal("OTP sent to your Mobile/Email succesfully", "", "success");
+          swal(response.json().message, "", "success");
           this.forData.forEmail = '';
           this.showPasswordOtp = false;
           this.showOpacity = false;
@@ -697,13 +699,8 @@ export class HeaderComponent implements OnInit {
           return obj;
         });
       }
-    })
-
-
-    console.log(this.countrys);
+    });
   }
-
-
 
 
   //get state
@@ -767,6 +764,7 @@ export class HeaderComponent implements OnInit {
   changeArea(area) {
     this.area = area;
   }
+
 
 }
 

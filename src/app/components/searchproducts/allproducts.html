@@ -275,7 +275,7 @@
                 </form>
                 <!-- </li> -->
               </div>
-              <div class="product-names text-center">
+              <div class="product-names text-center" [ngClass]="{'margin-div':showSizeData && selected==i}">
                 <ul>
 
                   <li>
@@ -395,11 +395,11 @@
         <div class="container">
           <div class="row">
 
-            <!-- <div class="col-md-12 text-right">
-              <a>
-                <fa name="heart"></fa>
+            <div class="col-md-12 text-right">
+              <a (click)="removeWish(data.id)">
+                <fa name="close"></fa>
               </a>
-            </div> -->
+            </div>
 
             <div class="col-md-12 text-center">
               <img [src]="data.product_image" class="img-fluid prodImage" (click)="ShowProductDetails(data.id)">
@@ -430,11 +430,12 @@
                     <h3 class="text-center">{{data.title}}</h3>
                   </li>
                   <li>MRP :
-                    <span class="price">{{data.actual_price}} </span>
-                    <span class="offer-price"> {{data.offer_price}}</span>
+                    <span class="price">{{data.skuActualPrice}} </span>
+                    <span class="offer-price"> {{data.sellingPrice}}</span>
                   </li>
                   <li>
-                    <span class="text-danger">{{ "offer-price" | translate}}</span>
+                    <span class="text-danger">{{ "offer-price" | translate}} {{data.skuActualPrice -
+                      data.sellingPrice || 0}}</span>
                   </li>
                   <li>
                     <ul class="rating">

@@ -274,11 +274,6 @@
 
 
 
-
-
-
-
-
 <!-- best deals -->
 <div class="container-fluid best-deal products-list">
   <!-- <h2 class="text-center">BEST DEALS OF THE DAY</h2> -->
@@ -293,6 +288,9 @@
     </div>
     <div class="col-lg-9">
       <div class="row">
+        <div class="col-lg-12 col-md-12 col-sm-12">
+          <a (click)="viewAll('BEST DEALS OF THE DAY')" class="red">View All</a>
+        </div><br />
         <div class="col-lg-3 col-md-3 col-sm-6 col-xs-6" *ngFor="let products of allProducts;let i= index">
           <div class="product" *ngIf="i<4">
             <div class="container">
@@ -334,7 +332,7 @@
                     </form>
                     <!-- </li> -->
                   </div>
-                  <div class="product-names text-center">
+                  <div class="product-names text-center" [ngClass]="{'margin-div':showSizeData && selected==i}">
                     <ul [ngClass]="{'afterDrop':showSizeData=='true' && selected==i}">
 
                       <li>
@@ -410,12 +408,12 @@
           </div>
         </div>
       </div>
-      <div class="row">
+      <!-- <div class="row">
         <div class="col-md-12 text-right">
           <button class="btn button" (click)="viewAll('BEST DEALS OF THE DAY')" type="submit" style="margin-top: 20px;background-color: #f19820;">View
             All</button>
         </div>
-      </div>
+      </div> -->
     </div>
 
     <!-- <app-product></app-product> -->
@@ -432,8 +430,8 @@
     </div>
     <div class="col-lg-3">
       <img *ngFor="let delas of dealsBaners[0].banner;let i=index" [src]="delas.website_bannerimage" alt="banner1"
-        (click)="viewAll(delas.type)" class="img-fluid selected-banner" (click)="bannerImageOneOffer(delas.website_bannerimage,i)"
-        [ngClass]="{'active-banner':bannerImageOne === i ||( i==0 && bigImage==dealsBaners[0].banner[0].website_bannerimage) }">
+        (click)="viewAll(delas.type)" class="img-fluid selected-banner" (click)="bannerImageOneOffer(delas.website_bannerimage,i)">
+      <!-- [ngClass]="{'active-banner':bannerImageOne === i ||( i==0 && bigImage==dealsBaners[0].banner[0].website_bannerimage) }" -->
 
     </div>
   </div>

@@ -21,6 +21,8 @@ export class AllProductsComponent implements OnInit {
     selecte = {
         skid: ''
     }
+    wishData;
+    wishListData = [];
     constructor(private router: Router, private route: ActivatedRoute, public mainSer: MainService, public profileSer: ProfileService, public headerComp: HeaderComponent) {
         this.route.queryParams.subscribe(params => {
             this.title = params.title;
@@ -43,9 +45,10 @@ export class AllProductsComponent implements OnInit {
             } else {
                 this.noData = true;
             }
+            this.getCartList();
         }
 
-        this.getCartList();
+
     }
 
     item = {
@@ -101,7 +104,7 @@ export class AllProductsComponent implements OnInit {
     itemDecrease(id, products, index) {
 
         for (var i = 0; i < this.allProducts.length; i++) {
-            if (id === this.allProducts[i].id) { 
+            if (id === this.allProducts[i].id) {
                 if (this.allProducts[i].quantity === 1) {
                     this.deleteCart(this.skId);
                     this.mainSer.getCartList();
@@ -147,8 +150,10 @@ export class AllProductsComponent implements OnInit {
             this.resData = response.json();
             if (response.json().status === 200) {
                 // swal(response.json().message, "", "success");
+                if (this.page !== 'mywishlist') {
+                    this.getDashboard(index, quantity, prodData);
+                }
                 this.mainSer.getCartList();
-                this.getDashboard(index, quantity, prodData);
                 // this.skId = undefined;
                 // this.data.quantity = quantity;
                 this.notInCart = false;
@@ -201,11 +206,25 @@ export class AllProductsComponent implements OnInit {
             })
         }
     }
-    wishData;
+
     getWishList() {
+        this.allProducts = [];
         this.profileSer.getWishList().subscribe(response => {
-            this.allProducts = response.json().data.data_message;
+            this.wishListData = response.json().result;
+            for (var i = 0; i < this.wishListData.length; i++) {
+                this.allProducts.push(this.wishListData[i].products[0]);
+            }
+
+            for (var i = 0; i < this.allProducts.length; i++) {
+                this.allProducts[i].skuActualPrice = this.allProducts[i].sku[0].actual_price;
+                this.allProducts[i].sellingPrice = this.allProducts[i].sku[0].selling_price;
+                this.allProducts[i].quantity = 1;
+                // this.selecte.skid = this.allProducts[i].sku[0].size;                
+                this.allProducts[i].product_image = this.allProducts[i].sku[0].skuImages[0];
+            }
+            // this.allProducts
             this.showAll = false;
+            console.log(this.allProducts);
         }, error => {
 
         })
@@ -236,12 +255,17 @@ export class AllProductsComponent implements OnInit {
 
     itemHeaderDecrease(title, data, skuData) {
         this.mainSer.itemHeaderDecrease(title, data, skuData);
-        this.getDashboard('', '', data);
+        if (this.page !== 'mywishlist') {
+            this.getDashboard('', '', data);
+        }
+
     }
 
     itemHeaderIncrease(title, item, data) {
         this.mainSer.itemHeaderIncrease(title, item, data);
-        this.getDashboard('', '', data);
+        if (this.page !== 'mywishlist') {
+            this.getDashboard('', '', data);
+        }
     }
 
     showCat() {
@@ -349,10 +373,6 @@ export class AllProductsComponent implements OnInit {
             if (prodData.product_id !== undefined) {
                 this.notInCart = true;
             }
-            console.log(this.selected);
-            console.log(this.showselecteddata);
-
-
             // for (var i = 0; i < this.allProducts.length; i++) {
             //     if (this.allProducts[i].sku.length === 0) {
             //         this.allProducts[i].quantity = 1;
@@ -418,5 +438,18 @@ export class AllProductsComponent implements OnInit {
             }
         }
     }
+
+    removeWish(id) {
+        var params = {
+            product_id: id
+        }
+        this.profileSer.emptyWish(params).subscribe(response => {
+            swal("Successfully Cleared", "", "success");
+            this.getWishList();
+        }, error => {
+
+        })
+    }
+
 
 }

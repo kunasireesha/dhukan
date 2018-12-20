@@ -263,7 +263,7 @@
       <div class="col-md-6">
         <ul class="details">
           <li>
-            <h3>{{prodData.title}}</h3>
+            <h3>{{prodData?.title}}</h3>
           </li>
           <!-- rating and review -->
           <li>
@@ -306,7 +306,6 @@
                     <div class="form-group">
                       <select class="form-control input-field" id="exampleFormControlSelect1" [(ngModel)]="selecte.skId"
                         name="skid" (change)="selectOption($event.target.value,prodData)">
-                        <!-- <option value="" selected>Select Size..</option> -->
                         <option *ngFor="let sku of prodData.sku" value="{{sku.skid}}">{{sku.size}} </option>
                       </select>
                       <!-- <select class="form-control input-field select-size" id="exampleFormControlSelect1" [(ngmodel)]="skId"

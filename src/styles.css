@@ -452,7 +452,7 @@ img {
 
 .sizes {
   border: 1px solid #f19820;
-  padding: 5px;
+  padding: 3px;
 }
 
 .product-names .afterdrop {
@@ -481,7 +481,7 @@ img {
 
 .sizes p {
   border-bottom: 1px solid #f19820;
-  padding: 4px !important;
+  padding: 3px !important;
   margin: 0px !important;
 }
 
@@ -492,6 +492,10 @@ img {
 .size-drop {
   width: 89% !important;
   top: -1px !important;
+}
+
+.margin-div {
+  margin-top: 48px;
 }
 
 .sizes {

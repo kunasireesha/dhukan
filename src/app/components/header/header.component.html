@@ -82,20 +82,16 @@
                   <img src="assets/images/angle-arrow-down.png" class="dropdown-icon">
                 </a>
                 <div class="dropdown-menu language-list dropdown-list" aria-labelledby="dropdownMenuLink">
-                  <a class="dropdown-item" href="#">
+                  <a class="dropdown-item" (click)="app.switchLanguage('en')">
                     <img src="assets/images/flag.png">
                     <span> English </span>
                   </a>
                   <div class="dropdown-divider divider"></div>
-                  <a class="dropdown-item" href="#">
+                  <a class="dropdown-item" (click)="app.switchLanguage('ar')">
                     <img src="assets/images/flag.png">
-                    <span> English </span>
+                    <span> Arabic </span>
                   </a>
-                  <div class="dropdown-divider divider"></div>
-                  <a class="dropdown-item" href="#">
-                    <img src="assets/images/flag.png">
-                    <span> English </span>
-                  </a>
+
                 </div>
               </div>
             </li>

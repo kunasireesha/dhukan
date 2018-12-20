@@ -311,8 +311,6 @@ export class MainComponent implements OnInit {
                 "&quantity=" + prodData.quantity +
                 "&session_id=" + localStorage.session +
                 "&product_sku_id=" + this.skId
-
-
             this.mainServe.addWish(inData).subscribe(response => {
                 this.resData = response.json();
                 if (response.json().status === 200) {
@@ -475,30 +473,6 @@ export class MainComponent implements OnInit {
                     }
                 }
             } else {
-
-
-                // this.allProducts.forEach((data, index) => {
-                //     data.sku.forEach((skudata) => {
-                //         if (skudata.mycart === 0) {
-                //             data.quantity = 1;
-                //             data.skuActualPrice = skudata.actual_price;
-                //             data.sellingPrice = skudata.selling_price;
-                //             data.product_image = skudata.skuImages[0];
-                //             this.notInCart = true;
-                //         } else {
-                //             // this.notInCart = false;
-                //             // this.selected = index;
-                //             data.quantity = skudata.mycart;
-                //             // this.allProducts = skudata;
-
-                //         }
-
-                //     });
-                // });
-
-
-
-
                 for (var i = 0; i < this.allProducts.length; i++) {
                     for (var j = 0; j < this.allProducts[i].sku.length; j++) {
                         // this.allProducts[i].quantity = this.allProducts[i].sku[0].mycart;
@@ -522,10 +496,7 @@ export class MainComponent implements OnInit {
             if (prodData.product_id !== undefined) {
                 this.notInCart = true;
             }
-            console.log(this.allProducts);
-            // if (response.json().offer.TOP1 !== undefined) {
-            //     this.image = response.json().offer.TOP1[0].pic;
-            // }
+           
         })
     }
 

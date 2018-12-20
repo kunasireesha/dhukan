@@ -1,0 +1,18 @@
+{
+  "common.helpIntro": "For any help?",
+  "common.validFirstName": "Valid First Name",
+  "common.validLastName": "Valid Last Name",
+  "common.validEmail": "Valid Email",
+  "common.validPhone": "Valid Phone Number",
+  "common.validPassword": "Valid Password",
+  "common.validreferalCode": "Valid Referral Code",
+  "common.otpError": "Please Enter Valid OTP",
+  "choose.location": "Choose your location",
+  "select.currency": "$ Currency",
+  "select.language": "English",
+  "phone.number": "1800 123456",
+  "category": "vegetables",
+  "product": "Onion",
+  "offer-price": "BIG SAVE PRICE :",
+  "product-description": "Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged."
+}

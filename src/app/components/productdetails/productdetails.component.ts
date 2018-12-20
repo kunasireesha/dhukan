@@ -63,6 +63,7 @@ export class ProductdetailsComponent implements OnInit {
   showImage(image) {
     this.zoomedImageSrc = image;
     this.smallImageSrc = image;
+    console.log(this.smallImageSrc);
   }
 
   showImageDynamic(image) {
@@ -84,6 +85,7 @@ export class ProductdetailsComponent implements OnInit {
     this.mainSer.showProductDetails(inData).subscribe(response => {
       this.prodData = response.json().products[0];
       this.smallImageSrc = response.json().products[0].sku[0].skuImages[0];
+
       this.skuData = response.json().products[0].sku;
       this.selecte.skId = response.json().products[0].sku[0].skid;
       this.quantityImage = response.json().products[0].sku[0].quality_image;
