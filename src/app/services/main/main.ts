@@ -18,6 +18,16 @@ export class MainService {
         });
         return this.http.post(AppSettings.baseUrl + url + sId, { headers: headers });
     }
+
+    getParamsUrl(url, sId) {
+        const headers = new Headers({
+            'Content-Type': "application/x-www-form-urlencoded",
+            'token': (localStorage.token === undefined) ? '' : JSON.parse(localStorage.token),
+            'Session_id': localStorage.session
+        });
+        return this.http.get(AppSettings.baseUrl + url + '/' + sId, { headers: headers });
+    }
+
     postInputParams(url, params) {
         const headers = new Headers({
             'Content-Type': "application/x-www-form-urlencoded",
@@ -146,12 +156,25 @@ export class MainService {
     //     return this.getInputParamsUrl('dhukan/catprdsrc', params);
     // }
 
+    getVochers(): Observable<any> {
+        return this.postParams('voucher');
+    }
 
+
+    getOrdersData(): Observable<any> {
+        return this.getInputParams('dashboard/myorders');
+    }
+
+    getOrderDetails(id): Observable<any> {
+        return this.getParamsUrl('dashboard/orderdetails', id);
+    }
 
     applyVocher(vocher, amount) {
         var inData = "vocherCode=" + vocher + "&amount=" + amount;
         const headers = new Headers({
             'Content-Type': "application/x-www-form-urlencoded",
+            'token': (localStorage.token === undefined) ? '' : JSON.parse(localStorage.token),
+            'Session_id': localStorage.session
         });
 
         this.http.post(AppSettings.baseUrl + 'voucher/findvoucher', inData, { headers: headers }).subscribe(res => {
@@ -162,9 +185,13 @@ export class MainService {
             }
         })
     }
+
     viewCart;
     cartCount;
-
+    deliveryCharge;
+    subTotal;
+    Total;
+    cartData;
     getCartList() {
         // this.http.post(AppSettings.baseUrl + 'voucher/findvoucher', inData, { headers: headers }).subscribe(res => {
         //     if (res.json().status === 200) {
@@ -180,18 +207,25 @@ export class MainService {
             'Session_id': localStorage.session
         });
         this.http.get(AppSettings.baseUrl + 'cart/cart-list', { headers: headers }).subscribe(response => {
-            this.viewCart = response.json().data;
-            for (var i = 0; i < this.viewCart.length; i++) {
-                this.viewCart[i].product_image = this.viewCart[i].sku[0].skuImages[0];
-                this.viewCart[i].mrp = this.viewCart[i].sku[0].mrp;
-                this.viewCart[i].selling_price = this.viewCart[i].sku[0].selling_price;
-                this.viewCart[i].selling_price = this.viewCart[i].sku[0].selling_price;
-            }
-            if (response.json().summary === undefined) {
-                this.cartCount = 0;
-            } else {
+            if (response.json().status === 200) {
+                this.viewCart = response.json().data;
+                this.cartData = response.json().summary;
                 this.cartCount = response.json().summary.cart_count;
+                this.deliveryCharge = response.json().summary.delivery_charge.toFixed(2);
+                this.subTotal = response.json().summary.selling_price.toFixed(2);
+                this.Total = response.json().summary.grand_total.toFixed(2);
+                for (var i = 0; i < this.viewCart.length; i++) {
+                    this.viewCart[i].product_image = this.viewCart[i].sku[0].skuImages[0];
+                    this.viewCart[i].mrp = this.viewCart[i].sku[0].mrp;
+                    this.viewCart[i].selling_price = this.viewCart[i].sku[0].selling_price;
+                    this.viewCart[i].selling_price = this.viewCart[i].sku[0].selling_price;
+                }
+                if (response.json().summary === undefined) {
+                    this.cartCount = 0;
+                } else {
+                    this.cartCount = response.json().summary.cart_count;
 
+                }
             }
 
         })

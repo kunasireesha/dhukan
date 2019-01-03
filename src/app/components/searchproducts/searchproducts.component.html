@@ -240,7 +240,7 @@
 
             <div class="col-md-12 text-right">
               <a (click)="addWish(data)">
-                <fa name="heart"></fa>
+                <fa name="heart" [ngClass]="{'wishlisted':data.iswishList==1}"></fa>
               </a>
             </div>
 

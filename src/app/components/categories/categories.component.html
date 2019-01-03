@@ -449,14 +449,14 @@
         <div class="row mt-5 ">
           <!-- <div class="col-lg-4 mb-3"> -->
           <div class="row" *ngIf="!noData">
-            <div class="col-lg-4 col-md-6 col-sm-6 col-xs-6" *ngFor="let products of allProducts;let i = index">
+            <div class="col-lg-4 col-md-6 col-sm-6 col-xs-6 product-data" *ngFor="let products of allProducts;let i = index">
               <div class="product">
                 <div class="container">
                   <div class="row">
                     <!-- like -->
                     <div class="col-md-12 text-right">
                       <a (click)="addWish(products)">
-                        <fa name="heart"></fa>
+                        <fa name="heart" [ngClass]="{'wishlisted':products.iswishList==1}"></fa>
                       </a>
                     </div>
                     <!-- like  -->
@@ -512,23 +512,7 @@
                               products.sellingPrice || 0}}</span>
                           </li>
                           <li>
-                            <ul class="rating">
-                              <li>
-                                <fa name="star"></fa>
-                              </li>
-                              <li>
-                                <fa name="star"></fa>
-                              </li>
-                              <li>
-                                <fa name="star"></fa>
-                              </li>
-                              <li>
-                                <fa name="star"></fa>
-                              </li>
-                              <li>
-                                <fa name="star-half"></fa>
-                              </li>
-                            </ul>
+                            <ngb-rating [(rate)]="products.rating" required></ngb-rating>
                           </li>
                         </ul>
                       </div>

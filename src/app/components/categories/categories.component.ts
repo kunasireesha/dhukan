@@ -3,17 +3,25 @@ import { ActivatedRoute, NavigationExtras, Router, Params } from '@angular/route
 import { MainService } from '../../services/main/main';
 import { HeaderService } from '../../services/header/header';
 import { HeaderComponent } from '../header/header.component';
+import { NgbRatingConfig } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
     selector: 'app-categories',
     templateUrl: './categories.component.html',
     styleUrls: ['./categories.component.css', '../../components/header/header.component.css'],
-    providers: [HeaderComponent]
+    providers: [HeaderComponent, NgbRatingConfig]
 })
 export class CategoriesComponent implements OnInit {
     catId;
-    constructor(private route: ActivatedRoute, public router: Router, private mainServe: MainService, private headerSer: HeaderService, public headerComp: HeaderComponent) {
+    constructor(private route: ActivatedRoute,
+        public router: Router,
+        private mainServe: MainService,
+        private headerSer: HeaderService,
+        public headerComp: HeaderComponent,
+        config: NgbRatingConfig) {
 
+        config.max = 5;
+        config.readonly = true;
         this.route.queryParams.subscribe(params => {
             // this.catId = params.catId;
             // this.subCatId = params["sId"];
@@ -94,16 +102,17 @@ export class CategoriesComponent implements OnInit {
                             this.allProducts[i].quantity = quantity;
                             this.allProducts[i].skuActualPrice = this.skudata.actual_price;
                             this.allProducts[i].sellingPrice = this.skudata.selling_price;
+                            this.allProducts[i].rating = this.skudata.ratings;
                             this.allProducts[i].product_image = this.skudata.skuImages[0];
                             // this.selecte.skid = this.allProducts[i].sku[j].size;
                             this.notInCart = false;
                             this.selected = index;
-                            console.log(this.skudata);
                         } else {
                             this.allProducts[i].quantity = 1;
                             this.allProducts[i].product_image = this.allProducts[i].sku[0].skuImages[0];
                             this.allProducts[i].skuActualPrice = this.allProducts[i].sku[0].actual_price;
                             this.allProducts[i].sellingPrice = this.allProducts[i].sku[0].selling_price;
+                            this.allProducts[i].rating = this.allProducts[i].sku[0].ratings;
                             // this.notInCart = true;
                         }
 
@@ -113,6 +122,7 @@ export class CategoriesComponent implements OnInit {
                 for (var i = 0; i < this.allProducts.length; i++) {
                     for (var j = 0; j < this.allProducts[i].sku.length; j++) {
                         this.allProducts[i].skuActualPrice = this.allProducts[i].sku[0].actual_price;
+                        this.allProducts[i].rating = this.allProducts[i].sku[0].ratings;
                         this.allProducts[i].sellingPrice = this.allProducts[i].sku[0].selling_price;
                     }
                     this.allProducts[i].quantity = 1;
@@ -157,6 +167,7 @@ export class CategoriesComponent implements OnInit {
                             if (prodData.id === this.allProducts[i].id) {
                                 this.allProducts[i].quantity = quantity;
                                 this.allProducts[i].skuActualPrice = this.skudata.actual_price;
+                                this.allProducts[i].rating = this.skudata.ratings;
                                 this.allProducts[i].sellingPrice = this.skudata.selling_price;
                                 this.allProducts[i].product_image = this.skudata.skuImages[0];
                                 // this.selecte.skid = this.allProducts[i].sku[j].size;
@@ -167,6 +178,7 @@ export class CategoriesComponent implements OnInit {
                                 this.allProducts[i].quantity = 1;
                                 this.allProducts[i].product_image = this.allProducts[i].sku[0].skuImages[0];
                                 this.allProducts[i].skuActualPrice = this.allProducts[i].sku[0].actual_price;
+                                this.allProducts[i].rating = this.allProducts[i].sku[0].ratings;
                                 this.allProducts[i].sellingPrice = this.allProducts[i].sku[0].selling_price;
                                 // this.notInCart = true;
                             }
@@ -179,6 +191,7 @@ export class CategoriesComponent implements OnInit {
                     for (var i = 0; i < this.allProducts.length; i++) {
                         for (var j = 0; j < this.allProducts[i].sku.length; j++) {
                             this.allProducts[i].skuActualPrice = this.allProducts[i].sku[0].actual_price;
+                            this.allProducts[i].rating = this.allProducts[i].sku[0].ratings;
                             this.allProducts[i].sellingPrice = this.allProducts[i].sku[0].selling_price;
                         }
                         this.allProducts[i].quantity = 1;
@@ -504,6 +517,7 @@ export class CategoriesComponent implements OnInit {
                     this.prodId = skus.product_id;
                     this.selecte.skid = this.allProducts[i].sku[j].size;
                     this.allProducts[i].skuActualPrice = this.allProducts[i].sku[j].actual_price;
+                    this.allProducts[i].rating = this.allProducts[i].sku[j].ratings;
                     this.allProducts[i].sellingPrice = this.allProducts[i].sku[j].selling_price;
                     this.allProducts[i].product_image = this.allProducts[i].sku[j].skuImages[0];
                     // if (this.allProducts[i].sku[j].mycart === 0 || undefined) {

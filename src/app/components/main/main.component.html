@@ -236,19 +236,26 @@
 
 
 <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
-  <ol class="carousel-indicators circle-indicators">
-    <li data-target="#carouselExampleIndicators" *ngFor="let image of mainBaners[0].banner; let i = index"
-      data-slide-to="i" class="active"></li>
-    <!-- <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
-    <li data-target="#carouselExampleIndicators" data-slide-to="2"></li> -->
+  <ol class="carousel-indicators carousel-indicators-numbers">
+    <li data-target="#carouselExampleIndicators" data-slide-to="0" *ngIf="mainBannerData[0] !==undefined" class="active">{{mainBannerData[0].name}}</li>
+    <li data-target="#carouselExampleIndicators" data-slide-to="1" *ngIf="mainBannerData[1] !==undefined">{{mainBannerData[1].name}}</li>
+    <li data-target="#carouselExampleIndicators" data-slide-to="2" *ngIf="mainBannerData[2] !==undefined">{{mainBannerData[2].name}}</li>
+    <li data-target="#carouselExampleIndicators" data-slide-to="3" *ngIf="mainBannerData[3] !==undefined">{{mainBannerData[3].name}}</li>
+    <li data-target="#carouselExampleIndicators" data-slide-to="4" *ngIf="mainBannerData[4] !==undefined">{{mainBannerData[4].name}}</li>
+    <li data-target="#carouselExampleIndicators" data-slide-to="5" *ngIf="mainBannerData[5] !==undefined">{{mainBannerData[5].name}}</li>
+    <li data-target="#carouselExampleIndicators" data-slide-to="6" *ngIf="mainBannerData[6] !==undefined">{{mainBannerData[6].name}}</li>
+    <li data-target="#carouselExampleIndicators" data-slide-to="7" *ngIf="mainBannerData[7]!==undefined">{{mainBannerData[7].name}}</li>
+    <li data-target="#carouselExampleIndicators" data-slide-to="8" *ngIf="mainBannerData[8]!==undefined">{{mainBannerData[8].name}}</li>
+    <li data-target="#carouselExampleIndicators" data-slide-to="9" *ngIf="mainBannerData[9] !==undefined">{{mainBannerData[9].name}}</li>
+    <li data-target="#carouselExampleIndicators" data-slide-to="10" *ngIf="mainBannerData[10] !==undefined">{{mainBannerData[10].name}}</li>
   </ol>
-  <ol class="slider-selector ">
-    <li data-target="#carouselExampleIndicators" *ngFor="let image of mainBaners[0].banner; let i = index"
-      data-slide-to="i" class="bottom-indicators active">
+  <!-- <ol class="slider-selector ">
+    <li data-target="#carouselExampleIndicators" *ngFor="let image of mainBannerData; let i = index" data-slide-to="i"
+      class="bottom-indicators" [ngClass]="{'activeslide':i==0}">
       {{image.name}}</li>
-  </ol>
+  </ol> -->
   <div class="carousel-inner">
-    <div class="carousel-item banner" *ngFor="let image of mainBaners[0].banner; let i = index" [ngClass]="{'active' : i == 0}"
+    <div class="carousel-item banner" *ngFor="let image of mainBannerData; let i = index" [ngClass]="{'active' : i == 0}"
       (click)="viewAll(image.type)">
       <img class="d-block w-100" [src]="image.website_bannerimage" alt="{{image.type}}">
       <div class="carousel-caption d-none d-md-block slider-text">
@@ -282,7 +289,7 @@
   <br />
   <div class="row">
     <div class="col-lg-3 best-deal-side">
-      <img [src]="dealsBaners[0].banner[0].website_bannerimage" class="img-fluid">
+      <img [src]="dealsBannerDataImage?.website_bannerimage" class="img-fluid">
       <!-- <button class="btn button" (click)="viewAll('BEST DEALS OF THE DAY')" type="submit">View All</button> -->
       <button class="btn button" type="submit">View All</button>
     </div>
@@ -295,17 +302,14 @@
           <div class="product" *ngIf="i<4">
             <div class="container">
               <div class="row">
-
                 <div class="col-md-12 text-right">
                   <a (click)="addWish(products)">
-                    <fa name="heart"></fa>
+                    <fa name="heart" [ngClass]="{'wishlisted':products.iswishList==1}"></fa>
                   </a>
                 </div>
-
                 <div class="col-md-12 text-center">
                   <img [src]="products.product_image" class="img-fluid prodImage" (click)="ShowProductDetails(products.id)">
                 </div>
-
                 <div class="col-md-12 prices">
                   <div>
                     <!-- <li> -->
@@ -314,12 +318,9 @@
                         <!-- <select [(ngModel)]="skid" (ngModelChange)="selectOption(skid)">
                             <option *ngFor="let sku of products.sku">{{sku.sku}} </option>
                           </select> -->
-
                         <p (click)="showSizes(i)" *ngIf="showselecteddata && selected!==i" name="skid" class="sizes">{{products.sku[0].size}}</p>
                         <p (click)="showSizes(i)" *ngIf="showselecteddata && selected==i" name="skid" [ngClass]="{'sizes':selecte.skid!==''}">{{selecte.skid}}</p>
                         <!-- <p (click)="showSizes(i)" *ngIf="showselecteddata" name="skid" [ngClass]="{'sizes':selecte.skid!==''}">{{selecte.skid}}</p> -->
-
-
                         <div *ngIf="showSizeData && selected==i" class="sizes size-drop">
                           <p *ngFor="let sku of products.sku" (click)="showselected(sku.skid,sku.size,i,sku)">{{sku.size}}</p>
                         </div>
@@ -347,23 +348,8 @@
                           products.sellingPrice || 0}}</span>
                       </li>
                       <li>
-                        <ul class="rating">
-                          <li>
-                            <fa name="star"></fa>
-                          </li>
-                          <li>
-                            <fa name="star"></fa>
-                          </li>
-                          <li>
-                            <fa name="star"></fa>
-                          </li>
-                          <li>
-                            <fa name="star"></fa>
-                          </li>
-                          <li>
-                            <fa name="star-half"></fa>
-                          </li>
-                        </ul>
+                        <ngb-rating [(rate)]="products.rating" required></ngb-rating>
+
                       </li>
                     </ul>
                   </div>
@@ -426,11 +412,11 @@
 <div class="container-fluid">
   <div class="row">
     <div class="col-lg-9">
-      <img [src]="bigImage" alt="banner1" class="img-fluid w-100 offer-banner-view" (click)="viewAll(dealsBaners[0].banner[0].type)">
+      <img [src]="bigImage" alt="banner1" class="img-fluid w-100 offer-banner-view" (click)="viewAll(dealsBannerData[0].type)">
     </div>
     <div class="col-lg-3">
-      <img *ngFor="let delas of dealsBaners[0].banner;let i=index" [src]="delas.website_bannerimage" alt="banner1"
-        (click)="viewAll(delas.type)" class="img-fluid selected-banner" (click)="bannerImageOneOffer(delas.website_bannerimage,i)">
+      <img *ngFor="let delas of dealsBannerData;let i=index" [src]="delas.website_bannerimage" alt="banner1" (click)="viewAll(delas.type)"
+        class="img-fluid selected-banner" (click)="bannerImageOneOffer(delas.website_bannerimage,i)">
       <!-- [ngClass]="{'active-banner':bannerImageOne === i ||( i==0 && bigImage==dealsBaners[0].banner[0].website_bannerimage) }" -->
 
     </div>
@@ -460,7 +446,7 @@
 <div class="container">
   <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
     <div class="carousel-inner">
-      <div class="carousel-item discount-image" *ngFor="let data of discountBanner[0].banner;let i=index" [ngClass]="{'active':i==0}"
+      <div class="carousel-item discount-image" *ngFor="let data of discountBannerData;let i=index" [ngClass]="{'active':i==0}"
         (click)="viewAll(data.type)">
         <img class="d-block w-100" [src]="data.website_bannerimage" alt="Third slide">
       </div>
@@ -505,49 +491,49 @@
   <hr>
   <div class="row best-offer">
     <div class="col-lg-6">
-      <img *ngIf="discountApplicance[0].banner[0]!==undefined" [src]="discountApplicance[0].banner[0].website_bannerimage"
-        class="img-fluid full-image" (click)="viewAll(discountApplicance[0].banner[0].type)">
+      <img *ngIf="firstDiscountImg[0]!==undefined" [src]="firstDiscountImg[0].website_bannerimage" class="img-fluid full-image"
+        (click)="viewAll(firstDiscountImg[0].type)">
     </div>
     <div class="col-lg-6">
       <div class="row best-offer">
         <div class="col-lg-6">
-          <img *ngIf="discountApplicance[0].banner[1]!==undefined" [src]="discountApplicance[0].banner[1].website_bannerimage"
-            class="img-fluid side-image" (click)="viewAll(discountApplicance[0].banner[1].type)">
+          <img *ngIf="secondDiscountImg[1]!==undefined" [src]="secondDiscountImg[1].website_bannerimage" class="img-fluid side-image"
+            (click)="viewAll(secondDiscountImg[1].type)">
         </div>
         <div class="col-lg-6">
-          <img *ngIf="discountApplicance[0].banner[2]!==undefined" [src]="discountApplicance[0].banner[2].website_bannerimage"
-            class="img-fluid side-image" (click)="viewAll(discountApplicance[0].banner[2].type)">
+          <img *ngIf="thirdDiscountImg[2]!==undefined" [src]="thirdDiscountImg[2].website_bannerimage" class="img-fluid side-image"
+            (click)="viewAll(thirdDiscountImg[2].type)">
         </div>
 
       </div>
       <div class="row best-offer">
         <div class="col-lg-6">
-          <img *ngIf="discountApplicance[0].banner[3]!==undefined" [src]="discountApplicance[0].banner[3].website_bannerimage"
-            class="img-fluid side-image" (click)="viewAll(discountApplicance[0].banner[3].type)">
+          <img *ngIf="fourthDiscountImg[3]!==undefined" [src]="fourthDiscountImg[3].website_bannerimage" class="img-fluid side-image"
+            (click)="viewAll(fourthDiscountImg[3].type)">
         </div>
         <div class="col-lg-6">
-          <img *ngIf="discountApplicance[0].banner[4]!==undefined" [src]="discountApplicance[0].banner[4].website_bannerimage"
-            class="img-fluid side-image" (click)="viewAll(discountApplicance[0].banner[4].type)">
+          <img *ngIf="fifthDiscountImg[4]!==undefined" [src]="fifthDiscountImg[4].website_bannerimage" class="img-fluid side-image"
+            (click)="viewAll(fifthDiscountImg[4].type)">
         </div>
       </div>
     </div>
   </div>
   <div class="row">
     <div class="col-lg-3">
-      <img *ngIf="discountApplicance[0].banner[5]!==undefined" [src]="discountApplicance[0].banner[5].website_bannerimage"
-        class="img-fluid side-image" (click)="viewAll(discountApplicance[0].banner[5].type)">
+      <img *ngIf="sixthtDiscountImg[5]!==undefined" [src]="sixthtDiscountImg[5].website_bannerimage" class="img-fluid side-image"
+        (click)="viewAll(sixthtDiscountImg[5].type)">
     </div>
     <div class="col-lg-3">
-      <img *ngIf="discountApplicance[0].banner[6]!==undefined" [src]="discountApplicance[0].banner[6].website_bannerimage"
-        class="img-fluid side-image" (click)="viewAll(discountApplicance[0].banner[6].type)">
+      <img *ngIf="seventhDiscountImg[6]!==undefined" [src]="seventhDiscountImg[6].website_bannerimage" class="img-fluid side-image"
+        (click)="viewAll(seventhDiscountImg[6].type)">
     </div>
     <div class="col-lg-3">
-      <img *ngIf="discountApplicance[0].banner[7]!==undefined" [src]="discountApplicance[0].banner[7].website_bannerimage"
-        class="img-fluid side-image" (click)="viewAll(discountApplicance[0].banner[7].type)">
+      <img *ngIf="eighthDiscountImg[7]!==undefined" [src]="eighthDiscountImg[7].website_bannerimage" class="img-fluid side-image"
+        (click)="viewAll(eighthDiscountImg[7].type)">
     </div>
     <div class="col-lg-3">
-      <img *ngIf="discountApplicance[0].banner[8]!==undefined" [src]="discountApplicance[0].banner[8].website_bannerimage"
-        class="img-fluid side-image" (click)="viewAll(discountApplicance[0].banner[8].type)">
+      <img *ngIf="ninthDiscountImg[8]!==undefined" [src]="ninthDiscountImg[8].website_bannerimage" class="img-fluid side-image"
+        (click)="viewAll(ninthDiscountImg[8].type)">
     </div>
   </div>
 </div>
@@ -559,49 +545,49 @@
 
   <div class="row best-offer">
     <div class="col-lg-6">
-      <img *ngIf="bestDiscountAppliances[0].banner[0]!==undefined" [src]="bestDiscountAppliances[0].banner[0].website_bannerimage"
-        class="img-fluid full-image" (click)="viewAll(discountApplicance[0].banner[0].type)">
+      <img *ngIf="firstDiscountApImg[0]!==undefined" [src]="firstDiscountApImg[0].website_bannerimage" class="img-fluid full-image"
+        (click)="viewAll(firstDiscountApImg[0].type)">
     </div>
     <div class="col-lg-6">
       <div class="row best-offer">
         <div class="col-lg-6">
-          <img *ngIf="bestDiscountAppliances[0].banner[1]!==undefined" [src]="bestDiscountAppliances[0].banner[1].website_bannerimage"
-            class="img-fluid side-image" (click)="viewAll(discountApplicance[0].banner[1].type)">
+          <img *ngIf="secondDiscountApImg[1]!==undefined" [src]="secondDiscountApImg[1].website_bannerimage" class="img-fluid side-image"
+            (click)="viewAll(secondDiscountApImg[1].type)">
         </div>
         <div class="col-lg-6">
-          <img *ngIf="bestDiscountAppliances[0].banner[2]!==undefined" [src]="bestDiscountAppliances[0].banner[2].website_bannerimage"
-            class="img-fluid side-image" (click)="viewAll(discountApplicance[0].banner[2].type)">
+          <img *ngIf="thirdDiscountApImg[2]!==undefined" [src]="thirdDiscountApImg[2].website_bannerimage" class="img-fluid side-image"
+            (click)="viewAll(thirdDiscountApImg[2].type)">
         </div>
 
       </div>
       <div class="row best-offer">
         <div class="col-lg-6">
-          <img *ngIf="bestDiscountAppliances[0].banner[3]!==undefined" [src]="bestDiscountAppliances[0].banner[3].website_bannerimage"
-            class="img-fluid side-image" (click)="viewAll(discountApplicance[0].banner[3].type)">
+          <img *ngIf="fourthDiscountApImg[3]!==undefined" [src]="fourthDiscountApImg[3].website_bannerimage" class="img-fluid side-image"
+            (click)="viewAll(fourthDiscountApImg[3].type)">
         </div>
         <div class="col-lg-6">
-          <img *ngIf="bestDiscountAppliances[0].banner[4]!==undefined" [src]="bestDiscountAppliances[0].banner[4].website_bannerimage"
-            class="img-fluid side-image" (click)="viewAll(discountApplicance[0].banner[4].type)">
+          <img *ngIf="fifthDiscountApImg[4]!==undefined" [src]="fifthDiscountApImg[4].website_bannerimage" class="img-fluid side-image"
+            (click)="viewAll(fifthDiscountApImg[4].type)">
         </div>
       </div>
     </div>
   </div>
   <div class="row">
     <div class="col-lg-3">
-      <img *ngIf="bestDiscountAppliances[0].banner[5]!==undefined" [src]="bestDiscountAppliances[0].banner[5].website_bannerimage"
-        class="img-fluid side-image" (click)="viewAll(discountApplicance[0].banner[5].type)">
+      <img *ngIf="sixthtDiscountApImg[5]!==undefined" [src]="sixthtDiscountApImg[5].website_bannerimage" class="img-fluid side-image"
+        (click)="viewAll(sixthtDiscountApImg[5].type)">
     </div>
     <div class="col-lg-3">
-      <img *ngIf="bestDiscountAppliances[0].banner[6]!==undefined" [src]="bestDiscountAppliances[0].banner[6].website_bannerimage"
-        class="img-fluid side-image" (click)="viewAll(discountApplicance[0].banner[6].type)">
+      <img *ngIf="seventhDiscountApImg[6]!==undefined" [src]="seventhDiscountApImg[6].website_bannerimage" class="img-fluid side-image"
+        (click)="viewAll(seventhDiscountApImg[6].type)">
     </div>
     <div class="col-lg-3">
-      <img *ngIf="bestDiscountAppliances[0].banner[7]!==undefined" [src]="bestDiscountAppliances[0].banner[7].website_bannerimage"
-        class="img-fluid side-image" (click)="viewAll(discountApplicance[0].banner[7].type)">
+      <img *ngIf="eighthDiscountApImg[7]!==undefined" [src]="eighthDiscountApImg[7].website_bannerimage" class="img-fluid side-image"
+        (click)="viewAll(eighthDiscountApImg[7].type)">
     </div>
     <div class="col-lg-3">
-      <img *ngIf="bestDiscountAppliances[0].banner[8]!==undefined" [src]="bestDiscountAppliances[0].banner[8].website_bannerimage"
-        class="img-fluid side-image" (click)="viewAll(discountApplicance[0].banner[8].type)">
+      <img *ngIf="ninthDiscountApImg[8]!==undefined" [src]="ninthDiscountApImg[8].website_bannerimage" class="img-fluid side-image"
+        (click)="viewAll(ninthDiscountApImg[8].type)">
     </div>
   </div>
 </div>
@@ -623,7 +609,7 @@
   <h2>POPULAR BRANDS</h2>
   <hr>
   <div class="row">
-    <div class="col-lg-2 img-border" *ngFor="let data of  brandsData[0].banner" (click)="viewAll(data.type)">
+    <div class="col-lg-2 img-border" *ngFor="let data of  brandsTotalData" (click)="viewAll(data.type)">
       <img [src]="data.website_bannerimage" class="img-fluid">
     </div>
 

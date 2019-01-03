@@ -91,17 +91,17 @@
                   <tr>
                     <td class="charges">Sub Total</td>
                     <td class="cost">
-                      <span>:</span>{{subTotal}}</td>
+                      <span>:</span>{{mainSer.subTotal}}</td>
                   </tr>
                   <tr>
                     <td class="charges">Delivery Charges</td>
                     <td class="cost">
-                      <span>:</span>{{deliveryCharge}}</td>
+                      <span>:</span>{{mainSer.deliveryCharge}}</td>
                   </tr>
                   <tr>
                     <td class="charges">Total</td>
                     <td class="cost">
-                      <span>:</span>{{Total}}</td>
+                      <span>:</span>{{mainSer.Total}}</td>
                   </tr>
                 </tbody>
               </table>
@@ -241,7 +241,7 @@
 
             <div class="col-md-12 text-right">
               <a (click)="addWish(data)">
-                <fa name="heart"></fa>
+                <fa name="heart" [ngClass]="{'wishlisted':data.iswishList==1}"></fa>
               </a>
             </div>
 
@@ -290,23 +290,7 @@
                       data.sellingPrice || 0}}</span>
                   </li>
                   <li>
-                    <ul class="rating">
-                      <li>
-                        <fa name="star"></fa>
-                      </li>
-                      <li>
-                        <fa name="star"></fa>
-                      </li>
-                      <li>
-                        <fa name="star"></fa>
-                      </li>
-                      <li>
-                        <fa name="star"></fa>
-                      </li>
-                      <li>
-                        <fa name="star-half"></fa>
-                      </li>
-                    </ul>
+                    <ngb-rating [(rate)]="data.rating" required></ngb-rating>
                   </li>
                 </ul>
               </div>
@@ -395,9 +379,9 @@
         <div class="container">
           <div class="row">
 
-            <div class="col-md-12 text-right">
+            <div class="col-md-12 text-right wishData">
               <a (click)="removeWish(data.id)">
-                <fa name="close"></fa>
+                <fa name="heart"></fa>
               </a>
             </div>
 
@@ -405,27 +389,29 @@
               <img [src]="data.product_image" class="img-fluid prodImage" (click)="ShowProductDetails(data.id)">
             </div>
 
-            <div class="col-md-12">
-              <div class="product-names text-center">
-                <ul>
-                  <li>
-                    <form>
-                      <div class="form-group">
-                        <p (click)="showSizes(i)" *ngIf="showselecteddata && selected!==i" name="skid" class="sizes">{{data.sku[0].size}}</p>
-                        <p (click)="showSizes(i)" *ngIf="showselecteddata && selected==i" name="skid" [ngClass]="{'sizes':selecte.skid!==''}">{{selecte.skid}}</p>
-                        <!-- <p (click)="showSizes(i)" *ngIf="showselecteddata" name="skid" [ngClass]="{'sizes':selecte.skid!==''}">{{selecte.skid}}</p> -->
+            <div class="col-md-12 prices">
+              <div>
 
 
-                        <div *ngIf="showSizeData && selected==i" class="sizes size-drop">
-                          <p *ngFor="let sku of data.sku" (click)="showselected(sku.skid,sku.size,i,sku)">{{sku.size}}</p>
-                        </div>
-                        <!-- <select class="form-control input-field" id="exampleFormControlSelect1" (change)="selectOption($event.target.value)">
+                <form>
+                  <div class="form-group">
+                    <p (click)="showSizes(i)" *ngIf="showselecteddata && selected!==i" name="skid" class="sizes">{{data.sku[0].size}}</p>
+                    <p (click)="showSizes(i)" *ngIf="showselecteddata && selected==i" name="skid" [ngClass]="{'sizes':selecte.skid!==''}">{{selecte.skid}}</p>
+                    <!-- <p (click)="showSizes(i)" *ngIf="showselecteddata" name="skid" [ngClass]="{'sizes':selecte.skid!==''}">{{selecte.skid}}</p> -->
+
+
+                    <div *ngIf="showSizeData && selected==i" class="sizes size-drop">
+                      <p *ngFor="let sku of data.sku" (click)="showselected(sku.skid,sku.size,i,sku)">{{sku.size}}</p>
+                    </div>
+                    <!-- <select class="form-control input-field" id="exampleFormControlSelect1" (change)="selectOption($event.target.value)">
                           <option>Select Size..</option>
                           <option *ngFor="let sku of data.sku" [value]="sku.skid">{{sku.size}} </option>
                         </select> -->
-                      </div>
-                    </form>
-                  </li>
+                  </div>
+                </form>
+              </div>
+              <div class="product-names text-center" [ngClass]="{'margin-div':showSizeData && selected==i}">
+                <ul>
                   <li>
                     <h3 class="text-center">{{data.title}}</h3>
                   </li>
@@ -438,25 +424,11 @@
                       data.sellingPrice || 0}}</span>
                   </li>
                   <li>
-                    <ul class="rating">
-                      <li>
-                        <fa name="star"></fa>
-                      </li>
-                      <li>
-                        <fa name="star"></fa>
-                      </li>
-                      <li>
-                        <fa name="star"></fa>
-                      </li>
-                      <li>
-                        <fa name="star"></fa>
-                      </li>
-                      <li>
-                        <fa name="star-half"></fa>
-                      </li>
-                    </ul>
+                    <ngb-rating [(rate)]="data.rating" required></ngb-rating>
+
                   </li>
                 </ul>
+
               </div>
             </div>
             <!-- product details -->

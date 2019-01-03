@@ -72,7 +72,13 @@ a {
 }
 
 .cart span {
-  color: #989797;
+  background-color: #f19820;
+  padding: 6px;
+  border-radius: 43px;
+  color: white;
+  display: block;
+  width: 34px;
+  margin: auto;
 }
 
 .menu {

@@ -11,6 +11,9 @@ import { FormControl } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 import * as _ from 'underscore';
+import { Http, Headers } from '@angular/http';
+import { ProfileService } from '../../services/profile/profiledata';
+import { NgbRatingConfig } from '@ng-bootstrap/ng-bootstrap';
 
 export interface prod {
     name: string;
@@ -20,7 +23,7 @@ export interface prod {
     selector: 'app-main',
     templateUrl: './main.component.html',
     styleUrls: ['./main.component.less', '../../components/header/header.component.css'],
-    providers: [HeaderComponent]
+    providers: [HeaderComponent, NgbRatingConfig]
 })
 
 
@@ -32,12 +35,18 @@ export class MainComponent implements OnInit {
     filteredStates: Observable<prod[]>;
 
 
-    constructor(public mainServe: MainService, public router: Router, private headerSer: HeaderService, public headerComp: HeaderComponent) {
+    constructor(public mainServe: MainService,
+        public router: Router, private headerSer: HeaderService, public headerComp: HeaderComponent, public http: Http,
+        private profileSer: ProfileService, config: NgbRatingConfig) {
+        config.max = 5;
+        config.readonly = true;
         this.getDashboard('', '', '');
         this.getCartList();
+
     }
     posts: Post[];
     bannerImageOne = true;
+
 
     bannerImageTwo = false;
     bannerImageThree = false;
@@ -53,6 +62,7 @@ export class MainComponent implements OnInit {
     allProducts = [];
     allProductsData: prod[];
     productsData = [];
+    ordersData = [];
     pro;
     cartCount;
     deliveryCharge;
@@ -64,6 +74,7 @@ export class MainComponent implements OnInit {
         skid: ''
     }
 
+    currentRate;
     showSizeData = false;
     prodId;
     showselecteddata = true;
@@ -74,7 +85,6 @@ export class MainComponent implements OnInit {
         this.getAllCategoriesWithSubCat();
         this.getDashboard('', '', '');
         this.mainServe.getCartList();
-
     }
 
 
@@ -177,6 +187,7 @@ export class MainComponent implements OnInit {
                     this.selecte.skid = skId;
                     this.allProducts[i].skuActualPrice = this.allProducts[i].sku[j].actual_price;
                     this.allProducts[i].sellingPrice = this.allProducts[i].sku[j].selling_price;
+                    this.allProducts[i].rating = this.allProducts[i].sku[j].ratings;
                     this.allProducts[i].quantity = this.allProducts[i].sku[j].mycart;
                     this.allProducts[i].product_image = this.allProducts[i].sku[j].skuImages[0];
                     if (this.allProducts[i].sku[j].mycart === 0 || undefined) {
@@ -232,7 +243,6 @@ export class MainComponent implements OnInit {
                     // }
                     return;
                 }
-
             }
         } else {
             for (var i = 0; i < this.allProducts.length; i++) {
@@ -304,6 +314,7 @@ export class MainComponent implements OnInit {
         }
         if (localStorage.token === undefined) {
             swal('Please Login', '', 'warning');
+            return;
         } else {
             var inData =
                 "user_id=" + localStorage.userId +
@@ -311,6 +322,7 @@ export class MainComponent implements OnInit {
                 "&quantity=" + prodData.quantity +
                 "&session_id=" + localStorage.session +
                 "&product_sku_id=" + this.skId
+
             this.mainServe.addWish(inData).subscribe(response => {
                 this.resData = response.json();
                 if (response.json().status === 200) {
@@ -386,7 +398,7 @@ export class MainComponent implements OnInit {
             if (value === true) {
                 this.mainServe.deleteCart(inData).subscribe(response => {
                     if (response.json().status === 200) {
-                        // this.cartCount = response.json().summary.cart_count;
+                        this.cartCount = response.json().summary.cart_count;
                         this.getDashboard('', '', '');
                         this.mainServe.getCartList();
                         swal(response.json().message, "", "success");
@@ -411,11 +423,36 @@ export class MainComponent implements OnInit {
     discountBanner = [];
     discountApplicance = [];
     bestDiscountAppliances = [];
+    mainBannerData = [];
     brandsData = [];
+    dealsBannerData = [];
+    discountBannerData = [];
+    firstDiscountImg = [];
+    secondDiscountImg = [];
+    thirdDiscountImg = [];
+    fourthDiscountImg = [];
+    fifthDiscountImg = [];
+    sixthtDiscountImg = [];
+    seventhDiscountImg = [];
+    eighthDiscountImg = [];
+    ninthDiscountImg = [];
+
+    firstDiscountApImg = [];
+    secondDiscountApImg = [];
+    thirdDiscountApImg = [];
+    fourthDiscountApImg = [];
+    fifthDiscountApImg = [];
+    sixthtDiscountApImg = [];
+    seventhDiscountApImg = [];
+    eighthDiscountApImg = [];
+    ninthDiscountApImg = [];
+    brandsTotalData = [];
+    dealsBannerDataImage;
     getDashboard(index, quantity, prodData) {
         this.mainServe.getDashboard().subscribe(response => {
             this.dashboardData = response.json();
             this.allProducts = response.json().products;
+
             this.allProductsData = this.allProducts;
             this.posts = this.allProducts;
             this.cartCount = response.json().cart.cart_count || 0;
@@ -425,24 +462,58 @@ export class MainComponent implements OnInit {
             this.mainBaners = _.filter(response.json().offer, function (obj) {
                 return obj.banner_position === "Main banners";
             });
+
+            this.mainBannerData = this.mainBaners[0].banner;
+
             this.dealsBaners = _.filter(response.json().offer, function (obj) {
                 return obj.banner_position === "Best Deals";
             });
+            this.dealsBannerDataImage = this.dealsBaners[0].banner[0];
+            this.dealsBannerData = this.dealsBaners[0].banner;
+
             this.bigImage = this.dealsBaners[0].banner[0].website_bannerimage;
             this.discountBanner = _.filter(response.json().offer, function (obj) {
                 return obj.banner_position === "Best Discount";
             });
 
+            this.discountBannerData = this.discountBanner[0].banner;
+
             this.discountApplicance = _.filter(response.json().offer, function (obj) {
                 return obj.banner_position === "Best Appliances";
             });
+
+            this.firstDiscountImg = this.discountApplicance[0].banner;
+            this.secondDiscountImg = this.discountApplicance[0].banner;
+            this.thirdDiscountImg = this.discountApplicance[0].banner;
+            this.fourthDiscountImg = this.discountApplicance[0].banner;
+            this.fifthDiscountImg = this.discountApplicance[0].banner;
+            this.sixthtDiscountImg = this.discountApplicance[0].banner;
+            this.seventhDiscountImg = this.discountApplicance[0].banner;
+            this.eighthDiscountImg = this.discountApplicance[0].banner;
+            this.ninthDiscountImg = this.discountApplicance[0].banner;
+
+
+
+
             this.bestDiscountAppliances = _.filter(response.json().offer, function (obj) {
                 return obj.banner_position === "Best Discount Appliances";
             });
 
+            this.firstDiscountApImg = this.bestDiscountAppliances[0].banner;
+            this.secondDiscountApImg = this.bestDiscountAppliances[0].banner;
+            this.thirdDiscountApImg = this.bestDiscountAppliances[0].banner;
+            this.fourthDiscountApImg = this.bestDiscountAppliances[0].banner;
+            this.fifthDiscountApImg = this.bestDiscountAppliances[0].banner;
+            this.sixthtDiscountApImg = this.bestDiscountAppliances[0].banner;
+            this.seventhDiscountApImg = this.bestDiscountAppliances[0].banner;
+            this.eighthDiscountApImg = this.bestDiscountAppliances[0].banner;
+            this.ninthDiscountApImg = this.bestDiscountAppliances[0].banner;
+
             this.brandsData = _.filter(response.json().offer, function (obj) {
                 return obj.banner_position === "Popular Brands";
             });
+
+            this.brandsTotalData = this.brandsData[0].banner;
 
             if (index !== '') {
                 // this.selecte.skid = this.skId;
@@ -460,6 +531,7 @@ export class MainComponent implements OnInit {
                             this.allProducts[i].skuActualPrice = this.skudata.actual_price;
                             this.allProducts[i].sellingPrice = this.skudata.selling_price;
                             this.allProducts[i].product_image = this.skudata.skuImages[0];
+                            this.allProducts[i].rating = this.skudata.ratings;
                             this.notInCart = false;
                             this.selected = index;
                         } else {
@@ -467,6 +539,7 @@ export class MainComponent implements OnInit {
                             this.allProducts[i].product_image = this.allProducts[i].sku[j].skuImages[0];
                             this.allProducts[i].skuActualPrice = this.allProducts[i].sku[j].actual_price;
                             this.allProducts[i].sellingPrice = this.allProducts[i].sku[j].selling_price;
+                            this.allProducts[i].rating = this.allProducts[i].sku[j].ratings;
                             // this.notInCart = true;
                         }
 
@@ -479,6 +552,8 @@ export class MainComponent implements OnInit {
                         this.allProducts[i].skuActualPrice = this.allProducts[i].sku[0].actual_price;
                         this.allProducts[i].sellingPrice = this.allProducts[i].sku[0].selling_price;
                         this.allProducts[i].product_image = this.allProducts[i].sku[0].skuImages[0];
+                        this.allProducts[i].rating = this.allProducts[i].sku[0].ratings;
+
                         this.allProducts[i].quantity = 1;
                         if (this.allProducts[i].sku[j].mycart === 0 || undefined) {
                             this.allProducts[i].quantity = 1;
@@ -496,9 +571,16 @@ export class MainComponent implements OnInit {
             if (prodData.product_id !== undefined) {
                 this.notInCart = true;
             }
-           
+
         })
+
+
     }
+
+
+
+
+
 
 
     findIndexToUpdate(newItem) {
@@ -534,6 +616,7 @@ export class MainComponent implements OnInit {
                     this.allProducts[i].skuActualPrice = this.allProducts[i].sku[j].actual_price;
                     this.allProducts[i].sellingPrice = this.allProducts[i].sku[j].selling_price;
                     this.allProducts[i].product_image = this.allProducts[i].sku[j].skuImages[0];
+                    this.allProducts[i].rating = this.allProducts[i].sku[j].ratings;
                     // if (this.allProducts[i].sku[j].mycart === 0 || undefined) {
                     //     this.allProducts[i].quantity = 1;
                     //     this.notInCart = true;
@@ -551,12 +634,10 @@ export class MainComponent implements OnInit {
                         this.allProducts[i].quantity = skus.mycart;
                     }
                 }
-
             }
         }
-
-
     }
+
 
     showCatProd(catId, i, name) {
         this.mainServe.showCategories = false;
@@ -571,5 +652,11 @@ export class MainComponent implements OnInit {
         };
         this.router.navigate(["/categoriesProducts"], navigationExtras)
     }
+
+
+    latlocation;
+    lanLocation;
+    getPin;
+
 }
 

@@ -3,11 +3,12 @@ import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
 import { MainService } from './../../services/main/main';
 import { ProfileService } from '../../services/profile/profiledata';
 import { HeaderComponent } from '../header/header.component';
+import { NgbRatingConfig } from '@ng-bootstrap/ng-bootstrap';
 @Component({
     selector: 'app-allproducts',
     templateUrl: './allproducts.html',
     styleUrls: ['./searchproducts.component.css', '../../components/header/header.component.css'],
-    providers: [HeaderComponent]
+    providers: [HeaderComponent, NgbRatingConfig]
 })
 export class AllProductsComponent implements OnInit {
     title;
@@ -23,7 +24,14 @@ export class AllProductsComponent implements OnInit {
     }
     wishData;
     wishListData = [];
-    constructor(private router: Router, private route: ActivatedRoute, public mainSer: MainService, public profileSer: ProfileService, public headerComp: HeaderComponent) {
+    constructor(private router: Router,
+        private route: ActivatedRoute,
+        public mainSer: MainService,
+        public profileSer: ProfileService,
+        public headerComp: HeaderComponent,
+        config: NgbRatingConfig) {
+        config.max = 5;
+        config.readonly = true;
         this.route.queryParams.subscribe(params => {
             this.title = params.title;
 
@@ -74,6 +82,7 @@ export class AllProductsComponent implements OnInit {
                     this.allProducts[i].skuActualPrice = this.allProducts[i].sku[j].actual_price;
                     this.allProducts[i].sellingPrice = this.allProducts[i].sku[j].selling_price;
                     this.allProducts[i].quantity = this.allProducts[i].sku[j].mycart;
+                    this.allProducts[i].rating = this.allProducts[i].sku[j].ratings;
                     this.allProducts[i].product_image = this.allProducts[i].sku[j].skuImages[0];
                     if (this.allProducts[i].sku[j].mycart === 0 || this.allProducts[i].sku[j].length === 0) {
                         this.allProducts[i].quantity = 1;
@@ -190,7 +199,6 @@ export class AllProductsComponent implements OnInit {
                 "&session_id=" + localStorage.session +
                 "&product_sku_id=" + this.skId
 
-
             this.mainSer.addWish(inData).subscribe(response => {
                 this.resData = response.json();
                 if (response.json().status === 200) {
@@ -208,9 +216,11 @@ export class AllProductsComponent implements OnInit {
     }
 
     getWishList() {
-        this.allProducts = [];
+
         this.profileSer.getWishList().subscribe(response => {
+            this.allProducts = [];
             this.wishListData = response.json().result;
+
             for (var i = 0; i < this.wishListData.length; i++) {
                 this.allProducts.push(this.wishListData[i].products[0]);
             }
@@ -218,6 +228,7 @@ export class AllProductsComponent implements OnInit {
             for (var i = 0; i < this.allProducts.length; i++) {
                 this.allProducts[i].skuActualPrice = this.allProducts[i].sku[0].actual_price;
                 this.allProducts[i].sellingPrice = this.allProducts[i].sku[0].selling_price;
+                this.allProducts[i].rating = this.allProducts[i].sku[0].ratings;
                 this.allProducts[i].quantity = 1;
                 // this.selecte.skid = this.allProducts[i].sku[0].size;                
                 this.allProducts[i].product_image = this.allProducts[i].sku[0].skuImages[0];
@@ -257,14 +268,20 @@ export class AllProductsComponent implements OnInit {
         this.mainSer.itemHeaderDecrease(title, data, skuData);
         if (this.page !== 'mywishlist') {
             this.getDashboard('', '', data);
+        } else {
+            this.mainSer.getCartList();
+            this.getWishList();
         }
-
     }
+
 
     itemHeaderIncrease(title, item, data) {
         this.mainSer.itemHeaderIncrease(title, item, data);
         if (this.page !== 'mywishlist') {
             this.getDashboard('', '', data);
+        } else {
+            this.mainSer.getCartList();
+            this.getWishList();
         }
     }
 
@@ -343,6 +360,7 @@ export class AllProductsComponent implements OnInit {
                             this.allProducts[i].skuActualPrice = this.skudata.actual_price;
                             this.allProducts[i].sellingPrice = this.skudata.selling_price;
                             this.allProducts[i].product_image = this.skudata.skuImages[0];
+                            this.allProducts[i].rating = this.skudata.ratings;
                             // this.selecte.skid = this.allProducts[i].sku[j].size;
                             this.notInCart = false;
                             this.selected = index;
@@ -359,6 +377,7 @@ export class AllProductsComponent implements OnInit {
                     for (var j = 0; j < this.allProducts[i].sku.length; j++) {
                         this.allProducts[i].quantity = this.allProducts[i].sku[j].mycart;
                         this.allProducts[i].skuActualPrice = this.allProducts[i].sku[0].actual_price;
+                        this.allProducts[i].rating = this.allProducts[i].sku[0].ratings;
                         this.allProducts[i].sellingPrice = this.allProducts[i].sku[0].selling_price;
                         // if (this.allProducts[i].sku[j].mycart === 0 || undefined) {
                         //     this.allProducts[i].quantity = 1;
@@ -423,6 +442,7 @@ export class AllProductsComponent implements OnInit {
                     this.prodId = skus.product_id;
                     this.selecte.skid = this.allProducts[i].sku[j].size;
                     this.allProducts[i].skuActualPrice = this.allProducts[i].sku[j].actual_price;
+                    this.allProducts[i].rating = this.allProducts[i].sku[j].ratings;
                     this.allProducts[i].sellingPrice = this.allProducts[i].sku[j].selling_price;
                     this.allProducts[i].product_image = this.allProducts[i].sku[j].skuImages[0];
                     if (this.allProducts[i].sku[j].mycart === 0 || undefined) {

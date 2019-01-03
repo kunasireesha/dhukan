@@ -7,15 +7,25 @@ import { HeaderService } from '../../services/header/header';
 import { HeaderComponent } from '../header/header.component';
 import { MainService } from './../../services/main/main';
 import { AppSettings } from '../../config';
+import { NgbRatingConfig } from '@ng-bootstrap/ng-bootstrap';
 @Component({
   selector: 'app-myprofile-list',
   templateUrl: './myprofile-list.component.html',
   styleUrls: ['./myprofile-list.component.css', '.././viewcart/viewcart.component.css', '../../components/header/header.component.css'],
-  providers: [HeaderComponent]
+  providers: [HeaderComponent, NgbRatingConfig]
 })
 export class MyprofileListComponent implements OnInit {
 
-  constructor(private route: ActivatedRoute, private profileSer: ProfileService, private addressSer: AddressServices, private router: Router, private headerSer: HeaderService, public headerComp: HeaderComponent, public mainSer: MainService) {
+  constructor(private route: ActivatedRoute,
+    private profileSer: ProfileService,
+    private addressSer: AddressServices,
+    private router: Router,
+    private headerSer: HeaderService,
+    public headerComp: HeaderComponent,
+    public mainSer: MainService,
+    config: NgbRatingConfig) {
+    config.max = 5;
+
     this.page = this.route.snapshot.data[0]['page'];
     if (this.page === 'my-profile') {
       this.showProfile = true;
@@ -23,11 +33,7 @@ export class MyprofileListComponent implements OnInit {
       this.childPage = 'My Profile';
       this.getProfileDetails();
     } else if (this.page === 'myorders') {
-      this.profileSer.myOrders().subscribe(response => {
-        console.log(response)
-      }, error => {
-
-      })
+      this.getOrders();
       this.showOrders = true;
       this.showProfile = false;
       this.myprofileData = true;
@@ -88,15 +94,20 @@ export class MyprofileListComponent implements OnInit {
   showWish = false;
   myprofileData = true;
   showPaymentOptions = false;
+  showOrderDetailsData = false;
+  showFeedbackForm = false;
   profileDetails;
   date;
   addressData = [];
+  ordersData = [];
   changePassword = {
     oldPw: '',
     newPw: '',
     conPw: ''
   }
-
+  feedback;
+  Rate;
+  currentRate;
   formData = {
     first_name: '',
     last_name: '',
@@ -133,7 +144,6 @@ export class MyprofileListComponent implements OnInit {
     this.profileSer.getProfileDetails().subscribe(response => {
       this.formData = response.json().data[0];
       localStorage.setItem("userMobile", this.formData.phone);
-
     })
   }
 
@@ -184,7 +194,6 @@ export class MyprofileListComponent implements OnInit {
         "&phone=" + this.formData.phone + "&dob=" + (this.formData.dob) + "&landline_number=" + this.formData.landline;
       this.profileSer.updateProfile(inData).subscribe(response => {
         if (response.status === 200) {
-          console.log(response.json())
           swal('Profile Updated Successfully', '', 'success');
           this.getProfileDetails();
         }
@@ -194,18 +203,16 @@ export class MyprofileListComponent implements OnInit {
     }
   }
 
+
   cancelEdit() {
     this.showProfile = true;
     this.showEditProfile = false;
   }
 
-
   //my address
   getAddress() {
     this.profileSer.getAddress().subscribe(response => {
       this.addressData = response.json().data;
-      console.log(this.address);
-
     })
   }
 
@@ -221,7 +228,6 @@ export class MyprofileListComponent implements OnInit {
     //   || this.address.houseNum === '' || this.address.houseNum === undefined || this.address.houseNum === null
     //   || this.address.area === '' || this.address.area === undefined || this.address.area === null ||
     //   this.address.pincode === '' || this.address.pincode === undefined || this.address.pincode === null) {
-
     //   validData = false;
     // }
 
@@ -317,10 +323,14 @@ export class MyprofileListComponent implements OnInit {
       }
     })
   }
-  wishData;
+  wishData = [];
   getWishList() {
+    this.wishData = [];
     this.profileSer.getWishList().subscribe(response => {
-      this.wishData = response.json().data.data_message;
+      for (var i = 0; i < response.json().result.length; i++) {
+        this.wishData.push(response.json().result[i].products[0]);
+      }
+
     }, error => {
 
     })
@@ -469,14 +479,66 @@ export class MyprofileListComponent implements OnInit {
   deliveryCharge;
   subTotal;
   Total;
+  orderDetailsData = [];
   getDashboard() {
     this.mainSer.getDashboard().subscribe(response => {
       this.cartCount = response.json().cart.cart_count;
       this.deliveryCharge = response.json().cart.delivery_charge.toFixed(2);
       this.subTotal = response.json().cart.selling_price.toFixed(2);
       this.Total = response.json().cart.grand_total.toFixed(2);
-
     })
+  }
+
+  getOrders() {
+    this.mainSer.getOrdersData().subscribe(response => {
+      this.ordersData = response.json().data;
+    });
+  }
+
+  showOrderDetails(order_id) {
+    this.showOrderDetailsData = true;
+    this.showOrders = false;
+    this.mainSer.getOrderDetails(order_id).subscribe(response => {
+      this.orderDetailsData = response.json().data;
+    });
+  }
+
+  giveFeedback() {
+    this.currentRate = '';
+    this.feedback = '';
+    this.showFeedbackForm = true;
+    this.showOrderDetailsData = false;
+  }
+
+  rateChange(rate) {
+    this.Rate = rate;
+  }
+
+  rateSub() {
+    if (this.Rate == null || NaN) {
+      swal("Please select rate", "", "warning");
+      return;
+    } else {
+      var inData = {
+        "user_id": localStorage.userId,
+        "User_rating": this.Rate,
+        "feedback": this.feedback,
+        "product_id": '',
+        "product_sku_id": ''
+      }
+      this.mainSer.rateChange(inData).subscribe(response => {
+        if (response.json().status === 200) {
+          swal("Rating submitted successfully", "", "sucess");
+          this.feedback = '';
+        }
+      })
+    }
+  }
+
+  goback() {
+    this.showOrders = true;
+    this.showFeedbackForm = false;
+    this.showOrderDetailsData = false;
   }
 
 }

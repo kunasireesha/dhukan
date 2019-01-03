@@ -10,6 +10,7 @@ import { Http, Headers } from '@angular/http';
 import { AppSettings } from '../../config';
 import * as _ from 'underscore';
 import { AppComponent } from '../../app.component';
+import { } from 'googlemaps';
 
 
 // import {
@@ -30,7 +31,8 @@ export class HeaderComponent implements OnInit {
   Total: any;
   status: any;
   viewCart = [];
-  summary = []
+  summary = [];
+  google: any;
   constructor(
     public loginService: DataService,
     private translate: TranslateService,
@@ -52,6 +54,7 @@ export class HeaderComponent implements OnInit {
   ngOnInit() {
     this.phone = localStorage.userMobile;
     this.getDashboard();
+    this.geoLocation();
     this.getLocation();
     this.getCategories();
     this.getAllCategoriesWithSubCat();
@@ -74,6 +77,15 @@ export class HeaderComponent implements OnInit {
     //   this.location = '';
     //   this.LocationPincode = '';
     // }
+
+    if (window.navigator.geolocation) {
+      window.navigator.geolocation.getCurrentPosition(position => {
+        console.log(position);
+      });
+    };
+
+
+
   }
 
   showProfile: boolean;
@@ -764,7 +776,40 @@ export class HeaderComponent implements OnInit {
   changeArea(area) {
     this.area = area;
   }
-
-
+  latlocation;
+  lanLocation;
+  getPin;
+  position;
+  positionValue;
+  geoLocation() {
+    // if (navigator.geolocation) {
+    window.navigator.geolocation.getCurrentPosition(position => {
+      this.latlocation = position.coords.latitude;
+      this.lanLocation = position.coords.longitude;
+      var latlng = { lat: this.latlocation, lng: this.lanLocation };
+      let geocoder = new google.maps.Geocoder();
+      geocoder.geocode({ 'location': latlng }, (results, status) => {
+        if (status == google.maps.GeocoderStatus.OK) {
+          let result = results[0];
+          this.position = result.address_components[0].short_name;
+          this.positionValue = this.position.split('-');
+          this.area = this.positionValue[0].trim();
+          this.city = result.address_components[3].long_name;
+          console.log(this.city);
+          console.log(this.area);
+          //   this.getPin = JSON.parse(results[0].address_components[5].long_name);
+          //   localStorage.setItem('wh_pincode', this.getPin);
+          //  let rsltAdrComponent = result.address_components;
+          //   let resultLength = rsltAdrComponent.length;
+          //   if (result != null) {
+          //     console.log(rsltAdrComponent[resultLength - 5].short_name);
+          //   } else {
+          //     window.alert('Geocoder failed due to: ' + status);
+          //   }
+        }
+      });
+    });
+    // }
+  }
 }
 

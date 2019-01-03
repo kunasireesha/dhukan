@@ -501,3 +501,19 @@ img {
 .sizes {
   padding: 3px !important;
 }
+
+
+.wishData .fa-heart {
+  color: rgb(255, 242, 18) !important;
+}
+
+.wishlisted .fa-heart {
+  color: rgb(255, 242, 18) !important;
+}
+
+
+.d-inline-flex span {
+  font-size: 30px !important;
+  cursor: pointer !important;
+  color: #f19820 !important;
+}

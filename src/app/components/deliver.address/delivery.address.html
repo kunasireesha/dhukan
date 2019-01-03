@@ -254,9 +254,14 @@
               </div>
               <button type="submit" class="btn mb-2 apply-button" (click)="applyVocher()">APPLY</button>
             </form>
-            <span>
-              <a href="#">You have 6 vochers available</a>
-            </span>
+
+            <a (click)="getVochers()" class="vocherList">You have 6 vochers available</a>
+
+            <div *ngIf="showVochers">
+              <p *ngFor="let data of vocherData">
+                {{ data.voucher_code}}
+              </p>
+            </div>
           </div>
         </div>
         <div class="order-charges">
@@ -273,13 +278,13 @@
                 <td>Delivery Charges</td>
                 <td class="table-data2">Rs: {{summaryCart.delivery_charge}}</td>
               </tr>
-              <tr>
+              <!-- <tr>
                 <th scope="row"></th>
                 <td>Vocher Discount</td>
                 <td class="table-data2">
                   <a href="#">Apply Vocher</a>
                 </td>
-              </tr>
+              </tr> -->
               <tr>
                 <th scope="row"></th>
                 <td>

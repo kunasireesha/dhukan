@@ -478,4 +478,41 @@ img {
     color: black !important;
 }
 
+.activeslide {
+    background-color: #f19820 !important;
+    ;
+    color: white !important;
+}
+
+.carousel-indicators-numbers {
+    li {
+        text-indent: 0;
+        cursor: pointer;
+        margin: 0px;
+        width: 100px;
+        height: 50px;
+        border: none; // border-radius: 100%;
+        line-height: 30px;
+        color: black;
+        background-color: white;
+        transition: all 0.25s ease;
+        padding: 9px;
+        padding-left: 25px;
+        border-right: 1px solid gray;
+        &.active,
+        &:hover {
+            margin: 0px;
+            width: 100px;
+            padding: 9px;
+            padding-left: 25px;
+            height: 50px;
+            background-color: #f19820;
+        }
+    }
+}
+
+.carousel-indicators-numbers li:last-child {
+    border: none;
+}
+
 /* Bootstrap Lightbox using Modal */

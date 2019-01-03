@@ -8,7 +8,7 @@ import { ProfileService } from '../../services/profile/profiledata';
   styleUrls: ['./delivery.address.css']
 })
 export class DeliveryComponent implements OnInit {
-  @Input() cartData;
+
   showDeliveryOptions = false;
   showPaymentOptions = true;
   showDeliveryAddress = false;
@@ -16,6 +16,7 @@ export class DeliveryComponent implements OnInit {
   vocher;
   amount;
   summaryCart;
+  showVochers = false;
   constructor(public mainServ: MainService, public profileSer: ProfileService) { }
   address = {
     ua_first_name: '',
@@ -32,11 +33,15 @@ export class DeliveryComponent implements OnInit {
     ua_id: ''
   };
 
+  vocherData = [];
   ngOnInit() {
     window.scrollTo(0, 0);
     this.address;
-    this.summaryCart = this.cartData;
+
     this.getAddress();
+    this.mainServ.getCartList();
+    this.summaryCart = this.mainServ.cartData;
+    console.log(this.summaryCart);
   }
 
   //my address
@@ -80,6 +85,13 @@ export class DeliveryComponent implements OnInit {
   //apply vocher
   applyVocher() {
     this.mainServ.applyVocher(this.vocher, this.summaryCart.grand_total);
+  }
+
+  getVochers() {
+    this.showVochers = true;
+    this.mainServ.getVochers().subscribe(res => {
+      this.vocherData = res.json().data;
+    });
   }
 
 }
