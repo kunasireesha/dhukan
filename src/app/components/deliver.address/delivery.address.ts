@@ -66,6 +66,7 @@ export class DeliveryComponent implements OnInit {
 
   //UPDATE ADDRESS
   changeDef;
+  selectedVo;
   updateAddress() {
     var inData = "ua_id=" + this.address.ua_id + "&ua_first_name=" + this.address.ua_first_name + "&ua_last_name=" + this.address.ua_last_name + "&ua_mobile_number=" + this.address.ua_mobile_number
       + "&ua_city=" + this.address.ua_city + "&ua_house_no=" + this.address.ua_house_no + "&ua_area_details=" + this.address.ua_area_details + "&ua_pincode=" + this.address.ua_pincode;
@@ -94,4 +95,8 @@ export class DeliveryComponent implements OnInit {
     });
   }
 
+  selectedVocher(data, index) {
+    this.vocher = data.voucher_code;
+    this.selectedVo = index;
+  }
 }

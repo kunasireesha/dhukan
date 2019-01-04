@@ -240,3 +240,17 @@
 .vocherList {
   cursor: pointer;
 }
+
+.vochers-list {
+  margin-left: 9%;
+  background-color: #1d1159;
+  color: white;
+  padding: 8px;
+  width: 90%;
+  margin-top: 15px;
+  cursor: pointer;
+}
+
+.activeVocher {
+  background-color: #f19820 !important;
+}

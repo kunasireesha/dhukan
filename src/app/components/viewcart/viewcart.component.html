@@ -86,7 +86,7 @@
             <!-- cart item -->
             <!-- charges -->
             <div class="row table-responsive total-charges">
-              <table class="table">
+              <table class="table cart-table">
                 <tbody>
                   <tr>
                     <td class="charges">Sub Total</td>
@@ -263,9 +263,9 @@
               <li>
                 <img [src]="item.product_image" class="img-fluid">
               </li>
-              <li>
-                <h3>{{item.title}}</h3>
-                <!-- <h4>{{sku.size}}</h4> -->
+              <li class="title-prod">
+                <h3 class="prod-title">{{item.title}}</h3>
+                <h4 class="quantity-prod">{{item.quantity}} x {{item.selling_price}}</h4>
               </li>
             </ul>
           </td>
@@ -274,7 +274,7 @@
               <span class="price">RS.{{skudata.actual_price}} </span>
               <span class="offer-price"> RS. {{skudata.selling_price}}</span>
             </p>
-            <span class="text-danger">{{ "offer-price" | translate}} &nbsp;
+            <span class="text-danger offer-prize">{{ "offer-price" | translate}} &nbsp;
               {{(skudata.actual_price)-(skudata.selling_price) }}</span>
           </td>
           <!-- </div> -->
@@ -310,8 +310,11 @@
           <img src="assets/images/empty-cart.png"> EMPTY CART </button>
 
       </div>
-      <div class="col-lg-7 table-responsive total-charges">
-        <table class="table text-right">
+      <div class="col-lg-3 mt-3">
+
+      </div>
+      <div class="col-lg-4 table-responsive total-charges">
+        <table class="table text-right cart-table">
           <tbody>
             <tr>
               <td class="charges">{{cartCount}} items</td>
@@ -319,21 +322,23 @@
                 <span>:</span>RS {{subTotal}}</td>
             </tr>
             <tr>
-              <td class="charges">Sub Total</td>
-              <td class="cost">
+              <td class="charges gray">Sub Total</td>
+              <td class="cost gray">
                 <span>:</span>RS&nbsp; {{subTotal}}</td>
             </tr>
             <tr>
-              <td class="charges">Delivery Charges</td>
-              <td class="cost">
+              <td class="charges gray">Delivery Charges</td>
+              <td class="cost gray">
                 <span>:</span>Rs {{deliveryCharge}}</td>
-            </tr>
-            <tr>
+            </tr><br />
+            <tr class="total">
               <th class="charges">Total</th>
               <th class="cost">
                 <span>:</span>Rs {{Total}}</th>
             </tr>
+
           </tbody>
+          <span class="text-danger saved-cost">You have saved Rs. {{saving}} </span>
         </table>
 
       </div>

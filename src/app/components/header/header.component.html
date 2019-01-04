@@ -292,11 +292,15 @@
                 </div>
               </div>
               <div class="row mt-3">
-                <!-- <div class="col-lg-6">
-                  <input type="text" class="form-control input-field" placeholder="Enter Captcha">
-                </div> -->
                 <div class="col-lg-6">
-
+                  <input type="text" name="text" class="form-control input-field" placeholder="Enter Captcha"
+                    [(ngModel)]="formData.captchaValue">
+                  <label *ngIf="showCaptchaer" class="text-danger" style="font-size:14px;">Incorrect Captcha, please
+                    try again</label>
+                </div>
+                <div class="col-lg-6">
+                  <span id="captcha">{{captchaTExt}}</span> &nbsp; <img src="assets/images/refresh.png" (click)="refreshCaptcha()"
+                    class="captcha-img">
                 </div>
               </div>
               <div class="custom-control custom-checkbox terms-checkbox mt-3">
@@ -414,13 +418,20 @@
           </div>
           <div class="container mt-3">
             <form>
-              <div class="form-group col-gl-12">
-                <input type="email" class="form-control input-field" aria-describedby="emailHelp" placeholder="Enter Your OTP"
+              <div class="form-group col-lg-12">
+                <input type="email" class="form-control input-field" aria-describedby="emailHelp" placeholder="Please Enter OTP"
                   [(ngModel)]="formData.otp" name="otp" required>
                 <label class="red" *ngIf="errorObj.otpErr">{{"common.otpError"|translate}}</label>
                 <small id="emailHelp" class="form-text text-muted">Your OTP will expires in 3minutes.</small>
               </div>
-              <button type="submit" class="btn  submit-button mt-3 mb-5 " (click)="registration()">Submit</button>
+              <div class="row">
+                <div class="col-lg-6">
+                  <button type="submit" class="btn  submit-button mt-3 mb-5 " (click)="resendOtp()">Resend</button>
+                </div>
+                <div class="col-lg-6">
+                  <button type="submit" class="btn  submit-button mt-3 mb-5 " (click)="registration()">Submit</button>
+                </div>
+              </div>
             </form>
           </div>
         </div>

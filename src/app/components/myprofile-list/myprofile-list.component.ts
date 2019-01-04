@@ -492,6 +492,12 @@ export class MyprofileListComponent implements OnInit {
   getOrders() {
     this.mainSer.getOrdersData().subscribe(response => {
       this.ordersData = response.json().data;
+      for (var i = 0; i < this.ordersData.length; i++) {
+        this.ordersData[i].formated_date = new Date(this.ordersData[i].order_date);
+        this.ordersData[i].time = (this.ordersData[i].formated_date.getHours() > 12) ? this.ordersData[i].formated_date.getHours() - 12 : this.ordersData[i].formated_date.getHours()
+        this.ordersData[i].converted_date = this.ordersData[i].formated_date.getDate() + '-' + (this.ordersData[i].formated_date.getMonth() + 1) + '-' + this.ordersData[i].formated_date.getFullYear() + '/' + this.ordersData[i].time + ':' + this.ordersData[i].formated_date.getMinutes()
+      }
+      console.log(this.ordersData);
     });
   }
 

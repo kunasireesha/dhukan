@@ -232,12 +232,14 @@ export class ViewcartComponent implements OnInit {
   deliveryCharge;
   subTotal;
   Total;
+  saving;
   getDashboard() {
     this.mainServe.getDashboard().subscribe(response => {
       this.cartCount = response.json().cart.cart_count;
       this.deliveryCharge = response.json().cart.delivery_charge.toFixed(2);
       this.subTotal = response.json().cart.selling_price.toFixed(2);
       this.Total = response.json().cart.grand_total.toFixed(2);
+      this.saving = response.json().cart.mrp - this.Total;
     })
   }
 

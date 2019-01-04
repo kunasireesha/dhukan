@@ -517,3 +517,26 @@ img {
   cursor: pointer !important;
   color: #f19820 !important;
 }
+
+
+.carousel-indicators {
+  bottom: -18px !important;
+
+}
+
+.gray {
+  color: gray !important;
+}
+
+.edit-btn {
+  position: relative;
+  top: -25px !important;
+}
+
+.mydp .selectiongroup {
+  border: 1px solid #f19820 !important;
+}
+
+.btnpicker {
+  color: #f19820 !important;
+}

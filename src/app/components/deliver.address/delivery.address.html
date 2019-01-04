@@ -258,7 +258,8 @@
             <a (click)="getVochers()" class="vocherList">You have 6 vochers available</a>
 
             <div *ngIf="showVochers">
-              <p *ngFor="let data of vocherData">
+              <p *ngFor="let data of vocherData;let i=index" class="vochers-list" (click)="selectedVocher(data,i)"
+                [ngClass]="{'activeVocher' : selectedVo==i}">
                 {{ data.voucher_code}}
               </p>
             </div>

@@ -191,7 +191,7 @@ p.get-link {
 
 .justify-content-md-center {
   position: relative;
-  top: 25px;
+  top: 0px;
 }
 
 .add-btn,
@@ -532,7 +532,10 @@ p.get-link {
 
   .edit-button {
     margin-left: 15%;
+
   }
+
+
 
   .delivery-block2 {
     border-top: 15px solid #ffffff;

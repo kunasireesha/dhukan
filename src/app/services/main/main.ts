@@ -219,6 +219,8 @@ export class MainService {
                     this.viewCart[i].mrp = this.viewCart[i].sku[0].mrp;
                     this.viewCart[i].selling_price = this.viewCart[i].sku[0].selling_price;
                     this.viewCart[i].selling_price = this.viewCart[i].sku[0].selling_price;
+                    this.viewCart[i].quantity = this.viewCart[i].sku[0].mycart;
+
                 }
                 if (response.json().summary === undefined) {
                     this.cartCount = 0;

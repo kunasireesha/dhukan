@@ -33,6 +33,7 @@ export class HeaderComponent implements OnInit {
   viewCart = [];
   summary = [];
   google: any;
+  showCaptchaer = false;
   constructor(
     public loginService: DataService,
     private translate: TranslateService,
@@ -50,7 +51,11 @@ export class HeaderComponent implements OnInit {
   data = {
     mycart: 0
   }
-
+  alphaNums = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T',
+    'U', 'V', 'W', 'X', 'Y', 'Z', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q',
+    'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9'
+  ];
+  captchaTExt;
   ngOnInit() {
     this.phone = localStorage.userMobile;
     this.getDashboard();
@@ -85,8 +90,25 @@ export class HeaderComponent implements OnInit {
     };
 
 
+    //captcha
+    let emptyArr = [];
+    for (let i = 1; i <= 7; i++) {
+      emptyArr.push(this.alphaNums[Math.floor(Math.random() * this.alphaNums.length)]);
+    }
+    this.captchaTExt = emptyArr.join('');
+
 
   }
+
+  refreshCaptcha() {
+    let refreshArr = [];
+    for (let j = 1; j <= 7; j++) {
+      refreshArr.push(this.alphaNums[Math.floor(Math.random() * this.alphaNums.length)]);
+    }
+    this.captchaTExt = refreshArr.join('');
+  }
+
+
 
   showProfile: boolean;
   showLoginButton = true;
@@ -135,7 +157,8 @@ export class HeaderComponent implements OnInit {
     otp: '',
     lId: '',
     pincode: '',
-    searchParam: ''
+    searchParam: '',
+    captchaValue: ''
   }
   forData = {
     forEmail: '',
@@ -155,6 +178,7 @@ export class HeaderComponent implements OnInit {
   showRegistrationScreen() {
     this.showRegistration = true;
     this.showLogin = false;
+    this.showCaptchaer = false;
   }
 
 
@@ -190,7 +214,9 @@ export class HeaderComponent implements OnInit {
     this.formData.referalCode = '';
     this.formData.otp = '';
     this.showChangePassword = false;
+    this.formData.captchaValue = '';
     this.showPasswordOtp = false;
+    this.showCaptchaer = false;
   }
 
   //forgot password
@@ -347,9 +373,13 @@ export class HeaderComponent implements OnInit {
       this.formData.lastName === '' || this.formData.lastName === undefined || this.formData.lastName === null ||
       this.formData.email === '' || this.formData.email === undefined || this.formData.email === null ||
       this.formData.phone === '' || this.formData.phone === undefined || this.formData.phone === null ||
-      this.formData.password === '' || this.formData.password === undefined || this.formData.password === null) {
+      this.formData.password === '' || this.formData.password === undefined || this.formData.password === null ||
+      this.formData.captchaValue === '' || this.formData.captchaValue === undefined || this.formData.captchaValue === null) {
       validData = false;
       swal('Missing Mandatory fields', '', 'error');
+    } else if (this.formData.captchaValue !== this.captchaTExt) {
+      this.showCaptchaer = true;
+      validData = false;
     } else {
       validData = true;
     }
@@ -376,6 +406,29 @@ export class HeaderComponent implements OnInit {
         };
       });
     }
+  }
+
+  resendOtp() {
+    var inData = "phone=" + this.formData.phone;
+    this.loginService.requestOtp(inData).subscribe(response => {
+      this.otpData = response.json();
+      // if (response.json().error_field === '') {
+      swal("Otp Sent to your mobile number", " ", "success");
+      this.showForgotPassword = false;
+      this.showLoginandRegistration = false;
+      this.showModal = true;
+      this.showOpacity = true;
+      this.showOtp = true;
+      // } 
+
+    }, err => {
+      if (err.json().status === 400) {
+        this.msg = this.translate.instant("common.loginErrMsg");
+        swal(err.json().message, " ", "error").then((value) => {
+
+        });
+      };
+    });
   }
 
   //registration
