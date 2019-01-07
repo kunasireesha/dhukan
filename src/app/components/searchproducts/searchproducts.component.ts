@@ -179,7 +179,7 @@ export class SearchproductsComponent implements OnInit {
       "&product_id=" + prodData.id +
       "&quantity=" + prodData.quantity +
       "&session_id=" + localStorage.session +
-      "&product_sku_id=" + this.skId 
+      "&product_sku_id=" + this.skId
 
     this.mainServe.addWish(inData).subscribe(response => {
       this.resData = response.json();
@@ -232,8 +232,9 @@ export class SearchproductsComponent implements OnInit {
   showCat() {
     this.mainServe.showCat();
   }
-
+  selectedCat;
   showSubCat(id, i) {
+    this.selectedCat = i;
     this.mainServe.showSubCat(id, i);
   }
 

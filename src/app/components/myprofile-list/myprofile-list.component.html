@@ -177,7 +177,8 @@
       <!-- show categories -->
       <div class="col-md-3">
         <div class="cats" *ngIf="mainSer.showCategories">
-          <div *ngFor="let data of mainSer.categories;let i =index" (click)="headerComp.showCatProd(data.id,i,data.name)">
+          <div *ngFor="let data of mainSer.categories;let i =index" (click)="headerComp.showCatProd(data.id,i,data.name)"
+            [ngClass]="{'activebak':i==selectedCat}">
             <a>{{data.name}}
               <span class="float-right" (click)="$event.stopPropagation();showSubCat(data.id,i)" [ngClass]="{'active':showSubCats && i==selectedCat}">
                 <fa name="chevron-right"></fa>
@@ -249,7 +250,7 @@
           </h5>
         </div>
         <ul class="list">
-          <li routerLink="/myprofile" [ngClass]="{'my-profile': showProfile}">
+          <li routerLink="/myprofile" [ngClass]="{'my-profile': showProfile || showEditProfile}">
             <a>My Profile</a>
           </li>
           <li routerLink="/myorders" [ngClass]="{'my-profile': showOrders || showFeedbackForm || showOrderDetailsData}">
@@ -261,7 +262,7 @@
           <li routerLink="/changepassword" [ngClass]="{'my-profile': ShowChangePassword}">
             <a>Change Password</a>
           </li>
-          <li routerLink="/deliveryaddress" [ngClass]="{'my-profile': showDeliveryAddress}">
+          <li routerLink="/deliveryaddress" [ngClass]="{'my-profile': showDeliveryAddress || showChangeAddress}">
             <a>Delivery Address</a>
           </li>
           <li routerLink="/referfriends" [ngClass]="{'my-profile': showReferFriends}">
@@ -281,24 +282,24 @@
       </div>
       <!-- profile -->
       <div class="col-lg-9" *ngIf="showProfile">
-        <div class="row justify-content-md-center">
+        <div class="row justify-content-md-center profile">
           <div class="col-lg-10">
             <table class="table table-data">
               <tbody>
                 <tr>
-                  <td>Name
+                  <td class="pro-names"> Name
                     <span class="float-right">:</span>
                   </td>
                   <td>{{formData.first_name}} {{formData.last_name}}</td>
                 </tr>
                 <tr>
-                  <td>Email
+                  <td class="pro-names">Email
                     <span class="float-right">:</span>
                   </td>
                   <td>{{formData.email}}</td>
                 </tr>
                 <tr>
-                  <td>Mobile Number
+                  <td class="pro-names">Mobile Number
                     <span class="float-right">:</span>
                   </td>
                   <td>{{formData.phone}}</td>
@@ -427,7 +428,7 @@
               <td>{{data.converted_date}}</td>
               <td>Cash On Delivery</td>
               <td>{{data.payment_status}}</td>
-              <td>{{data.payment_status}}</td>
+              <td class="orange">{{data.payment_status}}</td>
             </tr>
           </tbody>
         </table>

@@ -55,12 +55,16 @@ export class HeaderComponent implements OnInit {
     'U', 'V', 'W', 'X', 'Y', 'Z', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q',
     'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9'
   ];
+  citydata = [];
+  areaData = [];
   captchaTExt;
   ngOnInit() {
     this.phone = localStorage.userMobile;
     this.getDashboard();
     this.geoLocation();
-    this.getLocation();
+    this.getCities();
+    this.getAreaData();
+    // this.getLocation();
     this.getCategories();
     this.getAllCategoriesWithSubCat();
     if (localStorage.userData !== undefined) {
@@ -751,77 +755,99 @@ export class HeaderComponent implements OnInit {
   showState = false;
   showCity = false;
   showArea = false;
-  getLocation() {
+  // getLocation() {
 
-    this.http.get(AppSettings.baseUrl + 'users/get_locations').subscribe(res => {
-      this.countriesData = res.json().result;
-      for (var i = 0; i < this.countriesData.length; i++) {
-        this.countryVales.push(this.countriesData[i].country);
-      }
+  //   this.http.get(AppSettings.baseUrl + 'users/get_locations').subscribe(res => {
+  //     this.countriesData = res.json().result;
+  //     for (var i = 0; i < this.countriesData.length; i++) {
+  //       this.countryVales.push(this.countriesData[i].country);
+  //     }
 
-      for (var i = 0; i < this.countryVales.length; i++) {
-        this.countrys = _.uniq(this.countryVales, function (obj) {
-          return obj;
-        });
-      }
-    });
-  }
+  //     for (var i = 0; i < this.countryVales.length; i++) {
+  //       this.countrys = _.uniq(this.countryVales, function (obj) {
+  //         return obj;
+  //       });
+  //     }
+  //   });
+  // }
 
 
-  //get state
-  getStates(country) {
-    this.showState = true;
-    this.country = country;
-    this.statesData = [];
+  // //get state
+  // getStates(country) {
+  //   this.showState = true;
+  //   this.country = country;
+  //   this.statesData = [];
 
-    for (var i = 0; i < this.countriesData.length; i++) {
-      if (this.countriesData[i].country === country) {
-        this.statesData.push(this.countriesData[i].state);
-      }
-    }
+  //   for (var i = 0; i < this.countriesData.length; i++) {
+  //     if (this.countriesData[i].country === country) {
+  //       this.statesData.push(this.countriesData[i].state);
+  //     }
+  //   }
 
-    for (var i = 0; i < this.statesData.length; i++) {
-      this.states = _.uniq(this.statesData, function (obj) {
-        return obj;
-      });
-      // this.sValues.push(this.states);
-    }
-  }
+  //   for (var i = 0; i < this.statesData.length; i++) {
+  //     this.states = _.uniq(this.statesData, function (obj) {
+  //       return obj;
+  //     });
+  //   }
+  // }
 
   //get city
-  getCitys(state) {
-    this.showCity = true;
-    this.state = state;
-    this.citysData = [];
-    this.areas = [];
-    for (var i = 0; i < this.countriesData.length; i++) {
-      if (this.countriesData[i].state === state) {
-        this.citysData.push(this.countriesData[i].city);
-      }
-    }
+  // getCitys(state) {
+  //   this.showCity = true;
+  //   this.state = state;
+  //   this.citysData = [];
+  //   this.areas = [];
+  //   for (var i = 0; i < this.countriesData.length; i++) {
+  //     if (this.countriesData[i].state === state) {
+  //       this.citysData.push(this.countriesData[i].city);
+  //     }
+  //   }
 
-    for (var i = 0; i < this.citysData.length; i++) {
-      this.citys = _.uniq(this.citysData, function (obj) {
-        return obj;
-      });
-    }
+  //   for (var i = 0; i < this.citysData.length; i++) {
+  //     this.citys = _.uniq(this.citysData, function (obj) {
+  //       return obj;
+  //     });
+  //   }
+  // }
+
+  // //get area
+  // getArea(city) {
+  //   this.showArea = true;
+  //   this.city = city;
+  //   this.areasData = [];
+  //   for (var i = 0; i < this.countriesData.length; i++) {
+  //     if (this.countriesData[i].city === city) {
+  //       this.areasData.push(this.countriesData[i].area);
+  //     }
+  //   }
+
+  //   for (var i = 0; i < this.areasData.length; i++) {
+  //     this.areas = _.uniq(this.areasData, function (obj) {
+  //       return obj;
+  //     });
+  //   }
+  // }
+
+  getAreaData() {
+    this.mainServe.getAreas().subscribe(res => {
+      this.areaData = res.json().data;
+    })
   }
 
-  //get area
-  getArea(city) {
-    this.showArea = true;
-    this.city = city;
-    this.areasData = [];
-    for (var i = 0; i < this.countriesData.length; i++) {
-      if (this.countriesData[i].city === city) {
-        this.areasData.push(this.countriesData[i].area);
-      }
-    }
+  getCities() {
+    this.mainServe.getCity().subscribe(res => {
+      this.citydata = res.json().data;
+    })
+  }
 
-    for (var i = 0; i < this.areasData.length; i++) {
-      this.areas = _.uniq(this.areasData, function (obj) {
-        return obj;
-      });
+  getArea(cityId) {
+    this.showArea = true;
+   
+    this.areasData = [];
+    for (var i = 0; i < this.areaData.length; i++) {
+      // if (city ===) {warehouse_contry_id
+
+      // }
     }
   }
 
@@ -848,8 +874,10 @@ export class HeaderComponent implements OnInit {
           this.positionValue = this.position.split('-');
           this.area = this.positionValue[0].trim();
           this.city = result.address_components[3].long_name;
-          console.log(this.city);
-          console.log(this.area);
+          localStorage.setItem('city', this.city);
+          localStorage.setItem('area', this.area);
+
+          this.location = localStorage.city + ' ' + localStorage.area
           //   this.getPin = JSON.parse(results[0].address_components[5].long_name);
           //   localStorage.setItem('wh_pincode', this.getPin);
           //  let rsltAdrComponent = result.address_components;

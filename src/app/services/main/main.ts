@@ -186,6 +186,14 @@ export class MainService {
         })
     }
 
+    getCity(): Observable<any> {
+        return this.getParamsUrl('delivery/getwarehouse_country', '');
+    }
+
+    getAreas(): Observable<any> {
+        return this.getParamsUrl('delivery/getallwerehousearea', '');
+    }
+
     viewCart;
     cartCount;
     deliveryCharge;
@@ -408,6 +416,7 @@ export class MainService {
     showSubCat(cId, index) {
         this.getAllCategoriesWithSubCat();
         this.showSubCats = true;
+
         this.selectedCat = index;
         for (var i = 0; i < this.categoriesWithSubCat.length; i++) {
             if (cId === this.categoriesWithSubCat[i].id) {

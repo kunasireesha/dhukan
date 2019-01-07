@@ -148,6 +148,10 @@ export class ViewcartComponent implements OnInit {
 
 
   chekOut() {
+    if (localStorage.token === undefined) {
+      swal('Please Login', '', 'warning');
+      return;
+    }
     this.cartDetails = this.summary;
     this.showCart = false;
 
@@ -183,8 +187,9 @@ export class ViewcartComponent implements OnInit {
   showCat() {
     this.mainServe.showCat();
   }
-
+  selectedCat;
   showSubCat(id, i) {
+    this.selectedCat = i;
     this.mainServe.showSubCat(id, i);
   }
 

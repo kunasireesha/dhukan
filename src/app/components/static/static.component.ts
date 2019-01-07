@@ -100,8 +100,9 @@ export class StaticComponent implements OnInit {
     showCat() {
         this.mainServe.showCat();
     }
-
+    selectedCat;
     showSubCat(id, i) {
+        this.selectedCat = i;
         this.mainServe.showSubCat(id, i);
     }
 

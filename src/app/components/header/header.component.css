@@ -424,7 +424,7 @@ a {
 }
 
 .myaccount-dropdown {
-  width: 300px;
+  width: 260px;
   background: #dedcdd;
   padding: 0px;
   margin: 0px;
@@ -457,8 +457,10 @@ a {
 .profile-dropdown a {
   color: black;
   width: 100%;
-  padding: 9px 5px;
+  padding: 3px 8px;
   font-family: 'Aileron-Light';
+  font-size: 14px;
+  font-weight: 600;
 }
 
 .profile-dropdown a {
@@ -616,35 +618,36 @@ a {
   left: 0px;
   height: 500px;
   overflow: auto;
-  margin-left: 6%;
+  margin-left: 1%;
 }
 
 .subcats {
   position: absolute;
   z-index: 55;
-  background-color: #f19820;
+  background-color: #d67d05;
   width: 100%;
   left: 0px;
-  height: 400px;
+  height: 500px;
   overflow: auto;
-  margin-left: 6%;
+  margin-left: 1%;
 }
 
 .subcats div {
   padding: 16px;
-  border-bottom: 1px solid gray;
+  /* border-bottom: 1px solid gray; */
 }
 
 .subcats a {
   cursor: pointer;
   position: relative;
   left: -10px;
-  color: black;
+  color: white;
+  padding-left: 35px;
 }
 
 .cats div {
   padding: 16px;
-  border-bottom: 1px solid gray;
+  border-bottom: 1px solid #f19820;
 }
 
 .cats a {
@@ -652,6 +655,7 @@ a {
   position: relative;
   left: -10px;
   color: black;
+  padding-left: 35px;
 }
 
 .active {
@@ -665,6 +669,15 @@ img {
 
 .search-icon img {
   top: -7px;
+}
+
+.activebak {
+  background-color: #d67d05 !important;
+
+}
+
+.activebak a {
+  color: white !important;
 }
 
 @media only screen and (max-width: 1460px) {
@@ -688,4 +701,20 @@ img {
 
 #captcha {
   font-size: 30px;
+}
+
+.location-add {
+  color: #f19820;
+  font-size: 15px;
+  font-weight: bold;
+}
+
+.angle-up {
+  color: black !important;
+  font-size: 19px;
+  margin-left: 10px;
+}
+
+.map-marker {
+  margin-right: 10px;
 }

@@ -17,6 +17,8 @@ export class DeliveryComponent implements OnInit {
   amount;
   summaryCart;
   showVochers = false;
+  showOffersPay = true;
+  showBankingopt = false;
   constructor(public mainServ: MainService, public profileSer: ProfileService) { }
   address = {
     ua_first_name: '',
@@ -98,5 +100,15 @@ export class DeliveryComponent implements OnInit {
   selectedVocher(data, index) {
     this.vocher = data.voucher_code;
     this.selectedVo = index;
+  }
+
+  showPaymentopt(action) {
+    if (action === 'offers') {
+      this.showOffersPay = true;
+      this.showBankingopt = false;
+    } else {
+      this.showBankingopt = true;
+      this.showOffersPay = false;
+    }
   }
 }

@@ -14,16 +14,18 @@
               <div>
                 <button class="btn locaton-btn" type="button" (click)="showLocation()">
                   <img src="assets/images/location.png" class="header-icons">
-                  <span class="city"> {{location|| "Choose location"}} </span>
+                  <span class="city"> {{location || "Choose location"}} </span>
                   <img src="assets/images/angle-arrow-down.png" class="dropdown-icon">
                 </button>
                 <div *ngIf="hideLocations">
                   <div class="location">
                     <form>
-                      <h5 class="text-center">{{ "choose.location" | translate}}
-                        <fa name="angle-up "></fa>
+
+                      <h5 class="text-center location-add">
+                        <fa name="map-marker" class="map-marker"></fa>{{location}}
+                        <fa name="angle-up" class="angle-up"></fa>
                       </h5>
-                      <div class="form-group mb-3">
+                      <!-- <div class="form-group mb-3">
                         <label for="inputState">Select country</label>
                         <select required class="form-control border-primary" id="exampleSelectPrimary" [(ngModel)]="country"
                           name="country" (change)="getStates($event.target.value)">
@@ -39,29 +41,29 @@
                           <option value="" disabled selected hidden>Select state</option>
                           <option *ngFor="let state of states" value="{{state}}">{{state}}</option>
                         </select>
-                      </div>
+                      </div> -->
 
-                      <div class="form-group mb-3" *ngIf="showCity">
-                        <label for="inputState">City</label>
-                        <select required class="form-control border-primary" id="exampleSelectPrimary" [(ngModel)]="city"
-                          name="city" (change)="getArea($event.target.value)">
+                      <div class="form-group mb-3">
+                        <label for="inputState">Select your city</label>
+                        <select required class="form-control" id="exampleSelectPrimary" [(ngModel)]="city" name="city"
+                          (change)="getArea($event.target.value)">
                           <option value="" disabled selected hidden>Select City</option>
-                          <option *ngFor="let city of citys" value="{{city}}">{{city}}</option>
+                          <option *ngFor="let city of citydata" value="{{city.id}}">{{city.contry}}</option>
                         </select>
                       </div>
 
                       <div class="form-group mb-3" *ngIf="showArea">
-                        <label for="inputState">Area</label>
-                        <select required class="form-control border-primary" id="exampleSelectPrimary" [(ngModel)]="area"
-                          name="area" (change)="changeArea($event.target.value)">
-                          <option value="" disabled selected hidden>Select Area</option>
+                        <!-- <label for="inputState">Area</label> -->
+                        <select required class="form-control" id="exampleSelectPrimary" [(ngModel)]="area" name="area"
+                          (change)="changeArea($event.target.value)">
+                          <option value="" disabled selected hidden>Pincode</option>
                           <option *ngFor="let area of areas" value="{{area}}">{{area}}</option>
                         </select>
                       </div>
 
                       <div class="row justify-content-center ">
                         <div class="col-8">
-                          <button type="submit" class="btn button submit-button" (click)="submitLocation()">Submit</button>
+                          <button type="submit" class="btn button submit-button" (click)="submitLocation()">CONTINUE</button>
                         </div>
                       </div>
                     </form>
@@ -138,7 +140,7 @@
                   My Account
                   <img src="assets/images/angle-arrow-down.png" class="dropdown-icon">
                 </button>
-                <div class="dropdown-menu myaccount-dropdown" aria-labelledby="dropdownMenuButton">
+                <div class="dropdown-menu myaccount-dropdown" aria-labelledby="dropdownMenuButton" style="margin-left: -100%">
 
                   <ul class="profile-dropdown">
                     <li routerLink="/myprofile">

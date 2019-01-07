@@ -225,8 +225,9 @@ export class ProductdetailsComponent implements OnInit {
   showCat() {
     this.mainSer.showCat();
   }
-
+  selectedCat;
   showSubCat(id, i) {
+    this.selectedCat = i;
     this.mainSer.showSubCat(id, i);
   }
 

@@ -181,7 +181,8 @@
       <!-- show categories -->
       <div class="col-md-3">
         <div class="cats" *ngIf="mainSer.showCategories">
-          <div *ngFor="let data of mainSer.categories;let i =index" (click)="headerComp.showCatProd(data.id,i,data.name)">
+          <div *ngFor="let data of mainSer.categories;let i =index" (click)="headerComp.showCatProd(data.id,i,data.name)"
+            [ngClass]="{'activebak':i==selectedCat}">
             <a>{{data.name}}
               <span class="float-right" (click)="$event.stopPropagation();showSubCat(data.id,i)" [ngClass]="{'active':showSubCats && i==selectedCat}">
                 <fa name="chevron-right"></fa>

@@ -80,6 +80,8 @@ export class MainComponent implements OnInit {
     showselecteddata = true;
     showselecteddifdata = true;
     skudata;
+    selectedCat;
+
     ngOnInit() {
         window.scrollTo(0, 0);
         this.getAllCategoriesWithSubCat();
@@ -372,13 +374,16 @@ export class MainComponent implements OnInit {
     }
 
     showSubCat(id, i) {
+        this.selectedCat = i;
         this.mainServe.showSubCat(id, i);
+
     }
 
 
     showSubCatProd(subId, index, name) {
         this.mainServe.showCategories = false;
         this.mainServe.showSubCats = false;
+
         let navigationExtras: NavigationExtras = {
             queryParams: {
                 'sId': subId,
@@ -638,10 +643,10 @@ export class MainComponent implements OnInit {
         }
     }
 
-
     showCatProd(catId, i, name) {
         this.mainServe.showCategories = false;
         this.mainServe.showSubCats = false;
+
         // this.headerComp.showCatProd(catId, i, name);
         let navigationExtras: NavigationExtras = {
             queryParams: {
