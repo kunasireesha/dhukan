@@ -1,5 +1,5 @@
 import { MainService } from './../../services/main/main';
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, OnInit, Inject, NgZone, Output, EventEmitter } from '@angular/core';
 import { MatDialog, MatDialogConfig } from "@angular/material";
 import { DataService } from '../../services/login/login';
 import { HeaderService } from '../../services/header/header';
@@ -34,6 +34,57 @@ export class HeaderComponent implements OnInit {
   summary = [];
   google: any;
   showCaptchaer = false;
+  latlocation;
+  lanLocation;
+  getPin;
+  position;
+  positionValue;
+  position1;
+  positionValue1;
+  position2;
+  positionValue2;
+  city;
+  area;
+
+  @Output() valueChange = new EventEmitter();
+
+  public title = 'Places';
+  public addrKeys: string[];
+  public addr: object;
+
+  //Method to be invoked everytime we receive a new instance 
+  //of the address object from the onSelect event emitter.
+  setAddress(addrObj) {
+    //We are wrapping this in a NgZone to reflect the changes
+    //to the object in the DOM.
+    this.zone.run(() => {
+      this.addr = addrObj;
+      this.addrKeys = Object.keys(addrObj);
+      this.position1 = addrObj.formatted_address;
+      this.positionValue1 = this.position1.split(',');
+      this.city = this.positionValue1[0].trim();
+      localStorage.setItem('city', this.city);
+    });
+  }
+
+  setAreaAddress(addrObj) {
+    //We are wrapping this in a NgZone to reflect the changes
+    //to the object in the DOM.
+    this.zone.run(() => {
+      this.addr = addrObj;
+      this.addrKeys = Object.keys(addrObj);
+      this.position2 = addrObj.formatted_address;
+      this.positionValue2 = this.position2.split(',');
+      this.area = this.positionValue2[0].trim();
+      localStorage.setItem('area', this.area);
+    });
+  }
+
+
+
+
+
+
   constructor(
     public loginService: DataService,
     private translate: TranslateService,
@@ -43,7 +94,8 @@ export class HeaderComponent implements OnInit {
     public http: Http,
     // private socialAuthService: AuthService,
     private headerSer: HeaderService,
-    public app: AppComponent
+    public app: AppComponent,
+    private zone: NgZone
   ) {
     this.getDashboard();
     this.getCartList();
@@ -62,8 +114,7 @@ export class HeaderComponent implements OnInit {
     this.phone = localStorage.userMobile;
     this.getDashboard();
     this.geoLocation();
-    this.getCities();
-    this.getAreaData();
+
     // this.getLocation();
     this.getCategories();
     this.getAllCategoriesWithSubCat();
@@ -567,23 +618,7 @@ export class HeaderComponent implements OnInit {
     }
   }
 
-  //change location
-  changeLocation(locationID) {
-    this.headerSer.getSubLocations(locationID).subscribe(response => {
-      this.showSubLocations = true;
-      this.subLocationData = response.json().locations;
-    });
-  }
 
-  //change sublocation
-  changeSubLocation() {
-    for (var i = 0; i < this.subLocationData.length; i++) {
-      if (this.formData.pincode === this.subLocationData[i].pincode) {
-        this.subLocationName = this.subLocationData[i].address;
-        this.pincodeOfLocation = this.subLocationData[i].pincode;
-      }
-    }
-  }
 
   showLocation() {
     this.hideLocations = !this.hideLocations;
@@ -596,7 +631,7 @@ export class HeaderComponent implements OnInit {
     localStorage.setItem('location', location);
     this.location = localStorage.location;
     this.hideLocations = false;
-
+    this.valueChange.emit(this.location);
   }
 
   //get categories
@@ -682,32 +717,16 @@ export class HeaderComponent implements OnInit {
   getDashboard() {
     this.mainServe.getDashboard().subscribe(response => {
       this.cart = response.json();
-      // if(response.json().cart.status === 200 ){
       this.cartCount = response.json().cart.cart_count || 0;
       this.deliveryCharge = response.json().cart.delivery_charge.toFixed(2);
       this.subTotal = response.json().cart.selling_price.toFixed(2);
       this.Total = response.json().cart.grand_total.toFixed(2);
-      // }
-      // else{
 
-      // }
-      // console.log(this.cart);
-      // this.errorMessage = response.json().cart.message;
     });
   }
   getCartList() {
     this.mainServe.getCartList();
-    // .subscribe(response => {
-    //   this.viewCart = response.json().data;
-    //   this.summary = response.json().summary;
-    //   this.getDashboard();
-    //   for (var i = 0; i < this.viewCart.length; i++) {
-    //     // if (title === this.viewCart[i].title) {
-    //     this.viewCart[i].quantity = this.viewCart[i].sku[0].mycart;
-    //     return;
-    //     // }
-    //   }
-    // });
+
   }
   deleteCart(id) {
     var inData = id;
@@ -739,127 +758,6 @@ export class HeaderComponent implements OnInit {
     };
     this.router.navigate(["/categoriesProducts"], navigationExtras)
   }
-  countryData = [];
-  countrys = [];
-  country;
-  statesData = [];
-  states = [];
-  state;
-  citysData = [];
-  areas = []
-  citys = [];
-  city;
-  area;
-  areasData = [];
-  countryVales = [];
-  showState = false;
-  showCity = false;
-  showArea = false;
-  // getLocation() {
-
-  //   this.http.get(AppSettings.baseUrl + 'users/get_locations').subscribe(res => {
-  //     this.countriesData = res.json().result;
-  //     for (var i = 0; i < this.countriesData.length; i++) {
-  //       this.countryVales.push(this.countriesData[i].country);
-  //     }
-
-  //     for (var i = 0; i < this.countryVales.length; i++) {
-  //       this.countrys = _.uniq(this.countryVales, function (obj) {
-  //         return obj;
-  //       });
-  //     }
-  //   });
-  // }
-
-
-  // //get state
-  // getStates(country) {
-  //   this.showState = true;
-  //   this.country = country;
-  //   this.statesData = [];
-
-  //   for (var i = 0; i < this.countriesData.length; i++) {
-  //     if (this.countriesData[i].country === country) {
-  //       this.statesData.push(this.countriesData[i].state);
-  //     }
-  //   }
-
-  //   for (var i = 0; i < this.statesData.length; i++) {
-  //     this.states = _.uniq(this.statesData, function (obj) {
-  //       return obj;
-  //     });
-  //   }
-  // }
-
-  //get city
-  // getCitys(state) {
-  //   this.showCity = true;
-  //   this.state = state;
-  //   this.citysData = [];
-  //   this.areas = [];
-  //   for (var i = 0; i < this.countriesData.length; i++) {
-  //     if (this.countriesData[i].state === state) {
-  //       this.citysData.push(this.countriesData[i].city);
-  //     }
-  //   }
-
-  //   for (var i = 0; i < this.citysData.length; i++) {
-  //     this.citys = _.uniq(this.citysData, function (obj) {
-  //       return obj;
-  //     });
-  //   }
-  // }
-
-  // //get area
-  // getArea(city) {
-  //   this.showArea = true;
-  //   this.city = city;
-  //   this.areasData = [];
-  //   for (var i = 0; i < this.countriesData.length; i++) {
-  //     if (this.countriesData[i].city === city) {
-  //       this.areasData.push(this.countriesData[i].area);
-  //     }
-  //   }
-
-  //   for (var i = 0; i < this.areasData.length; i++) {
-  //     this.areas = _.uniq(this.areasData, function (obj) {
-  //       return obj;
-  //     });
-  //   }
-  // }
-
-  getAreaData() {
-    this.mainServe.getAreas().subscribe(res => {
-      this.areaData = res.json().data;
-    })
-  }
-
-  getCities() {
-    this.mainServe.getCity().subscribe(res => {
-      this.citydata = res.json().data;
-    })
-  }
-
-  getArea(cityId) {
-    this.showArea = true;
-   
-    this.areasData = [];
-    for (var i = 0; i < this.areaData.length; i++) {
-      // if (city ===) {warehouse_contry_id
-
-      // }
-    }
-  }
-
-  //chage area
-  changeArea(area) {
-    this.area = area;
-  }
-  latlocation;
-  lanLocation;
-  getPin;
-  position;
-  positionValue;
   geoLocation() {
     // if (navigator.geolocation) {
     window.navigator.geolocation.getCurrentPosition(position => {
@@ -876,21 +774,10 @@ export class HeaderComponent implements OnInit {
           this.city = result.address_components[3].long_name;
           localStorage.setItem('city', this.city);
           localStorage.setItem('area', this.area);
-
-          this.location = localStorage.city + ' ' + localStorage.area
-          //   this.getPin = JSON.parse(results[0].address_components[5].long_name);
-          //   localStorage.setItem('wh_pincode', this.getPin);
-          //  let rsltAdrComponent = result.address_components;
-          //   let resultLength = rsltAdrComponent.length;
-          //   if (result != null) {
-          //     console.log(rsltAdrComponent[resultLength - 5].short_name);
-          //   } else {
-          //     window.alert('Geocoder failed due to: ' + status);
-          //   }
+          this.location = localStorage.city + ' ' + localStorage.area;
         }
       });
     });
-    // }
   }
 }
 

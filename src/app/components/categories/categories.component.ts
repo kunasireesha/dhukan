@@ -46,6 +46,15 @@ export class CategoriesComponent implements OnInit {
         // this.getCategories();
         this.mainServe.showCategories = false;
     }
+
+    displayCounter(data) {
+        if (this.action !== undefined) {
+            this.getCatProducts(this.catId, '', '', '');
+        } else {
+            this.getSubProducts(this.subCatId, '', '', '');
+        }
+    }
+
     page: string;
     action;
     showveg: boolean;
@@ -568,4 +577,14 @@ export class CategoriesComponent implements OnInit {
         this.router.navigate(["/categoriesProducts"], navigationExtras)
     }
 
+    viewAll(action) {
+        let navigationExtras: NavigationExtras = {
+            queryParams: {
+                title: action
+            }
+        }
+        this.router.navigate(['/viewAll'], navigationExtras);
+    }
+
 }
+

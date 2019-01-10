@@ -544,3 +544,16 @@ img {
 .orange {
   color: #f19820 !important;
 }
+
+
+
+.best-carousel .chevron-left,
+.best-carousel .chevron-right {
+  color: black !important;
+  font-size: 23px !important;
+
+}
+
+.best-carousel .active {
+  background-color: white !important;
+}

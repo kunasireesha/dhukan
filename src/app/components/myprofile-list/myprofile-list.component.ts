@@ -159,6 +159,14 @@ export class MyprofileListComponent implements OnInit {
     this.showPaymentOptions = true;
   }
 
+  viewAll(action) {
+    let navigationExtras: NavigationExtras = {
+      queryParams: {
+        title: action
+      }
+    }
+    this.router.navigate(['/viewAll'], navigationExtras);
+  }
 
 
 

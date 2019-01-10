@@ -19,6 +19,7 @@ export class DeliveryComponent implements OnInit {
   showVochers = false;
   showOffersPay = true;
   showBankingopt = false;
+  showOptions = true;
   constructor(public mainServ: MainService, public profileSer: ProfileService) { }
   address = {
     ua_first_name: '',
@@ -34,11 +35,33 @@ export class DeliveryComponent implements OnInit {
     ua_nick_name: '',
     ua_id: ''
   };
+  express = true;
+  normal = false;
+  cartData = [];
+  expressDeliveryData = [];
 
   vocherData = [];
+  hideExpress = false;
+  deliverySlots = [];
+  normalDeliveryData = [];
+  slot;
+  price = [];
+  nrmlprice = [];
+  nrmlsingleprice = [];
+  nrmlsum: number;
+  exprsSum: number;
+  nrmlsingleSum: number;
+  paymentOptions = [];
+  payOption;
+  orderData;
+  delType = 'express';
+  checkOutData = [];
+  oderid;
+  successMsg;
   ngOnInit() {
     window.scrollTo(0, 0);
     this.address;
+    this.selectDeliveryOption();
 
     this.getAddress();
     this.mainServ.getCartList();
@@ -46,12 +69,14 @@ export class DeliveryComponent implements OnInit {
     console.log(this.summaryCart);
   }
 
+
+
   //my address
   getAddress() {
     this.profileSer.getAddress().subscribe(response => {
       for (var i = 0; i < response.json().data.length; i++) {
         if (response.json().data[i].is_default === 1) {
-          this.address = response.json().data[i];
+
         }
       }
 
@@ -82,6 +107,7 @@ export class DeliveryComponent implements OnInit {
       }
     });
     this.profileSer.setDefaultAdd(this.address.ua_id);
+    // this.selectDeliveryOption();
 
   }
 
@@ -110,5 +136,98 @@ export class DeliveryComponent implements OnInit {
       this.showBankingopt = true;
       this.showOffersPay = false;
     }
+  }
+
+  changedelivery(action) {
+    this.delType = action;
+    if (action === 'express') {
+      this.express = true;
+      this.normal = false;
+    } else {
+      this.normal = true;
+      this.express = false;
+    }
+  }
+  selectDeliveryOption() {
+    this.normalDeliveryData = [];
+    this.expressDeliveryData = [];
+    this.price = [];
+    this.nrmlsingleprice = [];
+    this.nrmlprice = [];
+    var prams = {
+      delivery_type: this.delType
+    }
+
+    this.mainServ.getOrderSummary(prams).subscribe(res => {
+      this.cartData = res.json().data.data;
+      this.deliverySlots = res.json().data.deliveryslot.time;
+      this.address = res.json().data.user_address[0];
+      this.paymentOptions = res.json().data.payment;
+      this.orderData = res.json().data.order[0];
+      //normal delivery
+      for (var i = 0; i < this.cartData.length; i++) {
+        this.nrmlsingleprice.push(this.cartData[i].sku[0].selling_price * this.cartData[i].sku[0].mycart);
+      }
+      this.nrmlsingleSum = this.nrmlsingleprice.reduce(add2, 0);
+      function add2(a, b) {
+        return a + b;
+      }
+
+      //express delivery
+      for (var i = 0; i < this.cartData.length; i++) {
+        if (this.cartData[i].sku[0].express_delivery === 1) {
+          this.expressDeliveryData.push(this.cartData[i].sku[0]);
+          this.price.push(this.cartData[i].sku[0].selling_price * this.cartData[i].sku[0].mycart);
+        }
+      }
+      this.exprsSum = this.price.reduce(add, 0);
+      function add(a, b) {
+        return a + b;
+      }
+
+      //normal in express delivery
+      for (var i = 0; i < this.cartData.length; i++) {
+        if (this.cartData[i].sku[0].normal_delivery === 1) {
+          this.normalDeliveryData.push(this.cartData[i].sku[0]);
+          this.nrmlprice.push(this.cartData[i].sku[0].selling_price * this.cartData[i].sku[0].mycart);
+        }
+      }
+
+      this.nrmlsum = this.nrmlprice.reduce(add1, 0);
+      function add1(a, b) {
+        return a + b;
+      }
+      console.log(this.orderData);
+      //payment options
+    });
+  }
+
+  changeSlot(value) {
+    this.slot = value;
+  }
+
+  selectPay(payoptin) {
+    this.payOption = payoptin;
+  }
+
+  checkout() {
+    var params = {
+      oderid: this.orderData.order_id,
+      delivery_type: this.delType,
+      payment_type: this.payOption,
+      address: this.address.ua_id
+    }
+
+    this.mainServ.cehckout(params).subscribe(res => {
+
+      if (res.json().err_field === '') {
+        this.oderid = res.json().oderid;
+        this.successMsg = res.json().result;
+        swal(res.json().result, '', 'success');
+        this.showOptions = false;
+      } else {
+        swal(res.json().result, '', 'error');
+      }
+    });
   }
 }

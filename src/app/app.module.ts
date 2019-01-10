@@ -18,7 +18,7 @@ import { CarouselModule } from 'ngx-bootstrap/carousel';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { MyDatePickerModule } from 'mydatepicker';
 import { NgSelectModule } from '@ng-select/ng-select';
-
+import { AgmCoreModule } from '@agm/core';
 //components
 import { AppComponent } from './app.component';
 import { MainComponent } from './components/main/main.component';
@@ -44,6 +44,8 @@ import { ProfileService } from './services/profile/profiledata';
 import { AddressServices } from './services/deliveraddressdata/addressService';
 // directive
 import { NumberOnlyDirective, AlphabetsOnly, AlphaNumericOnly } from './directives/number';
+import { GooglePlacesDirective } from './directives/google-places.directive';
+
 import { ProductsDirective } from './directives/products';
 import { OrdersComponent } from './components/orders/orders.component';
 import { StaticComponent } from './components/static/static.component';
@@ -90,6 +92,7 @@ export function getAuthServiceConfigs() {
 		ProductsDirective,
 		AlphabetsOnly,
 		AlphaNumericOnly,
+		GooglePlacesDirective,
 		OrdersComponent,
 		StaticComponent,
 		SearchproductsComponent,
@@ -105,6 +108,11 @@ export function getAuthServiceConfigs() {
 		ImageZoomModule,
 		HttpModule,
 		NgSelectModule,
+		ReactiveFormsModule,
+		AgmCoreModule.forRoot({
+			apiKey: "AIzaSyClUICP4-qGf2r4SSCZF5MzbSFXT6mIbvM",
+			libraries: ["places"]
+		}),
 		SocialLoginModule,
 		TooltipModule.forRoot(),
 		CarouselModule.forRoot(),
@@ -201,9 +209,24 @@ export function getAuthServiceConfigs() {
 				data: [{ page: 'termsandcond' }]
 			},
 			{
+				path: 'aboutUs',
+				component: StaticComponent,
+				data: [{ page: 'aboutUs' }]
+			},
+			{
 				path: 'rateapp',
 				component: StaticComponent,
 				data: [{ page: 'rateapp' }]
+			},
+			{
+				path: 'privacyPolicy',
+				component: StaticComponent,
+				data: [{ page: 'privacyPolicy' }]
+			},
+			{
+				path: 'contactUs',
+				component: StaticComponent,
+				data: [{ page: 'contactUs' }]
 			},
 			{
 				path: 'search',
@@ -234,7 +257,7 @@ export function getAuthServiceConfigs() {
 		})
 	],
 	schemas: [NO_ERRORS_SCHEMA],
-	providers: [DataService, HeaderService, MainService, ProfileService, AddressServices, {
+	providers: [DataService, HeaderService, MainService, ProfileService, AddressServices, MainComponent, {
 		provide: AuthServiceConfig,
 		useFactory: getAuthServiceConfigs
 	}],

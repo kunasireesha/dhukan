@@ -27,6 +27,10 @@ export class SearchproductsComponent implements OnInit {
   ngOnInit() {
     this.searchProductsData();
   }
+
+  displayCounter(data) {
+    this.searchProductsData();
+  }
   skId;
   skuId;
   item = {
@@ -286,5 +290,12 @@ export class SearchproductsComponent implements OnInit {
 
     })
   }
-
+  viewAll(action) {
+    let navigationExtras: NavigationExtras = {
+      queryParams: {
+        title: action
+      }
+    }
+    this.router.navigate(['/viewAll'], navigationExtras);
+  }
 }

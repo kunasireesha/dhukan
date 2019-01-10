@@ -718,3 +718,7 @@ img {
 .map-marker {
   margin-right: 10px;
 }
+
+.orange-border {
+  border: 1px solid #f19820;
+}

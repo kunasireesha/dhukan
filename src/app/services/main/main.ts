@@ -12,6 +12,15 @@ export class MainService {
     constructor(private http: Http, public router: Router, private translate: TranslateService, public headerSer: HeaderService
     ) { }
 
+
+    postMethode(url, params) {
+        const headers = new Headers({
+            'Content-Type': 'application/json',
+            'token': (localStorage.token === undefined) ? '' : JSON.parse(localStorage.token),
+            'session_id': localStorage.session
+        });
+        return this.http.post(AppSettings.baseUrl + url, params, { headers: headers });
+    }
     postInputParamsUrl(url, sId) {
         const headers = new Headers({
             'Content-Type': "application/x-www-form-urlencoded",
@@ -169,6 +178,8 @@ export class MainService {
         return this.getParamsUrl('dashboard/orderdetails', id);
     }
 
+
+
     applyVocher(vocher, amount) {
         var inData = "vocherCode=" + vocher + "&amount=" + amount;
         const headers = new Headers({
@@ -187,11 +198,59 @@ export class MainService {
     }
 
     getCity(): Observable<any> {
-        return this.getParamsUrl('delivery/getwarehouse_country', '');
+        var params = {
+            city: localStorage.city,
+            area: localStorage.area
+        }
+        return this.postMethode('delivery/getwarehouse_country', params);
     }
 
     getAreas(): Observable<any> {
-        return this.getParamsUrl('delivery/getallwerehousearea', '');
+        var params = {
+            city: localStorage.city,
+            area: localStorage.area
+        }
+        return this.postMethode('delivery/getallwerehousearea', params);
+    }
+
+    getBestDealsOftheDay(): Observable<any> {
+        var params = {
+            city: localStorage.city,
+            area: localStorage.area
+        }
+        return this.postMethode('products/bestdealoftheday', params);
+    }
+
+    getBestDeals(): Observable<any> {
+        var params = {
+            city: localStorage.city,
+            area: localStorage.area
+        }
+        return this.postMethode('products/BestDeals', params);
+    }
+    getBestDealsOnppliances(): Observable<any> {
+        var params = {
+            city: localStorage.city,
+            area: localStorage.area
+        }
+        return this.postMethode('products/BestDealsonAppliances', params);
+    }
+
+
+    getOrderSummary(params): Observable<any> {
+        return this.postMethode('dashboard/summery', params);
+    }
+
+    cehckout(params): Observable<any> {
+        return this.postMethode('dashboard/checkoutd', params);
+    }
+
+    getAllOffers(): Observable<any> {
+        var params = {
+            city: localStorage.city,
+            area: localStorage.area
+        }
+        return this.postMethode('products/alloffers', params);
     }
 
     viewCart;
@@ -217,11 +276,13 @@ export class MainService {
         this.http.get(AppSettings.baseUrl + 'cart/cart-list', { headers: headers }).subscribe(response => {
             if (response.json().status === 200) {
                 this.viewCart = response.json().data;
-                this.cartData = response.json().summary;
-                this.cartCount = response.json().summary.cart_count;
-                this.deliveryCharge = response.json().summary.delivery_charge.toFixed(2);
-                this.subTotal = response.json().summary.selling_price.toFixed(2);
-                this.Total = response.json().summary.grand_total.toFixed(2);
+                if (response.json().summary !== undefined) {
+                    this.cartData = response.json().summary;
+                    this.cartCount = response.json().summary.cart_count;
+                    this.deliveryCharge = response.json().summary.delivery_charge.toFixed(2);
+                    this.subTotal = response.json().summary.selling_price.toFixed(2);
+                    this.Total = response.json().summary.grand_total.toFixed(2);
+                }
                 for (var i = 0; i < this.viewCart.length; i++) {
                     this.viewCart[i].product_image = this.viewCart[i].sku[0].skuImages[0];
                     this.viewCart[i].mrp = this.viewCart[i].sku[0].mrp;

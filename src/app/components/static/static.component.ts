@@ -18,6 +18,8 @@ export class StaticComponent implements OnInit {
     showRating;
     currentRate;
     feedback;
+    aboutusData;
+    aboutUs = false;
     constructor(public mainServe: MainService, public router: Router, private route: ActivatedRoute, public headerComp: HeaderComponent) {
         this.pageNav = this.route.snapshot.data[0].page;
         if (this.pageNav === "faq") {
@@ -32,6 +34,7 @@ export class StaticComponent implements OnInit {
             this.mainServe.terms().subscribe(response => {
                 this.showFaq = false;
                 this.showTerms = true;
+                this.aboutUs = false;
                 this.termsData = response.json().result[0];
             }, error => {
 
@@ -40,7 +43,35 @@ export class StaticComponent implements OnInit {
             this.showRating = true;
             this.showFaq = false;
             this.showTerms = false;
+            this.aboutUs = false;
             this.rateSub();
+        } else if (this.pageNav === "aboutUs") {
+            this.mainServe.terms().subscribe(response => {
+                this.showRating = false;
+                this.showFaq = false;
+                this.showTerms = false;
+                this.aboutUs = true;
+                this.aboutusData = response.json().result[0];
+            }, error => {
+            })
+        } else if (this.pageNav === "privacyPolicy") {
+            this.mainServe.terms().subscribe(response => {
+                this.showRating = false;
+                this.showFaq = false;
+                this.showTerms = false;
+                this.aboutUs = true;
+                this.aboutusData = response.json().result[0];
+            }, error => {
+            })
+        } else if (this.pageNav === "contactUs") {
+            this.mainServe.terms().subscribe(response => {
+                this.showRating = false;
+                this.showFaq = false;
+                this.showTerms = false;
+                this.aboutUs = true;
+                this.aboutusData = response.json().result[0];
+            }, error => {
+            })
         }
 
         this.getDashboard();
@@ -72,6 +103,9 @@ export class StaticComponent implements OnInit {
         }
 
     }
+
+
+
 
 
     //header
@@ -154,6 +188,13 @@ export class StaticComponent implements OnInit {
 
         })
     }
-
+    viewAll(action) {
+        let navigationExtras: NavigationExtras = {
+            queryParams: {
+                title: action
+            }
+        }
+        this.router.navigate(['/viewAll'], navigationExtras);
+    }
 
 }

@@ -41,6 +41,12 @@ export class ProductdetailsComponent implements OnInit {
     this.url = AppSettings.imageUrl;
     this.mainSer.getCartList();
   }
+
+  displayCounter(data) {
+    this.showProductDetails();
+    this.mainSer.getCartList();
+  }
+
   itemIncrease() {
     let thisObj = this;
 
@@ -227,7 +233,7 @@ export class ProductdetailsComponent implements OnInit {
   }
   selectedCat;
   showSubCat(id, i) {
-    this.selectedCat = i;
+    this.selectedCat = i; this.selectedCat = i;
     this.mainSer.showSubCat(id, i);
   }
 
@@ -280,5 +286,12 @@ export class ProductdetailsComponent implements OnInit {
     })
   }
 
-
+  viewAll(action) {
+    let navigationExtras: NavigationExtras = {
+      queryParams: {
+        title: action
+      }
+    }
+    this.router.navigate(['/viewAll'], navigationExtras);
+  }
 }

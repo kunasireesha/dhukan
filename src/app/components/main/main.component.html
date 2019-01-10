@@ -1,4 +1,5 @@
 <!-- start header -->
+<app-header (valueChange)='displayCounter($event)'></app-header>
 <div class="container main-header">
   <div class="row">
     <div class="col-lg-3">
@@ -164,10 +165,10 @@
               <a class="nav-link menu" href="#">SMART BASKET</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link menu" href="#">ALL OFFERS</a>
+              <a class="nav-link menu" (click)="viewAll('ALL OFFERS')">ALL OFFERS</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link menu" href="#">DEAL OF THE DAY</a>
+              <a class="nav-link menu" (click)="viewAll('BEST DEALS OF THE DAY')">DEAL OF THE DAY</a>
             </li>
             <li class="nav-item">
               <a class="nav-link menu" href="#">NEW ARRIVALS</a>
@@ -305,7 +306,7 @@
               <div class="row">
                 <div class="col-md-12 text-right">
                   <a (click)="addWish(products)">
-                    <fa name="heart" [ngClass]="{'wishlisted':products.iswishList==1}"></fa>
+                    <fa name="heart" [ngClass]="{'wishlisted':products.isWishlist==1}"></fa>
                   </a>
                 </div>
                 <div class="col-md-12 text-center">
@@ -316,20 +317,13 @@
                     <!-- <li> -->
                     <form>
                       <div class="form-group">
-                        <!-- <select [(ngModel)]="skid" (ngModelChange)="selectOption(skid)">
-                            <option *ngFor="let sku of products.sku">{{sku.sku}} </option>
-                          </select> -->
-                        <p (click)="showSizes(i)" *ngIf="showselecteddata && selected!==i" name="skid" class="sizes">{{products.sku[0].size}}</p>
-                        <p (click)="showSizes(i)" *ngIf="showselecteddata && selected==i" name="skid" [ngClass]="{'sizes':selecte.skid!==''}">{{selecte.skid}}</p>
-                        <!-- <p (click)="showSizes(i)" *ngIf="showselecteddata" name="skid" [ngClass]="{'sizes':selecte.skid!==''}">{{selecte.skid}}</p> -->
+
+                        <p (click)="showSizes(i)" *ngIf="showselecteddata && selectedsku!==i" name="skid" class="sizes">{{products.sku[0].size}}</p>
+                        <p (click)="showSizes(i)" *ngIf="showselecteddata && selectedsku==i" name="skid" [ngClass]="{'sizes':selecte.skid!==''}">{{selecte.skid}}</p>
                         <div *ngIf="showSizeData && selected==i" class="sizes size-drop">
-                          <p *ngFor="let sku of products.sku" (click)="showselected(sku.skid,sku.size,i,sku)">{{sku.size}}</p>
+                          <p *ngFor="let sku of products.sku" (click)="showselected(sku.skid,sku.size,i,sku,'main products')">{{sku.size}}</p>
                         </div>
-                        <!-- <select class="form-control input-field" id="exampleFormControlSelect1" [(ngModel)]="selecte.skid"
-                            name="skid" (change)="selectOption($event.target.value,i)">
-                            <option value="" disabled selected>Select Size..</option>
-                            <option *ngFor="let sku of products.sku" value="{{sku.skid}}">{{sku.size}} </option>
-                          </select> -->
+
                       </div>
                     </form>
                     <!-- </li> -->
@@ -358,25 +352,16 @@
                 <!-- product details -->
 
                 <div class="col-lg-12 col-md-12 col-sm-12 cart-btn">
-                  <!-- <div class="quantity"> -->
-                  <!-- <button class="minus-btn" type="button" name="button" [disabled]="notInCart == 'true'" (click)="itemDecrease(products.title)">
-                  <i class="fa fa-minus " aria-hidden="true"></i>
-                </button> -->
-                  <!-- <input type="text" name="mycart" readonly="readonly" [value]="products.quantity" /> -->
 
-                  <!-- <button class="plus-btn" type="button" name="button" (click)="itemIncrease(products.title)">
-                  <i class="fa fa-plus" aria-hidden="true"></i>
-                </button> -->
-                  <!-- </div> -->
                   <div class="quantity" [ngClass]="{'top':!notInCart && i === selected}">
-                    <button class="minus-btn" type="button" name="button" (click)="itemDecrease(products.id,products,i)"
+                    <button class="minus-btn" type="button" name="button" (click)="itemDecrease(products.id,products,i,'main products')"
                       *ngIf="!notInCart && i === selected">
                       <i class="fa fa-minus " aria-hidden="true"></i>
                     </button>
                     <lable *ngIf="notInCart || i !== selected">Quantity : </lable>
                     <input type="text" name="mycart" readonly="readonly" [value]="products.quantity" />
                     &nbsp;<lable *ngIf="!notInCart && i === selected">in cart</lable>&nbsp;
-                    <button class="plus-btn" type="button" name="button" (click)="itemIncrease(products,products.id,i)"
+                    <button class="plus-btn" type="button" name="button" (click)="itemIncrease(products,products.id,i,'main products')"
                       *ngIf="!notInCart && i === selected">
                       <i class="fa fa-plus" aria-hidden="true"></i>
                     </button>
@@ -384,7 +369,7 @@
                   <br *ngIf="!notInCart && i === selected" />
                 </div>
                 <div class="col-lg-12 col-md-12 col-sm-12 cart-btn cart-image-button" *ngIf="notInCart || i !== selected">
-                  <button class="btn category-btn" type="button" name="button" (click)="addCat(products,i,products.quantity)">
+                  <button class="btn category-btn" type="button" name="button" (click)="addCat(products,i,products.quantity,'main products')">
                     <span class="addbtn">Add</span>
                     <img class="addbtn" src="assets/images/online-shopping-cart.png">
                   </button>
@@ -401,7 +386,10 @@
             All</button>
         </div>
       </div> -->
+
     </div>
+
+
 
     <!-- <app-product></app-product> -->
 
@@ -440,7 +428,111 @@
       </div>
     </slide>
   </carousel>
-</div><br />
+</div>
+
+<div id="demo" class="carousel slide best-carousel best-deal" data-ride="carousel">
+  <!-- The slideshow -->
+  <h2 class="text-center">BEST DEALS OF THE DAY</h2>
+  <hr><br />
+  <div class="container">
+    <div class="carousel-item active">
+      <div class="col-lg-3 col-md-3 col-sm-6 col-xs-6  product-data" *ngFor="let products of firstArray;let i= index">
+        <div class="product" *ngIf="i<4">
+          <div class="container">
+            <div class="row">
+              <div class="col-md-12 text-right">
+                <a (click)="addWish(products)">
+                  <fa name="heart" [ngClass]="{'wishlisted':products.isWishlist==1}"></fa>
+                </a>
+              </div>
+              <div class="col-md-12 text-center">
+                <img [src]="products.product_image" class="img-fluid prodImage" (click)="ShowProductDetails(products.id)">
+              </div>
+              <div class="col-md-12 prices">
+                <div>
+                  <!-- <li> -->
+                  <form>
+                    <div class="form-group">
+
+                      <p (click)="showSizes(i)" *ngIf="showselecteddata && selectedsku!==i" name="skid" class="sizes">{{products.sku[0].size}}</p>
+                      <p (click)="showSizes(i)" *ngIf="showselecteddata && selectedsku==i " name="skid" [ngClass]="{'sizes':selecte.bdskid!==''}">{{selecte.bdskid}}</p>
+                      <div *ngIf="showSizeData && selectedsku==i" class="sizes size-drop">
+                        <p *ngFor="let sku of products.sku" (click)="showselected(sku.skid,sku.size,i,sku,'best deals of the day')">{{sku.size}}</p>
+                      </div>
+
+                    </div>
+                  </form>
+                  <!-- </li> -->
+                </div>
+                <div class="product-names text-center">
+                  <ul [ngClass]="{'afterDrop':showSizeData=='true' && selected==i}">
+
+                    <li>
+                      <h3 class="text-center">{{products.title}}</h3>
+                    </li>
+                    <li>MRP :
+                      <span class="price">{{products.skuActualPrice}} </span>
+                      <span class="offer-price"> {{products.sellingPrice}}</span>
+                    </li>
+                    <li>
+                      <span class="text-danger">{{ "offer-price" | translate}} {{products.skuActualPrice -
+                        products.sellingPrice || 0}}</span>
+                    </li>
+                    <li>
+                      <ngb-rating [(rate)]="products.rating" required></ngb-rating>
+
+                    </li>
+                  </ul>
+                </div>
+              </div>
+              <!-- product details -->
+
+              <div class="col-lg-12 col-md-12 col-sm-12 cart-btn">
+
+                <div class="quantity" [ngClass]="{'top':!notInCart && i === selected}">
+                  <button class="minus-btn" type="button" name="button" (click)="itemDecrease(products.id,products,i,'best deals of the day')"
+                    *ngIf="!notInCart && i === selected">
+                    <i class="fa fa-minus " aria-hidden="true"></i>
+                  </button>
+                  <lable *ngIf="notInCart || i !== selected">Quantity : </lable>
+                  <input type="text" name="mycart" readonly="readonly" [value]="products.quantity" />
+                  &nbsp;<lable *ngIf="!notInCart && i === selected">in cart</lable>&nbsp;
+                  <button class="plus-btn" type="button" name="button" (click)="itemIncrease(products,products.id,i,'best deals of the day')"
+                    *ngIf="!notInCart && i === selected">
+                    <i class="fa fa-plus" aria-hidden="true"></i>
+                  </button>
+                </div>
+                <br *ngIf="!notInCart && i === selected" />
+              </div>
+              <div class="col-lg-12 col-md-12 col-sm-12 cart-btn cart-image-button" *ngIf="notInCart || i !== selected">
+                <button class="btn category-btn" type="button" name="button" (click)="addCat(products,i,products.quantity,'best deals of the day')">
+                  <span class="addbtn">Add</span>
+                  <img class="addbtn" src="assets/images/online-shopping-cart.png">
+                </button>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+    </div>
+    <p *ngIf="nobestDealsdData" class="text-center">No Records Found</p>
+    <br />
+    <button class="btn btn-orange m-auto" (click)="viewAll('BEST DEALS OF THE DAY')"> Show More</button>
+
+
+  </div>
+
+  <!-- Left and right controls -->
+  <!-- <a class="carousel-control-prev" href="#demo" data-slide="prev" *ngIf="!noData">
+    <fa name="chevron-left" class="chevron-left"></fa>
+  </a>
+  <a class="carousel-control-next" href="#demo" data-slide="next" *ngIf="!noData">
+    <fa name="chevron-right" class="chevron-right"></fa>
+  </a> -->
+
+</div>
 
 <!-- deal of the day -->
 <!-- discount-banner -->
@@ -473,16 +565,107 @@
 
 <!-- discount-banner -->
 <!-- deal of the day -->
-<div class="container best-deal">
-  <!-- <h2 class="text-center">BEST DEALS</h2>
-  <hr> -->
-  <carousel>
-    <slide>
-      <div class="container">
-        <!-- <app-product></app-product> -->
+<div id="demo" class="carousel slide best-carousel best-deal" data-ride="carousel">
+  <!-- The slideshow -->
+  <h2 class="text-center">BEST DEALS</h2>
+  <hr><br />
+  <div class="container carousel-inner no-padding">
+    <div class="carousel-item active">
+      <div class="col-lg-3 col-md-3 col-sm-6 col-xs-6  product-data" *ngFor="let products of firstDealsArray;let i= index">
+        <div class="product" *ngIf="i<4">
+          <div class="container">
+            <div class="row">
+              <div class="col-md-12 text-right">
+                <a (click)="addWish(products)">
+                  <fa name="heart" [ngClass]="{'wishlisted':products.isWishlist==1}"></fa>
+                </a>
+              </div>
+              <div class="col-md-12 text-center">
+                <img [src]="products.product_image" class="img-fluid prodImage" (click)="ShowProductDetails(products.id)">
+              </div>
+              <div class="col-md-12 prices">
+                <div>
+                  <!-- <li> -->
+                  <form>
+                    <div class="form-group">
+
+                      <p (click)="showSizes(i)" *ngIf="showselecteddata && selectedsku!==i" name="skid" class="sizes">{{products.sku[0].size}}</p>
+                      <p (click)="showSizes(i)" *ngIf="showselecteddata && selectedsku==i " name="skid" [ngClass]="{'sizes':selecte.dskid!==''}">{{selecte.dskid}}</p>
+                      <div *ngIf="showSizeData && selectedsku==i" class="sizes size-drop">
+                        <p *ngFor="let sku of products.sku" (click)="showselected(sku.skid,sku.size,i,sku,'best deals')">{{sku.size}}</p>
+                      </div>
+
+                    </div>
+                  </form>
+                  <!-- </li> -->
+                </div>
+                <div class="product-names text-center">
+                  <ul [ngClass]="{'afterDrop':showSizeData=='true' && selected==i}">
+
+                    <li>
+                      <h3 class="text-center">{{products.title}}</h3>
+                    </li>
+                    <li>MRP :
+                      <span class="price">{{products.skuActualPrice}} </span>
+                      <span class="offer-price"> {{products.sellingPrice}}</span>
+                    </li>
+                    <li>
+                      <span class="text-danger">{{ "offer-price" | translate}} {{products.skuActualPrice -
+                        products.sellingPrice || 0}}</span>
+                    </li>
+                    <li>
+                      <ngb-rating [(rate)]="products.rating" required></ngb-rating>
+
+                    </li>
+                  </ul>
+                </div>
+              </div>
+              <!-- product details -->
+
+              <div class="col-lg-12 col-md-12 col-sm-12 cart-btn">
+
+                <div class="quantity" [ngClass]="{'top':!notInCart && i === selected}">
+                  <button class="minus-btn" type="button" name="button" (click)="itemDecrease(products.id,products,i,'best deals')"
+                    *ngIf="!notInCart && i === selected">
+                    <i class="fa fa-minus " aria-hidden="true"></i>
+                  </button>
+                  <lable *ngIf="notInCart || i !== selected">Quantity : </lable>
+                  <input type="text" name="mycart" readonly="readonly" [value]="products.quantity" />
+                  &nbsp;<lable *ngIf="!notInCart && i === selected">in cart</lable>&nbsp;
+                  <button class="plus-btn" type="button" name="button" (click)="itemIncrease(products,products.id,i,'best deals')"
+                    *ngIf="!notInCart && i === selected">
+                    <i class="fa fa-plus" aria-hidden="true"></i>
+                  </button>
+                </div>
+                <br *ngIf="!notInCart && i === selected" />
+              </div>
+              <div class="col-lg-12 col-md-12 col-sm-12 cart-btn cart-image-button" *ngIf="notInCart || i !== selected">
+                <button class="btn category-btn" type="button" name="button" (click)="addCat(products,i,products.quantity,'best deals')">
+                  <span class="addbtn">Add</span>
+                  <img class="addbtn" src="assets/images/online-shopping-cart.png">
+                </button>
+              </div>
+            </div>
+
+          </div>
+        </div>
       </div>
-    </slide>
-  </carousel>
+
+    </div>
+    <p *ngIf="nobestDeals" class="text-center">No Records Found</p>
+    <br />
+    <button class="btn btn-orange m-auto" (click)="viewAll('BEST DEALS')"> Show More</button>
+
+
+  </div>
+
+  <!-- Left and right controls -->
+  <!-- <a class="carousel-control-prev" href="#demo" data-slide="prev">
+    <fa name="chevron-left" class="chevron-left"></fa>
+  </a>
+  <a class="carousel-control-next" href="#demo" data-slide="next">
+    <fa name="chevron-right" class="chevron-right"></fa>
+  </a> -->
 </div>
 
 <!-- deal of the day -->
@@ -595,17 +778,111 @@
 <!-- best in appliances -->
 <!-- <angular-image-slider [images]="allProductsData"></angular-image-slider> -->
 <!-- deal of the day -->
-<div class="container best-deal">
-  <!-- <h2 class="text-center">BEST DEALS ON APPLIANCES</h2>
-  <hr> -->
-  <carousel>
-    <slide>
-      <div class="container">
-        <!-- <app-product></app-product> -->
+<div id="demo" class="carousel slide best-carousel best-deal" data-ride="carousel">
+  <!-- The slideshow -->
+  <h2 class="text-center">BEST DEALS ON APPLIANCES</h2>
+  <hr><br />
+  <div class="container carousel-inner no-padding">
+    <div class="carousel-item active">
+      <div class="col-lg-3 col-md-3 col-sm-6 col-xs-6  product-data" *ngFor="let products of firstAppliancesArray;let i= index">
+        <div class="product" *ngIf="i<4">
+          <div class="container">
+            <div class="row">
+              <div class="col-md-12 text-right">
+                <a (click)="addWish(products)">
+                  <fa name="heart" [ngClass]="{'wishlisted':products.isWishlist==1}"></fa>
+                </a>
+              </div>
+              <div class="col-md-12 text-center">
+                <img [src]="products.product_image" class="img-fluid prodImage" (click)="ShowProductDetails(products.id)">
+              </div>
+              <div class="col-md-12 prices">
+                <div>
+                  <!-- <li> -->
+                  <form>
+                    <div class="form-group">
+
+                      <p (click)="showSizes(i)" *ngIf="showselecteddata && selectedsku!==i" name="skid" class="sizes">{{products.sku[0].size}}</p>
+                      <p (click)="showSizes(i)" *ngIf="showselecteddata && selectedsku==i " name="skid" [ngClass]="{'sizes':selecte.baskid!==''}">{{selecte.baskid}}</p>
+                      <div *ngIf="showSizeData && selectedsku==i" class="sizes size-drop">
+                        <p *ngFor="let sku of products.sku" (click)="showselected(sku.skid,sku.size,i,sku,'best applicance')">{{sku.size}}</p>
+                      </div>
+
+                    </div>
+                  </form>
+                  <!-- </li> -->
+                </div>
+                <div class="product-names text-center">
+                  <ul [ngClass]="{'afterDrop':showSizeData=='true' && selected==i}">
+
+                    <li>
+                      <h3 class="text-center">{{products.title}}</h3>
+                    </li>
+                    <li>MRP :
+                      <span class="price">{{products.skuActualPrice}} </span>
+                      <span class="offer-price"> {{products.sellingPrice}}</span>
+                    </li>
+                    <li>
+                      <span class="text-danger">{{ "offer-price" | translate}} {{products.skuActualPrice -
+                        products.sellingPrice || 0}}</span>
+                    </li>
+                    <li>
+                      <ngb-rating [(rate)]="products.rating" required></ngb-rating>
+
+                    </li>
+                  </ul>
+                </div>
+              </div>
+              <!-- product details -->
+
+              <div class="col-lg-12 col-md-12 col-sm-12 cart-btn">
+
+                <div class="quantity" [ngClass]="{'top':!notInCart && i === selected}">
+                  <button class="minus-btn" type="button" name="button" (click)="itemDecrease(products.id,products,i,'best applicance')"
+                    *ngIf="!notInCart && i === selected">
+                    <i class="fa fa-minus " aria-hidden="true"></i>
+                  </button>
+                  <lable *ngIf="notInCart || i !== selected">Quantity : </lable>
+                  <input type="text" name="mycart" readonly="readonly" [value]="products.quantity" />
+                  &nbsp;<lable *ngIf="!notInCart && i === selected">in cart</lable>&nbsp;
+                  <button class="plus-btn" type="button" name="button" (click)="itemIncrease(products,products.id,i,'best applicance')"
+                    *ngIf="!notInCart && i === selected">
+                    <i class="fa fa-plus" aria-hidden="true"></i>
+                  </button>
+                </div>
+                <br *ngIf="!notInCart && i === selected" />
+              </div>
+              <div class="col-lg-12 col-md-12 col-sm-12 cart-btn cart-image-button" *ngIf="notInCart || i !== selected">
+                <button class="btn category-btn" type="button" name="button" (click)="addCat(products,i,products.quantity,'best applicance')">
+                  <span class="addbtn">Add</span>
+                  <img class="addbtn" src="assets/images/online-shopping-cart.png">
+                </button>
+              </div>
+            </div>
+
+          </div>
+        </div>
       </div>
-    </slide>
-  </carousel><br />
+
+    </div>
+    <p *ngIf="noappliances" class="text-center">No Records Found</p><br />
+
+    <button class="btn btn-orange m-auto" (click)="viewAll('BEST DEALS ON APPLIANCES')"> Show More</button>
+
+
+  </div>
+
+  <!-- Left and right controls -->
+  <!-- <a class="carousel-control-prev" href="#demo" data-slide="prev">
+    <fa name="chevron-left" class="chevron-left"></fa>
+  </a>
+  <a class="carousel-control-next" href="#demo" data-slide="next">
+    <fa name="chevron-right" class="chevron-right"></fa>
+  </a> -->
 </div>
+
+
+
 <div class="container best-deal">
   <h2>POPULAR BRANDS</h2>
   <hr>

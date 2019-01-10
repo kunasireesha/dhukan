@@ -43,6 +43,11 @@ export class ViewcartComponent implements OnInit {
     this.getCartList();
     this.getDashboard();
   }
+
+  displayCounter(data) {
+    this.getCartList();
+    this.getDashboard();
+  }
   prodId;
   quantiy;
   prodSku;
@@ -246,6 +251,15 @@ export class ViewcartComponent implements OnInit {
       this.Total = response.json().cart.grand_total.toFixed(2);
       this.saving = response.json().cart.mrp - this.Total;
     })
+  }
+
+  viewAll(action) {
+    let navigationExtras: NavigationExtras = {
+      queryParams: {
+        title: action
+      }
+    }
+    this.router.navigate(['/viewAll'], navigationExtras);
   }
 
 

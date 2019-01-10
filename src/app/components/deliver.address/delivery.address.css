@@ -254,3 +254,19 @@
 .activeVocher {
   background-color: #f19820 !important;
 }
+
+.ok-div {
+  margin-top: 50px;
+}
+
+.ok-div img {
+  margin: auto;
+  display: block;
+  height: 250px;
+  width: 200px;
+}
+
+.ok-btn {
+  margin: auto;
+  display: block;
+}

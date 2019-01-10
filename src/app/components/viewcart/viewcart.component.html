@@ -1,4 +1,5 @@
 <!-- start header -->
+<app-header (valueChange)='displayCounter($event)'></app-header>
 <div class="container main-header">
   <div class="row">
     <div class="col-lg-3">
@@ -157,10 +158,10 @@
               <a class="nav-link menu" href="#">SMART BASKET</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link menu" href="#">ALL OFFERS</a>
+              <a class="nav-link menu" (click)="viewAll('ALL OFFERS')">ALL OFFERS</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link menu" href="#">DEAL OF THE DAY</a>
+              <a class="nav-link menu" (click)="viewAll('BEST DEALS OF THE DAY')">DEAL OF THE DAY</a>
             </li>
             <li class="nav-item">
               <a class="nav-link menu" href="#">NEW ARRIVALS</a>
@@ -367,14 +368,14 @@
   </div>
 
   <!-- deal of the day -->
-  <div class="container-fluid best-deal best-deal-products">
+  <!-- <div class="container-fluid best-deal best-deal-products">
     <app-product-slider></app-product-slider>
     <div class="row justify-content-center show-more-button">
       <div class="col-lg-2">
         <button type="submit" class="btn button submit-button">Show More</button>
       </div>
     </div>
-  </div>
+  </div> -->
   <!-- deal of the day -->
 </div>
 

@@ -54,6 +54,10 @@ export class ProductComponent implements OnInit {
         // this.getDashboard();
 
     }
+
+    displayCounter(data) {
+        this.groupPosts = this.groupByCategory(this.data);
+    }
     itemIncrease(index) {
         this.selected = index;
         let thisObj = this;
