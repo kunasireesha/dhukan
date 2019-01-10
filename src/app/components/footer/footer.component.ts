@@ -15,12 +15,12 @@ export class FooterComponent implements OnInit {
   }
 
   myprofile() {
-    if (localStorage.toke !== undefined) {
-      this.router.navigate(['/myprofile']);
-    } else {
+    if (localStorage.token === undefined) {
       swal('Please Login', '', 'warning');
       return;
+
+    } else {
+      this.router.navigate(['/myprofile']);
     }
   }
-
 }

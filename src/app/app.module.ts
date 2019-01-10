@@ -19,6 +19,8 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { MyDatePickerModule } from 'mydatepicker';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { AgmCoreModule } from '@agm/core';
+import { SafePipeModule } from 'safe-pipe';
+
 //components
 import { AppComponent } from './app.component';
 import { MainComponent } from './components/main/main.component';
@@ -108,6 +110,7 @@ export function getAuthServiceConfigs() {
 		ImageZoomModule,
 		HttpModule,
 		NgSelectModule,
+		SafePipeModule,
 		ReactiveFormsModule,
 		AgmCoreModule.forRoot({
 			apiKey: "AIzaSyClUICP4-qGf2r4SSCZF5MzbSFXT6mIbvM",
@@ -227,6 +230,11 @@ export function getAuthServiceConfigs() {
 				path: 'contactUs',
 				component: StaticComponent,
 				data: [{ page: 'contactUs' }]
+			},
+			{
+				path: 'deliveryInfo',
+				component: StaticComponent,
+				data: [{ page: 'deliveryInfo' }]
 			},
 			{
 				path: 'search',

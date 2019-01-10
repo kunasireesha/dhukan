@@ -14,28 +14,40 @@ export class StaticComponent implements OnInit {
     showFaq;
     faqData;
     showTerms;
-    termsData;
+    termsData: string;
     showRating;
     currentRate;
     feedback;
     aboutusData;
+    deliveryData;
+    privacyPolicyData;
     aboutUs = false;
+    privacy = false;
+    deliveryInfo = false;
+    contactUs = false;
     constructor(public mainServe: MainService, public router: Router, private route: ActivatedRoute, public headerComp: HeaderComponent) {
         this.pageNav = this.route.snapshot.data[0].page;
         if (this.pageNav === "faq") {
             this.mainServe.faq().subscribe(response => {
                 this.showTerms = false;
                 this.showFaq = true;
+                this.deliveryInfo = false;
+                this.aboutUs = false;
+                this.privacy = false;
                 this.faqData = response.json().result;
             }, error => {
 
             })
         } else if (this.pageNav === "termsandcond") {
             this.mainServe.terms().subscribe(response => {
+
                 this.showFaq = false;
                 this.showTerms = true;
                 this.aboutUs = false;
-                this.termsData = response.json().result[0];
+                this.privacy = false;
+                this.deliveryInfo = false;
+                this.termsData = atob(response.json().result[0].description);
+                console.log(this.termsData);
             }, error => {
 
             })
@@ -44,23 +56,29 @@ export class StaticComponent implements OnInit {
             this.showFaq = false;
             this.showTerms = false;
             this.aboutUs = false;
+            this.deliveryInfo = false;
+            this.privacy = false;
             this.rateSub();
         } else if (this.pageNav === "aboutUs") {
-            this.mainServe.terms().subscribe(response => {
+            this.mainServe.aboutUs().subscribe(response => {
                 this.showRating = false;
                 this.showFaq = false;
                 this.showTerms = false;
                 this.aboutUs = true;
-                this.aboutusData = response.json().result[0];
+                this.privacy = false;
+                this.deliveryInfo = false;
+                this.aboutusData = atob(response.json().result[0].description);
             }, error => {
             })
         } else if (this.pageNav === "privacyPolicy") {
-            this.mainServe.terms().subscribe(response => {
+            this.mainServe.privacyPolicy().subscribe(response => {
                 this.showRating = false;
                 this.showFaq = false;
                 this.showTerms = false;
-                this.aboutUs = true;
-                this.aboutusData = response.json().result[0];
+                this.privacy = true;
+                this.aboutUs = false;
+                this.deliveryInfo = false;
+                this.privacyPolicyData = atob(response.json().result[0].description);
             }, error => {
             })
         } else if (this.pageNav === "contactUs") {
@@ -68,8 +86,22 @@ export class StaticComponent implements OnInit {
                 this.showRating = false;
                 this.showFaq = false;
                 this.showTerms = false;
-                this.aboutUs = true;
+                this.contactUs = true;
+                this.privacy = false;
+                this.aboutUs = false;
+                this.deliveryInfo = false;
                 this.aboutusData = response.json().result[0];
+            }, error => {
+            })
+        } else if (this.pageNav === "deliveryInfo") {
+            this.mainServe.deliveryInfo().subscribe(response => {
+                this.showRating = false;
+                this.showFaq = false;
+                this.showTerms = false;
+                this.aboutUs = false;
+                this.privacy = false;
+                this.deliveryInfo = true;
+                this.deliveryData = atob(response.json().result[0].description);
             }, error => {
             })
         }
@@ -189,6 +221,12 @@ export class StaticComponent implements OnInit {
         })
     }
     viewAll(action) {
+        if (action === 'SMART BASKET') {
+            if (localStorage.token === undefined) {
+                swal('Please Login', '', 'warning');
+                return;
+            }
+        }
         let navigationExtras: NavigationExtras = {
             queryParams: {
                 title: action

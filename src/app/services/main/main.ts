@@ -150,8 +150,22 @@ export class MainService {
         return this.getInputParams('users/faq')
     }
     terms(): Observable<any> {
-        return this.getInputParams('users/terms_and_conditions')
+        return this.getInputParams('footer/gettermes')
     }
+
+    aboutUs(): Observable<any> {
+        return this.getInputParams('footer/aboutus')
+    }
+
+    privacyPolicy(): Observable<any> {
+        return this.getInputParams('footer/prevent')
+    }
+
+    deliveryInfo(): Observable<any> {
+        return this.getInputParams('footer/DeliveryInfo')
+    }
+
+
     rateChange(params): Observable<any> {
         return this.postInputParams('users/rate/app', params)
     }

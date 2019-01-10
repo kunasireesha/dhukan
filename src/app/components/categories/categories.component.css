@@ -48,7 +48,7 @@
 }
 
 .brand-filter {
-  height: 140px;
+  height: 300px;
   overflow: auto;
 }
 
@@ -87,4 +87,29 @@
 
 .noData {
   margin-left: 44%;
+}
+
+
+.check-a {
+  width: 17px;
+  height: 16px;
+  background-color: #dee2e6;
+  border-radius: 3px;
+  position: absolute;
+  top: 5px;
+  left: -2px;
+}
+
+.check-img {
+  height: 10px;
+  width: 10px;
+  position: relative;
+  left: 19%;
+  top: -7px;
+}
+
+
+.active-a {
+  border: 1px solid #000000;
+  background-color: white;
 }

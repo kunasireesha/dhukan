@@ -4,6 +4,8 @@ import { MainService } from '../../services/main/main';
 import { HeaderService } from '../../services/header/header';
 import { HeaderComponent } from '../header/header.component';
 import { NgbRatingConfig } from '@ng-bootstrap/ng-bootstrap';
+import { Http, Headers } from '@angular/http';
+import { AppSettings } from '../../config';
 
 @Component({
     selector: 'app-categories',
@@ -18,6 +20,7 @@ export class CategoriesComponent implements OnInit {
         private mainServe: MainService,
         private headerSer: HeaderService,
         public headerComp: HeaderComponent,
+        public http: Http,
         config: NgbRatingConfig) {
 
         config.max = 5;
@@ -45,6 +48,7 @@ export class CategoriesComponent implements OnInit {
     ngOnInit() {
         // this.getCategories();
         this.mainServe.showCategories = false;
+        this.getBrands();
     }
 
     displayCounter(data) {
@@ -576,8 +580,15 @@ export class CategoriesComponent implements OnInit {
         };
         this.router.navigate(["/categoriesProducts"], navigationExtras)
     }
-
+    brands = [];
+    selectedBrnd;
     viewAll(action) {
+        if (action === 'SMART BASKET') {
+            if (localStorage.token === undefined) {
+                swal('Please Login', '', 'warning');
+                return;
+            }
+        }
         let navigationExtras: NavigationExtras = {
             queryParams: {
                 title: action
@@ -586,5 +597,19 @@ export class CategoriesComponent implements OnInit {
         this.router.navigate(['/viewAll'], navigationExtras);
     }
 
+    getBrands() {
+        const headers = new Headers({
+            'Content-Type': "application/x-www-form-urlencoded",
+            'token': (localStorage.token === undefined) ? '' : JSON.parse(localStorage.token),
+            'Session_id': localStorage.session
+        });
+        this.http.get(AppSettings.baseUrl + 'products/getbrandes', { headers: headers }).subscribe(response => {
+            this.brands = response.json().result;
+        })
+    }
+
+    selectBrand(action) {
+        this.selectedBrnd = action;
+    }
 }
 

@@ -731,7 +731,11 @@ export class AllProductsComponent implements OnInit {
                     this.allProducts[i].skuActualPrice = this.allProducts[i].sku[j].actual_price;
                     this.allProducts[i].rating = this.allProducts[i].sku[j].ratings;
                     this.allProducts[i].sellingPrice = this.allProducts[i].sku[j].selling_price;
-                    this.allProducts[i].product_image = this.allProducts[i].sku[j].skuImages[0];
+                    if (this.title = 'SMART BASKET') {
+                        this.allProducts[i].product_image = this.allProducts[i].sku[j].sku_images[0].sku_image;
+                    } else {
+                        this.allProducts[i].product_image = this.allProducts[i].sku[j].skuImages[0];
+                    }
                     if (this.allProducts[i].sku[j].mycart === 0 || undefined) {
                         this.allProducts[i].quantity = 1;
                         this.notInCart = true;
@@ -867,14 +871,14 @@ export class AllProductsComponent implements OnInit {
                                 this.allProducts[i].quantity = quantity;
                                 this.allProducts[i].skuActualPrice = this.skudata.actual_price;
                                 this.allProducts[i].sellingPrice = this.skudata.selling_price;
-                                this.allProducts[i].product_image = this.skudata.skuImages[0];
+                                this.allProducts[i].product_image = this.skudata.sku_images[0].sku_image;
                                 this.allProducts[i].rating = this.skudata.ratings;
                                 // this.selecte.skid = this.allProducts[i].sku[j].size;
                                 this.notInCart = false;
                                 this.selected = index;
                             } else {
                                 this.allProducts[i].quantity = 1;
-                                this.allProducts[i].product_image = this.allProducts[i].sku[0].skuImages[0];
+                                this.allProducts[i].product_image = this.allProducts[i].sku[0].sku_images[0].sku_image;
                                 // this.notInCart = true;
                             }
 
@@ -889,13 +893,15 @@ export class AllProductsComponent implements OnInit {
                             this.allProducts[i].sellingPrice = this.allProducts[i].sku[0].selling_price;
                             this.allProducts[i].quantity = 1;
                         }
-                        // this.allProducts[i].product_image = this.allProducts[i].sku[0].skuImages[0];
+                        this.allProducts[i].product_image = this.allProducts[i].sku[0].sku_images[0].sku_image;
                     }
                 }
                 if (prodData.product_id !== undefined) {
                     this.notInCart = true;
                 }
             }
+
+            console.log(this.allProducts);
         })
     }
 
@@ -969,6 +975,7 @@ export class AllProductsComponent implements OnInit {
     }
 
     viewAll(action) {
+
         if (action === 'BEST DEALS OF THE DAY') {
             this.title = 'BEST DEALS OF THE DAY';
             this.getDealsOftheDay('', '', '');
@@ -982,6 +989,10 @@ export class AllProductsComponent implements OnInit {
             this.title = 'ALL OFFERS';
             this.getAllOffers('', '', '');
         } else if (action === 'SMART BASKET') {
+            if (localStorage.token === undefined) {
+                swal('Please Login', '', 'warning');
+                return;
+            }
             this.title = 'SMART BASKET';
             this.getSmartBasket('', '', '');
         } else if (action === 'NEW ARRIVALS') {

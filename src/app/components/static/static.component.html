@@ -259,13 +259,101 @@
           <br />
 
           <div class="static">
-            <p>{{termsData.data}}</p>
+            <p [innerHTML]="termsData | safe: 'html'" class="terms-p"></p>
           </div>
         </div>
       </div>
     </div>
   </div>
 </section>
+
+
+<section *ngIf="aboutUs">
+  <div class="container">
+    <div class="row">
+
+      <div class="col-md-12">
+        <div class="cust-faq">
+          <br />
+          <h3 class="text-center">About Us</h3>
+          <br />
+
+          <div class="static">
+            <p [innerHTML]="aboutusData | safe: 'html'" class="terms-p"></p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<section *ngIf="privacy">
+  <div class="container">
+    <div class="row">
+
+      <div class="col-md-12">
+        <div class="cust-faq">
+          <br />
+          <h3 class="text-center">Privacy Policy</h3>
+          <br />
+
+          <div class="static">
+            <p [innerHTML]="privacyPolicyData | safe: 'html'" class="terms-p"></p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section *ngIf="deliveryInfo">
+  <div class="container">
+    <div class="row">
+
+      <div class="col-md-12">
+        <div class="cust-faq">
+          <br />
+          <h3 class="text-center">Delivery Information</h3>
+          <br />
+
+          <div class="static">
+            <p [innerHTML]="deliveryData | safe: 'html'" class="terms-p"></p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<section *ngIf="contactUs">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="cust-faq">
+          <br />
+          <h3 class="text-center">Contact Us</h3>
+          <br />
+
+          <div class="row">
+            <div class="col-md-4">
+              <h4 class="text-center">ADDRESS</h4>
+            </div>
+            <div class="col-md-4">
+              <h4 class="text-center">MAIL</h4>
+            </div>
+            <div class="col-md-4">
+              <h4 class="text-center">CONTACT NUMBER</h4>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
 <section *ngIf="showRating">
   <div class="container">
     <div class="row">

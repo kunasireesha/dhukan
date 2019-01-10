@@ -182,6 +182,12 @@ export class MyprofileListComponent implements OnInit {
   }
 
   viewAll(action) {
+    if (action === 'SMART BASKET') {
+      if (localStorage.token === undefined) {
+        swal('Please Login', '', 'warning');
+        return;
+      }
+    }
     let navigationExtras: NavigationExtras = {
       queryParams: {
         title: action

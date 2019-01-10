@@ -15,12 +15,22 @@ h3 {
 h5 {
   color: red;
 }
+
 .rate {
   font-size: 26px;
   text-align: center;
   margin-left: 405px !important;
 }
-textarea { vertical-align: top; }
-.btn-rate{
+
+textarea {
+  vertical-align: top;
+}
+
+.btn-rate {
   background: #f19820 !important;
+}
+
+.terms-p {
+  font-size: 18px;
+  font-weight: 600;
 }

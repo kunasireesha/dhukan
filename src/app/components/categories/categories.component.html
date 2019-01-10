@@ -300,75 +300,17 @@
         <div class="brand">
           <h2 class="category-heading">Brand</h2>
           <ul class="categories-list brand-filter">
-            <li class="active-category">
+            <li class="active-category" *ngFor="let brand of brands" (click)="selectBrand(brand.brand_name)">
               <div class="custom-control custom-checkbox terms-checkbox">
-                <input type="checkbox" class="custom-control-input terms-input" id="customCheck1p" checked>
-                <label class="custom-control-label terms-label" for="customCheck1p">Aenean sed</label>
+                <a class="check-a" [ngClass]="{'active-a':selectedBrnd==brand.brand_name}"><img *ngIf="selectedBrnd==brand.brand_name"
+                    src="assets/images/check-mark.png" [ngClass]="{'check-img':selectedBrnd==brand.brand_name}"></a>
+                <label>{{brand.brand_name}}</label>
               </div>
             </li>
-            <li>
-              <div class="custom-control custom-checkbox terms-checkbox">
-                <input type="checkbox" class="custom-control-input terms-input" id="customCheck1o" checked>
-                <label class="custom-control-label terms-label" for="customCheck1o">Ugue vitae arcu</label>
-              </div>
-            </li>
-            <li>
-              <div class="custom-control custom-checkbox terms-checkbox">
-                <input type="checkbox" class="custom-control-input terms-input" id="customCheck1fo" checked>
-                <label class="custom-control-label terms-label" for="customCheck1fo">ultricies aliquet</label>
-              </div>
-            </li>
-            <li>
-              <div class="custom-control custom-checkbox terms-checkbox">
-                <input type="checkbox" class="custom-control-input terms-input" id="customCheck1u" checked>
-                <label class="custom-control-label terms-label" for="customCheck1u">Fusce fringilla</label>
-              </div>
-            </li>
-            <li>
-              <div class="custom-control custom-checkbox terms-checkbox">
-                <input type="checkbox" class="custom-control-input terms-input" id="customCheck1y" checked>
-                <label class="custom-control-label terms-label" for="customCheck1y">Quisque</label>
-              </div>
-            </li>
-            <li>
-              <div class="custom-control custom-checkbox terms-checkbox">
-                <input type="checkbox" class="custom-control-input terms-input" id="customCheck1t" checked>
-                <label class="custom-control-label terms-label" for="customCheck1t">Aenean sed </label>
-              </div>
-            </li>
-            <li>
-              <div class="custom-control custom-checkbox terms-checkbox">
-                <input type="checkbox" class="custom-control-input terms-input" id="customCheck1r" checked>
-                <label class="custom-control-label terms-label" for="customCheck1r">Ugue vitae arcu </label>
-              </div>
-            </li>
-            <li>
-              <div class="custom-control custom-checkbox terms-checkbox">
-                <input type="checkbox" class="custom-control-input terms-input" id="customCheck1e" checked>
-                <label class="custom-control-label terms-label" for="customCheck1e">ultricies aliquet</label>
-              </div>
-            </li>
-            <li>
-              <div class="custom-control custom-checkbox terms-checkbox">
-                <input type="checkbox" class="custom-control-input terms-input" id="customCheck1w">
-                <label class="custom-control-label terms-label" for="customCheck1w">Ugue vitae arcu</label>
-              </div>
-            </li>
-            <li>
-              <div class="custom-control custom-checkbox terms-checkbox">
-                <input type="checkbox" class="custom-control-input terms-input" id="customCheck1q" checked>
-                <label class="custom-control-label terms-label" for="customCheck1q">Ugue vitae arcu</label>
-              </div>
-            </li>
-            <li>
-              <div class="custom-control custom-checkbox terms-checkbox">
-                <input type="checkbox" class="custom-control-input terms-input" id="customCheck1qvg" checked>
-                <label class="custom-control-label terms-label" for="customCheck1qvg">Category</label>
-              </div>
-            </li>
+
           </ul>
         </div>
-        <div class="categories-main-list">
+        <!-- <div class="categories-main-list">
           <h2 class="category-heading">Price</h2>
           <ul class="categories-list price-list">
             <li class="active-category">
@@ -408,8 +350,8 @@
               </div>
             </li>
           </ul>
-        </div>
-        <div class="categories-main-list">
+        </div> -->
+        <!-- <div class="categories-main-list">
           <h2 class="category-heading">Discount</h2>
           <ul class="categories-list">
 
@@ -426,7 +368,7 @@
               </div>
             </li>
           </ul>
-        </div>
+        </div> -->
       </div>
       <!-- category list -->
       <div class="col-lg-9">
