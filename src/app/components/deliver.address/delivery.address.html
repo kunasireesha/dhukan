@@ -124,40 +124,49 @@
         <div class="col-lg-12" *ngIf="showDeliveryOptions">
           <div class="row payment-options delivery-options">
             <div>
-              <h5> Delivery Options</h5>
+              <h5 style="padding-bottom: 10px;"> Delivery Options</h5>
             </div>
             <div class="row shipment-delivery">
               <div class="custom-control custom-radio custom-control-inline payment-radio-button align-self-center">
-                <input type="radio" id="customRadioInline1" name="customRadioInline1" class="custom-control-input payment-control-input"
-                  (click)="changedelivery('express')" checked>
-                <label class="custom-control-label payment-input-label" for="customRadioInline1">Express Delivery,
-                  Delivery
-                  Charge:Rs 30</label>
+                <!-- <input type="radio" id="customRadioInline1" name="customRadioInline1" class="custom-control-input payment-control-input"
+                  (click)="changedelivery('express')" checked> -->
+
+                <a class="input-a" [ngClass]="{'active-a':delType=='express'}"><span class="input-radio" (click)="changedelivery('express')"
+                    [ngClass]="{'active-span':delType=='express'}"></span></a>
+
+                Express Delivery,
+                Delivery
+                Charge:Rs 30
               </div>
               <div class="custom-control custom-radio custom-control-inline payment-radio-button radio-butn align-self-center">
-                <input type="radio" id="customRadioInline2" name="customRadioInline1" class="custom-control-input payment-control-input"
-                  (click)="changedelivery('normal')">
-                <label class="custom-control-label payment-input-label" for="customRadioInline2">Normal Delivery,
-                  Delivery
-                  Charge:Rs 50</label>
+                <!-- <input type="radio" id="customRadioInline2" name="customRadioInline1" class="custom-control-input payment-control-input"
+                  (click)="changedelivery('normal')"> -->
+                <a class="input-a" [ngClass]="{'active-a':delType=='normal'}"><span class="input-radio" (click)="changedelivery('normal')"
+                    [ngClass]="{'active-span':delType=='normal'}"></span></a>
+                Normal Delivery,
+                Delivery
+                Charge:Rs 50
               </div>
             </div>
             <div class="row express-delivery" *ngIf="express">
-              <div class="col-lg-6 shipment1">
+              <div class="col-lg-5 shipment1">
                 Shipment 1: Express Delivery
               </div>
-              <div class="col-lg-6 delivery-charge">
+              <div class="col-lg-3 delivery-charge">
                 {{expressDeliveryData.length}} Items Rs. {{exprsSum}} Delivery Charge:Rs.30
+              </div>
+              <div class="col-lg-4" style="position: relative;top: 19px;">
+                {{expected_time}}
               </div>
             </div>
             <div class="row express-delivery" *ngIf="express">
-              <div class="col-lg-4 shipment1">
+              <div class="col-lg-5 shipment1">
                 Shipment 2: Normal Delivery
               </div>
               <div class="col-lg-3 delivery-charge">
                 {{normalDeliveryData.length}} Items Rs. {{nrmlsum}} Delivery Charge:Rs.50
               </div>
-              <div class="col-lg-5 form">
+              <div class="col-lg-4 form">
                 <div class="form-group">
                   <label for="exampleFormControlSelect1"></label>
                   <select class="form-control form-border" id="exampleFormControlSelect1" (change)="changeSlot($event.target.value)">
@@ -200,19 +209,24 @@
       <!-- delivery options -->
       <div class="row payment-options">
         <div>
-          <h5> Payment Options</h5>
+          <h5 class="pay-optn"> Payment Options</h5>
         </div>
-        <div class="col-lg-12">
+
+        <div class="col-lg-12" *ngIf="showPayOptions">
           <div class="custom-control custom-radio custom-control-inline payment-radio-button">
-            <input type="radio" id="customRadioInline1" name="customRadioInline1" class="custom-control-input payment-control-input"
-              checked (click)="showPaymentopt('offers')">
-            <label class="custom-control-label payment-input-label" for="customRadioInline1">Payment Options With
-              Offers</label>
+            <!-- <input type="radio" id="customRadioInline3" name="customRadioInline3" class="custom-control-input payment-control-input"
+              (click)="showPaymentopt('offers')"> -->
+            <a class="input-a" [ngClass]="{'active-a':payType=='offers'}"><span class="input-radio" (click)="showPaymentopt('offers')"
+                [ngClass]="{'active-span':payType=='offers'}"></span></a>
+            Payment Options With
+            Offers
           </div>
           <div class="custom-control custom-radio custom-control-inline payment-radio-button options-button">
-            <input type="radio" id="customRadioInline2" name="customRadioInline1" class="custom-control-input payment-control-input"
-              (click)="showPaymentopt('banking')">
-            <label class="custom-control-label payment-input-label" for="customRadioInline2">Other Payment Options</label>
+            <!-- <input type="radio" id="customRadioInline4" name="customRadioInline4" class="custom-control-input payment-control-input"
+              (click)="showPaymentopt('banking')"> -->
+            <a class="input-a" [ngClass]="{'active-a':payType=='banking'}"><span class="input-radio" (click)="showPaymentopt('banking')"
+                [ngClass]="{'active-span':payType=='banking'}"></span></a>
+            Other Payment Options
           </div>
         </div>
 
@@ -308,12 +322,13 @@
             </label>
           </div>
         </div>
-        <div class="col-lg-6  text-center">
+        <div class="col-lg-6  text-center" *ngIf="showPayOptions">
           <button type="button" class="btn btn-cancel" (click)="cancelPayment()">CANCEL</button>
         </div>
-        <div class="col-lg-6  text-center">
+        <div class="col-lg-6  text-center" *ngIf="showPayOptions">
           <button type="button" class="btn btn-cancel col-lg-6 align-self-center" (click)="checkout()">PROCEED TO PAY</button>
         </div>
+
       </div>
 
     </div>

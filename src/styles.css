@@ -557,3 +557,12 @@ img {
 .best-carousel .active {
   background-color: white !important;
 }
+
+.activeHead {
+  background-color: #f19820 !important;
+
+}
+
+.activeHead a {
+  color: white !important;
+}

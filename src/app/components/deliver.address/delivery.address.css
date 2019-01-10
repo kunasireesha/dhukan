@@ -270,3 +270,38 @@
   margin: auto;
   display: block;
 }
+
+.input-radio {
+  background-color: gray;
+  width: 13px;
+  height: 13px;
+  border-radius: 19px;
+  border-color: 1px solid gray;
+  margin: 3px;
+  color: black;
+  display: flex;
+}
+
+.input-a {
+  border: 2px solid gray;
+  border-radius: 23px;
+  width: 23px;
+  height: 23px;
+  position: relative;
+  left: -20px;
+  top: 1px;
+  cursor: pointer;
+}
+
+.active-span {
+  background-color: #f19820 !important;
+}
+
+.active-a {
+  border: 2px solid #f19820;
+}
+
+.pay-optn {
+  color: gray;
+  padding-bottom: 20px;
+}

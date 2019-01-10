@@ -12,12 +12,12 @@ export class DeliveryComponent implements OnInit {
   showDeliveryOptions = false;
   showPaymentOptions = true;
   showDeliveryAddress = false;
-  showAddAddress = false;
+  showAddAddress = true;
   vocher;
   amount;
   summaryCart;
   showVochers = false;
-  showOffersPay = true;
+  showOffersPay = false;
   showBankingopt = false;
   showOptions = true;
   constructor(public mainServ: MainService, public profileSer: ProfileService) { }
@@ -55,8 +55,10 @@ export class DeliveryComponent implements OnInit {
   payOption;
   orderData;
   delType = 'express';
+  payType = 'offers'
   checkOutData = [];
   oderid;
+  showPayOptions = false;
   successMsg;
   ngOnInit() {
     window.scrollTo(0, 0);
@@ -89,6 +91,15 @@ export class DeliveryComponent implements OnInit {
   }
   openAddressOptions() {
     this.showDeliveryOptions = !this.showDeliveryOptions;
+    this.showPayOptions = false;
+    this.showOffersPay = false;
+    this.showBankingopt = false;
+  }
+
+  showPaymentOptionsScreen() {
+    this.showPayOptions = true;
+    this.showOffersPay = true;
+    this.showDeliveryOptions = false;
   }
 
   //UPDATE ADDRESS
@@ -102,6 +113,8 @@ export class DeliveryComponent implements OnInit {
       if (response.json().status === 200) {
         swal(response.json().message, '', 'success');
         this.changeDef = response.json();
+        this.showAddAddress = false;
+        this.showDeliveryOptions = true;
       } else {
         swal(response.json().message, '', 'error');
       }
@@ -129,6 +142,7 @@ export class DeliveryComponent implements OnInit {
   }
 
   showPaymentopt(action) {
+    this.payType = action;
     if (action === 'offers') {
       this.showOffersPay = true;
       this.showBankingopt = false;
@@ -137,15 +151,17 @@ export class DeliveryComponent implements OnInit {
       this.showOffersPay = false;
     }
   }
-
+  expected_time;
   changedelivery(action) {
     this.delType = action;
     if (action === 'express') {
       this.express = true;
       this.normal = false;
+      this.selectDeliveryOption();
     } else {
       this.normal = true;
       this.express = false;
+      this.selectDeliveryOption();
     }
   }
   selectDeliveryOption() {
@@ -157,9 +173,9 @@ export class DeliveryComponent implements OnInit {
     var prams = {
       delivery_type: this.delType
     }
-
     this.mainServ.getOrderSummary(prams).subscribe(res => {
       this.cartData = res.json().data.data;
+      this.expected_time = res.json().data.expected_time;
       this.deliverySlots = res.json().data.deliveryslot.time;
       this.address = res.json().data.user_address[0];
       this.paymentOptions = res.json().data.payment;

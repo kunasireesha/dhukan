@@ -153,7 +153,8 @@
               </a>
             </li>
             <li class="nav-item">
-              <a class="nav-link menu" href="#">SMART BASKET</a>
+              <a class="nav-link menu" (click)="viewAll('SMART BASKET')">SMART
+                BASKET</a>
             </li>
             <li class="nav-item">
               <a class="nav-link menu" (click)="viewAll('ALL OFFERS')">ALL OFFERS</a>
@@ -162,7 +163,7 @@
               <a class="nav-link menu" (click)="viewAll('BEST DEALS OF THE DAY')">DEAL OF THE DAY</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link menu" href="#">NEW ARRIVALS</a>
+              <a class="nav-link menu" (click)="viewAll('NEW ARRIVALS')">NEW ARRIVALS</a>
             </li>
           </ul>
         </div>
@@ -374,7 +375,7 @@
                 </label>
                 <div class="col-sm-8">
                   <form #myForm="ngForm" novalidate>
-                    <my-date-picker name="mydate" [options]="myDatePickerOptions" [(ngModel)]="formData.dob" required></my-date-picker>
+                    <my-date-picker name="mydate" [options]="myDatePickerOptions" [(ngModel)]="model" required></my-date-picker>
                   </form>
                   <!-- <input class="form-control" placeholder="15 Sep 1987" name="dp" [(ngModel)]="formData.dob"
                   ngbDatepicker #d="ngbDatepicker">

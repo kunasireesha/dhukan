@@ -8,6 +8,7 @@ import { HeaderComponent } from '../header/header.component';
 import { MainService } from './../../services/main/main';
 import { AppSettings } from '../../config';
 import { NgbRatingConfig } from '@ng-bootstrap/ng-bootstrap';
+import { IMyDpOptions } from 'mydatepicker';
 @Component({
   selector: 'app-myprofile-list',
   templateUrl: './myprofile-list.component.html',
@@ -79,6 +80,16 @@ export class MyprofileListComponent implements OnInit {
 
     this.getCartList();
   }
+  public myDatePickerOptions: IMyDpOptions = {
+    // other options...
+    dateFormat: 'dd.mm.yyyy',
+  };
+  public model = {
+    date:
+    {
+      year: 2018, month: 10, day: 9
+    }
+  };
   childPage: string;
   page: string;
   ShowChangePassword = false;
@@ -137,13 +148,24 @@ export class MyprofileListComponent implements OnInit {
     window.scrollTo(0, 0);
     this.getDashboard();
   }
-
-
+  dateNum;
+  converteddates;
+  formatedate = {
+    year: 0, month: 0, day: 0
+  }
   //get Profile details
   getProfileDetails() {
     this.profileSer.getProfileDetails().subscribe(response => {
       this.formData = response.json().data[0];
+      this.dateNum = this.formData.dob;
+      this.converteddates = new Date(this.dateNum);
       localStorage.setItem("userMobile", this.formData.phone);
+      this.formatedate = {
+        year: parseInt(this.converteddates.getFullYear()),
+        month: parseInt(this.converteddates.getMonth()),
+        day: parseInt(this.converteddates.getDate()),
+      }
+      this.model = { date: this.formatedate }
     })
   }
 
@@ -169,11 +191,16 @@ export class MyprofileListComponent implements OnInit {
   }
 
 
-
+  ngForm;
+  dates;
   //update Profile
   updateProfile() {
 
+    // this.model = this.model.date;
+
+    this.dates = this.model.date.year + '-' + this.model.date.month + '-' + this.model.date.day
     let validData = true;
+    console.log(this.dates);
     if (this.formData.first_name === '' || this.formData.first_name === undefined || this.formData.first_name === null) {
       validData = false;
     }
@@ -199,7 +226,7 @@ export class MyprofileListComponent implements OnInit {
       // }
       // this.date = " " + this.formData.dob.year + '.' + this.formData.dob.month + '.' + this.formData.dob.day
       var inData = "first_name=" + this.formData.first_name + "&last_name=" + this.formData.last_name + "&email=" + this.formData.email +
-        "&phone=" + this.formData.phone + "&dob=" + (this.formData.dob) + "&landline_number=" + this.formData.landline;
+        "&phone=" + this.formData.phone + "&dob=" + (this.dates) + "&landline_number=" + this.formData.landline;
       this.profileSer.updateProfile(inData).subscribe(response => {
         if (response.status === 200) {
           swal('Profile Updated Successfully', '', 'success');

@@ -154,17 +154,18 @@
               <a class="nav-link menu" href="#">HOME
               </a>
             </li>
-            <li class="nav-item">
-              <a class="nav-link menu" href="#">SMART BASKET</a>
+            <li class="nav-item" [ngClass]="{'activeHead':title=='SMART BASKET'}">
+              <a class="nav-link menu" (click)="viewAll('SMART BASKET')">SMART
+                BASKET</a>
             </li>
-            <li class="nav-item">
+            <li class="nav-item" [ngClass]="{'activeHead':title=='ALL OFFERS'}">
               <a class="nav-link menu" (click)="viewAll('ALL OFFERS')">ALL OFFERS</a>
             </li>
-            <li class="nav-item">
+            <li class="nav-item" [ngClass]="{'activeHead':title=='BEST DEALS OF THE DAY'}">
               <a class="nav-link menu" (click)="viewAll('BEST DEALS OF THE DAY')">DEAL OF THE DAY</a>
             </li>
-            <li class="nav-item">
-              <a class="nav-link menu" href="#">NEW ARRIVALS</a>
+            <li class="nav-item" [ngClass]="{'activeHead':title=='NEW ARRIVALS'}">
+              <a class="nav-link menu" (click)="viewAll('NEW ARRIVALS')">NEW ARRIVALS</a>
             </li>
           </ul>
         </div>
