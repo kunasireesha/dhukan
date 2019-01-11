@@ -236,6 +236,8 @@ export class MyprofileListComponent implements OnInit {
       this.profileSer.updateProfile(inData).subscribe(response => {
         if (response.status === 200) {
           swal('Profile Updated Successfully', '', 'success');
+          this.showProfile = true;
+          this.showEditProfile = false;
           this.getProfileDetails();
         }
       })

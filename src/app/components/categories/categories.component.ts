@@ -6,6 +6,7 @@ import { HeaderComponent } from '../header/header.component';
 import { NgbRatingConfig } from '@ng-bootstrap/ng-bootstrap';
 import { Http, Headers } from '@angular/http';
 import { AppSettings } from '../../config';
+import * as _ from 'underscore';
 
 @Component({
     selector: 'app-categories',
@@ -323,13 +324,16 @@ export class CategoriesComponent implements OnInit {
                             this.products.quantity = 1
                             this.notInCart = false;
                             this.selected = index;
-                            if (this.catId !== undefined) {
-                                this.getCatProducts(this.catId, index, products, quantity);
-                                this.mainServe.getAllCategoriesWithSubCat();
-                            } else {
-                                this.getSubProducts(this.subCatId, index, products, quantity);
-                                this.mainServe.getAllCategoriesWithSubCat();
-                            }
+                            if (this.selectedBrnd !== undefined) {
+                                this.selectBrand(index, products, quantity, this.selectedBrnd);
+                            } else
+                                if (this.catId !== undefined) {
+                                    this.getCatProducts(this.catId, index, products, quantity);
+                                    this.mainServe.getAllCategoriesWithSubCat();
+                                } else {
+                                    this.getSubProducts(this.subCatId, index, products, quantity);
+                                    this.mainServe.getAllCategoriesWithSubCat();
+                                }
                         } else {
                             swal(response.json().message, "", "error");
                             this.skId = undefined;
@@ -607,9 +611,104 @@ export class CategoriesComponent implements OnInit {
             this.brands = response.json().result;
         })
     }
-
-    selectBrand(action) {
+    dealResult = [];
+    brandsProducts = [];
+    first = [];
+    selectBrand(action, index, prodData, quantity) {
         this.selectedBrnd = action;
+
+        var params = {
+            brandname: action,
+            city: localStorage.city,
+            area: localStorage.area
+        }
+        this.mainServe.getBrandsProducts(params).subscribe(response => {
+            if (response.json().message === "No records found") {
+                this.noData = response.json().message;
+                this.allProducts = [];
+            } else {
+                this.dealResult = response.json().products;
+                for (var l = 0; l < this.dealResult.length; l++) {
+                    this.brandsProducts.push(this.dealResult[l].products[0]);
+                }
+
+                //first brands products array
+                for (var i = 0; i < this.brandsProducts.length; i++) {
+                    this.first.push(this.brandsProducts[i]);
+                }
+
+                this.allProducts = _.uniq(this.first, function (obj) {
+                    return obj.id;
+                })
+
+                this.showveg = true;
+                if (response.json().status == 400) {
+                    this.showveg = false;
+                    this.noData = true;
+                    this.noData = response.json().message;
+                } else {
+                    this.noData = false;
+                }
+
+                if (index !== '') {
+                    // this.selecte.skid = this.skId;
+                    // for (var i = 0; i < prodData.sku.length; i++) {
+                    //     if (this.selecte.skid === prodData.sku[i].size) {
+                    //         this.selecte.skid = prodData.sku[i].size;
+                    //         this.selected = index;
+                    //     }
+                    // }
+                    // this.skId = this.skId;
+                    if (this.allProducts !== undefined) {
+                        for (var i = 0; i < this.allProducts.length; i++) {
+                            for (var j = 0; j < this.allProducts[i].sku.length; j++) {
+                                if (prodData.id === this.allProducts[i].id) {
+                                    this.allProducts[i].quantity = quantity;
+                                    this.allProducts[i].skuActualPrice = this.skudata.actual_price;
+                                    this.allProducts[i].rating = this.skudata.ratings;
+                                    this.allProducts[i].sellingPrice = this.skudata.selling_price;
+                                    this.allProducts[i].product_image = this.skudata.skuImages[0];
+                                    // this.selecte.skid = this.allProducts[i].sku[j].size;
+                                    this.notInCart = false;
+                                    this.selected = index;
+                                    console.log(this.skudata);
+                                } else {
+                                    this.allProducts[i].quantity = 1;
+                                    this.allProducts[i].product_image = this.allProducts[i].sku[0].skuImages[0];
+                                    this.allProducts[i].skuActualPrice = this.allProducts[i].sku[0].actual_price;
+                                    this.allProducts[i].rating = this.allProducts[i].sku[0].ratings;
+                                    this.allProducts[i].sellingPrice = this.allProducts[i].sku[0].selling_price;
+                                    // this.notInCart = true;
+                                }
+
+                            }
+                        }
+                    }
+                } else {
+                    if (this.allProducts !== undefined) {
+                        for (var i = 0; i < this.allProducts.length; i++) {
+                            for (var j = 0; j < this.allProducts[i].sku.length; j++) {
+                                this.allProducts[i].skuActualPrice = this.allProducts[i].sku[0].actual_price;
+                                this.allProducts[i].rating = this.allProducts[i].sku[0].ratings;
+                                this.allProducts[i].sellingPrice = this.allProducts[i].sku[0].selling_price;
+                            }
+                            this.allProducts[i].quantity = 1;
+                            this.allProducts[i].product_image = this.allProducts[i].sku[0].skuImages[0];
+                        }
+                    }
+                }
+            }
+        }, error => {
+            if (error.json().status == 400) {
+                this.showveg = false;
+                this.noData = true;
+                this.noData = error.json().message;
+            }
+
+        })
     }
+
+
+
 }
 

@@ -226,7 +226,36 @@
     </div>
   </div>
 </section>
-
+<div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+  <!-- <ol class="slider-selector">
+    <li data-target="#carouselExampleIndicators" *ngFor="let image of offerBannerData; let i = index" data-slide-to="i"
+      class="bottom-indicators" [ngClass]="{'activeslide':i==0}">
+      {{image.name}}</li>
+  </ol> -->
+  <div class="carousel-inner">
+    <div class="carousel-item banner" *ngFor="let image of offerBannerData; let i = index" [ngClass]="{'active' : i == 0}"
+      (click)="viewAll(image.type)">
+      <img class="d-block w-100" [src]="image.website_bannerimage" alt="{{image.type}}">
+      <div class="carousel-caption d-none d-md-block slider-text">
+        <div class="shop-now-btn">
+          <!-- <button class="btn button" type="submit">Shop now</button> -->
+        </div>
+      </div>
+    </div>
+  </div>
+  <a class="carousel-control-prev slider-arrows-style" href="#carouselExampleIndicators" role="button" data-slide="prev">
+    <span class="carousel-control-prev-icon slider-arrow" aria-hidden="true">
+      <fa name="angle-left"></fa>
+    </span>
+    <span class="sr-only">Previous</span>
+  </a>
+  <a class="carousel-control-next slider-arrows-style" href="#carouselExampleIndicators" role="button" data-slide="next">
+    <span class="carousel-control-next-icon slider-arrow" aria-hidden="true">
+      <fa name="angle-right"></fa>
+    </span>
+    <span class="sr-only">Next</span>
+  </a>
+</div>
 
 <!-- end header -->
 <div class="container best-deal products-list" *ngIf="showAll">

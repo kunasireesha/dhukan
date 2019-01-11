@@ -6,6 +6,7 @@ import { HeaderComponent } from '../header/header.component';
 import { NgbRatingConfig } from '@ng-bootstrap/ng-bootstrap';
 import { Http, Headers } from '@angular/http';
 import { AppSettings } from '../../config';
+import * as _ from 'underscore';
 @Component({
     selector: 'app-allproducts',
     templateUrl: './allproducts.html',
@@ -761,7 +762,8 @@ export class AllProductsComponent implements OnInit {
 
         })
     }
-
+    offerBannerData = [];
+    offerBanner = [];
 
     //all offers
     getAllOffers(index, quantity, prodData) {
@@ -776,6 +778,13 @@ export class AllProductsComponent implements OnInit {
                 this.subTotal = response.json().summary.selling_price.toFixed(2);
                 this.Total = response.json().summary.grand_total.toFixed(2);
                 this.delasData = response.json().result;
+
+                this.offerBanner = _.filter(response.json().bannerInfo, function (obj) {
+                    return obj.banner_position === "Best Offers";
+                });
+
+                this.offerBannerData = this.offerBanner[0].banner;
+
 
                 for (var l = 0; l < this.delasData.length; l++) {
                     this.allProducts.push(this.delasData[l].products[0]);

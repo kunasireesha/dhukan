@@ -415,7 +415,7 @@ export class MainComponent implements OnInit {
                         this.skId = this.allProducts[i].sku[0].skid;
                         this.skudata = this.allProducts[i].sku[0];
                         this.selecte.skid = this.allProducts[i].sku[0].size;
-                        this.mainAddacrt(prodData, index, quantity, this.skId);
+                        this.mainAddacrt(prodData, index, quantity, this.skId, action);
                         // }
                         return;
                     }
@@ -426,7 +426,7 @@ export class MainComponent implements OnInit {
                         this.skId = this.firstArray[i].sku[0].skid;
                         this.skudata = this.firstArray[i].sku[0];
                         this.selecte.skid = this.firstArray[i].sku[0].size;
-                        this.mainAddacrt(prodData, index, quantity, this.skId);
+                        this.mainAddacrt(prodData, index, quantity, this.skId, action);
                         // }
                         return;
                     }
@@ -437,7 +437,7 @@ export class MainComponent implements OnInit {
                         this.skId = this.firstDealsArray[i].sku[0].skid;
                         this.skudata = this.firstDealsArray[i].sku[0];
                         this.selecte.skid = this.firstDealsArray[i].sku[0].size;
-                        this.mainAddacrt(prodData, index, quantity, this.skId);
+                        this.mainAddacrt(prodData, index, quantity, this.skId, action);
                         // }
                         return;
                     }
@@ -448,7 +448,7 @@ export class MainComponent implements OnInit {
                         this.skId = this.firstAppliancesArray[i].sku[0].skid;
                         this.skudata = this.firstAppliancesArray[i].sku[0];
                         this.selecte.skid = this.firstAppliancesArray[i].sku[0].size;
-                        this.mainAddacrt(prodData, index, quantity, this.skId);
+                        this.mainAddacrt(prodData, index, quantity, this.skId, action);
                         // }
                         return;
                     }
@@ -513,7 +513,7 @@ export class MainComponent implements OnInit {
 
     }
 
-    mainAddacrt(prodData, index, quantity, skId) {
+    mainAddacrt(prodData, index, quantity, skId, action) {
 
         var inData = "product_id=" + prodData.id +
             "&quantity=" + prodData.quantity +
@@ -524,10 +524,19 @@ export class MainComponent implements OnInit {
                 this.resData = response.json();
                 this.cartCount = response.json().summary.cart_count;
                 this.mainServe.getCartList();
-                this.getDashboard(index, quantity, prodData);
-                this.getBestDealsOftheDay(index, quantity, prodData);
-                this.getBestDeals(index, quantity, prodData);
-                this.getBestDealsOnAppliance(index, quantity, prodData);
+                if (action === 'main products') {
+                    this.getDashboard(index, quantity, prodData);
+                } else if (action === 'best deals of the day') {
+                    this.getBestDealsOftheDay(index, quantity, prodData);
+                } else if (action === 'best deals') {
+                    this.getBestDeals(index, quantity, prodData);
+                } else if (action === 'best applicance') {
+                    this.getBestDealsOnAppliance(index, quantity, prodData);
+                }
+
+
+
+
                 this.notInCart = false;
                 this.selected = index;
                 this.selectedsku = index;
