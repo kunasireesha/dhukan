@@ -24,3 +24,13 @@
 .sizes {
   padding: 3px !important;
 }
+
+.smart-basket .order-slots {
+  list-style: none;
+  background: #e6e6e6;
+  padding: 10px;
+  margin: auto;
+  display: block;
+  text-align: center;
+  border-bottom: 1px solid gray;
+}

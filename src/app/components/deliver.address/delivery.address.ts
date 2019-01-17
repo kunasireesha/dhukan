@@ -231,7 +231,10 @@ export class DeliveryComponent implements OnInit {
       oderid: this.orderData.order_id,
       delivery_type: this.delType,
       payment_type: this.payOption,
-      address: this.address.ua_id
+      addressId: this.address.ua_id,
+      address: this.address.ua_house_no + ',' + this.address.ua_apartment_name + ',' + this.address.ua_area_details + ',' + this.address.ua_city + ',' + this.address.ua_land_mark,
+      phone: this.address.ua_mobile_number
+
     }
 
     this.mainServ.cehckout(params).subscribe(res => {

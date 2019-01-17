@@ -45,6 +45,7 @@ export class HeaderComponent implements OnInit {
   positionValue2;
   city;
   area;
+  showSignin = false;
 
   @Output() valueChange = new EventEmitter();
 
@@ -408,6 +409,7 @@ export class HeaderComponent implements OnInit {
           localStorage.setItem('token', JSON.stringify(response.json().token));
           localStorage.setItem('userId', JSON.stringify(response.json().data.u_id));
           localStorage.setItem('userMobile', (response.json().data.phone));
+          localStorage.setItem('referalcode', response.json().data.referral_code);
           this.onCloseCancel();
           this.showProfile = true;
           this.phone = localStorage.userMobile;
@@ -530,23 +532,23 @@ export class HeaderComponent implements OnInit {
   }
 
   // facebooklogi
-  socialSignIn(socialPlatform: string) {
-    // let socialPlatformProvider;
-    // if (socialPlatform == "facebook") {
-    //   socialPlatformProvider = FacebookLoginProvider.PROVIDER_ID;
-    // } else if (socialPlatform == "google") {
-    //   socialPlatformProvider = GoogleLoginProvider.PROVIDER_ID;
-    // }
+  // socialSignIn(socialPlatform: string) {
+  // let socialPlatformProvider;
+  // if (socialPlatform == "facebook") {
+  //   socialPlatformProvider = FacebookLoginProvider.PROVIDER_ID;
+  // } else if (socialPlatform == "google") {
+  //   socialPlatformProvider = GoogleLoginProvider.PROVIDER_ID;
+  // }
 
-    // this.socialAuthService.signIn(socialPlatformProvider).then(
-    //   (userData) => {
-    //     console.log(socialPlatform + " sign in data : ", userData);
-    //     // Now sign-in with userData
-    //     // ...
+  // this.socialAuthService.signIn(socialPlatformProvider).then(
+  //   (userData) => {
+  //     console.log(socialPlatform + " sign in data : ", userData);
+  //     // Now sign-in with userData
+  //     // ...
 
-    //   }
-    // );
-  }
+  //   }
+  // );
+  // }
 
   prodId;
   quantiy;
@@ -778,6 +780,21 @@ export class HeaderComponent implements OnInit {
         }
       });
     });
+  }
+
+
+  socialSignIn(action) {
+    if (action === 'google') {
+      this.loginService.signInWithGoogle().then((res) => {
+        // swal("Login Successfully", " ", "success");
+        this.onCloseCancel();
+        this.showSignin = false;
+        this.showProfile = true;
+        this.showLogin = false;
+
+      })
+        .catch((err) => console.log(err));
+    }
   }
 }
 

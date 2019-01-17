@@ -271,8 +271,8 @@ export class MainService {
         return this.getParamsUrl('products/new_arrivals', '');
     }
 
-    getSmartBasket(): Observable<any> {
-        return this.getParamsUrl('dashboard/getsmartbucket', localStorage.userId);
+    getSmartBasket(orid): Observable<any> {
+        return this.getParamsUrl('dashboard/getsmartbucket', orid);
     }
 
 

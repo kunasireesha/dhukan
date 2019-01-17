@@ -20,6 +20,12 @@ import { MyDatePickerModule } from 'mydatepicker';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { AgmCoreModule } from '@agm/core';
 import { SafePipeModule } from 'safe-pipe';
+import { AngularFireModule } from 'angularfire2';
+import { AngularFireDatabaseModule } from 'angularfire2/database'
+import { AngularFirestoreModule } from 'angularfire2/firestore';
+import { AngularFireAuthModule } from 'angularfire2/auth';
+
+import { NgxPaginationModule } from 'ngx-pagination';
 
 //components
 import { AppComponent } from './app.component';
@@ -69,13 +75,24 @@ export function getAuthServiceConfigs() {
 			},
 			{
 				id: GoogleLoginProvider.PROVIDER_ID,
-				provider: new GoogleLoginProvider("Your-Google-Client-Id")
+				provider: new GoogleLoginProvider("849103706717-1kn7e8mhmb7cc4hudstp0e6bs0alqtsu.apps.googleusercontent.com")
 			}
 
 		]
 	);
 	return config;
 }
+
+
+
+var firebaseConfig = {
+	apiKey: "AIzaSyDuESqaJ9e1KykYB7QYo_8gF1CI-YgCNcE",
+	authDomain: "yesspree-d146f.firebaseapp.com",
+	databaseURL: "https://yesspree-d146f.firebaseio.com",
+	projectId: "yesspree-d146f",
+	storageBucket: "yesspree-d146f.appspot.com",
+	messagingSenderId: "849103706717"
+};
 
 @NgModule({
 	declarations: [
@@ -112,6 +129,11 @@ export function getAuthServiceConfigs() {
 		NgSelectModule,
 		SafePipeModule,
 		ReactiveFormsModule,
+		NgxPaginationModule,
+		AngularFireModule.initializeApp(firebaseConfig),
+		AngularFirestoreModule,
+		AngularFireDatabaseModule,
+		AngularFireAuthModule,
 		AgmCoreModule.forRoot({
 			apiKey: "AIzaSyClUICP4-qGf2r4SSCZF5MzbSFXT6mIbvM",
 			libraries: ["places"]
@@ -240,10 +262,11 @@ export function getAuthServiceConfigs() {
 				path: 'search',
 				component: SearchproductsComponent
 			},
-			// {
-			// 	path: 'viewAll',
-			// 	component: AllProductsComponent
-			// },
+			{
+				path: 'smartBasket',
+				component: AllProductsComponent,
+				data: [{ page: 'smartBasket' }]
+			},
 			{
 				path: 'mywishlist',
 				component: AllProductsComponent,

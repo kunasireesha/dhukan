@@ -51,7 +51,10 @@
     "safe-pipe": "^0.3.0",
     "sweetalert": "^2.1.0",
     "underscore": "^1.9.0",
-    "zone.js": "^0.8.26"
+    "zone.js": "^0.8.26",
+    "firebase": "^5.5.2",
+    "ngx-pagination": "^3.2.1",
+    "angularfire2": "^5.0.2"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "~0.6.5",

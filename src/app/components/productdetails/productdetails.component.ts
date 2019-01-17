@@ -292,12 +292,20 @@ export class ProductdetailsComponent implements OnInit {
         swal('Please Login', '', 'warning');
         return;
       }
-    }
-    let navigationExtras: NavigationExtras = {
-      queryParams: {
-        title: action
+      let navigationExtras: NavigationExtras = {
+        queryParams: {
+          title: action
+        }
       }
+      this.router.navigate(['/smartBasket'], navigationExtras);
+      return;
+    } else {
+      let navigationExtras: NavigationExtras = {
+        queryParams: {
+          title: action
+        }
+      }
+      this.router.navigate(['/viewAll'], navigationExtras);
     }
-    this.router.navigate(['/viewAll'], navigationExtras);
   }
 }

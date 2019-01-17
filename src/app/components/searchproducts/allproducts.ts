@@ -22,11 +22,15 @@ export class AllProductsComponent implements OnInit {
     prodId;
     showselecteddifdata = true;
     skudata;
+    offersData = false;
+    showBasketData = false;
     selecte = {
         skid: ''
     }
     wishData;
     wishListData = [];
+    orderId;
+    ordersData: any[];
     constructor(private router: Router,
         private route: ActivatedRoute,
         public mainSer: MainService,
@@ -44,6 +48,7 @@ export class AllProductsComponent implements OnInit {
         if (this.page === 'mywishlist') {
             this.showAll = false;
             this.showWish = true;
+            this.showBasketData = false;
             this.getWishList();
             // this.myprofileData = true;
             // this.childPage = 'My Profile';
@@ -52,6 +57,7 @@ export class AllProductsComponent implements OnInit {
             // this.getAllProducts();
             this.showAll = true;
             this.showWish = false;
+            this.showBasketData = false;
             if (this.title === 'BEST DEALS OF THE DAY') {
                 this.getDealsOftheDay('', '', '');
             } else if (this.title === 'BEST DEALS') {
@@ -60,14 +66,19 @@ export class AllProductsComponent implements OnInit {
                 this.getDealsOnAppliances('', '', '');
             } else if (this.title === 'ALL OFFERS') {
                 this.getAllOffers('', '', '');
-            } else if (this.title === 'SMART BASKET') {
-                this.getSmartBasket('', '', '');
             } else if (this.title === 'NEW ARRIVALS') {
                 this.getNewArrivals('', '', '');
             } else {
                 this.noData = true;
             }
             // this.getCartList();
+        } else if (this.page === 'smartBasket') {
+            this.showAll = false;
+            this.showWish = false;
+            this.showBasketData = true;
+            this.getOrders();
+            // this.getSmartBasket('', '', '', '');
+
         }
 
 
@@ -176,6 +187,9 @@ export class AllProductsComponent implements OnInit {
                 if (this.page === 'mywishlist') {
                     this.mainSer.getCartList();
                     this.getWishList();
+                } else if (this.page === 'smartBasket') {
+                    this.getSmartBasket(this.orderId, index, quantity, prodData);
+                    this.getOrders();
                 } else if (this.title === 'BEST DEALS OF THE DAY') {
                     this.getDealsOftheDay(index, quantity, prodData);
                 } else if (this.title === 'BEST DEALS') {
@@ -184,8 +198,6 @@ export class AllProductsComponent implements OnInit {
                     this.getDealsOnAppliances(index, quantity, prodData);
                 } else if (this.title === 'ALL OFFERS') {
                     this.getAllOffers(index, quantity, prodData);
-                } else if (this.title === 'SMART BASKET') {
-                    this.getSmartBasket(index, quantity, prodData);
                 } else if (this.title === 'NEW ARRIVALS') {
                     this.getNewArrivals(index, quantity, prodData);
                 } else {
@@ -318,6 +330,9 @@ export class AllProductsComponent implements OnInit {
         if (this.page === 'mywishlist') {
             this.mainSer.getCartList();
             this.getWishList();
+        } else if (this.page === 'smartBasket') {
+            this.getSmartBasket(this.orderId, '', '', data);
+            this.getOrders();
         } else if (this.title === 'BEST DEALS OF THE DAY') {
             this.getDealsOftheDay('', '', data);
         } else if (this.title === 'BEST DEALS') {
@@ -326,8 +341,6 @@ export class AllProductsComponent implements OnInit {
             this.getDealsOnAppliances('', '', data);
         } else if (this.title === 'ALL OFFERS') {
             this.getAllOffers('', '', data);
-        } else if (this.title === 'SMART BASKET') {
-            this.getSmartBasket('', '', data);
         } else if (this.title === 'NEW ARRIVALS') {
             this.getNewArrivals('', '', data);
         } else {
@@ -341,6 +354,9 @@ export class AllProductsComponent implements OnInit {
         if (this.page === 'mywishlist') {
             this.mainSer.getCartList();
             this.getWishList();
+        } else if (this.page === 'smartBasket') {
+            this.getSmartBasket(this.orderId, '', '', data);
+            this.getOrders();
         } else if (this.title === 'BEST DEALS OF THE DAY') {
             this.getDealsOftheDay('', '', data);
         } else if (this.title === 'BEST DEALS') {
@@ -349,8 +365,6 @@ export class AllProductsComponent implements OnInit {
             this.getDealsOnAppliances('', '', data);
         } else if (this.title === 'ALL OFFERS') {
             this.getAllOffers('', '', data);
-        } else if (this.title === 'SMART BASKET') {
-            this.getSmartBasket('', '', data);
         } else if (this.title === 'NEW ARRIVALS') {
             this.getNewArrivals('', '', data);
         } else {
@@ -393,6 +407,9 @@ export class AllProductsComponent implements OnInit {
                     if (this.page === 'mywishlist') {
                         this.mainSer.getCartList();
                         this.getWishList();
+                    } else if (this.page === 'smartBasket') {
+                        this.getSmartBasket(this.orderId, '', '', '');
+                        this.getOrders();
                     } else if (this.title === 'BEST DEALS OF THE DAY') {
                         this.getDealsOftheDay('', '', '');
                     } else if (this.title === 'BEST DEALS') {
@@ -401,8 +418,6 @@ export class AllProductsComponent implements OnInit {
                         this.getDealsOnAppliances('', '', '');
                     } else if (this.title === 'ALL OFFERS') {
                         this.getAllOffers('', '', '');
-                    } else if (this.title === 'SMART BASKET') {
-                        this.getSmartBasket('', '', '');
                     } else if (this.title === 'NEW ARRIVALS') {
                         this.getNewArrivals('', '', '');
                     } else {
@@ -490,6 +505,7 @@ export class AllProductsComponent implements OnInit {
 
     //get deals of the day
     getDealsOftheDay(index, quantity, prodData) {
+        this.offersData = false;
         this.allProducts = [];
         this.mainSer.getBestDealsOftheDay().subscribe(response => {
             if (response.json().err_field === "No records found") {
@@ -562,6 +578,7 @@ export class AllProductsComponent implements OnInit {
 
     //get deals 
     getDeals(index, quantity, prodData) {
+        this.offersData = false;
         this.allProducts = [];
         this.mainSer.getBestDeals().subscribe(response => {
             if (response.json().err_field === "No records found") {
@@ -633,6 +650,7 @@ export class AllProductsComponent implements OnInit {
 
     //get deals on appliances
     getDealsOnAppliances(index, quantity, prodData) {
+        this.offersData = false;
         this.allProducts = [];
         this.mainSer.getBestDealsOnppliances().subscribe(response => {
 
@@ -725,14 +743,14 @@ export class AllProductsComponent implements OnInit {
         // this.getDashboard(index, '', '');
         for (var i = 0; i < this.allProducts.length; i++) {
             for (var j = 0; j < this.allProducts[i].sku.length; j++) {
-                if (this.allProducts[i].sku[j].skid === parseInt(skId)) {
+                if (this.allProducts[i].sku[j].skid === skId) {
                     this.skId = skId;
                     this.prodId = skus.product_id;
                     this.selecte.skid = this.allProducts[i].sku[j].size;
                     this.allProducts[i].skuActualPrice = this.allProducts[i].sku[j].actual_price;
                     this.allProducts[i].rating = this.allProducts[i].sku[j].ratings;
                     this.allProducts[i].sellingPrice = this.allProducts[i].sku[j].selling_price;
-                    if (this.title = 'SMART BASKET') {
+                    if (this.title === 'SMART BASKET' || this.page === 'smartBasket') {
                         this.allProducts[i].product_image = this.allProducts[i].sku[j].sku_images[0].sku_image;
                     } else {
                         this.allProducts[i].product_image = this.allProducts[i].sku[j].skuImages[0];
@@ -768,6 +786,7 @@ export class AllProductsComponent implements OnInit {
     //all offers
     getAllOffers(index, quantity, prodData) {
         this.allProducts = [];
+        this.offersData = true;
         this.mainSer.getAllOffers().subscribe(response => {
             if (response.json().err_field === "No records found") {
                 this.noData = true;
@@ -844,11 +863,27 @@ export class AllProductsComponent implements OnInit {
         })
     }
 
+
+    //my orders
+    getOrders() {
+        this.mainSer.getOrdersData().subscribe(response => {
+
+            this.ordersData = response.json().data;
+            for (var i = 0; i < this.ordersData.length; i++) {
+                this.ordersData[i].formated_date = new Date(this.ordersData[i].order_date);
+                this.ordersData[i].time = (this.ordersData[i].formated_date.getHours() > 12) ? this.ordersData[i].formated_date.getHours() - 12 : this.ordersData[i].formated_date.getHours()
+                this.ordersData[i].converted_date = this.ordersData[i].formated_date.getDate() + '-' + (this.ordersData[i].formated_date.getMonth() + 1) + '-' + this.ordersData[i].formated_date.getFullYear() + '/' + this.ordersData[i].time + ':' + this.ordersData[i].formated_date.getMinutes()
+            }
+            console.log(this.ordersData);
+        });
+    }
     //samrt basket
-    getSmartBasket(index, quantity, prodData) {
+    getSmartBasket(id, index, quantity, prodData) {
         this.allProducts = [];
+        this.offersData = false;
         this.getCartListData();
-        this.mainSer.getSmartBasket().subscribe(response => {
+        this.orderId = id;
+        this.mainSer.getSmartBasket(id).subscribe(response => {
             // this.cartCount = response.json().summary.cart_count;
             // this.deliveryCharge = response.json().summary.delivery_charge.toFixed(2);
             // this.subTotal = response.json().summary.selling_price.toFixed(2);
@@ -862,7 +897,7 @@ export class AllProductsComponent implements OnInit {
                 this.noData = true;
             } else {
                 this.noData = false;
-                this.allProducts = response.json();
+                this.allProducts = response.json().result;
                 // this.showAll = true;
 
                 if (index !== '') {
@@ -918,6 +953,7 @@ export class AllProductsComponent implements OnInit {
     //new arrivals
     getNewArrivals(index, quantity, prodData) {
         this.allProducts = [];
+        this.offersData = false;
         this.getCartListData();
         this.mainSer.getNewArrivals().subscribe(response => {
             // this.cartCount = response.json().summary.cart_count;
@@ -988,27 +1024,37 @@ export class AllProductsComponent implements OnInit {
         if (action === 'BEST DEALS OF THE DAY') {
             this.title = 'BEST DEALS OF THE DAY';
             this.getDealsOftheDay('', '', '');
+            this.showBasketData = false;
         } else if (action === 'BEST DEALS') {
             this.title = 'BEST DEALS';
             this.getDeals('', '', '');
+            this.showBasketData = false;
         } else if (action === 'BEST DEALS ON APPLIANCES') {
             this.title = 'BEST DEALS OF THE DAY';
             this.getDealsOnAppliances('', '', '');
+            this.showBasketData = false;
         } else if (action === 'ALL OFFERS') {
             this.title = 'ALL OFFERS';
             this.getAllOffers('', '', '');
+            this.showBasketData = false;
         } else if (action === 'SMART BASKET') {
             if (localStorage.token === undefined) {
                 swal('Please Login', '', 'warning');
                 return;
             }
             this.title = 'SMART BASKET';
-            this.getSmartBasket('', '', '');
+            this.showAll = false;
+            this.showBasketData = true;
+            this.getSmartBasket(this.orderId, '', '', '');
+            this.getOrders();
+
         } else if (action === 'NEW ARRIVALS') {
             this.title = 'NEW ARRIVALS';
             this.getNewArrivals('', '', '');
+            this.showBasketData = false;
         } else {
             this.noData = true;
+            this.showBasketData = false;
         }
     }
 
@@ -1016,16 +1062,23 @@ export class AllProductsComponent implements OnInit {
     displayCounter(data) {
         if (this.title === 'BEST DEALS OF THE DAY') {
             this.getDealsOftheDay('', '', '');
+            this.title = 'BEST DEALS OF THE DAY';
         } else if (this.title === 'BEST DEALS') {
             this.getDeals('', '', '');
+            this.title = 'BEST DEALS';
         } else if (this.title === 'BEST DEALS ON APPLIANCES') {
             this.getDealsOnAppliances('', '', '');
+            this.title = 'BEST DEALS ON APPLIANCES';
         } else if (this.title === 'ALL OFFERS') {
             this.getAllOffers('', '', '');
+            this.title = 'ALL OFFERS';
         } else if (this.title === 'SMART BASKET') {
-            this.getSmartBasket('', '', '');
+            this.getSmartBasket(this.orderId, '', '', '');
+            this.getOrders();
+            this.title = 'SMART BASKET';
         } else if (this.title === 'NEW ARRIVALS') {
             this.getNewArrivals('', '', '');
+            this.title = 'NEW ARRIVALS';
         } else {
             this.noData = true;
         }

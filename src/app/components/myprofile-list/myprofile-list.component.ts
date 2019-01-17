@@ -59,6 +59,7 @@ export class MyprofileListComponent implements OnInit {
       this.showReferFriends = true;
       this.showProfile = false;
       this.myprofileData = true;
+      this.referalcode = localStorage.referalcode;
       this.childPage = 'Refer Friends';
     } else if (this.page === 'loyalitypoints') {
       this.showProfile = false;
@@ -109,6 +110,7 @@ export class MyprofileListComponent implements OnInit {
   showFeedbackForm = false;
   profileDetails;
   date;
+  referalcode;
   addressData = [];
   ordersData = [];
   changePassword = {
@@ -187,15 +189,22 @@ export class MyprofileListComponent implements OnInit {
         swal('Please Login', '', 'warning');
         return;
       }
-    }
-    let navigationExtras: NavigationExtras = {
-      queryParams: {
-        title: action
+      let navigationExtras: NavigationExtras = {
+        queryParams: {
+          title: action
+        }
       }
+      this.router.navigate(['/smartBasket'], navigationExtras);
+      return;
+    } else {
+      let navigationExtras: NavigationExtras = {
+        queryParams: {
+          title: action
+        }
+      }
+      this.router.navigate(['/viewAll'], navigationExtras);
     }
-    this.router.navigate(['/viewAll'], navigationExtras);
   }
-
 
   ngForm;
   dates;
@@ -548,12 +557,20 @@ export class MyprofileListComponent implements OnInit {
   showOrderDetails(order_id) {
     this.showOrderDetailsData = true;
     this.showOrders = false;
-    this.mainSer.getOrderDetails(order_id).subscribe(response => {
-      this.orderDetailsData = response.json().data;
+    this.mainSer.getSmartBasket(order_id).subscribe(response => {
+      this.orderDetailsData = response.json().result;
+      for (var i = 0; i < this.orderDetailsData.length; i++) {
+        this.orderDetailsData[i].pro_image = this.orderDetailsData[i].sku[0].sku_images[0].sku_image;
+      }
     });
   }
-
-  giveFeedback() {
+  sku_id;
+  orderProduct;
+  product_id;
+  giveFeedback(data) {
+    this.orderProduct = data.title;
+    this.sku_id = data.sku[0].skid;
+    this.product_id = data.id;
     this.currentRate = '';
     this.feedback = '';
     this.showFeedbackForm = true;
@@ -573,8 +590,8 @@ export class MyprofileListComponent implements OnInit {
         "user_id": localStorage.userId,
         "User_rating": this.Rate,
         "feedback": this.feedback,
-        "product_id": '',
-        "product_sku_id": ''
+        "product_id": this.product_id,
+        "product_sku_id": this.sku_id
       }
       this.mainSer.rateChange(inData).subscribe(response => {
         if (response.json().status === 200) {

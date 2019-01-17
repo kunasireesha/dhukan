@@ -5,11 +5,30 @@ import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
 import { AppSettings } from '../../config';
 import { Router } from '@angular/router';
+
+import * as firebase from 'firebase/app';
 import swal from 'sweetalert';
+
+import { AngularFireAuth } from 'angularfire2/auth';
 
 @Injectable()
 export class DataService {
-    constructor(private http: Http, private _router: Router) { }
+    private user: Observable<firebase.User>;
+    private userDetails: firebase.User = null;
+    constructor(private http: Http, private _router: Router, private _firebaseAuth: AngularFireAuth) {
+        this.user = _firebaseAuth.authState;
+        this.user.subscribe(
+            (user) => {
+                if (user) {
+                    this.userDetails = user;
+                    this.socialLogin(this.userDetails);
+                }
+                else {
+                    this.userDetails = null;
+                }
+            }
+        );
+    }
     msg;
     //checking url after login
     checkCredentials() {
@@ -49,5 +68,29 @@ export class DataService {
     //registraton
     registration(params): Observable<any> {
         return this.postInputParams(params, 'users/registration');
+    }
+
+    socialLogin(data) {
+        var inData = {
+            "first_name": data.providerData[0].displayName,
+            "last_name": '',
+            "email": data.providerData[0].email,
+            "mobile": data.providerData[0].phoneNumber,
+            "google_id": data.providerData[0].uid
+        }
+        this.http.post(AppSettings.baseUrl + 'customer/social', inData).subscribe(response => {
+            localStorage.setItem('userId', JSON.stringify(response.json().result[0]._id));
+            localStorage.setItem('userName', JSON.stringify(response.json().result[0].first_name + ' ' + response.json().result[0].last_name));
+            localStorage.setItem('authkey', response.json().key);
+            localStorage.setItem('userData', JSON.stringify(response.json().result[0]));
+            localStorage.setItem("userMobile", response.json().result[0].mobile);
+            localStorage.setItem('issocial', 'true');
+        });
+    }
+
+    signInWithGoogle() {
+        return this._firebaseAuth.auth.signInWithPopup(
+            new firebase.auth.GoogleAuthProvider()
+        )
     }
 }
