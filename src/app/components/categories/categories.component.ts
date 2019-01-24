@@ -187,7 +187,7 @@ export class CategoriesComponent implements OnInit {
                                 // this.selecte.skid = this.allProducts[i].sku[j].size;
                                 this.notInCart = false;
                                 this.selected = index;
-                                console.log(this.skudata);
+
                             } else {
                                 this.allProducts[i].quantity = 1;
                                 this.allProducts[i].product_image = this.allProducts[i].sku[0].skuImages[0];
@@ -315,7 +315,7 @@ export class CategoriesComponent implements OnInit {
                     this.mainServe.addCat(inData).subscribe(response => {
                         this.resData = response.json();
                         if (response.json().status === 200) {
-                            // swal(response.json().message, "", "success");
+                            // swal(response.json().message, "", "");
                             this.resData = response.json();
                             this.mainServe.getCartList();
 
@@ -335,11 +335,11 @@ export class CategoriesComponent implements OnInit {
                                     this.mainServe.getAllCategoriesWithSubCat();
                                 }
                         } else {
-                            swal(response.json().message, "", "error");
+                            swal(response.json().message, "", "");
                             this.skId = undefined;
                         }
                     }, error => {
-                        swal(error.json().message, "", "success");
+                        swal(error.json().message, "", "");
                         this.skId = undefined;
                     })
                     // }
@@ -362,7 +362,7 @@ export class CategoriesComponent implements OnInit {
                         this.mainServe.addCat(inData).subscribe(response => {
                             this.resData = response.json();
                             if (response.json().status === 200) {
-                                // swal(response.json().message, "", "success");
+                                // swal(response.json().message, "", "");
                                 this.resData = response.json();
                                 this.mainServe.getCartList();
                                 this.mainServe.getAllCategoriesWithSubCat();
@@ -377,11 +377,11 @@ export class CategoriesComponent implements OnInit {
                                 //     this.getSubProducts(this.subCatId, index, products, quantity);
                                 // }
                             } else {
-                                swal(response.json().message, "", "error");
+                                swal(response.json().message, "", "");
                                 this.skId = undefined;
                             }
                         }, error => {
-                            swal(error.json().message, "", "success");
+                            swal(error.json().message, "", "");
                             this.skId = undefined;
                         })
                         // }
@@ -416,14 +416,14 @@ export class CategoriesComponent implements OnInit {
         this.mainServe.addWish(inData).subscribe(response => {
             this.resData = response.json();
             if (response.json().status === 200) {
-                swal(response.json().message, "", "success");
+                swal(response.json().message, "", "");
                 this.skId = undefined;
             } else {
-                swal(response.json().message, "", "error");
+                swal(response.json().message, "", "");
                 this.skId = undefined;
             }
         }, error => {
-            swal(error.json().message, "", "success");
+            swal(error.json().message, "", "");
             this.skId = undefined;
         })
     }
@@ -475,7 +475,7 @@ export class CategoriesComponent implements OnInit {
 
     deleteCart(id) {
         var inData = id;
-        swal("Do you want to delete?", "", "warning", {
+        swal("Do you want to delete?", "", "", {
             buttons: ["Cancel!", "Okay!"],
         }).then((value) => {
 
@@ -483,7 +483,7 @@ export class CategoriesComponent implements OnInit {
                 this.mainServe.deleteCart(inData).subscribe(response => {
                     this.mainServe.getCartList();
                     this.getDashboard();
-                    swal("Deleted successfully", "", "success");
+                    swal("Deleted fully", "", "");
                 }, error => {
                     console.log(error);
                 })
@@ -678,7 +678,7 @@ export class CategoriesComponent implements OnInit {
                                     // this.selecte.skid = this.allProducts[i].sku[j].size;
                                     this.notInCart = false;
                                     this.selected = index;
-                                    console.log(this.skudata);
+
                                 } else {
                                     this.allProducts[i].quantity = 1;
                                     this.allProducts[i].product_image = this.allProducts[i].sku[0].skuImages[0];

@@ -68,7 +68,7 @@ export class DeliveryComponent implements OnInit {
     this.getAddress();
     this.mainServ.getCartList();
     this.summaryCart = this.mainServ.cartData;
-    console.log(this.summaryCart);
+
   }
 
 
@@ -213,7 +213,7 @@ export class DeliveryComponent implements OnInit {
       function add1(a, b) {
         return a + b;
       }
-      console.log(this.orderData);
+
       //payment options
     });
   }
@@ -234,11 +234,9 @@ export class DeliveryComponent implements OnInit {
       addressId: this.address.ua_id,
       address: this.address.ua_house_no + ',' + this.address.ua_apartment_name + ',' + this.address.ua_area_details + ',' + this.address.ua_city + ',' + this.address.ua_land_mark,
       phone: this.address.ua_mobile_number
-
     }
 
     this.mainServ.cehckout(params).subscribe(res => {
-
       if (res.json().err_field === '') {
         this.oderid = res.json().oderid;
         this.successMsg = res.json().result;

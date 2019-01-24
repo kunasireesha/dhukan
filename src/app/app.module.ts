@@ -302,7 +302,7 @@ export class AppModule {
 			this.randomkey = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
 			localStorage.setItem('session', this.randomkey)
 		}
-		console.log(localStorage.session);
+
 	}
 	randomkey;
 

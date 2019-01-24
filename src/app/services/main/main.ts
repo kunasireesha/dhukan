@@ -192,7 +192,7 @@ export class MainService {
         return this.getParamsUrl('dashboard/orderdetails', id);
     }
 
-  
+
 
     applyVocher(vocher, amount) {
         var inData = "vocherCode=" + vocher + "&amount=" + amount;
@@ -280,7 +280,11 @@ export class MainService {
         return this.postMethode('products/brandnameproducts', params);
     }
 
-    
+    returnItem(params): Observable<any> {
+        return this.postMethode('oders/returnorder', params);
+    }
+
+
     viewCart;
     cartCount;
     deliveryCharge;

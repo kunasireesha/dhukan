@@ -443,7 +443,8 @@
             <tr>
               <th scope="col" width="5%">S.no</th>
               <th scope="col" width="30%">Product</th>
-              <th scope="col" width="30%">Image</th>
+              <th scope="col" width="20%">Image</th>
+              <th scope="col" width="10%">Return</th>
               <th scope="col" width="35%">Feedback</th>
             </tr>
           </thead>
@@ -453,6 +454,7 @@
               <td>{{i+1}}</td>
               <td>{{data.title}}</td>
               <td><img src="{{data.pro_image}}" width="100px" height="100px"></td>
+              <td class="orange"> <button (click)="returnItem(data)" value="Give Feedback" type="submit" class="feedbk-btn">Return</button></td>
               <td class="orange"> <button (click)="giveFeedback(data)" value="Give Feedback" type="submit" class="feedbk-btn">Give
                   Feedback</button></td>
             </tr>

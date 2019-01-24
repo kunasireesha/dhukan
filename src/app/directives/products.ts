@@ -10,6 +10,6 @@ export class ProductsDirective implements AfterViewInit {
     }
     ngAfterViewInit(): void {
         this.elRef.nativeElement = this.productsList;
-        console.log(this.elRef.nativeElement);
+
     }
 } 

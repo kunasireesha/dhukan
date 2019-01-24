@@ -50,7 +50,7 @@ export class ProductComponent implements OnInit {
     ngOnInit() {
         this.groupPosts = this.groupByCategory(this.data);
         this.allFeatureProducts.push(this.data);
-        console.log(this.groupPosts);
+
         // this.getDashboard();
 
     }
@@ -110,9 +110,9 @@ export class ProductComponent implements OnInit {
             this.mainServe.addCat(inData).subscribe(response => {
                 this.resData = response.json();
                 if (this.resData.status == 400) {
-                    swal("Already added", "", "error");
+                    swal("Already added", "", "");
                 } else {
-                    // swal("Succeessfully added", "", "success");
+                    // swal("Succeessfully added", "", "");
                 }
 
             }, error => {
@@ -122,7 +122,7 @@ export class ProductComponent implements OnInit {
         }
 
         //     } else {
-        //     swal("Please select option", "", "warning");
+        //     swal("Please select option", "", "");
         // }
 
     }

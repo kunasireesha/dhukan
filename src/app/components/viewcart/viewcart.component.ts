@@ -108,7 +108,7 @@ export class ViewcartComponent implements OnInit {
   //     this.mainServe.addCat(inData).subscribe(response => {
   //         this.resData = response.json();
   //         if (response.json().status === 200) {
-  //             swal(response.json().message, "", "success");
+  //             swal(response.json().message, "", "");
   //             this.mainServe.getCartList();
   //             this.getDashboard();
   //             this.skId = undefined;
@@ -116,11 +116,11 @@ export class ViewcartComponent implements OnInit {
   //             this.notInCart = false;
   //             this.selected = undefined
   //         } else {
-  //             swal(response.json().message, "", "error");
+  //             swal(response.json().message, "", "");
   //             this.skId = undefined;
   //         }
   //     }, error => {
-  //         swal(error.json().message, "", "success");
+  //         swal(error.json().message, "", "");
   //         this.skId = undefined;
   //     })
 
@@ -140,9 +140,9 @@ export class ViewcartComponent implements OnInit {
       if (response.json().status === 200) {
         this.getCartList();
         this.getDashboard();
-        swal(response.json().message, "", "success");
+        swal(response.json().message, "", "");
       } else {
-        swal(response.json().message, "", "error");
+        swal(response.json().message, "", "");
       }
 
     }, error => {
@@ -214,7 +214,7 @@ export class ViewcartComponent implements OnInit {
 
   deleteCart(id) {
     var inData = id;
-    swal("Do you want to delete?", "", "warning", {
+    swal("Do you want to delete?", "", "", {
       buttons: ["Cancel!", "Okay!"],
     }).then((value) => {
 
@@ -223,9 +223,9 @@ export class ViewcartComponent implements OnInit {
           if (response.json().status === 200) {
             this.mainServe.getCartList();
             this.getDashboard();
-            swal(response.json().message, "", "success");
+            swal(response.json().message, "", "");
           } else {
-            swal(response.json().message, "", "error");
+            swal(response.json().message, "", "");
           }
 
         }, error => {

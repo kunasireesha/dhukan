@@ -186,7 +186,7 @@ export class MyprofileListComponent implements OnInit {
   viewAll(action) {
     if (action === 'SMART BASKET') {
       if (localStorage.token === undefined) {
-        swal('Please Login', '', 'warning');
+        swal('Please Login', '', '');
         return;
       }
       let navigationExtras: NavigationExtras = {
@@ -215,7 +215,7 @@ export class MyprofileListComponent implements OnInit {
 
     this.dates = this.model.date.year + '-' + this.model.date.month + '-' + this.model.date.day
     let validData = true;
-    console.log(this.dates);
+
     if (this.formData.first_name === '' || this.formData.first_name === undefined || this.formData.first_name === null) {
       validData = false;
     }
@@ -244,14 +244,14 @@ export class MyprofileListComponent implements OnInit {
         "&phone=" + this.formData.phone + "&dob=" + (this.dates) + "&landline_number=" + this.formData.landline;
       this.profileSer.updateProfile(inData).subscribe(response => {
         if (response.status === 200) {
-          swal('Profile Updated Successfully', '', 'success');
+          swal('Profile Updated Successfully', '', '');
           this.showProfile = true;
           this.showEditProfile = false;
           this.getProfileDetails();
         }
       })
     } else {
-      swal('Required Fields are Missing', '', 'error');
+      swal('Required Fields are Missing', '', '');
     }
   }
 
@@ -299,14 +299,14 @@ export class MyprofileListComponent implements OnInit {
 
       this.profileSer.addAddress(inData).subscribe(response => {
         if (response.status === 200) {
-          swal("Address added successfully", " ", "success");
+          swal("Address added successfully", " ", "");
           this.getAddress();
           this.showDeliveryAddress = true;
           this.showChangeAddress = false;
         }
       })
     } else {
-      swal('Required Fields are Missing', '', 'error');
+      swal('Required Fields are Missing', '', '');
     }
   }
 
@@ -339,11 +339,11 @@ export class MyprofileListComponent implements OnInit {
       "&password=" + this.changePassword.oldPw +
       "&newpassword=" + this.changePassword.newPw
     if ((this.changePassword.oldPw || this.changePassword.newPw) === '') {
-      swal("Required fields are missing", "", "warning");
+      swal("Required fields are missing", "", "");
     }
     else if ((this.changePassword.newPw) === this.changePassword.conPw) {
       this.profileSer.changePw(inData).subscribe(response => {
-        swal("password change sucessfully", "", "success");
+        swal("password change sucessfully", "", "");
         this.changePassword = {
           oldPw: '',
           newPw: '',
@@ -353,7 +353,7 @@ export class MyprofileListComponent implements OnInit {
 
       });
     } else {
-      swal("Passwords missmatched", "", "error");
+      swal("Passwords missmatched", "", "");
     }
   }
 
@@ -364,14 +364,14 @@ export class MyprofileListComponent implements OnInit {
   getRefCode() {
     var inData = "email=" + "jdlogan@mit.edu";
     this.profileSer.getRefCode(inData).subscribe(response => {
-      swal("Referral code sent successfully", "", "success");
+      swal("Referral code sent successfully", "", "");
       if (response.json().status == 400) {
-        swal(response.json().message, "", "error");
+        swal(response.json().message, "", "");
       }
 
     }, error => {
       if (error.json().status == 400) {
-        swal(error.json().message, "", "error");
+        swal(error.json().message, "", "");
       }
     })
   }
@@ -389,14 +389,14 @@ export class MyprofileListComponent implements OnInit {
   }
   deleteWish(wishId) {
     var inData = "whislistId=" + wishId
-    swal("Do you want to delete?", "", "warning", {
+    swal("Do you want to delete?", "", "", {
       buttons: ["Cancel!", "Okay!"],
     }).then((value) => {
 
       if (value === true) {
         this.profileSer.deleteWish(inData).subscribe(response => {
           this.getWishList();
-          swal("Deleted successfully", "", "success");
+          swal("Deleted successfully", "", "");
         }, error => {
           console.log(error);
         })
@@ -407,7 +407,7 @@ export class MyprofileListComponent implements OnInit {
   }
   // emptyWish() {
   //   this.profileSer.emptyWish().subscribe(response => {
-  //     swal("Successfully Cleared", "", "success");
+  //     swal("Successfully Cleared", "", "");
   //     this.getWishList();
   //   }, error => {
 
@@ -509,7 +509,7 @@ export class MyprofileListComponent implements OnInit {
 
   deleteCart(id) {
     var inData = id;
-    swal("Do you want to delete?", "", "warning", {
+    swal("Do you want to delete?", "", "", {
       buttons: ["Cancel!", "Okay!"],
     }).then((value) => {
 
@@ -517,7 +517,7 @@ export class MyprofileListComponent implements OnInit {
         this.mainSer.deleteCart(inData).subscribe(response => {
           this.mainSer.getCartList();
           this.getDashboard();
-          swal("Deleted successfully", "", "success");
+          swal("Deleted successfully", "", "");
         }, error => {
           console.log(error);
         })
@@ -550,13 +550,14 @@ export class MyprofileListComponent implements OnInit {
         this.ordersData[i].time = (this.ordersData[i].formated_date.getHours() > 12) ? this.ordersData[i].formated_date.getHours() - 12 : this.ordersData[i].formated_date.getHours()
         this.ordersData[i].converted_date = this.ordersData[i].formated_date.getDate() + '-' + (this.ordersData[i].formated_date.getMonth() + 1) + '-' + this.ordersData[i].formated_date.getFullYear() + '/' + this.ordersData[i].time + ':' + this.ordersData[i].formated_date.getMinutes()
       }
-      console.log(this.ordersData);
+
     });
   }
-
+  orderid;
   showOrderDetails(order_id) {
     this.showOrderDetailsData = true;
     this.showOrders = false;
+    this.orderid = order_id;
     this.mainSer.getSmartBasket(order_id).subscribe(response => {
       this.orderDetailsData = response.json().result;
       for (var i = 0; i < this.orderDetailsData.length; i++) {
@@ -577,13 +578,28 @@ export class MyprofileListComponent implements OnInit {
     this.showOrderDetailsData = false;
   }
 
+  returnItem(data) {
+    var params = {
+      skuid: data.sku[0].skid,
+      product_id: data.id,
+      order_id: this.orderid,
+      refundAmnt: data.sku[0].selling_price
+    }
+
+    this.mainSer.returnItem(params).subscribe(response => {
+      if (response.json().err_fiels === '') {
+        swal('Request Submitted', '', '');
+      }
+    });
+  }
+
   rateChange(rate) {
     this.Rate = rate;
   }
 
   rateSub() {
     if (this.Rate == null || NaN) {
-      swal("Please select rate", "", "warning");
+      swal("Please select rate", "", "");
       return;
     } else {
       var inData = {
@@ -595,7 +611,7 @@ export class MyprofileListComponent implements OnInit {
       }
       this.mainSer.rateChange(inData).subscribe(response => {
         if (response.json().status === 200) {
-          swal("Rating submitted successfully", "", "sucess");
+          swal("Rating submitted successfully", "", "");
           this.feedback = '';
         }
       })

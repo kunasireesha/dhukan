@@ -69,7 +69,7 @@ export class ProductdetailsComponent implements OnInit {
   showImage(image) {
     this.zoomedImageSrc = image;
     this.smallImageSrc = image;
-    console.log(this.smallImageSrc);
+
   }
 
   showImageDynamic(image) {
@@ -179,7 +179,7 @@ export class ProductdetailsComponent implements OnInit {
     this.mainSer.addCat(inData).subscribe(response => {
       this.resData = response.json();
       if (response.json().status === 200) {
-        // swal(response.json().message, "", "success");
+        // swal(response.json().message, "", "");
         this.item.quantity = 1;
         this.showProductDetails();
         this.getDashboard();
@@ -187,11 +187,11 @@ export class ProductdetailsComponent implements OnInit {
         this.notInCart = true;
 
       } else {
-        swal(response.json().message, "", "error");
+        swal(response.json().message, "", "");
         this.selecte.skId = '';
       }
     }, error => {
-      swal(error.json().message, "", "error");
+      swal(error.json().message, "", "");
       this.selecte.skId = '';
     })
     // }
@@ -253,7 +253,7 @@ export class ProductdetailsComponent implements OnInit {
 
   deleteCart(id) {
     var inData = id;
-    swal("Do you want to delete?", "", "warning", {
+    swal("Do you want to delete?", "", "", {
       buttons: ["Cancel!", "Okay!"],
     }).then((value) => {
 
@@ -261,7 +261,7 @@ export class ProductdetailsComponent implements OnInit {
         this.mainSer.deleteCart(inData).subscribe(response => {
           this.mainSer.getCartList();
           this.getDashboard();
-          swal("Deleted successfully", "", "success");
+          swal("Deleted successfully", "", "");
         }, error => {
           console.log(error);
         })

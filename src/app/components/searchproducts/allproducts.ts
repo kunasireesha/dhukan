@@ -183,7 +183,7 @@ export class AllProductsComponent implements OnInit {
         this.mainSer.addCat(inData).subscribe(response => {
             this.resData = response.json();
             if (response.json().status === 200) {
-                // swal(response.json().message, "", "success");
+                // swal(response.json().message, "", "");
                 if (this.page === 'mywishlist') {
                     this.mainSer.getCartList();
                     this.getWishList();
@@ -210,11 +210,11 @@ export class AllProductsComponent implements OnInit {
                 this.notInCart = false;
                 this.selected = index;
             } else {
-                swal(response.json().message, "", "error");
+                swal(response.json().message, "", "");
                 this.skId = undefined;
             }
         }, error => {
-            swal(error.json().message, "", "error");
+            swal(error.json().message, "", "");
             this.skId = undefined;
         })
 
@@ -244,14 +244,14 @@ export class AllProductsComponent implements OnInit {
             this.mainSer.addWish(inData).subscribe(response => {
                 this.resData = response.json();
                 if (response.json().status === 200) {
-                    swal(response.json().message, "", "success");
+                    swal(response.json().message, "", "");
                     this.skId = undefined;
                 } else {
-                    swal(response.json().message, "", "error");
+                    swal(response.json().message, "", "");
                     this.skId = undefined;
                 }
             }, error => {
-                swal(error.json().message, "", "success");
+                swal(error.json().message, "", "");
                 this.skId = undefined;
             })
         }
@@ -281,7 +281,7 @@ export class AllProductsComponent implements OnInit {
                 }
                 // this.allProducts
                 this.showAll = false;
-                console.log(this.allProducts);
+
             }
         }, error => {
 
@@ -397,7 +397,7 @@ export class AllProductsComponent implements OnInit {
 
     deleteCart(id) {
         var inData = id;
-        swal("Do you want to delete?", "", "warning", {
+        swal("Do you want to delete?", "", "", {
             buttons: ["Cancel!", "Okay!"],
         }).then((value) => {
 
@@ -424,7 +424,7 @@ export class AllProductsComponent implements OnInit {
                         this.getDashboard('', '', '');
                     }
                     this.selected = undefined;
-                    swal("Deleted successfully", "", "success");
+                    swal("Deleted successfully", "", "");
                 }, error => {
                     console.log(error);
                 })
@@ -774,7 +774,7 @@ export class AllProductsComponent implements OnInit {
             product_id: id
         }
         this.profileSer.emptyWish(params).subscribe(response => {
-            swal("Successfully Cleared", "", "success");
+            swal("Successfully Cleared", "", "");
             this.getWishList();
         }, error => {
 
@@ -874,7 +874,7 @@ export class AllProductsComponent implements OnInit {
                 this.ordersData[i].time = (this.ordersData[i].formated_date.getHours() > 12) ? this.ordersData[i].formated_date.getHours() - 12 : this.ordersData[i].formated_date.getHours()
                 this.ordersData[i].converted_date = this.ordersData[i].formated_date.getDate() + '-' + (this.ordersData[i].formated_date.getMonth() + 1) + '-' + this.ordersData[i].formated_date.getFullYear() + '/' + this.ordersData[i].time + ':' + this.ordersData[i].formated_date.getMinutes()
             }
-            console.log(this.ordersData);
+
         });
     }
     //samrt basket
@@ -945,7 +945,7 @@ export class AllProductsComponent implements OnInit {
                 }
             }
 
-            console.log(this.allProducts);
+
         })
     }
 

@@ -141,7 +141,7 @@ export class HeaderComponent implements OnInit {
 
     if (window.navigator.geolocation) {
       window.navigator.geolocation.getCurrentPosition(position => {
-        console.log(position);
+
       });
     };
 
@@ -295,9 +295,9 @@ export class HeaderComponent implements OnInit {
     else {
       this.headerSer.forgotPassword(inData).subscribe(response => {
         if (response.json().status === 400) {
-          swal(response.json().message, "", "error");
+          swal(response.json().message, "", "");
         } else {
-          swal("OTP sent to your Mobile/Email succesfully", "", "success");
+          swal("OTP sent to your Mobile/Email succesfully", "", "");
           // this.forData.forEmail = '';
           this.showForgotPassword = false;
           this.showModal = true;
@@ -324,9 +324,9 @@ export class HeaderComponent implements OnInit {
     else {
       this.headerSer.verifyPassword(inData).subscribe(response => {
         if (response.json().status === 400) {
-          swal(response.json().message, "", "error");
+          swal(response.json().message, "", "");
         } else {
-          swal("OTP verified successfully", "", "success");
+          swal("OTP verified successfully", "", "");
           // this.forData.forEmail = '';
           this.showOpacity = true;
           this.showModal = true;
@@ -346,9 +346,9 @@ export class HeaderComponent implements OnInit {
     } else {
       this.headerSer.forgotChangePassword(inData).subscribe(response => {
         if (response.json().status === 400) {
-          swal(response.json().message, "", "error");
+          swal(response.json().message, "", "");
         } else {
-          swal(response.json().message, "", "success");
+          swal(response.json().message, "", "");
           this.forData.forEmail = '';
           this.showPasswordOtp = false;
           this.showOpacity = false;
@@ -402,9 +402,9 @@ export class HeaderComponent implements OnInit {
 
       this.loginService.login(inData).subscribe(response => {
         if (response.json().status === 400) {
-          swal(response.json().message, " ", "error")
+          swal(response.json().message, " ", "")
         } else {
-          swal("Login Successfully", " ", "success");
+          swal("Login Successfully", " ", "");
           localStorage.setItem('userData', JSON.stringify(response.json().data));
           localStorage.setItem('token', JSON.stringify(response.json().token));
           localStorage.setItem('userId', JSON.stringify(response.json().data.u_id));
@@ -446,7 +446,7 @@ export class HeaderComponent implements OnInit {
       this.loginService.requestOtp(inData).subscribe(response => {
         this.otpData = response.json();
         // if (response.json().error_field === '') {
-        swal("Otp Sent to your mobile number", " ", "success");
+        swal("Otp Sent to your mobile number", " ", "");
         this.showForgotPassword = false;
         this.showLoginandRegistration = false;
         this.showModal = true;
@@ -457,7 +457,7 @@ export class HeaderComponent implements OnInit {
       }, err => {
         if (err.json().status === 400) {
           this.msg = this.translate.instant("common.loginErrMsg");
-          swal(err.json().message, " ", "error").then((value) => {
+          swal(err.json().message, " ", "").then((value) => {
 
           });
         };
@@ -470,7 +470,7 @@ export class HeaderComponent implements OnInit {
     this.loginService.requestOtp(inData).subscribe(response => {
       this.otpData = response.json();
       // if (response.json().error_field === '') {
-      swal("Otp Sent to your mobile number", " ", "success");
+      swal("Otp Sent to your mobile number", " ", "");
       this.showForgotPassword = false;
       this.showLoginandRegistration = false;
       this.showModal = true;
@@ -481,7 +481,7 @@ export class HeaderComponent implements OnInit {
     }, err => {
       if (err.json().status === 400) {
         this.msg = this.translate.instant("common.loginErrMsg");
-        swal(err.json().message, " ", "error").then((value) => {
+        swal(err.json().message, " ", "").then((value) => {
 
         });
       };
@@ -515,7 +515,7 @@ export class HeaderComponent implements OnInit {
         if (response.json().err_field !== '') {
           swal(response.json().message, '', 'error');
         } else {
-          swal("Thank you for registering with us Welcome to DHUKHAN", " ", "success");
+          swal("Thank you for registering with us Welcome to DHUKHAN", " ", "");
           this.onCloseCancel();
           this.router.navigate(["/"]);
           this.showModal = false;
@@ -524,7 +524,7 @@ export class HeaderComponent implements OnInit {
       }, err => {
         if (err.json().status === 400) {
           this.msg = this.translate.instant("common.loginErrMsg");
-          swal(err.json().message, " ", "error").then((value) => {
+          swal(err.json().message, " ", "").then((value) => {
           });
         };
       });
@@ -654,7 +654,7 @@ export class HeaderComponent implements OnInit {
       }
     }
     if (prodName === '') {
-      swal("Required field is missing", "", "warning");
+      swal("Required field is missing", "", "");
     } else {
       this.router.navigate(["/search"], navigationExtras);
     }
@@ -732,7 +732,7 @@ export class HeaderComponent implements OnInit {
   }
   deleteCart(id) {
     var inData = id;
-    swal("Do you want to delete?", "", "warning", {
+    swal("Do you want to delete?", "", "", {
       buttons: ["Cancel!", "Okay!"],
     }).then((value) => {
 
@@ -740,7 +740,7 @@ export class HeaderComponent implements OnInit {
         this.mainServe.deleteCart(inData).subscribe(response => {
           this.getCartList();
           this.getDashboard();
-          swal("Deleted successfully", "", "success");
+          swal("Deleted successfully", "", "");
         }, error => {
           console.log(error);
         })
@@ -786,7 +786,7 @@ export class HeaderComponent implements OnInit {
   socialSignIn(action) {
     if (action === 'google') {
       this.loginService.signInWithGoogle().then((res) => {
-        // swal("Login Successfully", " ", "success");
+        // swal("Login Successfully", " ", "");
         this.onCloseCancel();
         this.showSignin = false;
         this.showProfile = true;

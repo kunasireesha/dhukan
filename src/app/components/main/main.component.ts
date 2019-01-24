@@ -160,7 +160,7 @@ export class MainComponent implements OnInit {
     }
 
     displayCounter(data) {
-        console.log(data);
+
         this.getDashboard('', '', '');
         this.mainServe.getCartList();
         this.getBestDealsOftheDay('', '', '');
@@ -542,10 +542,10 @@ export class MainComponent implements OnInit {
                 this.selectedsku = index;
 
             } else {
-                swal(response.json().message, "", "error");
+                swal(response.json().message, "", "");
             }
         }, error => {
-            swal(error.json().message, "", "error");
+            swal(error.json().message, "", "");
         })
     }
 
@@ -558,17 +558,17 @@ export class MainComponent implements OnInit {
             if (response.json().status === 200) {
                 this.resData = response.json();
                 this.cartCount = response.json().summary.cart_count;
-                // swal(response.json().message, "", "success");
+                // swal(response.json().message, "", "");
                 this.mainServe.getCartList();
                 this.getDashboard(index, quantity, prodData);
                 this.notInCart = false;
                 this.selected = index;
                 this.selectedsku = index;
             } else {
-                swal(response.json().message, "", "error");
+                swal(response.json().message, "", "");
             }
         }, error => {
-            swal(error.json().message, "", "error");
+            swal(error.json().message, "", "");
         })
     }
 
@@ -619,14 +619,14 @@ export class MainComponent implements OnInit {
             this.mainServe.addWish(inData).subscribe(response => {
                 this.resData = response.json();
                 if (response.json().status === 200) {
-                    swal(response.json().message, "", "success");
+                    swal(response.json().message, "", "");
                     this.skId = undefined;
                 } else {
-                    swal(response.json().message, "", "error");
+                    swal(response.json().message, "", "");
                     this.skId = undefined;
                 }
             }, error => {
-                swal(error.json().message, "", "success");
+                swal(error.json().message, "", "");
                 this.skId = undefined;
             })
         }
@@ -694,7 +694,7 @@ export class MainComponent implements OnInit {
     deleteCart(id, action) {
         var inData = id;
 
-        swal("Do you want to delete?", "", "warning", {
+        swal("Do you want to delete?", "", "", {
             buttons: ["Cancel!", "Okay!"],
         }).then((value) => {
 
@@ -712,9 +712,9 @@ export class MainComponent implements OnInit {
                             this.getBestDealsOnAppliance('', '', '');
                         }
                         this.mainServe.getCartList();
-                        swal(response.json().message, "", "success");
+                        swal(response.json().message, "", "");
                     } else {
-                        swal(response.json().message, "", "error");
+                        swal(response.json().message, "", "");
                     }
                 }, error => {
                     console.log(error);

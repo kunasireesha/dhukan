@@ -129,7 +129,7 @@ export class SearchproductsComponent implements OnInit {
       this.mainServe.addCat(inData).subscribe(response => {
         this.resData = response.json();
         if (response.json().status === 200) {
-          // swal(response.json().message, "", "success");
+          // swal(response.json().message, "", "");
           this.skId = undefined;
           this.mainServe.getCartList();
           this.getDashboard();
@@ -138,11 +138,11 @@ export class SearchproductsComponent implements OnInit {
           this.notInCart = false;
           this.selected = undefined
         } else {
-          swal(response.json().message, "", "error");
+          swal(response.json().message, "", "");
           this.skId = undefined;
         }
       }, error => {
-        swal(error.json().message, "", "error");
+        swal(error.json().message, "", "");
         this.skId = undefined;
       })
     }
@@ -188,14 +188,14 @@ export class SearchproductsComponent implements OnInit {
     this.mainServe.addWish(inData).subscribe(response => {
       this.resData = response.json();
       if (response.json().status === 200) {
-        swal(response.json().message, "", "success");
+        swal(response.json().message, "", "");
         this.skId = undefined;
       } else {
-        swal(response.json().message, "", "error");
+        swal(response.json().message, "", "");
         this.skId = undefined;
       }
     }, error => {
-      swal(error.json().message, "", "success");
+      swal(error.json().message, "", "");
       this.skId = undefined;
     })
   }
@@ -258,7 +258,7 @@ export class SearchproductsComponent implements OnInit {
 
   deleteCart(id) {
     var inData = id;
-    swal("Do you want to delete?", "", "warning", {
+    swal("Do you want to delete?", "", "", {
       buttons: ["Cancel!", "Okay!"],
     }).then((value) => {
 
@@ -266,7 +266,7 @@ export class SearchproductsComponent implements OnInit {
         this.mainServe.deleteCart(inData).subscribe(response => {
           this.mainServe.getCartList();
           this.getDashboard();
-          swal("Deleted successfully", "", "success");
+          swal("Deleted successfully", "", "");
         }, error => {
           console.log(error);
         })

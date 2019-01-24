@@ -47,7 +47,7 @@ export class StaticComponent implements OnInit {
                 this.privacy = false;
                 this.deliveryInfo = false;
                 this.termsData = atob(response.json().result[0].description);
-                console.log(this.termsData);
+
             }, error => {
 
             })
@@ -120,7 +120,7 @@ export class StaticComponent implements OnInit {
     }
     rateSub() {
         if (this.Rate == null || NaN) {
-            // swal("Please select rate", "", "warning");
+            // swal("Please select rate", "", "");
             return;
         } else {
             var inData = {
@@ -188,7 +188,7 @@ export class StaticComponent implements OnInit {
 
     deleteCart(id) {
         var inData = id;
-        swal("Do you want to delete?", "", "warning", {
+        swal("Do you want to delete?", "", "", {
             buttons: ["Cancel!", "Okay!"],
         }).then((value) => {
 
@@ -196,7 +196,7 @@ export class StaticComponent implements OnInit {
                 this.mainServe.deleteCart(inData).subscribe(response => {
                     this.mainServe.getCartList();
                     this.getDashboard();
-                    swal("Deleted successfully", "", "success");
+                    swal("Deleted successfully", "", "");
                 }, error => {
                     console.log(error);
                 })
