@@ -1,208 +1,207 @@
 <!-- start header -->
 <app-header (valueChange)='displayCounter($event)'></app-header>
 <div class="container main-header">
-  <div class="row">
-    <div class="col-lg-3">
-      <a routerLink="/">
-        <img src="assets/images/logo.png" class="img-fluid">
-      </a>
-    </div>
-    <div class="col-lg-6">
-      <form>
-        <div class="input-group mt-3 search-btn">
-          <input type="text" class="form-control" placeholder="Search" aria-label="Recipient's username"
-            aria-describedby="basic-addon2" [(ngModel)]="searchParam" name="searchParam">
-          <div class="input-group-append">
-            <button class="btn btn-outline-secondary search-icon" type="button" (click)="searchProducts()">
-              <img src="assets/images/search-icon.png">
-            </button>
-          </div>
+    <div class="row">
+        <div class="col-lg-3">
+            <a routerLink="/">
+                <img src="assets/images/logo.png" class="img-fluid">
+            </a>
         </div>
-      </form>
-    </div>
-    <div class="col-lg-3  mt-3 w-100">
-      <div class="dropdown show">
-        <button class="btn btn-secondary dropdown-toggle dropdown-button" href="#" role="button" id="dropdownMenuLink"
-          data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          <ul class="cart">
-            <li>
-              <img src="assets/images/cart.png" (click)="getCartList()">
-            </li>
-            <li>
-              <h4 (click)="getCartList()">Shopping Cart</h4>
-              <span (click)="getCartList()">{{cartCount}}</span>
-            </li>
-          </ul>
-        </button>
-
-        <div class="dropdown-menu cart-dropdown dropdown-content-cart" aria-labelledby="dropdownMenuLink">
-          <div class="container-fluid cart-dropdown-content">
-            <!-- <p class="text-center" style="color:red">{{errorMessage}}</p> -->
-            <!-- cart item -->
-            <div class="row">
-              <div class="col-lg-12 text-right">
-                <img src="assets/images/close.png" class="close-cart">
-              </div>
-            </div>
-            <div class="row cart-product" *ngFor="let item of mainSer.viewCart">
-
-              <div class="col-lg-12 text-right">
-                <img src="assets/images/close.png" class="close-cart" (click)="deleteCart(item.product_sku_id)">
-              </div>
-              <div class="col-lg-5">
-                <ul class="product-image">
-                  <li>
-                    <img [src]="item.product_image" class="img-fluid">
-                  </li>
-                  <li>
-                    <h3>{{item.title}}</h3>
-                    <!-- <h4>1 X 26</h4> -->
-                  </li>
-                </ul>
-              </div>
-              <div class="col-lg-3">
-                <div class="quantity cart-quantity">
-                  <form *ngFor="let data of item.sku">
-                    <button class="minus-btn" type="button" name="button" (click)="itemHeaderDecrease(item.title,item,data)">
-                      <i class="fa fa-minus " aria-hidden="true"></i>
-                    </button>
-                    <input type="text" name="quantity" readonly="readonly" value="{{data.mycart}}" />
-                    <button class="plus-btn" type="button" name="button" (click)="itemHeaderIncrease(item.title,item,data)">
-                      <i class="fa fa-plus" aria-hidden="true"></i>
-                    </button>
-                  </form>
+        <div class="col-lg-6">
+            <form>
+                <div class="input-group mt-3 search-btn">
+                    <input type="text" class="form-control" placeholder="Search" aria-label="Recipient's username" aria-describedby="basic-addon2"
+                        [(ngModel)]="searchParam" name="searchParam">
+                    <div class="input-group-append">
+                        <button class="btn btn-outline-secondary search-icon" type="button" (click)="searchProducts()">
+                            <img src="assets/images/search-icon.png">
+                        </button>
+                    </div>
                 </div>
-              </div>
-              <div class="col-lg-4">
-                <ul class="product-cart-price">
-                  <li>
-                    <!-- <p>Rs.36</p> -->
-                    <!-- <p class="text-danger">BIG SAVE PRICE: RS 32</p> -->
-                  </li>
-                </ul>
-              </div>
-            </div>
-            <!-- cart item -->
-            <!-- charges -->
-            <div class="row table-responsive total-charges">
-              <table class="table">
-                <tbody>
-                  <tr>
-                    <td class="charges">Sub Total</td>
-                    <td class="cost">
-                      <span>:</span>{{subTotal}}</td>
-                  </tr>
-                  <tr>
-                    <td class="charges">Delivery Charges</td>
-                    <td class="cost">
-                      <span>:</span>{{deliveryCharge}}</td>
-                  </tr>
-                  <tr>
-                    <td class="charges">Total</td>
-                    <td class="cost">
-                      <span>:</span>{{Total}}</td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-            <!-- charges -->
-            <!-- proceed buttons -->
-            <div class="row cart-dropdown-button mb-5">
-              <p>
-                <up>*</up>Actual Delivery Charges Computed at Checkout
-              </p>
-              <div class="col-lg-6 ">
-                <a routerLink="/viewcart">View Cart</a>
-              </div>
-              <div class="col-lg-6 ">
-                <a routerLink="/viewcart">CheckOut</a>
-              </div>
-
-            </div>
-            <!-- proceed button -->
-          </div>
+            </form>
         </div>
-      </div>
+        <div class="col-lg-3  mt-3 w-100">
+            <div class="dropdown show">
+                <button class="btn btn-secondary dropdown-toggle dropdown-button" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown"
+                    aria-haspopup="true" aria-expanded="false">
+                    <ul class="cart">
+                        <li>
+                            <img src="assets/images/cart.png" (click)="getCartList()">
+                        </li>
+                        <li>
+                            <h4 (click)="getCartList()">Shopping Cart</h4>
+                            <span (click)="getCartList()">{{cartCount}}</span>
+                        </li>
+                    </ul>
+                </button>
+
+                <div class="dropdown-menu cart-dropdown dropdown-content-cart" aria-labelledby="dropdownMenuLink">
+                    <div class="container-fluid cart-dropdown-content">
+                        <!-- <p class="text-center" style="color:red">{{errorMessage}}</p> -->
+                        <!-- cart item -->
+                        <div class="row">
+                            <div class="col-lg-12 text-right">
+                                <img src="assets/images/close.png" class="close-cart">
+                            </div>
+                        </div>
+                        <div class="row cart-product" *ngFor="let item of mainSer.viewCart">
+
+                            <div class="col-lg-12 text-right">
+                                <img src="assets/images/close.png" class="close-cart" (click)="deleteCart(item.product_sku_id)">
+                            </div>
+                            <div class="col-lg-5">
+                                <ul class="product-image">
+                                    <li>
+                                        <img [src]="item.product_image" class="img-fluid">
+                                    </li>
+                                    <li>
+                                        <h3>{{item.title}}</h3>
+                                        <!-- <h4>1 X 26</h4> -->
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="col-lg-3">
+                                <div class="quantity cart-quantity">
+                                    <form *ngFor="let data of item.sku">
+                                        <button class="minus-btn" type="button" name="button" (click)="itemHeaderDecrease(item.title,item,data)">
+                                            <i class="fa fa-minus " aria-hidden="true"></i>
+                                        </button>
+                                        <input type="text" name="quantity" readonly="readonly" value="{{data.mycart}}" />
+                                        <button class="plus-btn" type="button" name="button" (click)="itemHeaderIncrease(item.title,item,data)">
+                                            <i class="fa fa-plus" aria-hidden="true"></i>
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
+                            <div class="col-lg-4">
+                                <ul class="product-cart-price">
+                                    <li>
+                                        <!-- <p>Rs.36</p> -->
+                                        <!-- <p class="text-danger">BIG SAVE PRICE: RS 32</p> -->
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <!-- cart item -->
+                        <!-- charges -->
+                        <div class="row table-responsive total-charges">
+                            <table class="table">
+                                <tbody>
+                                    <tr>
+                                        <td class="charges">Sub Total</td>
+                                        <td class="cost">
+                                            <span>:</span>{{subTotal}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="charges">Delivery Charges</td>
+                                        <td class="cost">
+                                            <span>:</span>{{deliveryCharge}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="charges">Total</td>
+                                        <td class="cost">
+                                            <span>:</span>{{Total}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <!-- charges -->
+                        <!-- proceed buttons -->
+                        <div class="row cart-dropdown-button mb-5">
+                            <p>
+                                <up>*</up>Actual Delivery Charges Computed at Checkout
+                            </p>
+                            <div class="col-lg-6 ">
+                                <a routerLink="/viewcart">View Cart</a>
+                            </div>
+                            <div class="col-lg-6 ">
+                                <a routerLink="/viewcart">CheckOut</a>
+                            </div>
+
+                        </div>
+                        <!-- proceed button -->
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-  </div>
 </div>
 <!-- main-header -->
 <!-- menu header -->
 <div class="container-fluid main-menu">
-  <div class="container main-menu">
-    <div class="row">
-      <div class="col-lg-3 categories text-center">
-        <div>
-          <a id="dLabel" role="button" class="btn btn-primary dropdown-button" (click)="showCat()">
-            CATEGORIES
-            <img src="assets/images/drop-down.png" class="angle-down">
-          </a>
-        </div>
-      </div>
-      <nav class="navbar navbar-expand-lg navbar-light s col-xl-9">
+    <div class="container main-menu">
+        <div class="row">
+            <div class="col-lg-3 categories text-center">
+                <div>
+                    <a id="dLabel" role="button" class="btn btn-primary dropdown-button" (click)="showCat()">
+                        CATEGORIES
+                        <img src="assets/images/drop-down.png" class="angle-down">
+                    </a>
+                </div>
+            </div>
+            <nav class="navbar navbar-expand-lg navbar-light s col-xl-9">
 
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav"
-          aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class=""></div>
-        <div class="collapse navbar-collapse menu-list" id="navbarNav">
-          <ul class="navbar-nav ">
-            <li class="nav-item ">
-              <a class="nav-link menu" href="#">HOME
-              </a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link menu" (click)="viewAll('SMART BASKET')">SMART
-                BASKET</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link menu" (click)="viewAll('ALL OFFERS')">ALL OFFERS</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link menu" (click)="viewAll('BEST DEALS OF THE DAY')">DEAL OF THE DAY</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link menu" (click)="viewAll('NEW ARRIVALS')">NEW ARRIVALS</a>
-            </li>
-          </ul>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false"
+                    aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class=""></div>
+                <div class="collapse navbar-collapse menu-list" id="navbarNav">
+                    <ul class="navbar-nav ">
+                        <li class="nav-item ">
+                            <a class="nav-link menu" href="#">HOME
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link menu" (click)="viewAll('SMART BASKET')">SMART BASKET
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link menu" (click)="viewAll('ALL OFFERS')">ALL OFFERS</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link menu" (click)="viewAll('BEST DEALS OF THE DAY')">DEAL OF THE DAY</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link menu" (click)="viewAll('NEW ARRIVALS')">NEW ARRIVALS</a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
         </div>
-      </nav>
     </div>
-  </div>
 </div>
 
 
 <section>
-  <div class="container">
-    <div class="row">
-      <!-- show categories -->
-      <div class="col-md-3">
-        <div class="cats" *ngIf="mainSer.showCategories">
-          <div *ngFor="let data of mainSer.categories;let i =index" (click)="headerComp.showCatProd(data.id,i,data.name)"
-            [ngClass]="{'activebak':i==selectedCat}">
-            <a>{{data.name}}
-              <span class="float-right" (click)="$event.stopPropagation();showSubCat(data.id,i)" [ngClass]="{'active':showSubCats && i==selectedCat}">
-                <fa name="chevron-right"></fa>
-              </span>
-            </a>
-          </div>
-        </div>
-      </div>
-      <!-- show sub categories -->
+    <div class="container">
+        <div class="row">
+            <!-- show categories -->
+            <div class="col-md-3">
+                <div class="cats" *ngIf="mainSer.showCategories">
+                    <div *ngFor="let data of mainSer.categories;let i =index" (click)="headerComp.showCatProd(data.id,i,data.name)" [ngClass]="{'activebak':i==selectedCat}">
+                        <a>{{data.name}}
+                            <span class="float-right" (click)="$event.stopPropagation();showSubCat(data.id,i)" [ngClass]="{'active':showSubCats && i==selectedCat}">
+                                <fa name="chevron-right"></fa>
+                            </span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <!-- show sub categories -->
 
-      <div class="col-md-3">
-        <div class="subcats" *ngIf="mainSer.showSubCats">
-          <div *ngFor="let data of mainSer.subCatList">
-            <a (click)="showSubCatProd(data.id,i,data.name)">{{data.name}}
-              <!-- <span class="float-right">
+            <div class="col-md-3">
+                <div class="subcats" *ngIf="mainSer.showSubCats">
+                    <div *ngFor="let data of mainSer.subCatList">
+                        <a (click)="showSubCatProd(data.id,i,data.name)">{{data.name}}
+                            <!-- <span class="float-right">
                   <fa name="chevron-right"></fa>
                 </span> -->
-            </a>
-          </div>
-        </div>
-      </div>
-      <!-- <div class="col-md-6">
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <!-- <div class="col-md-6">
           <div class="subcats" *ngIf="showSubCats">
             <div class="sub-category">
               <div class="sub-category-list">
@@ -221,747 +220,731 @@
             </div>
           </div>
         </div> -->
+        </div>
     </div>
-  </div>
 </section>
 
 
 <!-- end header -->
 <div *ngIf="myprofileData">
-  <div class="container">
-    <div class="row">
-      <ol class="breadcrumb arr-right bredcrumb-list">
-        <li class="breadcrumb-item ">
-          <a routerLink="/" class="text-black">Home</a>
-        </li>
-        <li class="breadcrumb-item ">
-          <a routerLink="/myprofile" class="text-black">My Account</a>
-        </li>
-        <li class="breadcrumb-item text-black" aria-current="page">{{childPage}}</li>
-      </ol>
+    <div class="container">
+        <div class="row">
+            <ol class="breadcrumb arr-right bredcrumb-list">
+                <li class="breadcrumb-item ">
+                    <a routerLink="/" class="text-black">Home</a>
+                </li>
+                <li class="breadcrumb-item ">
+                    <a routerLink="/myprofile" class="text-black">My Account</a>
+                </li>
+                <li class="breadcrumb-item text-black" aria-current="page">{{childPage}}</li>
+            </ol>
+        </div>
     </div>
-  </div>
-  <div class="container-fluid col-lg-12">
-  </div>
-  <div class="container">
-    <div class="row edit-profile">
-      <div class="col-lg-3 profile-list">
-        <div class="my-account">
-          <h5>
-            My Account
-          </h5>
-        </div>
-        <ul class="list">
-          <li routerLink="/myprofile" [ngClass]="{'my-profile': showProfile || showEditProfile}">
-            <a>My Profile</a>
-          </li>
-          <li routerLink="/myorders" [ngClass]="{'my-profile': showOrders || showFeedbackForm || showOrderDetailsData}">
-            <a>My Orders</a>
-          </li>
-          <li routerLink="/mywallet" [ngClass]="{'my-profile': showWallet}">
-            <a>My Wallet</a>
-          </li>
-          <li routerLink="/changepassword" [ngClass]="{'my-profile': ShowChangePassword}">
-            <a>Change Password</a>
-          </li>
-          <li routerLink="/deliveryaddress" [ngClass]="{'my-profile': showDeliveryAddress || showChangeAddress}">
-            <a>Delivery Address</a>
-          </li>
-          <li routerLink="/referfriends" [ngClass]="{'my-profile': showReferFriends}">
-            <a>Refer Friends</a>
-          </li>
-          <li routerLink="/loyalitypoints" [ngClass]="{'my-profile': showLoyalityPoints}">
-            <a>My Loyalty Points</a>
-          </li>
-          <li routerLink="/notifications" [ngClass]="{'my-profile': showNotifications}">
-            <a>Notification</a>
-          </li>
+    <div class="container-fluid col-lg-12">
+    </div>
+    <div class="container">
+        <div class="row edit-profile">
+            <div class="col-lg-3 profile-list">
+                <div class="my-account">
+                    <h5>
+                        My Account
+                    </h5>
+                </div>
+                <ul class="list">
+                    <li routerLink="/myprofile" [ngClass]="{'my-profile': showProfile || showEditProfile}">
+                        <a>My Profile</a>
+                    </li>
+                    <li routerLink="/myorders" [ngClass]="{'my-profile': showOrders || showFeedbackForm || showOrderDetailsData}">
+                        <a>My Orders</a>
+                    </li>
+                    <li routerLink="/mywallet" [ngClass]="{'my-profile': showWallet}">
+                        <a>My Wallet</a>
+                    </li>
+                    <li routerLink="/changepassword" [ngClass]="{'my-profile': ShowChangePassword}">
+                        <a>Change Password</a>
+                    </li>
+                    <li routerLink="/deliveryaddress" [ngClass]="{'my-profile': showDeliveryAddress || showChangeAddress}">
+                        <a>Delivery Address</a>
+                    </li>
+                    <li routerLink="/referfriends" [ngClass]="{'my-profile': showReferFriends}">
+                        <a>Refer Friends</a>
+                    </li>
+                    <li routerLink="/loyalitypoints" [ngClass]="{'my-profile': showLoyalityPoints}">
+                        <a>My Loyalty Points</a>
+                    </li>
+                    <li routerLink="/notifications" [ngClass]="{'my-profile': showNotifications}">
+                        <a>Notification</a>
+                    </li>
 
-          <li>
-            <a href="#">Logout</a>
-          </li>
-        </ul>
-      </div>
-      <!-- profile -->
-      <div class="col-lg-9" *ngIf="showProfile">
-        <div class="row justify-content-md-center profile">
-          <div class="col-lg-10">
-            <table class="table table-data">
-              <tbody>
-                <tr>
-                  <td class="pro-names"> Name
-                    <span class="float-right">:</span>
-                  </td>
-                  <td>{{formData.first_name}} {{formData.last_name}}</td>
-                </tr>
-                <tr>
-                  <td class="pro-names">Email
-                    <span class="float-right">:</span>
-                  </td>
-                  <td>{{formData.email}}</td>
-                </tr>
-                <tr>
-                  <td class="pro-names">Mobile Number
-                    <span class="float-right">:</span>
-                  </td>
-                  <td>{{formData.phone}}</td>
-                </tr>
-              </tbody>
-            </table>
-            <div class="row button-block justify-content-md-center edit-btn">
-              <button type="button" (click)="openEditProfile()" class="btn edit-button" data-toggle="button"
-                aria-pressed="false" autocomplete="off">
-                EDIT PROFILE &nbsp;&nbsp;<i class="fa fa-edit" style="font-size: 12px;"></i>
-                <!-- <img src="assets\images\edit.png" class="image"> -->
-              </button>
+                    <li>
+                        <a href="#">Logout</a>
+                    </li>
+                </ul>
             </div>
-          </div>
-        </div>
-      </div>
+            <!-- profile -->
+            <div class="col-lg-9" *ngIf="showProfile">
+                <div class="row justify-content-md-center profile">
+                    <div class="col-lg-10">
+                        <table class="table table-data">
+                            <tbody>
+                                <tr>
+                                    <td class="pro-names"> Name
+                                        <span class="float-right">:</span>
+                                    </td>
+                                    <td>{{formData.first_name}} {{formData.last_name}}</td>
+                                </tr>
+                                <tr>
+                                    <td class="pro-names">Email
+                                        <span class="float-right">:</span>
+                                    </td>
+                                    <td>{{formData.email}}</td>
+                                </tr>
+                                <tr>
+                                    <td class="pro-names">Mobile Number
+                                        <span class="float-right">:</span>
+                                    </td>
+                                    <td>{{formData.phone}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <div class="row button-block justify-content-md-center edit-btn">
+                            <button type="button" (click)="openEditProfile()" class="btn edit-button" data-toggle="button" aria-pressed="false" autocomplete="off">
+                                EDIT PROFILE &nbsp;&nbsp;<i class="fa fa-edit" style="font-size: 12px;"></i>
+                                <!-- <img src="assets\images\edit.png" class="image"> -->
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
-      <!-- //edit profile -->
-      <div class="col-lg-9 form-list" *ngIf="showEditProfile">
-        <div class="row justify-content-md-center">
-          <div class="col-lg-8">
-            <form>
-              <div class="form-group row required">
-                <label for="inputEmail3" class="col-sm-4 col-form-label control-label">First Name
-                  <span class="float-right colon">:</span>
-                </label>
-                <div class="col-sm-8">
-                  <input type="email" class="form-control input-field" id="inputtext5" [(ngModel)]="formData.first_name"
-                    name="first_name">
-                </div>
-              </div>
-              <div class="form-group row required">
-                <label for="inputtext3" class="col-sm-4 col-form-label control-label"> Last Name
-                  <span class="float-right colon">:</span>
-                </label>
-                <div class="col-sm-8">
-                  <input type="text" class="form-control input-field" id="inputtext4" [(ngModel)]="formData.last_name"
-                    name="last_name">
-                </div>
-              </div>
-              <div class="form-group row required">
-                <label for="inputEmail3" class="col-sm-4 col-form-label control-label">Email Id
-                  <span class="float-right colon">:</span>
-                </label>
-                <div class="col-sm-8">
-                  <input type="email" class="form-control input-field" id="inputEmail5" placeholder="johnpark@gmail.com"
-                    [(ngModel)]="formData.email" name="email">
-                </div>
-              </div>
-              <div class="form-group row required">
-                <label for="inputEmail3" class="col-sm-4 col-form-label control-label">Mobile Number
-                  <span class="float-right colon">:</span>
-                </label>
-                <div class="col-sm-8">
-                  <input type="text" class="form-control input-field" id="inputtext3" placeholder="9966123456"
-                    myNumberOnly maxlength="10" minlength="10" [(ngModel)]="formData.phone" name="phone">
-                </div>
-              </div>
-              <div class="form-group row">
-                <label for="inputEmail3" class="col-sm-4 col-form-label">Landline Number
-                  <span class="float-right colon">:</span>
-                </label>
-                <div class="col-sm-8">
-                  <input type="text" class="form-control input-field" id="inputtext2" placeholder="040 32546"
-                    [(ngModel)]="formData.landline" name="landline">
-                </div>
-              </div>
-              <div class="form-group row">
-                <label for="inputEmail3" class="col-sm-4 col-form-label">Date Of birth
-                  <span class="float-right colon">:</span>
-                </label>
-                <div class="col-sm-8">
-                  <form #myForm="ngForm" novalidate>
-                    <my-date-picker name="mydate" [options]="myDatePickerOptions" [(ngModel)]="model" required></my-date-picker>
-                  </form>
-                  <!-- <input class="form-control" placeholder="15 Sep 1987" name="dp" [(ngModel)]="formData.dob"
+            <!-- //edit profile -->
+            <div class="col-lg-9 form-list" *ngIf="showEditProfile">
+                <div class="row justify-content-md-center">
+                    <div class="col-lg-8">
+                        <form>
+                            <div class="form-group row required">
+                                <label for="inputEmail3" class="col-sm-4 col-form-label control-label">First Name
+                                    <span class="float-right colon">:</span>
+                                </label>
+                                <div class="col-sm-8">
+                                    <input type="email" class="form-control input-field" id="inputtext5" [(ngModel)]="formData.first_name" name="first_name">
+                                </div>
+                            </div>
+                            <div class="form-group row required">
+                                <label for="inputtext3" class="col-sm-4 col-form-label control-label"> Last Name
+                                    <span class="float-right colon">:</span>
+                                </label>
+                                <div class="col-sm-8">
+                                    <input type="text" class="form-control input-field" id="inputtext4" [(ngModel)]="formData.last_name" name="last_name">
+                                </div>
+                            </div>
+                            <div class="form-group row required">
+                                <label for="inputEmail3" class="col-sm-4 col-form-label control-label">Email Id
+                                    <span class="float-right colon">:</span>
+                                </label>
+                                <div class="col-sm-8">
+                                    <input type="email" class="form-control input-field" id="inputEmail5" placeholder="johnpark@gmail.com" [(ngModel)]="formData.email"
+                                        name="email">
+                                </div>
+                            </div>
+                            <div class="form-group row required">
+                                <label for="inputEmail3" class="col-sm-4 col-form-label control-label">Mobile Number
+                                    <span class="float-right colon">:</span>
+                                </label>
+                                <div class="col-sm-8">
+                                    <input type="text" class="form-control input-field" id="inputtext3" placeholder="9966123456" myNumberOnly maxlength="10"
+                                        minlength="10" [(ngModel)]="formData.phone" name="phone">
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="inputEmail3" class="col-sm-4 col-form-label">Landline Number
+                                    <span class="float-right colon">:</span>
+                                </label>
+                                <div class="col-sm-8">
+                                    <input type="text" class="form-control input-field" id="inputtext2" placeholder="040 32546" [(ngModel)]="formData.landline"
+                                        name="landline">
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="inputEmail3" class="col-sm-4 col-form-label">Date Of birth
+                                    <span class="float-right colon">:</span>
+                                </label>
+                                <div class="col-sm-8">
+                                    <form #myForm="ngForm" novalidate>
+                                        <my-date-picker name="mydate" [options]="myDatePickerOptions" [(ngModel)]="model" required></my-date-picker>
+                                    </form>
+                                    <!-- <input class="form-control" placeholder="15 Sep 1987" name="dp" [(ngModel)]="formData.dob"
                   ngbDatepicker #d="ngbDatepicker">
                 <div class="input-group-append">
                   <button class="btn btn-outline-secondary calendar date-picker" (click)="d.toggle()" type="button"></button>
                 </div> -->
-                  <!-- <input type="text" class="form-control input-field date-picker" id="inputext1" placeholder="15 Sep 1987"
+                                    <!-- <input type="text" class="form-control input-field date-picker" id="inputext1" placeholder="15 Sep 1987"
+                                    
                   [(ngModel)]="formData.dob" name="dob"> -->
+                                </div>
+                            </div>
+                        </form>
+                    </div>
                 </div>
-              </div>
-            </form>
-          </div>
-        </div>
-        <!-- <form class="form-inline">
+                <!-- <form class="form-inline">
         <div class="form-group">
           <div class="input-group">
            
           </div>
         </div>
       </form> -->
-        <div class="row input-button">
-          <div class="col-lg-6  text-center">
-            <button type="button" class="btn btn-cancel col-lg-6 align-self-center" (click)="updateProfile()">SAVE</button>
-          </div>
-          <div class="col-lg-6  text-center">
-            <button type="button" class="btn btn-cancel col-lg-6 align-self-center" (click)="cancelEdit()">CANCEL</button>
-          </div>
-        </div>
-      </div>
+                <div class="row input-button">
+                    <div class="col-lg-1"></div>
+                    <div class="col-lg-5  text-center">
+                        <button type="button" class="btn btn-cancel col-lg-6 align-self-center" (click)="updateProfile()">SAVE</button>
+                    </div>
+                    <div class="col-lg-5  text-center">
+                        <button type="button" class="btn btn-cancel col-lg-6 align-self-center" (click)="cancelEdit()">CANCEL</button>
+                    </div>
+                    <div class="col-lg-1"></div>
+                </div>
+            </div>
 
-      <!-- my orders -->
-      <div class="col-lg-9 table-responsive" *ngIf="showOrders">
-        <table class="table table-striped table-data table-row orders-dta">
-          <thead>
-            <tr>
-              <th scope="col">S.no</th>
-              <th scope="col">Order no</th>
-              <th scope="col">Items</th>
-              <th scope="col">Price</th>
-              <th scope="col">Details</th>
-              <th scope="col">Payment Method</th>
-              <th scope="col">Status</th>
-              <th scope="col">Return/Refund</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr *ngFor="let data of ordersData;let i = index" (click)="showOrderDetails(data.order_id)">
-              <td>{{i+1}}</td>
-              <td>{{data.order_id}}</td>
-              <td>7</td>
-              <td>{{data.total_price }}</td>
-              <td>{{data.converted_date}}</td>
-              <td>Cash On Delivery</td>
-              <td>{{data.status}}</td>
-              <td class="orange">Return</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
+            <!-- my orders -->
+            <div class="col-lg-9 table-responsive" *ngIf="showOrders">
+                <table class="table table-striped table-data table-row orders-dta">
+                    <thead>
+                        <tr>
+                            <th scope="col">S.no</th>
+                            <th scope="col">Order no</th>
+                            <th scope="col">Items</th>
+                            <th scope="col">Price</th>
+                            <th scope="col">Details</th>
+                            <th scope="col">Payment Method</th>
+                            <th scope="col">Status</th>
+                            <th scope="col">Return/Refund</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let data of ordersData;let i = index" (click)="showOrderDetails(data.order_id)">
+                            <td>{{i+1}}</td>
+                            <td>{{data.order_id}}</td>
+                            <td>7</td>
+                            <td>{{data.total_price }}</td>
+                            <td>{{data.converted_date}}</td>
+                            <td>Cash On Delivery</td>
+                            <td>{{data.status}}</td>
+                            <td class="orange">Return</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
 
-      <div class="col-lg-9" *ngIf="showOrderDetailsData">
-        <button (click)="goback()" value="Back" type="submit" class="feedbk-btn">Back</button> <br />
-        <table class="table table-striped table-data table-row orders-dta">
-          <thead>
-            <tr>
-              <th scope="col" width="5%">S.no</th>
-              <th scope="col" width="30%">Product</th>
-              <th scope="col" width="20%">Image</th>
-              <th scope="col" width="10%">Return</th>
-              <th scope="col" width="35%">Feedback</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr *ngFor="let data of orderDetailsData | paginate: { itemsPerPage: 10, currentPage: p };let i = index"
-              (click)="showOrderDetails(data.order_id)">
-              <td>{{i+1}}</td>
-              <td>{{data.title}}</td>
-              <td><img src="{{data.pro_image}}" width="100px" height="100px"></td>
-              <td class="orange"> <button (click)="returnItem(data)" value="Give Feedback" type="submit" class="feedbk-btn">Return</button></td>
-              <td class="orange"> <button (click)="giveFeedback(data)" value="Give Feedback" type="submit" class="feedbk-btn">Give
-                  Feedback</button></td>
-            </tr>
-          </tbody>
-        </table>
-        <pagination-controls (pageChange)="p = $event" style="float:right; margin-top:15px;"></pagination-controls>
-      </div>
-      <br />
-      <div class="col-lg-9" *ngIf="showFeedbackForm">
-        <button (click)="goback()" value="Back" type="submit" class="feedbk-btn">Back</button>
-        <div class="rate">
-          <br />
-          <h4 class="text-center">{{orderProduct}}</h4>
-          <ngb-rating [(rate)]="currentRate" (rateChange)="rateChange(currentRate)" required></ngb-rating><br />
-          <!-- <pre>Rate: <b>{{currentRate}}</b></pre> -->
-          <div>
-            <label for="title">Feedback </label>
+            <div class="col-lg-9" *ngIf="showOrderDetailsData">
+                <button (click)="goback()" value="Back" type="submit" class="feedbk-btn">Back</button> <br />
+                <table class="table table-striped table-data table-row orders-dta">
+                    <thead>
+                        <tr>
+                            <th scope="col" width="5%">S.no</th>
+                            <th scope="col" width="30%">Product</th>
+                            <th scope="col" width="20%">Image</th>
+                            <th scope="col" width="10%">Return</th>
+                            <th scope="col" width="35%">Feedback</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let data of orderDetailsData | paginate: { itemsPerPage: 10, currentPage: p };let i = index" (click)="showOrderDetails(data.order_id)">
+                            <td>{{i+1}}</td>
+                            <td>{{data.title}}</td>
+                            <td><img src="{{data.pro_image}}" width="100px" height="100px"></td>
+                            <td class="orange"> <button (click)="returnItem(data)" value="Give Feedback" type="submit" class="feedbk-btn">Return</button></td>
+                            <td class="orange"> <button (click)="giveFeedback(data)" value="Give Feedback" type="submit"
+                                    class="feedbk-btn">Give Feedback
+                                </button></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <pagination-controls (pageChange)="p = $event" style="float:right; margin-top:15px;"></pagination-controls>
+            </div>
             <br />
-            <textarea rows="8" cols="100" id="title" name="feedback" [(ngModel)]="feedback" class="feedback-text"
-              placeholder="Write Something Here..."></textarea>
-          </div>
-          <br>
-          <button class="btn btn-rate feedbk-btn" (click)="rateSub()" [disabled]="! currentRate">Submit</button>
-        </div>
-        <!-- <button (click)="submitFeedback()" value="Give Feedback" type="submit" class="feedbk-btn">Submit</button> -->
-      </div>
+            <div class="col-lg-9" *ngIf="showFeedbackForm">
+                <button (click)="goback()" value="Back" type="submit" class="feedbk-btn">Back</button>
+                <div class="rate">
+                    <br />
+                    <h4 class="text-center">{{orderProduct}}</h4>
+                    <ngb-rating [(rate)]="currentRate" (rateChange)="rateChange(currentRate)" required></ngb-rating><br />
+                    <!-- <pre>Rate: <b>{{currentRate}}</b></pre> -->
+                    <div>
+                        <label for="title">Feedback </label>
+                        <br />
+                        <textarea rows="8" cols="100" id="title" name="feedback" [(ngModel)]="feedback" class="feedback-text" placeholder="Write Something Here..."></textarea>
+                    </div>
+                    <br>
+                    <button class="btn btn-rate feedbk-btn" (click)="rateSub()" [disabled]="! currentRate">Submit</button>
+                </div>
+                <!-- <button (click)="submitFeedback()" value="Give Feedback" type="submit" class="feedbk-btn">Submit</button> -->
+            </div>
 
-      <!-- my orders -->
-      <!-- my wallet -->
-      <div class="col-lg-9" *ngIf="showWallet">
-        <p>Contrary to popular belief, Lorem Ipsum is not simply random text.It has roots ina piece of clasical latin
-          literature
-          from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney lege in
-          Virginia,
-          looked up one of the more obscure Latin words, consectetur</p>
-        <div class="row">
-          <div class="col-lg-4 balance-block">
-            <h4> Current Balance</h4>
-            <br>
-            <h3>
-              <b>Rs 0.00</b>
-            </h3>
-            <!-- <div class="row justify-content-center">
+            <!-- my orders -->
+            <!-- my wallet -->
+            <div class="col-lg-9" *ngIf="showWallet">
+                <p>Contrary to popular belief, Lorem Ipsum is not simply random text.It has roots ina piece of clasical latin
+                    literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney
+                    lege in Virginia, looked up one of the more obscure Latin words, consectetur</p>
+                <div class="row">
+                    <div class="col-lg-4 balance-block">
+                        <h4> Current Balance</h4>
+                        <br>
+                        <h3>
+                            <b>Rs 0.00</b>
+                        </h3>
+                        <!-- <div class="row justify-content-center">
               <button type="button" class="btn add-btn">ADD MONEY</button>
             </div> -->
-          </div>
-          <div class="col-lg-8 wallet-block">
-            <h4>Wallet Activity</h4>
-            <div class="row form-date">
-              <div class="col-sm-6">
-                <input type="text" class="form-control input-field date-picker" id="inputEmail7" placeholder="13/06/18">
-              </div>
-              <div class="col-sm-6">
-                <input type="text" class="form-control input-field date-picker" id="inputEmail6" placeholder="13/06/18">
-              </div>
-            </div>
-            <div class="row justify-content-center">
-              <button type="button" class="btn check-btn">CHECK ACTIVITY</button>
-            </div>
-          </div>
-        </div>
-        <p>Contrary to popular belief, Lorem Ipsum is not simply random text.It has roots ina piece of clasical latin
-          literature
-          from 45 BC, making it over 2000 years old</p>
-      </div>
-      <!-- my wallet -->
-      <!-- password  -->
-      <div class="col-lg-9 form-password " *ngIf="ShowChangePassword">
-        <div class="row justify-content-md-center">
-          <div class="col-lg-8">
-            <form>
-              <div class="form-group row required">
-                <label for="inputEmail3" class="col-sm-4 col-form-label">
-                  <span class="float-right">Old Password</span>
-                </label>
-                <div class="col-sm-8">
-                  <input type="password" class="form-control input-field" id="inputEmail3" [(ngModel)]="changePassword.oldPw"
-                    name="oldPw">
+                    </div>
+                    <div class="col-lg-8 wallet-block">
+                        <h4>Wallet Activity</h4>
+                        <div class="row form-date">
+                            <div class="col-sm-6">
+                                <input type="text" class="form-control input-field date-picker" id="inputEmail7" placeholder="13/06/18">
+                            </div>
+                            <div class="col-sm-6">
+                                <input type="text" class="form-control input-field date-picker" id="inputEmail6" placeholder="13/06/18">
+                            </div>
+                        </div>
+                        <div class="row justify-content-center">
+                            <button type="button" class="btn check-btn">CHECK ACTIVITY</button>
+                        </div>
+                    </div>
                 </div>
-              </div>
-              <div class="form-group row required">
-                <label for="inputPassword3" class="col-sm-4 col-form-label">
-                  <span class="float-right">New Password</span>
-                </label>
-                <div class="col-sm-8">
-                  <input type="password" class="form-control input-field" id="inputPassword4" [(ngModel)]="changePassword.newPw"
-                    name="newPw">
-                </div>
-              </div>
-              <div class="form-group row required">
-                <label for="inputPassword3" class="col-sm-4 col-form-label">
-                  <span class="float-right">Confirm Password</span>
-                </label>
-                <div class="col-sm-8">
-                  <input type="password" class="form-control input-field" id="inputPassword5" [(ngModel)]="changePassword.conPw"
-                    name="conPw">
-                </div>
-              </div>
-            </form>
-            <div class="row input-button">
-              <div class="col-lg-6  text-center">
-                <button type="button" class="btn btn-cancel align-self-center" (click)="changePw()">UPDATE</button>
-              </div>
-              <div class="col-lg-6  text-center">
-                <button type="button" class="btn btn-cancel align-self-center">CANCEL</button>
-              </div>
+                <p>Contrary to popular belief, Lorem Ipsum is not simply random text.It has roots ina piece of clasical latin
+                    literature from 45 BC, making it over 2000 years old</p>
             </div>
-          </div>
-        </div>
-      </div>
-      <!-- password -->
-      <!-- delivery address -->
-      <div class="col-lg-9" *ngIf="showDeliveryAddress">
-        <div class="row">
-          <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 delivery-block2" *ngFor="let getaddress of addressData">
-            <h4>Name: &nbsp;&nbsp;{{getaddress.ua_first_name}}</h4>
-            <p>Address: &nbsp;&nbsp;{{getaddress.ua_area_details}}<br />
-              {{getaddress.ua_street_details}} {{address.ua_land_mark}}<br />
-              {{getaddress.ua_city}} {{getaddress.ua_pincode}}</p>
-            <div class="row justify-content-md-center">
-              <a class="delivery-button" (click)="deliverHere(getaddress)">DELIVERY HERE</a>
+            <!-- my wallet -->
+            <!-- password  -->
+            <div class="col-lg-9 form-password " *ngIf="ShowChangePassword">
+                <div class="row justify-content-md-center">
+                    <div class="col-lg-8">
+                        <form>
+                            <div class="form-group row required">
+                                <label for="inputEmail3" class="col-sm-4 col-form-label">
+                                    <span class="float-right">Old Password</span>
+                                </label>
+                                <div class="col-sm-8">
+                                    <input type="password" class="form-control input-field" id="inputEmail3" [(ngModel)]="changePassword.oldPw" name="oldPw">
+                                </div>
+                            </div>
+                            <div class="form-group row required">
+                                <label for="inputPassword3" class="col-sm-4 col-form-label">
+                                    <span class="float-right">New Password</span>
+                                </label>
+                                <div class="col-sm-8">
+                                    <input type="password" class="form-control input-field" id="inputPassword4" [(ngModel)]="changePassword.newPw" name="newPw">
+                                </div>
+                            </div>
+                            <div class="form-group row required">
+                                <label for="inputPassword3" class="col-sm-4 col-form-label">
+                                    <span class="float-right">Confirm Password</span>
+                                </label>
+                                <div class="col-sm-8">
+                                    <input type="password" class="form-control input-field" id="inputPassword5" [(ngModel)]="changePassword.conPw" name="conPw">
+                                </div>
+                            </div>
+                        </form>
+                        <div class="row input-button">
+                            <div class="col-lg-6  text-center">
+                                <button type="button" class="btn btn-cancel align-self-center" (click)="changePw()">UPDATE</button>
+                            </div>
+                            <div class="col-lg-6  text-center">
+                                <button type="button" class="btn btn-cancel align-self-center">CANCEL</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-          </div>
-        </div>
-        <div class="row justify-content-md-center">
-          <button type="button" class="btn new-add-btn" (click)="openChangeAddress()">
+            <!-- password -->
+            <!-- delivery address -->
+            <div class="col-lg-9" *ngIf="showDeliveryAddress">
+                <div class="row">
+                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 delivery-block2" *ngFor="let getaddress of addressData">
+                        <h4>Name: &nbsp;&nbsp;{{getaddress.ua_first_name}}</h4>
+                        <p>Address: &nbsp;&nbsp;{{getaddress.ua_area_details}}<br /> {{getaddress.ua_street_details}} {{address.ua_land_mark}}<br
+                            /> {{getaddress.ua_city}} {{getaddress.ua_pincode}}</p>
+                        <div class="row justify-content-md-center">
+                            <a class="delivery-button" (click)="deliverHere(getaddress)">DELIVERY HERE</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="row justify-content-md-center">
+                    <button type="button" class="btn new-add-btn" (click)="openChangeAddress()">
 
-            <i class="fa fa-plus-circle"></i> ADD NEW
-            ADDRESS
-          </button>
-        </div>
-      </div>
-      <!-- delivery address -->
+                        <i class="fa fa-plus-circle"></i> ADD NEW ADDRESS
+                    </button>
+                </div>
+            </div>
+            <!-- delivery address -->
 
-      <!-- add delivery address -->
-      <div class="col-lg-9" *ngIf="showChangeAddress">
-        <div class="row justify-content-md-center">
-          <div class="col-lg-9">
-            <form class="personal-details">
-              <div class="form-group row required">
-                <label for="inputEmail3" class="col-sm-4 col-form-label">
-                  Address Nick Name
-                  <span class="float-right">:</span>
-                </label>
-                <div class="col-sm-8">
-                  <input type="email" class="form-control input-field" id="inputtext15" placeholder="" [(ngModel)]="address.ua_nick_name"
-                    name="nickName">
+            <!-- add delivery address -->
+            <div class="col-lg-9" *ngIf="showChangeAddress">
+                <div class="row justify-content-md-center">
+                    <div class="col-lg-9">
+                        <form class="personal-details">
+                            <div class="form-group row required">
+                                <label for="inputEmail3" class="col-sm-4 col-form-label">
+                                    Address Nick Name
+                                    <span class="float-right">:</span>
+                                </label>
+                                <div class="col-sm-8">
+                                    <input type="email" class="form-control input-field" id="inputtext15" placeholder="" [(ngModel)]="address.ua_nick_name" name="nickName">
+                                </div>
+                            </div>
+                            <div class="form-group row required">
+                                <label for="inputEmail3" class="col-sm-4 col-form-label control-label">
+                                    First Name
+                                    <span class="float-right">:</span>
+                                </label>
+                                <div class="col-sm-8">
+                                    <input type="email" class="form-control input-field" id="inputtext14" placeholder="" [(ngModel)]="address.ua_first_name"
+                                        name="firstName">
+                                </div>
+                            </div>
+                            <div class="form-group row required">
+                                <label for="inputtext3" class="col-sm-4 col-form-label control-label"> Last Name
+                                    <span class="float-right">:</span>
+                                </label>
+                                <div class="col-sm-8">
+                                    <input type="text" class="form-control input-field" id="inputtext13" placeholder="" [(ngModel)]="address.ua_last_name" name="lastName">
+                                </div>
+                            </div>
+                            <div class="form-group row required">
+                                <label for="inputEmail3" class="col-sm-4 col-form-label control-label"> Mobile Number
+                                    <span class="float-right">:</span>
+                                </label>
+                                <div class="col-sm-8">
+                                    <input type="text" myNumberOnly maxlength="10" minlength="10" class="form-control input-field" id="inputtext" placeholder=""
+                                        [(ngModel)]="address.ua_mobile_number" name="phone">
+                                </div>
+                            </div>
+                            <div class="form-group row required">
+                                <label for="inputEmail3" class="col-sm-4 col-form-label control-label"> City
+                                    <span class="float-right">:</span>
+                                </label>
+                                <div class="col-sm-8">
+                                    <select class="form-control input-field" id="exampleFormControlSelect1" [(ngModel)]="address.ua_city" name="city">
+                                        <option value="bangalore">bangalore</option>
+                                        <option value="Hyderabad">Hyderabad</option>
+                                        <option value="Chennai">Chennai</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group row required">
+                                <label for="inputtext3" class="col-sm-4 col-form-label  control-label"> House no & details
+                                    <span class="colan float-right">:</span>
+                                </label>
+                                <div class="col-sm-8">
+                                    <input type="text" class="form-control input-field" id="inputtext11" placeholder="" [(ngModel)]="address.ua_house_no" name="houseNum">
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="inputEmail3" class="col-sm-4 col-form-label"> Residential Complex
+                                    <span class="float-right">:</span>
+                                </label>
+                                <div class="col-sm-8">
+                                    <input type="text" class="form-control input-field" id="inputext10" placeholder="" [(ngModel)]="address.residentialComplex"
+                                        name="residentialComplex">
+                                </div>
+                            </div>
+                            <div class="form-group row required">
+                                <label for="inputEmail3" class="col-sm-4 col-form-label control-label"> Area
+                                    <span class="float-right">:</span>
+                                </label>
+                                <div class="col-sm-8">
+                                    <input type="text" class="form-control input-field" id="inputtext9" placeholder="" [(ngModel)]="address.ua_area_details"
+                                        name="area">
+                                </div>
+                            </div>
+                            <div class="form-group row required">
+                                <label for="inputEmail3" class="col-sm-4 col-form-label control-label"> Pincode
+                                    <span class="float-right">:</span>
+                                </label>
+                                <div class="col-sm-8">
+                                    <input type="text" myNumberOnly class="form-control input-field" id="inputext8" placeholder="" [(ngModel)]="address.ua_pincode"
+                                        name="pincode">
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="streetdetails" class="col-sm-4 col-form-label">Street Details
+                                    <span class="float-right">:</span>
+                                </label>
+                                <div class="col-sm-8">
+                                    <input type="text" class="form-control input-field" id="inputtext7" placeholder="" [(ngModel)]="address.ua_street_details"
+                                        name="street">
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="inputEmail3" class="col-sm-4 col-form-label">Conatact Landmark
+                                    <span class="float-right">:</span>
+                                </label>
+                                <div class="col-sm-8">
+                                    <input type="text" class="form-control input-field" id="inputext6" placeholder="" [(ngModel)]="address.ua_land_mark" name="landmark">
+                                </div>
+                            </div>
+                        </form>
+                    </div>
                 </div>
-              </div>
-              <div class="form-group row required">
-                <label for="inputEmail3" class="col-sm-4 col-form-label control-label">
-                  First Name
-                  <span class="float-right">:</span>
-                </label>
-                <div class="col-sm-8">
-                  <input type="email" class="form-control input-field" id="inputtext14" placeholder="" [(ngModel)]="address.ua_first_name"
-                    name="firstName">
+                <div class="row align-items-end">
+                    <div class="col-lg-2"></div>
+                    <div class="col-lg-4  text-center">
+                        <button type="button" class="btn btn-cancel align-self-center" (click)="addAddress()">SAVE</button>
+                    </div>
+                    <div class="col-lg-4  text-center">
+                        <button type="button" class="btn btn-cancel align-self-center" (click)="canceladdAddress()">CANCEL</button>
+                    </div>
                 </div>
-              </div>
-              <div class="form-group row required">
-                <label for="inputtext3" class="col-sm-4 col-form-label control-label"> Last Name
-                  <span class="float-right">:</span>
-                </label>
-                <div class="col-sm-8">
-                  <input type="text" class="form-control input-field" id="inputtext13" placeholder="" [(ngModel)]="address.ua_last_name"
-                    name="lastName">
-                </div>
-              </div>
-              <div class="form-group row required">
-                <label for="inputEmail3" class="col-sm-4 col-form-label control-label"> Mobile Number
-                  <span class="float-right">:</span>
-                </label>
-                <div class="col-sm-8">
-                  <input type="text" myNumberOnly maxlength="10" minlength="10" class="form-control input-field" id="inputtext"
-                    placeholder="" [(ngModel)]="address.ua_mobile_number" name="phone">
-                </div>
-              </div>
-              <div class="form-group row required">
-                <label for="inputEmail3" class="col-sm-4 col-form-label control-label"> City
-                  <span class="float-right">:</span>
-                </label>
-                <div class="col-sm-8">
-                  <select class="form-control input-field" id="exampleFormControlSelect1" [(ngModel)]="address.ua_city"
-                    name="city">
-                    <option value="bangalore">bangalore</option>
-                    <option value="Hyderabad">Hyderabad</option>
-                    <option value="Chennai">Chennai</option>
-                  </select>
-                </div>
-              </div>
-              <div class="form-group row required">
-                <label for="inputtext3" class="col-sm-4 col-form-label  control-label"> House no & details
-                  <span class="colan float-right">:</span>
-                </label>
-                <div class="col-sm-8">
-                  <input type="text" class="form-control input-field" id="inputtext11" placeholder="" [(ngModel)]="address.ua_house_no"
-                    name="houseNum">
-                </div>
-              </div>
-              <div class="form-group row">
-                <label for="inputEmail3" class="col-sm-4 col-form-label"> Residential Complex
-                  <span class="float-right">:</span>
-                </label>
-                <div class="col-sm-8">
-                  <input type="text" class="form-control input-field" id="inputext10" placeholder="" [(ngModel)]="address.residentialComplex"
-                    name="residentialComplex">
-                </div>
-              </div>
-              <div class="form-group row required">
-                <label for="inputEmail3" class="col-sm-4 col-form-label control-label"> Area
-                  <span class="float-right">:</span>
-                </label>
-                <div class="col-sm-8">
-                  <input type="text" class="form-control input-field" id="inputtext9" placeholder="" [(ngModel)]="address.ua_area_details"
-                    name="area">
-                </div>
-              </div>
-              <div class="form-group row required">
-                <label for="inputEmail3" class="col-sm-4 col-form-label control-label"> Pincode
-                  <span class="float-right">:</span>
-                </label>
-                <div class="col-sm-8">
-                  <input type="text" myNumberOnly class="form-control input-field" id="inputext8" placeholder=""
-                    [(ngModel)]="address.ua_pincode" name="pincode">
-                </div>
-              </div>
-              <div class="form-group row">
-                <label for="streetdetails" class="col-sm-4 col-form-label">Street Details
-                  <span class="float-right">:</span>
-                </label>
-                <div class="col-sm-8">
-                  <input type="text" class="form-control input-field" id="inputtext7" placeholder="" [(ngModel)]="address.ua_street_details"
-                    name="street">
-                </div>
-              </div>
-              <div class="form-group row">
-                <label for="inputEmail3" class="col-sm-4 col-form-label">Conatact Landmark
-                  <span class="float-right">:</span>
-                </label>
-                <div class="col-sm-8">
-                  <input type="text" class="form-control input-field" id="inputext6" placeholder="" [(ngModel)]="address.ua_land_mark"
-                    name="landmark">
-                </div>
-              </div>
-            </form>
-          </div>
-        </div>
-        <div class="row align-items-end">
-          <div class="col-lg-6  text-center">
-            <button type="button" class="btn btn-cancel align-self-center" (click)="addAddress()">SAVE</button>
-          </div>
-          <div class="col-lg-6  text-center">
-            <button type="button" class="btn btn-cancel align-self-center" (click)="canceladdAddress()">CANCEL</button>
-          </div>
-        </div>
-      </div>
-      <!-- add delivery address -->
+            </div>
+            <!-- add delivery address -->
 
-      <!-- Refer Friends -->
-      <div class="col-lg-9" *ngIf="showReferFriends">
-        <div class="row ">
-          <div class="col-lg-12">
-            <p>{{"product-description" | translate}}</p>
-          </div>
-        </div>
-        <div class="row pb-3 get-referral-code justify-content-md-center">
-          <div class="col-lg-8 text-center">
-            <h2 class="text-center mt-3 mb-3">Your Referral Code</h2>
-            <!-- <a href="#" class="referral-link">https://dhukan.com/sgfgsh</a> -->
-            <input type="text" value="{{referalcode}}">
-            <!-- <p class="get-link">
+            <!-- Refer Friends -->
+            <div class="col-lg-9" *ngIf="showReferFriends">
+                <div class="row ">
+                    <div class="col-lg-12">
+                        <p>{{"product-description" | translate}}</p>
+                    </div>
+                </div>
+                <div class="row pb-3 get-referral-code justify-content-md-center">
+                    <div class="col-lg-8 text-center">
+                        <h2 class="text-center mt-3 mb-3">Your Referral Code</h2>
+                        <!-- <a href="#" class="referral-link">https://dhukan.com/sgfgsh</a> -->
+                        <input type="text" value="{{referalcode}}">
+                        <!-- <p class="get-link">
               <a (click)="getRefCode()">Get Referral Code</a>
             </p> -->
-          </div>
-        </div>
-        <div class="row justify-content-md-center">
-          <div class="col-lg-8 ">
-            <h2 class="text-center mt-3 mb-3">Invite Your Friends</h2>
-            <ul class="invite mb-5">
-              <li>
-                <a href="#">
-                  <fa name="envelope"></fa>
-                </a>
-              </li>
-              <li>
-                <a href="#">
-                  <fa name="comments"></fa>
-                </a>
-              </li>
-              <li>
-                <a href="#">
-                  <fa name="facebook" class="invite-facebook"></fa>
-                </a>
-              </li>
-            </ul>
-            <form>
-              <div class="row justify-content-md-center">
-                <textarea class="form-control invite-message" name="message" id="exampleFormControlTextarea1" rows="4"
-                  placeholder="enter here..."></textarea>
-                <div class="col-lg-5  mt-5">
-                  <button class="submit-button btn button" type="submit">
-                    submit
-                  </button>
+                    </div>
                 </div>
-              </div>
-            </form>
-          </div>
+                <div class="row justify-content-md-center">
+                    <div class="col-lg-8 ">
+                        <h2 class="text-center mt-3 mb-3">Invite Your Friends</h2>
+                        <ul class="invite mb-5">
+                            <li>
+                                <a href="#">
+                                    <fa name="envelope"></fa>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#">
+                                    <fa name="comments"></fa>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#">
+                                    <fa name="facebook" class="invite-facebook"></fa>
+                                </a>
+                            </li>
+                        </ul>
+                        <form>
+                            <div class="row justify-content-md-center">
+                                <textarea class="form-control invite-message" name="message" id="exampleFormControlTextarea1" rows="4" placeholder="enter here..."></textarea>
+                                <div class="col-lg-5  mt-5">
+                                    <button class="submit-button btn button" type="submit">
+                                        submit
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
 
-        </div>
-        <div class="row mt-3">
-          <div class="col-lg-12">
-            <p>{{"product-description" | translate}}</p>
-            <p>{{"product-description" | translate}}</p>
-            <p>{{"product-description" | translate}}</p>
-          </div>
-        </div>
-      </div>
-      <!-- Refer Friends -->
-      <!-- Loyality points -->
-      <div class="col-lg-9 para-details" *ngIf="showLoyalityPoints">
-        <p>Contrary to popular belief, Lorem Ipsum is not simply random text.It has roots ina piece of clasical latin
-          literature
-          from 45 BC, making it over 2000 years old.</p>
-        <p>Richard McClintock, a Latin professor at Hampden-Sydney lege in Virginia, looked up one of the more obscure
-          Latin words,
-          consectetur
-        </p>
-        <div class="row redeem-block">
-          <div class="col-12 col-sm-6 col-md-8">
-            <h4>Total Points Earned</h4>
-            <h3>
-              <b>Rs 0.00</b>
-            </h3>
-          </div>
-          <div class="col-6 col-md-4">
-            <div class="row justify-content-around">
-              <button type="button" class="btn redeem-btn">REDEEM NOW</button>
+                </div>
+                <div class="row mt-3">
+                    <div class="col-lg-12">
+                        <p>{{"product-description" | translate}}</p>
+                        <p>{{"product-description" | translate}}</p>
+                        <p>{{"product-description" | translate}}</p>
+                    </div>
+                </div>
             </div>
-          </div>
-        </div>
-      </div>
-      <!-- Loyality points -->
-      <!-- notification-->
-      <div class="col-lg-9" *ngIf="showNotifications">
-        <div class="row veg-block">
-          <div class="col-lg-2">
-            <img src="assets\images\veg-image.jpg" class="veg-image">
-          </div>
-          <div class="col-lg-8 discount-block">
-            <div>
-              Vegetables
-              <br>Contrary to popular belief Lorem Ipsum is not simply random text.
-              <br>
-              <p>40% Discount on All Vegetables</p>
+            <!-- Refer Friends -->
+            <!-- Loyality points -->
+            <div class="col-lg-9 para-details" *ngIf="showLoyalityPoints">
+                <p>Contrary to popular belief, Lorem Ipsum is not simply random text.It has roots ina piece of clasical latin
+                    literature from 45 BC, making it over 2000 years old.</p>
+                <p>Richard McClintock, a Latin professor at Hampden-Sydney lege in Virginia, looked up one of the more obscure
+                    Latin words, consectetur
+                </p>
+                <div class="row redeem-block">
+                    <div class="col-12 col-sm-6 col-md-8">
+                        <h4>Total Points Earned</h4>
+                        <h3>
+                            <b>Rs 0.00</b>
+                        </h3>
+                    </div>
+                    <div class="col-6 col-md-4">
+                        <div class="row justify-content-around">
+                            <button type="button" class="btn redeem-btn">REDEEM NOW</button>
+                        </div>
+                    </div>
+                </div>
             </div>
-          </div>
-          <div class="col-lg-2 delete-image">
-            <img src="assets\images\delete.png">
-          </div>
-        </div>
-        <div class="row veg-block">
-          <div class="col-lg-2">
-            <img src="assets\images\veg-image.jpg" class="veg-image">
-          </div>
-          <div class="col-lg-8 discount-block">
-            <div>
-              Fruits
-              <br>Contrary to popular belief Lorem Ipsum is not simply random text.
-              <br>
-              <p>60% Discount on All Fruits</p>
+            <!-- Loyality points -->
+            <!-- notification-->
+            <div class="col-lg-9" *ngIf="showNotifications">
+                <div class="row veg-block">
+                    <div class="col-lg-2">
+                        <img src="assets\images\veg-image.jpg" class="veg-image">
+                    </div>
+                    <div class="col-lg-8 discount-block">
+                        <div>
+                            Vegetables
+                            <br>Contrary to popular belief Lorem Ipsum is not simply random text.
+                            <br>
+                            <p>40% Discount on All Vegetables</p>
+                        </div>
+                    </div>
+                    <div class="col-lg-2 delete-image">
+                        <img src="assets\images\delete.png">
+                    </div>
+                </div>
+                <div class="row veg-block">
+                    <div class="col-lg-2">
+                        <img src="assets\images\veg-image.jpg" class="veg-image">
+                    </div>
+                    <div class="col-lg-8 discount-block">
+                        <div>
+                            Fruits
+                            <br>Contrary to popular belief Lorem Ipsum is not simply random text.
+                            <br>
+                            <p>60% Discount on All Fruits</p>
+                        </div>
+                    </div>
+                    <div class="col-lg-2 delete-image">
+                        <img src="assets\images\delete.png">
+                    </div>
+                </div>
+                <div class="row veg-block">
+                    <div class="col-lg-2">
+                        <img src="assets\images\veg-image.jpg" class="veg-image">
+                    </div>
+                    <div class="col-lg-8 discount-block">
+                        <div>
+                            Vegetables
+                            <br>Contrary to popular belief Lorem Ipsum is not simply random text.
+                            <br>
+                            <p>40% Discount on All Vegetables</p>
+                        </div>
+                    </div>
+                    <div class="col-lg-2 delete-image">
+                        <img src="assets\images\delete.png">
+                    </div>
+                </div>
+                <div class="row veg-block">
+                    <div class="col-lg-2">
+                        <img src="assets\images\veg-image.jpg" class="veg-image">
+                    </div>
+                    <div class="col-lg-8 discount-block">
+                        <div>
+                            Fruits
+                            <br>Contrary to popular belief Lorem Ipsum is not simply random text.
+                            <br>
+                            <p>60% Discount on All Fruits</p>
+                        </div>
+                    </div>
+                    <div class="col-lg-2 delete-image">
+                        <img src="assets\images\delete.png">
+                    </div>
+                </div>
             </div>
-          </div>
-          <div class="col-lg-2 delete-image">
-            <img src="assets\images\delete.png">
-          </div>
-        </div>
-        <div class="row veg-block">
-          <div class="col-lg-2">
-            <img src="assets\images\veg-image.jpg" class="veg-image">
-          </div>
-          <div class="col-lg-8 discount-block">
-            <div>
-              Vegetables
-              <br>Contrary to popular belief Lorem Ipsum is not simply random text.
-              <br>
-              <p>40% Discount on All Vegetables</p>
-            </div>
-          </div>
-          <div class="col-lg-2 delete-image">
-            <img src="assets\images\delete.png">
-          </div>
-        </div>
-        <div class="row veg-block">
-          <div class="col-lg-2">
-            <img src="assets\images\veg-image.jpg" class="veg-image">
-          </div>
-          <div class="col-lg-8 discount-block">
-            <div>
-              Fruits
-              <br>Contrary to popular belief Lorem Ipsum is not simply random text.
-              <br>
-              <p>60% Discount on All Fruits</p>
-            </div>
-          </div>
-          <div class="col-lg-2 delete-image">
-            <img src="assets\images\delete.png">
-          </div>
-        </div>
-      </div>
-      <!-- notification-->
-      <!-- wish list -->
-      <div *ngIf="showWish">
-        <div class="container category">
-          <ul>
-            <li>
-              <a routerLink="/#">Vegetables</a>
-            </li>
-            <li>></li>
-            <li>Wish</li>
-            <li>></li>
-            <li>View Wishlist</li>
-          </ul>
-        </div>
-        <!-- <div class="container-fluid viewcart-banner">
+            <!-- notification-->
+            <!-- wish list -->
+            <div *ngIf="showWish">
+                <div class="container category">
+                    <ul>
+                        <li>
+                            <a routerLink="/#">Vegetables</a>
+                        </li>
+                        <li>></li>
+                        <li>Wish</li>
+                        <li>></li>
+                        <li>View Wishlist</li>
+                    </ul>
+                </div>
+                <!-- <div class="container-fluid viewcart-banner">
           <div class="container">
             <h1>View Wishlist</h1>
           </div>
         </div> -->
-        <div class="container view-cart-table mt-5 table-responsive wish-table">
-          <table class="table">
-            <thead>
-              <tr>
-                <th scope="col">Product Details</th>
-                <th scope="col">Price</th>
-                <th scope="col">Quantity</th>
-                <th scope="col">Total</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr class="mt-1" *ngFor="let item of wishData">
-                <!-- <div *ngFor="let sku of item.sku"> -->
-                <td>
-                  <ul class="product-image">
-                    <li>
-                      <img [src]="item.product_image" class="img-fluid">
-                    </li>
-                    <li>
-                      <h3>{{item.title}}</h3>
-                      <!-- <h4>{{sku.size}}</h4> -->
-                    </li>
-                  </ul>
-                </td>
-                <td>
-                  <p>MRP :
-                    <span class="price">RS.{{item.actual_price}} </span>
-                    <span class="offer-price"> RS. {{item.offer_price}}</span>
-                  </p>
-                  <!-- <span class="text-danger">{{ "offer-price" | translate}}</span> -->
-                </td>
-                <!-- </div> -->
-                <td *ngFor="let data of item.sku">
-                  <div class="quantity increase-buttons">
-                    <button class="minus-btn" type="button" name="button" (click)="itemDecrease(item.title,item,data)">
-                      <i class="fa fa-minus " aria-hidden="true"></i>
-                    </button>
-                    <input type="text" name="quantity" readonly="readonly" value="{{item.mycart}}" />
-                    <button class="plus-btn" type="button" name="button" (click)=itemIncrease(item.title,item,data)>
-                      <i class="fa fa-plus" aria-hidden="true"></i>
-                    </button>
-                  </div>
-                </td>
-                <td>
-                  <div class="row mt-3">
-                    <div class="col-lg-8">
-                      <p>Rs {{item.offer_price}}</p>
-                    </div>
-                    <div class="col-lg-4">
-                      <span>
-                        <img src="assets/images/close.png" class="close-cart" (click)="deleteWish(item.id)">
-                      </span>
-                    </div>
-                  </div>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-          <div class="row empty-cart-details pb-5">
-            <!-- <div class="col-lg-8 mt-3">
+                <div class="container view-cart-table mt-5 table-responsive wish-table">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th scope="col">Product Details</th>
+                                <th scope="col">Price</th>
+                                <th scope="col">Quantity</th>
+                                <th scope="col">Total</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="mt-1" *ngFor="let item of wishData">
+                                <!-- <div *ngFor="let sku of item.sku"> -->
+                                <td>
+                                    <ul class="product-image">
+                                        <li>
+                                            <img [src]="item.product_image" class="img-fluid">
+                                        </li>
+                                        <li>
+                                            <h3>{{item.title}}</h3>
+                                            <!-- <h4>{{sku.size}}</h4> -->
+                                        </li>
+                                    </ul>
+                                </td>
+                                <td>
+                                    <p>MRP :
+                                        <span class="price">RS.{{item.actual_price}} </span>
+                                        <span class="offer-price"> RS. {{item.offer_price}}</span>
+                                    </p>
+                                    <!-- <span class="text-danger">{{ "offer-price" | translate}}</span> -->
+                                </td>
+                                <!-- </div> -->
+                                <td *ngFor="let data of item.sku">
+                                    <div class="quantity increase-buttons">
+                                        <button class="minus-btn" type="button" name="button" (click)="itemDecrease(item.title,item,data)">
+                                            <i class="fa fa-minus " aria-hidden="true"></i>
+                                        </button>
+                                        <input type="text" name="quantity" readonly="readonly" value="{{item.mycart}}" />
+                                        <button class="plus-btn" type="button" name="button" (click)=itemIncrease(item.title,item,data)>
+                                            <i class="fa fa-plus" aria-hidden="true"></i>
+                                        </button>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="row mt-3">
+                                        <div class="col-lg-8">
+                                            <p>Rs {{item.offer_price}}</p>
+                                        </div>
+                                        <div class="col-lg-4">
+                                            <span>
+                                                <img src="assets/images/close.png" class="close-cart" (click)="deleteWish(item.id)">
+                                            </span>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div class="row empty-cart-details pb-5">
+                        <!-- <div class="col-lg-8 mt-3">
               <button type="submit" class="btn button" (click)="emptyWish()" *ngIf="wishData.length >0">
                 <img src="assets/images/empty-cart.png"> EMPTY WISHLILT </button>
 
             </div> -->
 
-          </div>
-          <div class="container">
-            <div class="row  mt-5 mb-5">
-              <!-- <div class="col-lg-6">
+                    </div>
+                    <div class="container">
+                        <div class="row  mt-5 mb-5">
+                            <!-- <div class="col-lg-6">
               <a href="#" class="view-cart-button btn">Continue Shopping</a>
             </div> -->
-              <div class="col-lg-6 text-right">
-                <a (click)="chekOut()" class="view-cart-button btn">Checkout</a>
-              </div>
-            </div>
-          </div>
+                            <div class="col-lg-6 text-right">
+                                <a (click)="chekOut()" class="view-cart-button btn">Checkout</a>
+                            </div>
+                        </div>
+                    </div>
 
+                </div>
+                <!-- wish list -->
+            </div>
         </div>
-        <!-- wish list -->
-      </div>
     </div>
-  </div>

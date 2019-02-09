@@ -1,31 +1,31 @@
 <section class="header">
-  <!-- top header -->
-  <div class="container-fluid top-header">
-    <div class="container">
-      <div class="row">
-        <div class=" col-lg-6 col-md-12 col-sm-12">
-          <ul>
-            <li *ngIf="showProfile">
-              <img src="assets/images/phone.png" class="header-icons">
-              <span> {{phone}}</span>
-            </li>
-            <li>
+    <!-- top header -->
+    <div class="container-fluid top-header">
+        <div class="container">
+            <div class="row">
+                <div class=" col-lg-6 col-md-12 col-sm-12">
+                    <ul>
+                        <li *ngIf="showProfile">
+                            <img src="assets/images/phone.png" class="header-icons">
+                            <span> {{phone}}</span>
+                        </li>
+                        <li>
 
-              <div>
-                <button class="btn locaton-btn" type="button" (click)="showLocation()">
-                  <img src="assets/images/location.png" class="header-icons">
-                  <span class="city"> {{location || "Choose location"}} </span>
-                  <img src="assets/images/angle-arrow-down.png" class="dropdown-icon">
-                </button>
-                <div *ngIf="hideLocations">
-                  <div class="location">
-                    <form>
+                            <div>
+                                <button class="btn locaton-btn" type="button" (click)="showLocation()">
+                                    <img src="assets/images/location.png" class="header-icons">
+                                    <span class="city"> {{location || "Choose location"}} </span>
+                                    <img src="assets/images/angle-arrow-down.png" class="dropdown-icon">
+                                </button>
+                                <div *ngIf="hideLocations">
+                                    <div class="location">
+                                        <form>
 
-                      <h5 class="text-center location-add">
-                        <fa name="map-marker" class="map-marker"></fa>{{location}}
-                        <fa name="angle-up" class="angle-up"></fa>
-                      </h5>
-                      <!-- <div class="form-group mb-3">
+                                            <h5 class="text-center location-add">
+                                                <fa name="map-marker" class="map-marker"></fa>{{location}}
+                                                <fa name="angle-up" class="angle-up"></fa>
+                                            </h5>
+                                            <!-- <div class="form-group mb-3">
                         <label for="inputState">Select country</label>
                         <select required class="form-control border-primary" id="exampleSelectPrimary" [(ngModel)]="country"
                           name="country" (change)="getStates($event.target.value)">
@@ -33,7 +33,6 @@
                           <option *ngFor="let country of countrys" value="{{country}}">{{country}}</option>
                         </select>
                       </div>
-
                       <div class="form-group mb-3" *ngIf="showState">
                         <label for="inputState">state</label>
                         <select required class="form-control border-primary" id="exampleSelectPrimary" [(ngModel)]="state"
@@ -43,410 +42,405 @@
                         </select>
                       </div> -->
 
-                      <div class="form-group mb-3">
-                        <label for="inputState">Select your city</label>
-                        <!-- <select required class="form-control" id="exampleSelectPrimary" [(ngModel)]="city" name="city"
+                                            <div class="form-group mb-3">
+                                                <label for="inputState">Select your city</label>
+                                                <!-- <select required class="form-control" id="exampleSelectPrimary" [(ngModel)]="city" name="city"
                           (change)="getArea($event.target.value)">
                           <option value="" disabled selected hidden>Select City</option>
                           <option *ngFor="let city of citydata" value="{{city.id}}">{{city.contry}}</option>
                         </select> -->
 
-                        <input type="text" class="google-place-input form-control orange-border" google-place
-                          (onSelect)="setAddress($event)" placeholder="{{location}}">
-                      </div>
+                                                <input type="text" class="google-place-input form-control orange-border" google-place (onSelect)="setAddress($event)" placeholder="{{location}}">
+                                            </div>
 
-                      <div class="form-group mb-3">
-                        <!-- <label for="inputState">Area</label> -->
-                        <input type="text" class="google-place-input form-control orange-border" google-place
-                          (onSelect)="setAreaAddress($event)" placeholder="Pincode">
-                      </div>
-
+                                            <div class="form-group mb-3">
+                                                <!-- <label for="inputState">Area</label> -->
+                                                <input type="text" class="google-place-input form-control orange-border" google-place (onSelect)="setAreaAddress($event)"
+                                                    placeholder="Pincode">
+                                            </div>
 
 
 
 
-                      <div class="row justify-content-center ">
-                        <div class="col-8">
-                          <button type="submit" class="btn button submit-button" (click)="submitLocation()">CONTINUE</button>
-                        </div>
-                      </div>
-                    </form>
-                  </div>
+
+                                            <div class="row justify-content-center ">
+                                                <div class="col-8">
+                                                    <button type="submit" class="btn button submit-button" (click)="submitLocation()">CONTINUE</button>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
                 </div>
-              </div>
-            </li>
-          </ul>
+                <div class="col-lg-6 col-md-12 col-sm-12 text-right right-menu">
+                    <ul>
+                        <li>
+                            <div class="dropdown">
+                                <a class="btn btn-secondary dropdown-toggle dropdown-button" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown"
+                                    aria-haspopup="true" aria-expanded="false">
+                                    <img src="assets/images/flag.png">
+                                    <span> {{ "select.language"| translate}} </span>
+                                    <img src="assets/images/angle-arrow-down.png" class="dropdown-icon">
+                                </a>
+                                <div class="dropdown-menu language-list dropdown-list" aria-labelledby="dropdownMenuLink">
+                                    <a class="dropdown-item" (click)="app.switchLanguage('en')">
+                                        <img src="assets/images/flag.png">
+                                        <span> English </span>
+                                    </a>
+                                    <div class="dropdown-divider divider"></div>
+                                    <a class="dropdown-item" (click)="app.switchLanguage('ar')">
+                                        <img src="assets/images/flag.png">
+                                        <span> Arabic </span>
+                                    </a>
+
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="dropdown">
+                                <a class="btn btn-secondary dropdown-toggle dropdown-button" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown"
+                                    aria-haspopup="true" aria-expanded="false">
+                                    <span>{{ "select.currency" | translate }} </span>
+                                    <img src="assets/images/angle-arrow-down.png" class="dropdown-icon">
+                                </a>
+
+                                <div class="dropdown-menu language-list dropdown-list" aria-labelledby="dropdownMenuLink">
+                                    <a class="dropdown-item" href="#">
+                                        <span>$ Doller</span>
+                                    </a>
+                                    <div class="dropdown-divider divider"></div>
+                                    <a class="dropdown-item" href="#">
+                                        <span>£ pounds</span>
+                                    </a>
+                                    <div class="dropdown-divider divider"></div>
+                                    <a class="dropdown-item" href="#">
+                                        <span>
+                                            <fa name="rupee"></fa> Rupee
+                                        </span>
+                                    </a>
+                                </div>
+                            </div>
+
+                        </li>
+                        <li class="login-css" *ngIf="showLoginButton">
+                            <button mat-button class="btn button dropdown-button" (click)="openLogin('login')">Login</button>
+                        </li>
+                        <li class="login-css" *ngIf="showLoginButton">|</li>
+                        <li class="login-css" *ngIf="showLoginButton">
+                            <button mat-button class="btn button dropdown-button" (click)="openRegistration('registration')">Register
+                            </button>
+                        </li>
+                        <li class="login-css" *ngIf="showProfile">|</li>
+                        <li class="login-css" *ngIf="showProfile">
+
+                            <div class="dropdown">
+                                <button class="btn  dropdown-toggle dropdown-button" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
+                                    aria-expanded="false">
+                                    My Account
+                                    <img src="assets/images/angle-arrow-down.png" class="dropdown-icon">
+                                </button>
+                                <div class="dropdown-menu myaccount-dropdown" aria-labelledby="dropdownMenuButton" style="margin-left: -100%">
+
+                                    <ul class="profile-dropdown">
+                                        <li routerLink="/myprofile">
+                                            <a>My profile
+
+                                            </a>
+                                        </li>
+                                        <li routerLink="/viewcart">
+                                            <a>My cart
+                                                <span>{{cartCount}} Items</span>
+                                            </a>
+                                        </li>
+                                        <li routerLink="/myorders">
+                                            <a>My Orders
+                                            </a>
+                                        </li>
+                                        <li routerLink="/mywallet">
+                                            <a>My Wallet
+                                                <span>Rs 00.00</span>
+                                            </a>
+                                        </li>
+                                        <li routerLink="/changepassword">
+                                            <a>Change Password
+                                            </a>
+                                        </li>
+                                        <li routerLink="/deliveryaddress">
+                                            <a>Delivery Address
+                                            </a>
+                                        </li>
+                                        <li routerLink="/referfriends">
+                                            <a>Refer Friends
+                                            </a>
+                                        </li>
+                                        <li routerLink="/loyalitypoints">
+                                            <a>My Loyality points
+                                            </a>
+                                        </li>
+                                        <li routerLink="/notifications">
+                                            <a>Notifications
+                                            </a>
+                                        </li>
+                                        <li routerLink="/mywishlist">
+                                            <a>My Wishlist
+                                            </a>
+                                        </li>
+                                        <li (click)="logout()">
+                                            <a>Logout
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+
+
+                        </li>
+                    </ul>
+                </div>
+            </div>
         </div>
-        <div class="col-lg-6 col-md-12 col-sm-12 text-right right-menu">
-          <ul>
-            <li>
-              <div class="dropdown">
-                <a class="btn btn-secondary dropdown-toggle dropdown-button" href="#" role="button" id="dropdownMenuLink"
-                  data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                  <img src="assets/images/flag.png">
-                  <span> {{ "select.language"| translate}} </span>
-                  <img src="assets/images/angle-arrow-down.png" class="dropdown-icon">
-                </a>
-                <div class="dropdown-menu language-list dropdown-list" aria-labelledby="dropdownMenuLink">
-                  <a class="dropdown-item" (click)="app.switchLanguage('en')">
-                    <img src="assets/images/flag.png">
-                    <span> English </span>
-                  </a>
-                  <div class="dropdown-divider divider"></div>
-                  <a class="dropdown-item" (click)="app.switchLanguage('ar')">
-                    <img src="assets/images/flag.png">
-                    <span> Arabic </span>
-                  </a>
-
-                </div>
-              </div>
-            </li>
-            <li>
-              <div class="dropdown">
-                <a class="btn btn-secondary dropdown-toggle dropdown-button" href="#" role="button" id="dropdownMenuLink"
-                  data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                  <span>{{ "select.currency" | translate }} </span>
-                  <img src="assets/images/angle-arrow-down.png" class="dropdown-icon">
-                </a>
-
-                <div class="dropdown-menu language-list dropdown-list" aria-labelledby="dropdownMenuLink">
-                  <a class="dropdown-item" href="#">
-                    <span>$ Doller</span>
-                  </a>
-                  <div class="dropdown-divider divider"></div>
-                  <a class="dropdown-item" href="#">
-                    <span>£ pounds</span>
-                  </a>
-                  <div class="dropdown-divider divider"></div>
-                  <a class="dropdown-item" href="#">
-                    <span>
-                      <fa name="rupee"></fa> Rupee
-                    </span>
-                  </a>
-                </div>
-              </div>
-
-            </li>
-            <li class="login-css" *ngIf="showLoginButton">
-              <button mat-button class="btn button dropdown-button" (click)="openLogin('login')">Login</button>
-            </li>
-            <li class="login-css" *ngIf="showLoginButton">|</li>
-            <li class="login-css" *ngIf="showLoginButton">
-              <button mat-button class="btn button dropdown-button" (click)="openRegistration('registration')">Register
-              </button>
-            </li>
-            <li class="login-css" *ngIf="showProfile">|</li>
-            <li class="login-css" *ngIf="showProfile">
-
-              <div class="dropdown">
-                <button class="btn  dropdown-toggle dropdown-button" type="button" id="dropdownMenuButton" data-toggle="dropdown"
-                  aria-haspopup="true" aria-expanded="false">
-                  My Account
-                  <img src="assets/images/angle-arrow-down.png" class="dropdown-icon">
-                </button>
-                <div class="dropdown-menu myaccount-dropdown" aria-labelledby="dropdownMenuButton" style="margin-left: -100%">
-
-                  <ul class="profile-dropdown">
-                    <li routerLink="/myprofile">
-                      <a>My profile
-
-                      </a>
-                    </li>
-                    <li routerLink="/viewcart">
-                      <a>My cart
-                        <span>{{cartCount}} Items</span>
-                      </a>
-                    </li>
-                    <li routerLink="/myorders">
-                      <a>My Orders
-                      </a>
-                    </li>
-                    <li routerLink="/mywallet">
-                      <a>My Wallet
-                        <span>Rs 00.00</span>
-                      </a>
-                    </li>
-                    <li routerLink="/changepassword">
-                      <a>Change Password
-                      </a>
-                    </li>
-                    <li routerLink="/deliveryaddress">
-                      <a>Delivery Address
-                      </a>
-                    </li>
-                    <li routerLink="/referfriends">
-                      <a>Refer Friends
-                      </a>
-                    </li>
-                    <li routerLink="/loyalitypoints">
-                      <a>My Loyality points
-                      </a>
-                    </li>
-                    <li routerLink="/notifications">
-                      <a>Notifications
-                      </a>
-                    </li>
-                    <li routerLink="/mywishlist">
-                      <a>My Wishlist
-                      </a>
-                    </li>
-                    <li (click)="logout()">
-                      <a>Logout
-                      </a>
-                    </li>
-                  </ul>
-                </div>
-              </div>
-
-
-            </li>
-          </ul>
-        </div>
-      </div>
     </div>
-  </div>
-  <!-- top header -->
-  <!-- main-header -->
+    <!-- top header -->
+    <!-- main-header -->
 
 
 
-  <!-- menu header -->
+    <!-- menu header -->
 </section>
 
 
 <div class="container">
-  <!-- The Modal -->
-  <div *ngIf="showModal">
-    <div class="row">
-      <div class="login-popup">
-        <!-- login & registration -->
-        <div class="container modal-box " *ngIf="showLoginandRegistration">
-          <div class="row modal-popup ">
-            <div class="col-lg-5 p-0">
-              <button class="btn button " (click)="showLoginScreen()" [ngClass]="{'active-login':showLogin}">LOGIN</button>
-            </div>
-            <div class="col-lg-5 p-0">
-              <button class="btn button" (click)="showRegistrationScreen()" [ngClass]="{'active-register':showRegistration}">REGISTER</button>
-            </div>
-            <div class="col-lg-2 p-0">
-              <button class="btn button cross-btn" (click)="onCloseCancel()">
-                x
-              </button>
-            </div>
-          </div>
-          <!-- login-tab -->
-          <div class="container login-tab" *ngIf="showLogin">
+    <!-- The Modal -->
+    <div *ngIf="showModal">
+        <div class="row">
+            <div class="login-popup">
+                <!-- login & registration -->
+                <div class="container modal-box " *ngIf="showLoginandRegistration">
+                    <div class="row modal-popup ">
+                        <div class="col-lg-5 p-0">
+                            <button class="btn button " (click)="showLoginScreen()" [ngClass]="{'active-login':showLogin}">LOGIN</button>
+                        </div>
+                        <div class="col-lg-5 p-0">
+                            <button class="btn button" (click)="showRegistrationScreen()" [ngClass]="{'active-register':showRegistration}">REGISTER</button>
+                        </div>
+                        <div class="col-lg-2 p-0">
+                            <button class="btn button cross-btn" (click)="onCloseCancel()">
+                                x
+                            </button>
+                        </div>
+                    </div>
+                    <!-- login-tab -->
+                    <div class="container login-tab" *ngIf="showLogin">
 
-            <form>
-              <div class="form-group col-gl-12">
-                <input type="text" class="form-control input-field" aria-describedby="emailHelp" placeholder="* Mobile Number"
-                  maxlength="10" minlength="10" [(ngModel)]="formData.phone" name="phone" required>
-              </div>
-              <div class="form-group col-gl-12">
-                <input type="password" class="form-control input-field" placeholder="* Password" [(ngModel)]="formData.password"
-                  name="password" required>
-              </div>
-              <div class="col-lg-12 text-right">
-                <button class="btn button password-btn" (click)="openForgotpassword()">Forgot Password?</button>
-              </div>
-              <div class="col-lg-12">
-                <h3 class="text-center">OR</h3>
-              </div>
-              <div class="row text-center social-login">
-                <div class="col-lg-6">
-                  <img src="assets/images/facebook.png" (click)="socialSignIn('facebook')">
-                </div>
-                <div class="col-lg-6">
-                  <!-- <img src="assets/images/google-plus.png" (click)="socialSignIn('google')"> -->
-                  <img src="assets/images/google-plus.png">
-                </div>
-              </div>
+                        <form>
+                            <div class="form-group col-gl-12">
+                                <input type="text" class="form-control input-field" aria-describedby="emailHelp" placeholder="* Mobile Number" maxlength="10"
+                                    minlength="10" [(ngModel)]="formData.phone" name="phone" required>
+                            </div>
+                            <div class="form-group col-gl-12">
+                                <input type="password" class="form-control input-field" placeholder="* Password" [(ngModel)]="formData.password" name="password"
+                                    required>
+                            </div>
+                            <div class="col-lg-12 text-right">
+                                <button class="btn button password-btn" (click)="openForgotpassword()">Forgot Password?</button>
+                            </div>
+                            <div class="col-lg-12">
+                                <h3 class="text-center">OR</h3>
+                            </div>
+                            <div class="row text-center social-login">
+                                <div class="col-lg-6">
+                                    <img src="assets/images/facebook.png" (click)="socialSignIn('facebook')">
+                                </div>
+                                <div class="col-lg-6">
+                                    <!-- <img src="assets/images/google-plus.png" (click)="socialSignIn('google')"> -->
+                                    <img src="assets/images/google-plus.png">
+                                </div>
+                            </div>
 
-              <button type="submit" class="btn  submit-button" (click)="login()">Login</button>
-            </form>
+                            <button type="submit" class="btn  submit-button" (click)="login()">Login</button>
+                        </form>
 
-          </div>
-          <!-- login-tab -->
-          <!-- registration tab -->
-          <div class="container login-tab" *ngIf="showRegistration">
-            <form>
-              <div class="row">
-                <div class="col-lg-6">
-                  <input type="text" class="form-control input-field" placeholder="* First name" [(ngModel)]="formData.firstName"
-                    name="firstName">
+                    </div>
+                    <!-- login-tab -->
+                    <!-- registration tab -->
+                    <div class="container login-tab" *ngIf="showRegistration">
+                        <form>
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <input type="text" class="form-control input-field" placeholder="* First name" [(ngModel)]="formData.firstName" name="firstName">
+                                </div>
+                                <div class="col-lg-6">
+                                    <input type="text" class="form-control input-field" placeholder="* Last name" [(ngModel)]="formData.lastName" name="lastName">
+                                </div>
+                            </div>
+                            <div class="form-group col-gl-12 mt-3">
+                                <input type="email" class="form-control input-field" aria-describedby="emailHelp" placeholder="* Email" [(ngModel)]="formData.email"
+                                    name="email">
+                            </div>
+                            <div class="form-group col-gl-12 mt-3">
+                                <input myNumberOnly type="text" class="form-control input-field" maxlength="10" minlength="10" aria-describedby="emailHelp"
+                                    placeholder="* Mobile Number" [(ngModel)]="formData.phone" name="phone">
+                            </div>
+                            <div class="row ">
+                                <div class="col-lg-6">
+                                    <input type="password" class="form-control input-field" placeholder="* Password" [(ngModel)]="formData.password" name="password">
+                                </div>
+                                <div class="col-lg-6">
+                                    <input type="text" class="form-control input-field refferral" placeholder="Referral Code" [(ngModel)]="formData.referalCode"
+                                        name="referalCode">
+                                </div>
+                            </div>
+                            <div class="row mt-3">
+                                <div class="col-lg-6">
+                                    <input type="text" name="text" class="form-control input-field" placeholder="Enter Captcha" [(ngModel)]="formData.captchaValue">
+                                    <label *ngIf="showCaptchaer" class="text-danger" style="font-size:14px;">Incorrect Captcha,
+                                        please try again</label>
+                                </div>
+                                <div class="col-lg-6">
+                                    <span id="captcha">{{captchaTExt}}</span> &nbsp; <img src="assets/images/refresh.png"
+                                        (click)="refreshCaptcha()" class="captcha-img">
+                                </div>
+                            </div>
+                            <div class="custom-control custom-checkbox terms-checkbox mt-3">
+                                <input type="checkbox" class="custom-control-input terms-input" id="customCheck1" checked>
+                                <label class="custom-control-label terms-label" for="customCheck1">Accept Terms and Conditions</label>
+                            </div>
+                            <button class="btn  submit-button mt-5 mb-3 " (click)="openOtpScreen()">Submit</button>
+                            <div class="col-lg-12 mt-3">
+                                <h3 class="text-center">OR</h3>
+                            </div>
+                            <div class="row text-center">
+                                <div class="col-lg-6">
+                                    <img src="assets/images/facebook.png">
+                                </div>
+                                <div class="col-lg-6">
+                                    <img src="assets/images/google-plus.png">
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <!-- registration tab -->
                 </div>
-                <div class="col-lg-6">
-                  <input type="text" class="form-control input-field" placeholder="* Last name" [(ngModel)]="formData.lastName"
-                    name="lastName">
+                <!-- login & registration -->
+                <!--forgot  password  -->
+                <div class="container password-popup modal-box" *ngIf="showForgotPassword">
+                    <div class="row modal-popup">
+                        <div class="col-lg-10 p-0">
+                            <h4 class="text-center mt-3">Forgot Password</h4>
+                        </div>
+                        <div class="col-lg-2 p-0">
+                            <button class="btn button cross-btn" (click)="onCloseCancel()">
+                                x
+                            </button>
+                        </div>
+                    </div>
+                    <div class="container mt-3">
+                        <form>
+
+                            <div class="form-group col-gl-12">
+                                <input type="email" class="form-control input-field" aria-describedby="emailHelp" placeholder="Mobile" [(ngModel)]="forData.forEmail"
+                                    name="forEmail" required>
+                                <!-- <label class="red" *ngIf="errorObj.emailErr">{{"common.validEmail"|translate}}</label> -->
+
+                            </div>
+                            <button type="submit" class="btn  submit-button mt-3 mb-5 " (click)="forgotPassword()">Submit</button>
+                        </form>
+                    </div>
                 </div>
-              </div>
-              <div class="form-group col-gl-12 mt-3">
-                <input type="email" class="form-control input-field" aria-describedby="emailHelp" placeholder="* Email"
-                  [(ngModel)]="formData.email" name="email">
-              </div>
-              <div class="form-group col-gl-12 mt-3">
-                <input myNumberOnly type="text" class="form-control input-field" maxlength="10" minlength="10"
-                  aria-describedby="emailHelp" placeholder="* Mobile Number" [(ngModel)]="formData.phone" name="phone">
-              </div>
-              <div class="row ">
-                <div class="col-lg-6">
-                  <input type="password" class="form-control input-field" placeholder="* Password" [(ngModel)]="formData.password"
-                    name="password">
+
+                <!-- opt screen -->
+                <div class="container password-popup modal-box" *ngIf="showPasswordOtp">
+                    <div class="row modal-popup">
+                        <div class="col-lg-10 p-0">
+                            <h4 class="text-center mt-3">OTP VERIFICATION</h4>
+                        </div>
+                        <div class="col-lg-2 p-0">
+                            <button class="btn button cross-btn" (click)="onCloseCancel()">
+                                x
+                            </button>
+                        </div>
+                    </div>
+                    <div class="container mt-3">
+                        <form>
+
+                            <div class="form-group col-gl-12">
+                                <input type="email" class="form-control input-field" aria-describedby="emailHelp" placeholder="Enter Your OTP" [(ngModel)]="formData.otp"
+                                    name="otp" required>
+                                <!-- <label class="red" *ngIf="errorObj.otpErr">{{"common.otpError"|translate}}</label> -->
+                                <small id="emailHelp" class="form-text text-muted">Your OTP will expires in 3minutes.</small>
+                            </div>
+                            <button type="submit" class="btn  submit-button mt-3 mb-5 " (click)="verifyOtp(forData.forEmail)">Submit</button>
+                        </form>
+                    </div>
                 </div>
-                <div class="col-lg-6">
-                  <input type="text" class="form-control input-field refferral" placeholder="Referral Code" [(ngModel)]="formData.referalCode"
-                    name="referalCode">
+
+                <div class="container password-popup modal-box" *ngIf="showChangePassword">
+                    <div class="row modal-popup">
+                        <div class="col-lg-10 p-0">
+                            <h4 class="text-center mt-3">Change Password</h4>
+                        </div>
+                        <div class="col-lg-2 p-0">
+                            <button class="btn button cross-btn" (click)="onCloseCancel()">
+                                x
+                            </button>
+                        </div>
+                    </div>
+                    <div class="container mt-3">
+                        <form>
+
+                            <div class="form-group col-gl-12">
+                                <input type="text" class="form-control input-field" aria-describedby="emailHelp" placeholder="Password" [(ngModel)]="forData.newPassword"
+                                    name="newPassword" required>
+                                <!-- <label class="red" *ngIf="errorObj.emailErr">{{"common.validEmail"|translate}}</label> -->
+
+                            </div>
+                            <button type="submit" class="btn  submit-button mt-3 mb-5 " (click)="changePassword(forData.newPassword)">Submit</button>
+                        </form>
+                    </div>
                 </div>
-              </div>
-              <div class="row mt-3">
-                <div class="col-lg-6">
-                  <input type="text" name="text" class="form-control input-field" placeholder="Enter Captcha"
-                    [(ngModel)]="formData.captchaValue">
-                  <label *ngIf="showCaptchaer" class="text-danger" style="font-size:14px;">Incorrect Captcha, please
-                    try again</label>
+
+
+
+                <!-- forgot password -->
+                <!-- opt screen -->
+                <div class="container password-popup modal-box" *ngIf="showOtp">
+                    <div class="row modal-popup">
+                        <div class="col-lg-10 p-0">
+                            <h4 class="text-center mt-3">OTP VERIFICATION</h4>
+                        </div>
+                        <div class="col-lg-2 p-0">
+                            <button class="btn button cross-btn" (click)="onCloseCancel()">
+                                x
+                            </button>
+                        </div>
+                    </div>
+                    <div class="container mt-3">
+                        <form>
+                            <div class="form-group col-lg-12">
+                                <input type="email" class="form-control input-field" aria-describedby="emailHelp" placeholder="Please Enter OTP" [(ngModel)]="formData.otp"
+                                    name="otp" required>
+                                <label class="red" *ngIf="errorObj.otpErr">{{"common.otpError"|translate}}</label>
+                                <small id="emailHelp" class="form-text text-muted">Your OTP will expires in 3minutes.</small>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <button type="submit" class="btn  submit-button mt-3 mb-5 " (click)="resendOtp()">Resend</button>
+                                </div>
+                                <div class="col-lg-6">
+                                    <button type="submit" class="btn  submit-button mt-3 mb-5 " (click)="registration()">Submit</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
                 </div>
-                <div class="col-lg-6">
-                  <span id="captcha">{{captchaTExt}}</span> &nbsp; <img src="assets/images/refresh.png" (click)="refreshCaptcha()"
-                    class="captcha-img">
-                </div>
-              </div>
-              <div class="custom-control custom-checkbox terms-checkbox mt-3">
-                <input type="checkbox" class="custom-control-input terms-input" id="customCheck1" checked>
-                <label class="custom-control-label terms-label" for="customCheck1">Accept Terms and Conditions</label>
-              </div>
-              <button class="btn  submit-button mt-5 mb-3 " (click)="openOtpScreen()">Submit</button>
-              <div class="col-lg-12 mt-3">
-                <h3 class="text-center">OR</h3>
-              </div>
-              <div class="row text-center">
-                <div class="col-lg-6">
-                  <img src="assets/images/facebook.png">
-                </div>
-                <div class="col-lg-6">
-                  <img src="assets/images/google-plus.png">
-                </div>
-              </div>
-            </form>
-          </div>
-          <!-- registration tab -->
+                <!-- otp screen-->
+            </div>
+
         </div>
-        <!-- login & registration -->
-        <!--forgot  password  -->
-        <div class="container password-popup modal-box" *ngIf="showForgotPassword">
-          <div class="row modal-popup">
-            <div class="col-lg-10 p-0">
-              <h4 class="text-center mt-3">Forgot Password</h4>
-            </div>
-            <div class="col-lg-2 p-0">
-              <button class="btn button cross-btn" (click)="onCloseCancel()">
-                x
-              </button>
-            </div>
-          </div>
-          <div class="container mt-3">
-            <form>
-
-              <div class="form-group col-gl-12">
-                <input type="email" class="form-control input-field" aria-describedby="emailHelp" placeholder="Mobile"
-                  [(ngModel)]="forData.forEmail" name="forEmail" required>
-                <!-- <label class="red" *ngIf="errorObj.emailErr">{{"common.validEmail"|translate}}</label> -->
-
-              </div>
-              <button type="submit" class="btn  submit-button mt-3 mb-5 " (click)="forgotPassword()">Submit</button>
-            </form>
-          </div>
-        </div>
-
-        <!-- opt screen -->
-        <div class="container password-popup modal-box" *ngIf="showPasswordOtp">
-          <div class="row modal-popup">
-            <div class="col-lg-10 p-0">
-              <h4 class="text-center mt-3">OTP VERIFICATION</h4>
-            </div>
-            <div class="col-lg-2 p-0">
-              <button class="btn button cross-btn" (click)="onCloseCancel()">
-                x
-              </button>
-            </div>
-          </div>
-          <div class="container mt-3">
-            <form>
-
-              <div class="form-group col-gl-12">
-                <input type="email" class="form-control input-field" aria-describedby="emailHelp" placeholder="Enter Your OTP"
-                  [(ngModel)]="formData.otp" name="otp" required>
-                <!-- <label class="red" *ngIf="errorObj.otpErr">{{"common.otpError"|translate}}</label> -->
-                <small id="emailHelp" class="form-text text-muted">Your OTP will expires in 3minutes.</small>
-              </div>
-              <button type="submit" class="btn  submit-button mt-3 mb-5 " (click)="verifyOtp(forData.forEmail)">Submit</button>
-            </form>
-          </div>
-        </div>
-
-        <div class="container password-popup modal-box" *ngIf="showChangePassword">
-          <div class="row modal-popup">
-            <div class="col-lg-10 p-0">
-              <h4 class="text-center mt-3">Change Password</h4>
-            </div>
-            <div class="col-lg-2 p-0">
-              <button class="btn button cross-btn" (click)="onCloseCancel()">
-                x
-              </button>
-            </div>
-          </div>
-          <div class="container mt-3">
-            <form>
-
-              <div class="form-group col-gl-12">
-                <input type="text" class="form-control input-field" aria-describedby="emailHelp" placeholder="Password"
-                  [(ngModel)]="forData.newPassword" name="newPassword" required>
-                <!-- <label class="red" *ngIf="errorObj.emailErr">{{"common.validEmail"|translate}}</label> -->
-
-              </div>
-              <button type="submit" class="btn  submit-button mt-3 mb-5 " (click)="changePassword(forData.newPassword)">Submit</button>
-            </form>
-          </div>
-        </div>
-
-
-
-        <!-- forgot password -->
-        <!-- opt screen -->
-        <div class="container password-popup modal-box" *ngIf="showOtp">
-          <div class="row modal-popup">
-            <div class="col-lg-10 p-0">
-              <h4 class="text-center mt-3">OTP VERIFICATION</h4>
-            </div>
-            <div class="col-lg-2 p-0">
-              <button class="btn button cross-btn" (click)="onCloseCancel()">
-                x
-              </button>
-            </div>
-          </div>
-          <div class="container mt-3">
-            <form>
-              <div class="form-group col-lg-12">
-                <input type="email" class="form-control input-field" aria-describedby="emailHelp" placeholder="Please Enter OTP"
-                  [(ngModel)]="formData.otp" name="otp" required>
-                <label class="red" *ngIf="errorObj.otpErr">{{"common.otpError"|translate}}</label>
-                <small id="emailHelp" class="form-text text-muted">Your OTP will expires in 3minutes.</small>
-              </div>
-              <div class="row">
-                <div class="col-lg-6">
-                  <button type="submit" class="btn  submit-button mt-3 mb-5 " (click)="resendOtp()">Resend</button>
-                </div>
-                <div class="col-lg-6">
-                  <button type="submit" class="btn  submit-button mt-3 mb-5 " (click)="registration()">Submit</button>
-                </div>
-              </div>
-            </form>
-          </div>
-        </div>
-        <!-- otp screen-->
-      </div>
-
     </div>
-  </div>
 
 </div>
 

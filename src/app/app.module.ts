@@ -24,7 +24,7 @@ import { AngularFireModule } from 'angularfire2';
 import { AngularFireDatabaseModule } from 'angularfire2/database'
 import { AngularFirestoreModule } from 'angularfire2/firestore';
 import { AngularFireAuthModule } from 'angularfire2/auth';
-
+import { Ng4LoadingSpinnerModule } from 'ng4-loading-spinner';
 import { NgxPaginationModule } from 'ngx-pagination';
 
 //components
@@ -62,248 +62,249 @@ import { StaticComponent } from './components/static/static.component';
 
 
 export function HttpLoaderFactory(http: HttpClient) {
-	return new TranslateHttpLoader(http, 'assets/i18n/', '.json');
+    return new TranslateHttpLoader(http, 'assets/i18n/', '.json');
 }
 
 
 export function getAuthServiceConfigs() {
-	let config = new AuthServiceConfig(
-		[
-			{
-				id: FacebookLoginProvider.PROVIDER_ID,
-				provider: new FacebookLoginProvider("Your-Facebook-app-id")
-			},
-			{
-				id: GoogleLoginProvider.PROVIDER_ID,
-				provider: new GoogleLoginProvider("849103706717-1kn7e8mhmb7cc4hudstp0e6bs0alqtsu.apps.googleusercontent.com")
-			}
+    let config = new AuthServiceConfig(
+        [
+            {
+                id: FacebookLoginProvider.PROVIDER_ID,
+                provider: new FacebookLoginProvider("Your-Facebook-app-id")
+            },
+            {
+                id: GoogleLoginProvider.PROVIDER_ID,
+                provider: new GoogleLoginProvider("849103706717-1kn7e8mhmb7cc4hudstp0e6bs0alqtsu.apps.googleusercontent.com")
+            }
 
-		]
-	);
-	return config;
+        ]
+    );
+    return config;
 }
 
 
 
 var firebaseConfig = {
-	apiKey: "AIzaSyDuESqaJ9e1KykYB7QYo_8gF1CI-YgCNcE",
-	authDomain: "yesspree-d146f.firebaseapp.com",
-	databaseURL: "https://yesspree-d146f.firebaseio.com",
-	projectId: "yesspree-d146f",
-	storageBucket: "yesspree-d146f.appspot.com",
-	messagingSenderId: "849103706717"
+    apiKey: "AIzaSyDuESqaJ9e1KykYB7QYo_8gF1CI-YgCNcE",
+    authDomain: "yesspree-d146f.firebaseapp.com",
+    databaseURL: "https://yesspree-d146f.firebaseio.com",
+    projectId: "yesspree-d146f",
+    storageBucket: "yesspree-d146f.appspot.com",
+    messagingSenderId: "849103706717"
 };
 
 @NgModule({
-	declarations: [
-		AppComponent,
-		MainComponent,
-		HeaderComponent,
-		FooterComponent,
-		ProductComponent,
-		ProductSliderComponent,
-		CategoriesComponent,
-		ProductdetailsComponent,
-		DeliveryComponent,
-		MyprofileListComponent,
-		ViewcartComponent,
-		NumberOnlyDirective,
-		ProductsDirective,
-		AlphabetsOnly,
-		AlphaNumericOnly,
-		GooglePlacesDirective,
-		OrdersComponent,
-		StaticComponent,
-		SearchproductsComponent,
-		AllProductsComponent
-	],
-	imports: [
-		BrowserModule,
-		MatDialogModule,
-		BrowserAnimationsModule,
-		HttpClientModule,
-		FormsModule,
-		AngularFontAwesomeModule,
-		ImageZoomModule,
-		HttpModule,
-		NgSelectModule,
-		SafePipeModule,
-		ReactiveFormsModule,
-		NgxPaginationModule,
-		AngularFireModule.initializeApp(firebaseConfig),
-		AngularFirestoreModule,
-		AngularFireDatabaseModule,
-		AngularFireAuthModule,
-		AgmCoreModule.forRoot({
-			apiKey: "AIzaSyClUICP4-qGf2r4SSCZF5MzbSFXT6mIbvM",
-			libraries: ["places"]
-		}),
-		SocialLoginModule,
-		TooltipModule.forRoot(),
-		CarouselModule.forRoot(),
-		NgbModule.forRoot(),
-		MyDatePickerModule,
-		RouterModule.forRoot([
+    declarations: [
+        AppComponent,
+        MainComponent,
+        HeaderComponent,
+        FooterComponent,
+        ProductComponent,
+        ProductSliderComponent,
+        CategoriesComponent,
+        ProductdetailsComponent,
+        DeliveryComponent,
+        MyprofileListComponent,
+        ViewcartComponent,
+        NumberOnlyDirective,
+        ProductsDirective,
+        AlphabetsOnly,
+        AlphaNumericOnly,
+        GooglePlacesDirective,
+        OrdersComponent,
+        StaticComponent,
+        SearchproductsComponent,
+        AllProductsComponent
+    ],
+    imports: [
+        BrowserModule,
+        MatDialogModule,
+        BrowserAnimationsModule,
+        HttpClientModule,
+        FormsModule,
+        AngularFontAwesomeModule,
+        ImageZoomModule,
+        HttpModule,
+        NgSelectModule,
+        SafePipeModule,
+        ReactiveFormsModule,
+        NgxPaginationModule,
+        AngularFireModule.initializeApp(firebaseConfig),
+        AngularFirestoreModule,
+        AngularFireDatabaseModule,
+        AngularFireAuthModule,
+        Ng4LoadingSpinnerModule.forRoot(),
+        AgmCoreModule.forRoot({
+            apiKey: "AIzaSyClUICP4-qGf2r4SSCZF5MzbSFXT6mIbvM",
+            libraries: ["places"]
+        }),
+        SocialLoginModule,
+        TooltipModule.forRoot(),
+        CarouselModule.forRoot(),
+        NgbModule.forRoot(),
+        MyDatePickerModule,
+        RouterModule.forRoot([
 
-			{
-				path: '',
-				component: MainComponent
-			},
+            {
+                path: '',
+                component: MainComponent
+            },
 
-			{
-				path: 'categoriesProducts',
-				component: CategoriesComponent,
-				data: [{ page: 'veg-categories' }]
-			},
+            {
+                path: 'categoriesProducts',
+                component: CategoriesComponent,
+                data: [{ page: 'veg-categories' }]
+            },
 
-			{
-				path: 'productdetails',
-				component: ProductdetailsComponent
-			},
-			{
-				path: 'deliveryAddress',
-				component: DeliveryComponent
-			},
-			{
-				path: 'myprofileList',
-				component: MyprofileListComponent
-			},
-			{
-				path: 'myprofile',
-				component: MyprofileListComponent,
-				data: [{ page: 'my-profile' }]
-			},
-			{
-				path: 'myorders',
-				component: MyprofileListComponent,
-				data: [{ page: 'myorders' }]
-			},
-			{
-				path: 'mywallet',
-				component: MyprofileListComponent,
-				data: [{ page: 'mywallet' }]
-			},
-			{
-				path: 'changepassword',
-				component: MyprofileListComponent,
-				data: [{ page: 'changepassword' }]
-			},
-			{
-				path: 'referfriends',
-				component: MyprofileListComponent,
-				data: [{ page: 'referfriends' }]
-			},
-			{
-				path: 'loyalitypoints',
-				component: MyprofileListComponent,
-				data: [{ page: 'loyalitypoints' }]
-			},
-			{
-				path: 'notifications',
-				component: MyprofileListComponent,
-				data: [{ page: 'notifications' }]
-			},
-			{
-				path: 'deliveryaddress',
-				component: MyprofileListComponent,
-				data: [{ page: 'deliveryaddress' }]
-			},
-			// {
-			// 	path: 'mywishlist',
-			// 	component: MyprofileListComponent,
-			// 	data: [{ page: 'mywishlist' }]
-			// },
-			{
-				path: 'paymentoptions',
-				component: DeliveryComponent,
-				data: [{ page: 'paymentoptions' }]
-			},
-			{
-				path: 'viewcart',
-				component: ViewcartComponent,
-				data: [{ page: 'viewcart' }]
-			},
-			{
-				path: 'faq',
-				component: StaticComponent,
-				data: [{ page: 'faq' }]
-			},
-			{
-				path: 'termsandcond',
-				component: StaticComponent,
-				data: [{ page: 'termsandcond' }]
-			},
-			{
-				path: 'aboutUs',
-				component: StaticComponent,
-				data: [{ page: 'aboutUs' }]
-			},
-			{
-				path: 'rateapp',
-				component: StaticComponent,
-				data: [{ page: 'rateapp' }]
-			},
-			{
-				path: 'privacyPolicy',
-				component: StaticComponent,
-				data: [{ page: 'privacyPolicy' }]
-			},
-			{
-				path: 'contactUs',
-				component: StaticComponent,
-				data: [{ page: 'contactUs' }]
-			},
-			{
-				path: 'deliveryInfo',
-				component: StaticComponent,
-				data: [{ page: 'deliveryInfo' }]
-			},
-			{
-				path: 'search',
-				component: SearchproductsComponent
-			},
-			{
-				path: 'smartBasket',
-				component: AllProductsComponent,
-				data: [{ page: 'smartBasket' }]
-			},
-			{
-				path: 'mywishlist',
-				component: AllProductsComponent,
-				data: [{ page: 'mywishlist' }]
-			},
-			{
-				path: 'viewAll',
-				component: AllProductsComponent,
-				data: [{ page: 'viewAll' }]
-			}
+            {
+                path: 'productdetails',
+                component: ProductdetailsComponent
+            },
+            {
+                path: 'deliveryAddress',
+                component: DeliveryComponent
+            },
+            {
+                path: 'myprofileList',
+                component: MyprofileListComponent
+            },
+            {
+                path: 'myprofile',
+                component: MyprofileListComponent,
+                data: [{ page: 'my-profile' }]
+            },
+            {
+                path: 'myorders',
+                component: MyprofileListComponent,
+                data: [{ page: 'myorders' }]
+            },
+            {
+                path: 'mywallet',
+                component: MyprofileListComponent,
+                data: [{ page: 'mywallet' }]
+            },
+            {
+                path: 'changepassword',
+                component: MyprofileListComponent,
+                data: [{ page: 'changepassword' }]
+            },
+            {
+                path: 'referfriends',
+                component: MyprofileListComponent,
+                data: [{ page: 'referfriends' }]
+            },
+            {
+                path: 'loyalitypoints',
+                component: MyprofileListComponent,
+                data: [{ page: 'loyalitypoints' }]
+            },
+            {
+                path: 'notifications',
+                component: MyprofileListComponent,
+                data: [{ page: 'notifications' }]
+            },
+            {
+                path: 'deliveryaddress',
+                component: MyprofileListComponent,
+                data: [{ page: 'deliveryaddress' }]
+            },
+            // {
+            // 	path: 'mywishlist',
+            // 	component: MyprofileListComponent,
+            // 	data: [{ page: 'mywishlist' }]
+            // },
+            {
+                path: 'paymentoptions',
+                component: DeliveryComponent,
+                data: [{ page: 'paymentoptions' }]
+            },
+            {
+                path: 'viewcart',
+                component: ViewcartComponent,
+                data: [{ page: 'viewcart' }]
+            },
+            {
+                path: 'faq',
+                component: StaticComponent,
+                data: [{ page: 'faq' }]
+            },
+            {
+                path: 'termsandcond',
+                component: StaticComponent,
+                data: [{ page: 'termsandcond' }]
+            },
+            {
+                path: 'aboutUs',
+                component: StaticComponent,
+                data: [{ page: 'aboutUs' }]
+            },
+            {
+                path: 'rateapp',
+                component: StaticComponent,
+                data: [{ page: 'rateapp' }]
+            },
+            {
+                path: 'privacyPolicy',
+                component: StaticComponent,
+                data: [{ page: 'privacyPolicy' }]
+            },
+            {
+                path: 'contactUs',
+                component: StaticComponent,
+                data: [{ page: 'contactUs' }]
+            },
+            {
+                path: 'deliveryInfo',
+                component: StaticComponent,
+                data: [{ page: 'deliveryInfo' }]
+            },
+            {
+                path: 'search',
+                component: SearchproductsComponent
+            },
+            {
+                path: 'smartBasket',
+                component: AllProductsComponent,
+                data: [{ page: 'smartBasket' }]
+            },
+            {
+                path: 'mywishlist',
+                component: AllProductsComponent,
+                data: [{ page: 'mywishlist' }]
+            },
+            {
+                path: 'viewAll',
+                component: AllProductsComponent,
+                data: [{ page: 'viewAll' }]
+            }
 
-		], { useHash: true }),
-		TranslateModule.forRoot({
-			loader: {
-				provide: TranslateLoader,
-				useFactory: HttpLoaderFactory,
-				deps: [HttpClient]
-			}
-		})
-	],
-	schemas: [NO_ERRORS_SCHEMA],
-	providers: [DataService, HeaderService, MainService, ProfileService, AddressServices, MainComponent, {
-		provide: AuthServiceConfig,
-		useFactory: getAuthServiceConfigs
-	}],
-	bootstrap: [AppComponent],
-	entryComponents: [],
-	exports: [BrowserModule, TranslateModule]
+        ], { useHash: true }),
+        TranslateModule.forRoot({
+            loader: {
+                provide: TranslateLoader,
+                useFactory: HttpLoaderFactory,
+                deps: [HttpClient]
+            }
+        })
+    ],
+    schemas: [NO_ERRORS_SCHEMA],
+    providers: [DataService, HeaderService, MainService, ProfileService, AddressServices, MainComponent, {
+        provide: AuthServiceConfig,
+        useFactory: getAuthServiceConfigs
+    }],
+    bootstrap: [AppComponent],
+    entryComponents: [],
+    exports: [BrowserModule, TranslateModule]
 })
 export class AppModule {
-	constructor() {
-		if (localStorage.session === undefined || localStorage.session === '' || localStorage.session === null) {
-			this.randomkey = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
-			localStorage.setItem('session', this.randomkey)
-		}
+    constructor() {
+        if (localStorage.session === undefined || localStorage.session === '' || localStorage.session === null) {
+            this.randomkey = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
+            localStorage.setItem('session', this.randomkey)
+        }
 
-	}
-	randomkey;
+    }
+    randomkey;
 
 }

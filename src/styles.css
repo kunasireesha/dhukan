@@ -31,6 +31,9 @@ body {
 .savedPrice {
   font-size: 12px;
 }
+#navbarNav  .nav-item{
+    margin-right: 10px;
+   }
 
 .red {
   color: red;

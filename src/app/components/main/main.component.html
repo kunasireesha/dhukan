@@ -1,217 +1,217 @@
 <!-- start header -->
 <app-header (valueChange)='displayCounter($event)'></app-header>
 <div class="container main-header">
-  <div class="row">
-    <div class="col-lg-3">
-      <a routerLink="/">
-        <img src="assets/images/logo.png" class="img-fluid">
-      </a>
-    </div>
-    <div class="col-lg-6">
-      <form>
-        <div class="input-group mt-3 search-btn">
-          <input type="text" class="form-control" placeholder="Search" aria-label="Recipient's username"
-            aria-describedby="basic-addon2" [(ngModel)]="searchParam" name="searchParam">
-          <div class="input-group-append">
-            <button class="btn btn-outline-secondary search-icon" type="button" (click)="searchProducts()">
-              <img src="assets/images/search-icon.png">
-            </button>
-          </div>
+    <div class="row">
+        <div class="col-lg-3">
+            <a routerLink="/">
+                <img src="assets/images/logo.png" class="img-fluid">
+            </a>
         </div>
-      </form>
-    </div>
-    <div class="col-lg-3  mt-3 w-100">
-      <div class="dropdown show">
-        <button class="btn btn-secondary dropdown-toggle dropdown-button" href="#" role="button" id="dropdownMenuLink"
-          data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          <ul class="cart">
-            <li>
-              <img src="assets/images/cart.png" (click)="getCartList()">
-            </li>
-            <li>
-              <h4 (click)="getCartList()">Shopping Cart</h4>
-              <span (click)="getCartList()" *ngIf="mainServe.cartCount!==undefined">{{mainServe.cartCount}}</span>
-              <span (click)="getCartList()" *ngIf="mainServe.cartCount==undefined">0</span>
-            </li>
-          </ul>
-        </button>
-
-        <div class="dropdown-menu cart-dropdown dropdown-content-cart" aria-labelledby="dropdownMenuLink">
-          <div class="container-fluid cart-dropdown-content">
-            <!-- <p class="text-center" style="color:red">{{errorMessage}}</p> -->
-            <!-- cart item -->
-            <div class="row">
-              <div class="col-lg-12 text-right">
-                <img src="assets/images/close.png" class="close-cart">
-              </div>
-            </div>
-            <div class="row cart-product" *ngFor="let item of mainServe.viewCart">
-
-              <div class="col-lg-12 text-right">
-                <img src="assets/images/close.png" class="close-cart" (click)="deleteCart(item.product_sku_id)">
-              </div>
-              <div class="col-lg-5">
-                <ul class="product-image">
-                  <li>
-                    <img [src]="item.product_image" class="img-fluid">
-                  </li>
-                  <li>
-                    <h3>{{item.title}}</h3>
-                    <!-- <h4>1 X 26</h4> -->
-                  </li>
-
-                </ul>
-              </div>
-              <div class="col-lg-3">
-                <div class="quantity cart-quantity">
-
-                  <div>
-                    <form *ngFor="let data of item.sku">
-                      <button class="minus-btn" type="button" name="button" (click)="itemHeaderDecrease(item.title,item,data)">
-                        <i class="fa fa-minus " aria-hidden="true"></i>
-                      </button>
-                      <input type="text" name="quantity" readonly="readonly" value="{{data.mycart}}" />
-                      <button class="plus-btn" type="button" name="button" (click)="itemHeaderIncrease(item.title,item,data)">
-                        <i class="fa fa-plus" aria-hidden="true"></i>
-                      </button>
-                    </form>
-                  </div>
+        <div class="col-lg-6">
+            <form>
+                <div class="input-group mt-3 search-btn">
+                    <input type="text" class="form-control" placeholder="Search" aria-label="Recipient's username" aria-describedby="basic-addon2"
+                        [(ngModel)]="searchParam" name="searchParam">
+                    <div class="input-group-append">
+                        <button class="btn btn-outline-secondary search-icon" type="button" (click)="searchProducts()">
+                            <img src="assets/images/search-icon.png">
+                        </button>
+                    </div>
                 </div>
-              </div>
-              <div class="col-lg-4">
-                <ul class="product-cart-price">
-                  <li>
-                    <p>Rs : {{item.selling_price}}</p>
-                    <p class="text-danger" *ngFor="let sku of item.sku">BIG SAVE PRICE : RS {{sku.actual_price -
-                      sku.selling_price}}</p>
-                  </li>
-                </ul>
-              </div>
-            </div>
-            <!-- cart item -->
-            <!-- charges -->
-            <div class="row table-responsive total-charges">
-              <table class="table">
-                <tbody>
-                  <tr>
-                    <td class="charges">Sub Total</td>
-                    <td class="cost">
-                      <span>:</span>{{subTotal}}</td>
-                  </tr>
-                  <tr>
-                    <td class="charges">Delivery Charges</td>
-                    <td class="cost">
-                      <span>:</span>{{deliveryCharge}}</td>
-                  </tr>
-                  <tr>
-                    <td class="charges">Total</td>
-                    <td class="cost">
-                      <span>:</span>{{Total}}</td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-            <div *ngIf="!mainServe.viewCart">
-              No products
-            </div>
-            <!-- charges -->
-            <!-- proceed buttons -->
-            <div class="row cart-dropdown-button mb-5">
-              <p>
-                <up>*</up>Actual Delivery Charges Computed at Checkout
-              </p>
-              <div class="col-lg-6 ">
-                <a routerLink="/viewcart">View Cart</a>
-              </div>
-              <div class="col-lg-6 ">
-                <a routerLink="/viewcart">CheckOut</a>
-              </div>
-
-            </div>
-            <!-- proceed button -->
-          </div>
+            </form>
         </div>
-      </div>
+        <div class="col-lg-3  mt-3 w-100">
+            <div class="dropdown show">
+                <button class="btn btn-secondary dropdown-toggle dropdown-button" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown"
+                    aria-haspopup="true" aria-expanded="false">
+                    <ul class="cart">
+                        <li>
+                            <img src="assets/images/cart.png" (click)="getCartList()">
+                        </li>
+                        <li>
+                            <h4 (click)="getCartList()">Shopping Cart</h4>
+                            <span (click)="getCartList()" *ngIf="mainServe.cartCount!==undefined">{{mainServe.cartCount}}</span>
+                            <span (click)="getCartList()" *ngIf="mainServe.cartCount==undefined">0</span>
+                        </li>
+                    </ul>
+                </button>
+
+                <div class="dropdown-menu cart-dropdown dropdown-content-cart" aria-labelledby="dropdownMenuLink">
+                    <div class="container-fluid cart-dropdown-content">
+                        <!-- <p class="text-center" style="color:red">{{errorMessage}}</p> -->
+                        <!-- cart item -->
+                        <div class="row">
+                            <div class="col-lg-12 text-right">
+                                <img src="assets/images/close.png" class="close-cart">
+                            </div>
+                        </div>
+                        <div class="row cart-product" *ngFor="let item of mainServe.viewCart">
+
+                            <div class="col-lg-12 text-right">
+                                <img src="assets/images/close.png" class="close-cart" (click)="deleteCart(item.product_sku_id)">
+                            </div>
+                            <div class="col-lg-5">
+                                <ul class="product-image">
+                                    <li>
+                                        <img [src]="item.product_image" class="img-fluid">
+                                    </li>
+                                    <li>
+                                        <h3>{{item.title}}</h3>
+                                        <!-- <h4>1 X 26</h4> -->
+                                    </li>
+
+                                </ul>
+                            </div>
+                            <div class="col-lg-3">
+                                <div class="quantity cart-quantity">
+
+                                    <div>
+                                        <form *ngFor="let data of item.sku">
+                                            <button class="minus-btn" type="button" name="button" (click)="itemHeaderDecrease(item.title,item,data)">
+                                                <i class="fa fa-minus " aria-hidden="true"></i>
+                                            </button>
+                                            <input type="text" name="quantity" readonly="readonly" value="{{data.mycart}}" />
+                                            <button class="plus-btn" type="button" name="button" (click)="itemHeaderIncrease(item.title,item,data)">
+                                                <i class="fa fa-plus" aria-hidden="true"></i>
+                                            </button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-4">
+                                <ul class="product-cart-price">
+                                    <li>
+                                        <p>Rs : {{item.selling_price}}</p>
+                                        <p class="text-danger" *ngFor="let sku of item.sku">BIG SAVE PRICE : RS {{sku.actual_price
+                                            - sku.selling_price}}
+                                        </p>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <!-- cart item -->
+                        <!-- charges -->
+                        <div class="row table-responsive total-charges">
+                            <table class="table">
+                                <tbody>
+                                    <tr>
+                                        <td class="charges">Sub Total</td>
+                                        <td class="cost">
+                                            <span>:</span>{{subTotal}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="charges">Delivery Charges</td>
+                                        <td class="cost">
+                                            <span>:</span>{{deliveryCharge}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="charges">Total</td>
+                                        <td class="cost">
+                                            <span>:</span>{{Total}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div *ngIf="!mainServe.viewCart">
+                            No products
+                        </div>
+                        <!-- charges -->
+                        <!-- proceed buttons -->
+                        <div class="row cart-dropdown-button mb-5">
+                            <p>
+                                <up>*</up>Actual Delivery Charges Computed at Checkout
+                            </p>
+                            <div class="col-lg-6 ">
+                                <a routerLink="/viewcart">View Cart</a>
+                            </div>
+                            <div class="col-lg-6 ">
+                                <a routerLink="/viewcart">CheckOut</a>
+                            </div>
+
+                        </div>
+                        <!-- proceed button -->
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-  </div>
 </div>
 <!-- main-header -->
 <!-- menu header -->
 <div class="container-fluid main-menu">
-  <div class="container main-menu">
-    <div class="row">
-      <div class="col-lg-3 categories text-center">
-        <div>
-          <a id="dLabel" role="button" class="btn btn-primary dropdown-button" (click)="showCat()">
-            CATEGORIES
-            <img src="assets/images/drop-down.png" class="angle-down">
-          </a>
-        </div>
-      </div>
-      <nav class="navbar navbar-expand-lg navbar-light s col-xl-9">
+    <div class="container main-menu">
+        <div class="row">
+            <div class="col-lg-3 categories text-center">
+                <div>
+                    <a id="dLabel" role="button" class="btn btn-primary dropdown-button" (click)="showCat()">
+                        CATEGORIES
+                        <img src="assets/images/drop-down.png" class="angle-down">
+                    </a>
+                </div>
+            </div>
+            <nav class="navbar navbar-expand-lg navbar-light s col-xl-9">
 
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav"
-          aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class=""></div>
-        <div class="collapse navbar-collapse menu-list" id="navbarNav">
-          <ul class="navbar-nav ">
-            <li class="nav-item ">
-              <a class="nav-link menu" routerLink="/">HOME
-              </a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link menu" (click)="viewAll('SMART BASKET')">SMART
-                BASKET</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link menu" (click)="viewAll('ALL OFFERS')">ALL OFFERS</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link menu" (click)="viewAll('BEST DEALS OF THE DAY')">DEAL OF THE DAY</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link menu" (click)="viewAll('NEW ARRIVALS')">NEW ARRIVALS</a>
-            </li>
-          </ul>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false"
+                    aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class=""></div>
+                <div class="collapse navbar-collapse menu-list" id="navbarNav">
+                    <ul class="navbar-nav ">
+                        <li class="nav-item ">
+                            <a class="nav-link menu" routerLink="/">HOME
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link menu" (click)="viewAll('SMART BASKET')">SMART BASKET
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link menu" (click)="viewAll('ALL OFFERS')">ALL OFFERS</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link menu" (click)="viewAll('BEST DEALS OF THE DAY')">DEAL OF THE DAY</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link menu" (click)="viewAll('NEW ARRIVALS')">NEW ARRIVALS</a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
         </div>
-      </nav>
     </div>
-  </div>
 </div>
 
 
 <section>
-  <div class="container">
-    <div class="row">
-      <!-- show categories -->
-      <div class="col-md-3">
-        <div class="cats" *ngIf="mainServe.showCategories">
-          <div *ngFor="let data of mainServe.categories;let i =index" (click)="showCatProd(data.id,i,data.name)"
-            [ngClass]="{'activebak':i==selectedCat}">
-            <a>{{data.name}}
-              <span class="float-right" (click)="$event.stopPropagation();showSubCat(data.id,i)">
-                <fa name="chevron-right"></fa>
-              </span>
-            </a>
-          </div>
-        </div>
-      </div>
-      <!-- show sub categories -->
+    <div class="container">
+        <div class="row">
+            <!-- show categories -->
+            <div class="col-md-3">
+                <div class="cats" *ngIf="mainServe.showCategories">
+                    <div *ngFor="let data of mainServe.categories;let i =index" (click)="showCatProd(data.id,i,data.name)" [ngClass]="{'activebak':i==selectedCat}">
+                        <a>{{data.name}}
+                            <span class="float-right" (click)="$event.stopPropagation();showSubCat(data.id,i)">
+                                <fa name="chevron-right"></fa>
+                            </span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <!-- show sub categories -->
 
-      <div class="col-md-3">
-        <div class="subcats" *ngIf="mainServe.showSubCats">
-          <div *ngFor="let data of mainServe.subCatList">
-            <a (click)="showSubCatProd(data.id,i,data.name)">{{data.name}}
-              <!-- <span class="float-right">
+            <div class="col-md-3">
+                <div class="subcats" *ngIf="mainServe.showSubCats">
+                    <div *ngFor="let data of mainServe.subCatList">
+                        <a (click)="showSubCatProd(data.id,i,data.name)">{{data.name}}
+                            <!-- <span class="float-right">
                   <fa name="chevron-right"></fa>
                 </span> -->
-            </a>
-          </div>
-        </div>
-      </div>
-      <!-- <div class="col-md-6">
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <!-- <div class="col-md-6">
           <div class="subcats" *ngIf="showSubCats">
             <div class="sub-category">
               <div class="sub-category-list">
@@ -220,7 +220,6 @@
                     <a>{{subsubData.name}}
                     </a>
                   </li>
-  
                   <img class="offer-image" src="assets/images/classmate.jpg">
                 </ul>
               </div>
@@ -230,304 +229,287 @@
             </div>
           </div>
         </div> -->
+        </div>
     </div>
-  </div>
 </section>
-
-
 <!-- end header -->
-
-
 <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
-  <ol class="carousel-indicators carousel-indicators-numbers">
-    <li data-target="#carouselExampleIndicators" data-slide-to="0" *ngIf="mainBannerData[0] !==undefined" class="active">{{mainBannerData[0].name}}</li>
-    <li data-target="#carouselExampleIndicators" data-slide-to="1" *ngIf="mainBannerData[1] !==undefined">{{mainBannerData[1].name}}</li>
-    <li data-target="#carouselExampleIndicators" data-slide-to="2" *ngIf="mainBannerData[2] !==undefined">{{mainBannerData[2].name}}</li>
-    <li data-target="#carouselExampleIndicators" data-slide-to="3" *ngIf="mainBannerData[3] !==undefined">{{mainBannerData[3].name}}</li>
-    <li data-target="#carouselExampleIndicators" data-slide-to="4" *ngIf="mainBannerData[4] !==undefined">{{mainBannerData[4].name}}</li>
-    <li data-target="#carouselExampleIndicators" data-slide-to="5" *ngIf="mainBannerData[5] !==undefined">{{mainBannerData[5].name}}</li>
-    <li data-target="#carouselExampleIndicators" data-slide-to="6" *ngIf="mainBannerData[6] !==undefined">{{mainBannerData[6].name}}</li>
-    <li data-target="#carouselExampleIndicators" data-slide-to="7" *ngIf="mainBannerData[7]!==undefined">{{mainBannerData[7].name}}</li>
-    <li data-target="#carouselExampleIndicators" data-slide-to="8" *ngIf="mainBannerData[8]!==undefined">{{mainBannerData[8].name}}</li>
-    <li data-target="#carouselExampleIndicators" data-slide-to="9" *ngIf="mainBannerData[9] !==undefined">{{mainBannerData[9].name}}</li>
-    <li data-target="#carouselExampleIndicators" data-slide-to="10" *ngIf="mainBannerData[10] !==undefined">{{mainBannerData[10].name}}</li>
-  </ol>
-  <!-- <ol class="slider-selector ">
+    <ol class="carousel-indicators carousel-indicators-numbers">
+        <li data-target="#carouselExampleIndicators" data-slide-to="0" *ngIf="mainBannerData[0] !==undefined" class="active">{{mainBannerData[0].name}}</li>
+        <li data-target="#carouselExampleIndicators" data-slide-to="1" *ngIf="mainBannerData[1] !==undefined">{{mainBannerData[1].name}}</li>
+        <li data-target="#carouselExampleIndicators" data-slide-to="2" *ngIf="mainBannerData[2] !==undefined">{{mainBannerData[2].name}}</li>
+        <li data-target="#carouselExampleIndicators" data-slide-to="3" *ngIf="mainBannerData[3] !==undefined">{{mainBannerData[3].name}}</li>
+        <li data-target="#carouselExampleIndicators" data-slide-to="4" *ngIf="mainBannerData[4] !==undefined">{{mainBannerData[4].name}}</li>
+        <li data-target="#carouselExampleIndicators" data-slide-to="5" *ngIf="mainBannerData[5] !==undefined">{{mainBannerData[5].name}}</li>
+        <li data-target="#carouselExampleIndicators" data-slide-to="6" *ngIf="mainBannerData[6] !==undefined">{{mainBannerData[6].name}}</li>
+        <li data-target="#carouselExampleIndicators" data-slide-to="7" *ngIf="mainBannerData[7]!==undefined">{{mainBannerData[7].name}}</li>
+        <li data-target="#carouselExampleIndicators" data-slide-to="8" *ngIf="mainBannerData[8]!==undefined">{{mainBannerData[8].name}}</li>
+        <li data-target="#carouselExampleIndicators" data-slide-to="9" *ngIf="mainBannerData[9] !==undefined">{{mainBannerData[9].name}}</li>
+        <li data-target="#carouselExampleIndicators" data-slide-to="10" *ngIf="mainBannerData[10] !==undefined">{{mainBannerData[10].name}}</li>
+    </ol>
+    <!-- <ol class="slider-selector ">
     <li data-target="#carouselExampleIndicators" *ngFor="let image of mainBannerData; let i = index" data-slide-to="i"
       class="bottom-indicators" [ngClass]="{'activeslide':i==0}">
       {{image.name}}</li>
   </ol> -->
-  <div class="carousel-inner">
-    <div class="carousel-item banner" *ngFor="let image of mainBannerData; let i = index" [ngClass]="{'active' : i == 0}"
-      (click)="viewAll(image.type)">
-      <img class="d-block w-100" [src]="image.website_bannerimage" alt="{{image.type}}">
-      <div class="carousel-caption d-none d-md-block slider-text">
-        <div class="shop-now-btn">
-          <!-- <button class="btn button" type="submit">Shop now</button> -->
+    <div class="carousel-inner">
+        <div class="carousel-item banner" *ngFor="let image of mainBannerData; let i = index" [ngClass]="{'active' : i == 0}" (click)="viewAll(image.type)">
+            <img class="d-block w-100" [src]="image.website_bannerimage" alt="{{image.type}}">
+            <div class="carousel-caption d-none d-md-block slider-text">
+                <div class="shop-now-btn">
+                    <!-- <button class="btn button" type="submit">Shop now</button> -->
+                </div>
+            </div>
         </div>
-      </div>
     </div>
-  </div>
-  <a class="carousel-control-prev slider-arrows-style" href="#carouselExampleIndicators" role="button" data-slide="prev">
-    <span class="carousel-control-prev-icon slider-arrow" aria-hidden="true">
-      <fa name="angle-left"></fa>
-    </span>
-    <span class="sr-only">Previous</span>
-  </a>
-  <a class="carousel-control-next slider-arrows-style" href="#carouselExampleIndicators" role="button" data-slide="next">
-    <span class="carousel-control-next-icon slider-arrow" aria-hidden="true">
-      <fa name="angle-right"></fa>
-    </span>
-    <span class="sr-only">Next</span>
-  </a>
+    <a class="carousel-control-prev slider-arrows-style" href="#carouselExampleIndicators" role="button" data-slide="prev">
+        <span class="carousel-control-prev-icon slider-arrow" aria-hidden="true">
+            <fa name="angle-left"></fa>
+        </span>
+        <span class="sr-only">Previous</span>
+    </a>
+    <a class="carousel-control-next slider-arrows-style" href="#carouselExampleIndicators" role="button" data-slide="next">
+        <span class="carousel-control-next-icon slider-arrow" aria-hidden="true">
+            <fa name="angle-right"></fa>
+        </span>
+        <span class="sr-only">Next</span>
+    </a>
 </div>
 
 
 
 <!-- best deals -->
 <div class="container-fluid best-deal products-list">
-  <!-- <h2 class="text-center">BEST DEALS OF THE DAY</h2> -->
-  <!-- <hr> -->
+    <!-- <h2 class="text-center">BEST DEALS OF THE DAY</h2> -->
+    <!-- <hr> -->
 
-  <br />
-  <div class="row">
-    <div class="col-lg-3 best-deal-side">
-      <img [src]="dealsBannerDataImage?.website_bannerimage" class="img-fluid">
-      <!-- <button class="btn button" (click)="viewAll('BEST DEALS OF THE DAY')" type="submit">View All</button> -->
-      <button class="btn button" type="submit">View All</button>
-    </div>
-    <div class="col-lg-9">
-      <div class="row">
-        <div class="col-lg-12 col-md-12 col-sm-12">
-          <a (click)="viewAll('BEST DEALS OF THE DAY')" class="red">View All</a>
-        </div><br />
-        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-6" *ngFor="let products of allProducts;let i= index">
-          <div class="product" *ngIf="i<4">
-            <div class="container">
-              <div class="row">
-                <div class="col-md-12 text-right">
-                  <a (click)="addWish(products)">
-                    <fa name="heart" [ngClass]="{'wishlisted':products.isWishlist==1}"></fa>
-                  </a>
-                </div>
-                <div class="col-md-12 text-center">
-                  <img [src]="products.product_image" class="img-fluid prodImage" (click)="ShowProductDetails(products.id)">
-                </div>
-                <div class="col-md-12 prices">
-                  <div>
-                    <!-- <li> -->
-                    <form>
-                      <div class="form-group">
-
-                        <p (click)="showSizes(i)" *ngIf="showselecteddata && selectedsku!==i" name="skid" class="sizes">{{products.sku[0].size}}</p>
-                        <p (click)="showSizes(i)" *ngIf="showselecteddata && selectedsku==i" name="skid" [ngClass]="{'sizes':selecte.skid!==''}">{{selecte.skid}}</p>
-                        <div *ngIf="showSizeData && selected==i" class="sizes size-drop">
-                          <p *ngFor="let sku of products.sku" (click)="showselected(sku.skid,sku.size,i,sku,'main products')">{{sku.size}}</p>
-                        </div>
-
-                      </div>
-                    </form>
-                    <!-- </li> -->
-                  </div>
-                  <div class="product-names text-center" [ngClass]="{'margin-div':showSizeData && selected==i}">
-                    <ul [ngClass]="{'afterDrop':showSizeData=='true' && selected==i}">
-
-                      <li>
-                        <h3 class="text-center">{{products.title}}</h3>
-                      </li>
-                      <li>MRP :
-                        <span class="price">{{products.skuActualPrice}} </span>
-                        <span class="offer-price"> {{products.sellingPrice}}</span>
-                      </li>
-                      <li>
-                        <span class="text-danger">{{ "offer-price" | translate}} {{products.skuActualPrice -
-                          products.sellingPrice || 0}}</span>
-                      </li>
-                      <li>
-                        <ngb-rating [(rate)]="products.rating" required></ngb-rating>
-
-                      </li>
-                    </ul>
-                  </div>
-                </div>
-                <!-- product details -->
-
-                <div class="col-lg-12 col-md-12 col-sm-12 cart-btn">
-
-                  <div class="quantity" [ngClass]="{'top':!notInCart && i === selected}">
-                    <button class="minus-btn" type="button" name="button" (click)="itemDecrease(products.id,products,i,'main products')"
-                      *ngIf="!notInCart && i === selected">
-                      <i class="fa fa-minus " aria-hidden="true"></i>
-                    </button>
-                    <lable *ngIf="notInCart || i !== selected">Quantity : </lable>
-                    <input type="text" name="mycart" readonly="readonly" [value]="products.quantity" />
-                    &nbsp;<lable *ngIf="!notInCart && i === selected">in cart</lable>&nbsp;
-                    <button class="plus-btn" type="button" name="button" (click)="itemIncrease(products,products.id,i,'main products')"
-                      *ngIf="!notInCart && i === selected">
-                      <i class="fa fa-plus" aria-hidden="true"></i>
-                    </button>
-                  </div>
-                  <br *ngIf="!notInCart && i === selected" />
-                </div>
-                <div class="col-lg-12 col-md-12 col-sm-12 cart-btn cart-image-button" *ngIf="notInCart || i !== selected">
-                  <button class="btn category-btn" type="button" name="button" (click)="addCat(products,i,products.quantity,'main products')">
-                    <span class="addbtn">Add</span>
-                    <img class="addbtn" src="assets/images/online-shopping-cart.png">
-                  </button>
-                </div>
-              </div>
-
-            </div>
-          </div>
+    <br />
+    <div class="row">
+        <div class="col-lg-3 best-deal-side">
+            <img [src]="dealsBannerDataImage?.website_bannerimage" class="img-fluid">
+            <!-- <button class="btn button" (click)="viewAll('BEST DEALS OF THE DAY')" type="submit">View All</button> -->
+            <button class="btn button" type="submit">View All</button>
         </div>
-      </div>
-      <!-- <div class="row">
+        <div class="col-lg-9">
+            <div class="row">
+                <div class="col-lg-12 col-md-12 col-sm-12">
+                    <a (click)="viewAll('BEST DEALS OF THE DAY')" class="red">View All</a>
+                </div><br />
+                <div class="col-lg-3 col-md-3 col-sm-6 col-xs-6" *ngFor="let products of allProducts;let i= index">
+                    <div class="product" *ngIf="i<4">
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-md-12 text-right">
+                                    <a (click)="addWish(products)">
+                                        <fa name="heart" [ngClass]="{'wishlisted':products.isWishlist==1}"></fa>
+                                    </a>
+                                </div>
+                                <div class="col-md-12 text-center">
+                                    <img [src]="products.product_image" class="img-fluid prodImage" (click)="ShowProductDetails(products.id)">
+                                </div>
+                                <div class="col-md-12 prices">
+                                    <div>
+                                        <!-- <li> -->
+                                        <form>
+                                            <div class="form-group">
+                                                <p (click)="showSizes(i)" *ngIf="showselecteddata && selectedsku!==i" name="skid" class="sizes">{{products.sku[0].size}}</p>
+                                                <p (click)="showSizes(i)" *ngIf="showselecteddata && selectedsku==i" name="skid" [ngClass]="{'sizes':selecte.skid!==''}">{{selecte.skid}}</p>
+                                                <div *ngIf="showSizeData && selected==i" class="sizes size-drop">
+                                                    <p *ngFor="let sku of products.sku" (click)="showselected(sku.skid,sku.size,i,sku,'main products')">{{sku.size}}</p>
+                                                </div>
+                                            </div>
+                                        </form>
+                                        <!-- </li> -->
+                                    </div>
+                                    <div class="product-names text-center" [ngClass]="{'margin-div':showSizeData && selected==i}">
+                                        <ul [ngClass]="{'afterDrop':showSizeData=='true' && selected==i}">
+
+                                            <li>
+                                                <h3 class="text-center">{{products.title}}</h3>
+                                            </li>
+                                            <li>MRP :
+                                                <span class="price">{{products.skuActualPrice}} </span>
+                                                <span class="offer-price"> {{products.sellingPrice}}</span>
+                                            </li>
+                                            <li>
+                                                <span class="text-danger">{{ "offer-price" | translate}} {{products.skuActualPrice
+                                                    - products.sellingPrice || 0}}</span>
+                                            </li>
+                                            <li>
+                                                <ngb-rating [(rate)]="products.rating" required></ngb-rating>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <!-- product details -->
+
+                                <div class="col-lg-12 col-md-12 col-sm-12 cart-btn">
+                                    <div class="quantity" [ngClass]="{'top':!notInCart && i === selected}">
+                                        <button class="minus-btn" type="button" name="button" (click)="itemDecrease(products.id,products,i,'main products')" *ngIf="!notInCart && i === selected">
+                                            <i class="fa fa-minus " aria-hidden="true"></i>
+                                        </button>
+                                        <lable *ngIf="notInCart || i !== selected">Quantity : </lable>
+                                        <input type="text" name="mycart" readonly="readonly" [value]="products.quantity" />                                        &nbsp;
+                                        <lable *ngIf="!notInCart && i === selected">in cart</lable>&nbsp;
+                                        <button class="plus-btn" type="button" name="button" (click)="itemIncrease(products,products.id,i,'main products')" *ngIf="!notInCart && i === selected">
+                                            <i class="fa fa-plus" aria-hidden="true"></i>
+                                        </button>
+                                    </div>
+                                    <br *ngIf="!notInCart && i === selected" />
+                                </div>
+                                <div class="col-lg-12 col-md-12 col-sm-12 cart-btn cart-image-button" *ngIf="notInCart || i !== selected">
+                                    <button class="btn category-btn" type="button" name="button" (click)="addCat(products,i,products.quantity,'main products')">
+                                        <span class="addbtn">Add</span>
+                                        <img class="addbtn" src="assets/images/online-shopping-cart.png">
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- <div class="row">
         <div class="col-md-12 text-right">
           <button class="btn button" (click)="viewAll('BEST DEALS OF THE DAY')" type="submit" style="margin-top: 20px;background-color: #f19820;">View
             All</button>
         </div>
       </div> -->
-
+        </div>
+        <!-- <app-product></app-product> -->
     </div>
-
-
-
-    <!-- <app-product></app-product> -->
-
-
-  </div>
 </div>
 <!-- best deals -->
 <!-- offer banner -->
 <div class="container-fluid">
-  <div class="row">
-    <div class="col-lg-9">
-      <img [src]="bigImage" alt="banner1" class="img-fluid w-100 offer-banner-view" (click)="viewAll(dealsBannerData[0].type)">
-    </div>
-    <div class="col-lg-3">
-      <img *ngFor="let delas of dealsBannerData;let i=index" [src]="delas.website_bannerimage" alt="banner1" (click)="viewAll(delas.type)"
-        class="img-fluid selected-banner" (click)="bannerImageOneOffer(delas.website_bannerimage,i)">
-      <!-- [ngClass]="{'active-banner':bannerImageOne === i ||( i==0 && bigImage==dealsBaners[0].banner[0].website_bannerimage) }" -->
+    <div class="row">
+        <div class="col-lg-9">
+            <img [src]="bigImage" alt="banner1" class="img-fluid w-100 offer-banner-view" (click)="viewAll(dealsBannerData[0].type)">
+        </div>
+        <div class="col-lg-3">
+            <img *ngFor="let delas of dealsBannerData;let i=index" [src]="delas.website_bannerimage" alt="banner1" (click)="viewAll(delas.type)"
+                class="img-fluid selected-banner" (click)="bannerImageOneOffer(delas.website_bannerimage,i)">
+            <!-- [ngClass]="{'active-banner':bannerImageOne === i ||( i==0 && bigImage==dealsBaners[0].banner[0].website_bannerimage) }" -->
 
+        </div>
     </div>
-  </div>
 </div>
 <!-- offer banner -->
 <!-- deal of the day -->
 <div class="container best-deal">
-  <!-- <h2 class="text-center">BEST DEALS OF THE DAY</h2>
+    <!-- <h2 class="text-center">BEST DEALS OF THE DAY</h2>
   <hr> -->
-  <br />
-  <carousel>
-    <slide>
-      <div class="container">
-        <div class="row">
+    <br />
+    <carousel>
+        <slide>
+            <div class="container">
+                <div class="row">
 
-          <!-- <app-product [data]="posts"></app-product> -->
+                    <!-- <app-product [data]="posts"></app-product> -->
 
-        </div>
-      </div>
-    </slide>
-  </carousel>
+                </div>
+            </div>
+        </slide>
+    </carousel>
 </div>
 
 <div id="demo" class="carousel slide best-carousel best-deal" data-ride="carousel">
-  <!-- The slideshow -->
-  <h2 class="text-center">BEST DEALS OF THE DAY</h2>
-  <hr><br />
-  <div class="container">
-    <div class="carousel-item active">
-      <div class="col-lg-3 col-md-3 col-sm-6 col-xs-6  product-data" *ngFor="let products of firstArray;let i= index">
-        <div class="product" *ngIf="i<4">
-          <div class="container">
-            <div class="row">
-              <div class="col-md-12 text-right">
-                <a (click)="addWish(products)">
-                  <fa name="heart" [ngClass]="{'wishlisted':products.isWishlist==1}"></fa>
-                </a>
-              </div>
-              <div class="col-md-12 text-center">
-                <img [src]="products.product_image" class="img-fluid prodImage" (click)="ShowProductDetails(products.id)">
-              </div>
-              <div class="col-md-12 prices">
-                <div>
-                  <!-- <li> -->
-                  <form>
-                    <div class="form-group">
+    <!-- The slideshow -->
+    <h2 class="text-center">BEST DEALS OF THE DAY</h2>
+    <hr><br />
+    <div class="container">
+        <div class="carousel-item active">
+            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-6  product-data" *ngFor="let products of firstArray;let i= index">
+                <div class="product" *ngIf="i<4">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-md-12 text-right">
+                                <a (click)="addWish(products)">
+                                    <fa name="heart" [ngClass]="{'wishlisted':products.isWishlist==1}"></fa>
+                                </a>
+                            </div>
+                            <div class="col-md-12 text-center">
+                                <img [src]="products.product_image" class="img-fluid prodImage" (click)="ShowProductDetails(products.id)">
+                            </div>
+                            <div class="col-md-12 prices">
+                                <div>
+                                    <!-- <li> -->
+                                    <form>
+                                        <div class="form-group">
 
-                      <p (click)="showSizes(i)" *ngIf="showselecteddata && selectedsku!==i" name="skid" class="sizes">{{products.sku[0].size}}</p>
-                      <p (click)="showSizes(i)" *ngIf="showselecteddata && selectedsku==i " name="skid" [ngClass]="{'sizes':selecte.bdskid!==''}">{{selecte.bdskid}}</p>
-                      <div *ngIf="showSizeData && selectedsku==i" class="sizes size-drop">
-                        <p *ngFor="let sku of products.sku" (click)="showselected(sku.skid,sku.size,i,sku,'best deals of the day')">{{sku.size}}</p>
-                      </div>
+                                            <p (click)="showSizes(i)" *ngIf="showselecteddata && selectedsku!==i" name="skid" class="sizes">{{products.sku[0].size}}</p>
+                                            <p (click)="showSizes(i)" *ngIf="showselecteddata && selectedsku==i " name="skid" [ngClass]="{'sizes':selecte.bdskid!==''}">{{selecte.bdskid}}</p>
+                                            <div *ngIf="showSizeData && selectedsku==i" class="sizes size-drop">
+                                                <p *ngFor="let sku of products.sku" (click)="showselected(sku.skid,sku.size,i,sku,'best deals of the day')">{{sku.size}}</p>
+                                            </div>
+
+                                        </div>
+                                    </form>
+                                    <!-- </li> -->
+                                </div>
+                                <div class="product-names text-center">
+                                    <ul [ngClass]="{'afterDrop':showSizeData=='true' && selected==i}">
+
+                                        <li>
+                                            <h3 class="text-center">{{products.title}}</h3>
+                                        </li>
+                                        <li>MRP :
+                                            <span class="price">{{products.skuActualPrice}} </span>
+                                            <span class="offer-price"> {{products.sellingPrice}}</span>
+                                        </li>
+                                        <li>
+                                            <span class="text-danger">{{ "offer-price" | translate}} {{products.skuActualPrice
+                                                - products.sellingPrice || 0}}</span>
+                                        </li>
+                                        <li>
+                                            <ngb-rating [(rate)]="products.rating" required></ngb-rating>
+
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <!-- product details -->
+
+                            <div class="col-lg-12 col-md-12 col-sm-12 cart-btn">
+
+                                <div class="quantity" [ngClass]="{'top':!notInCart && i === selected}">
+                                    <button class="minus-btn" type="button" name="button" (click)="itemDecrease(products.id,products,i,'best deals of the day')"
+                                        *ngIf="!notInCart && i === selected">
+                                        <i class="fa fa-minus " aria-hidden="true"></i>
+                                    </button>
+                                    <lable *ngIf="notInCart || i !== selected">Quantity : </lable>
+                                    <input type="text" name="mycart" readonly="readonly" [value]="products.quantity" /> &nbsp;
+                                    <lable *ngIf="!notInCart && i === selected">in cart</lable>&nbsp;
+                                    <button class="plus-btn" type="button" name="button" (click)="itemIncrease(products,products.id,i,'best deals of the day')"
+                                        *ngIf="!notInCart && i === selected">
+                                        <i class="fa fa-plus" aria-hidden="true"></i>
+                                    </button>
+                                </div>
+                                <br *ngIf="!notInCart && i === selected" />
+                            </div>
+                            <div class="col-lg-12 col-md-12 col-sm-12 cart-btn cart-image-button" *ngIf="notInCart || i !== selected">
+                                <button class="btn category-btn" type="button" name="button" (click)="addCat(products,i,products.quantity,'best deals of the day')">
+                                    <span class="addbtn">Add</span>
+                                    <img class="addbtn" src="assets/images/online-shopping-cart.png">
+                                </button>
+                            </div>
+                        </div>
 
                     </div>
-                  </form>
-                  <!-- </li> -->
                 </div>
-                <div class="product-names text-center">
-                  <ul [ngClass]="{'afterDrop':showSizeData=='true' && selected==i}">
-
-                    <li>
-                      <h3 class="text-center">{{products.title}}</h3>
-                    </li>
-                    <li>MRP :
-                      <span class="price">{{products.skuActualPrice}} </span>
-                      <span class="offer-price"> {{products.sellingPrice}}</span>
-                    </li>
-                    <li>
-                      <span class="text-danger">{{ "offer-price" | translate}} {{products.skuActualPrice -
-                        products.sellingPrice || 0}}</span>
-                    </li>
-                    <li>
-                      <ngb-rating [(rate)]="products.rating" required></ngb-rating>
-
-                    </li>
-                  </ul>
-                </div>
-              </div>
-              <!-- product details -->
-
-              <div class="col-lg-12 col-md-12 col-sm-12 cart-btn">
-
-                <div class="quantity" [ngClass]="{'top':!notInCart && i === selected}">
-                  <button class="minus-btn" type="button" name="button" (click)="itemDecrease(products.id,products,i,'best deals of the day')"
-                    *ngIf="!notInCart && i === selected">
-                    <i class="fa fa-minus " aria-hidden="true"></i>
-                  </button>
-                  <lable *ngIf="notInCart || i !== selected">Quantity : </lable>
-                  <input type="text" name="mycart" readonly="readonly" [value]="products.quantity" />
-                  &nbsp;<lable *ngIf="!notInCart && i === selected">in cart</lable>&nbsp;
-                  <button class="plus-btn" type="button" name="button" (click)="itemIncrease(products,products.id,i,'best deals of the day')"
-                    *ngIf="!notInCart && i === selected">
-                    <i class="fa fa-plus" aria-hidden="true"></i>
-                  </button>
-                </div>
-                <br *ngIf="!notInCart && i === selected" />
-              </div>
-              <div class="col-lg-12 col-md-12 col-sm-12 cart-btn cart-image-button" *ngIf="notInCart || i !== selected">
-                <button class="btn category-btn" type="button" name="button" (click)="addCat(products,i,products.quantity,'best deals of the day')">
-                  <span class="addbtn">Add</span>
-                  <img class="addbtn" src="assets/images/online-shopping-cart.png">
-                </button>
-              </div>
             </div>
 
-          </div>
         </div>
-      </div>
+        <p *ngIf="nobestDealsdData" class="text-center">No Records Found</p>
+        <br />
+        <button class="btn btn-orange m-auto" (click)="viewAll('BEST DEALS OF THE DAY')" *ngIf="!nobestDealsdData"> Show
+            More
+        </button>
+
 
     </div>
-    <p *ngIf="nobestDealsdData" class="text-center">No Records Found</p>
-    <br />
-    <button class="btn btn-orange m-auto" (click)="viewAll('BEST DEALS OF THE DAY')" *ngIf="!nobestDealsdData"> Show
-      More</button>
 
-
-  </div>
-
-  <!-- Left and right controls -->
-  <!-- <a class="carousel-control-prev" href="#demo" data-slide="prev" *ngIf="!noData">
+    <!-- Left and right controls -->
+    <!-- <a class="carousel-control-prev" href="#demo" data-slide="prev" *ngIf="!noData">
     <fa name="chevron-left" class="chevron-left"></fa>
   </a>
   <a class="carousel-control-next" href="#demo" data-slide="next" *ngIf="!noData">
@@ -539,130 +521,128 @@
 <!-- deal of the day -->
 <!-- discount-banner -->
 <div class="container">
-  <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
-    <div class="carousel-inner">
-      <div class="carousel-item discount-image" *ngFor="let data of discountBannerData;let i=index" [ngClass]="{'active':i==0}"
-        (click)="viewAll(data.type)">
-        <img class="d-block w-100" [src]="data.website_bannerimage" alt="Third slide">
-      </div>
-      <!-- <div class="carousel-item">
+    <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
+        <div class="carousel-inner">
+            <div class="carousel-item discount-image" *ngFor="let data of discountBannerData;let i=index" [ngClass]="{'active':i==0}"
+                (click)="viewAll(data.type)">
+                <img class="d-block w-100" [src]="data.website_bannerimage" alt="Third slide">
+            </div>
+            <!-- <div class="carousel-item">
         <img class="d-block w-100" src="assets/images/discount-banner-1.jpg" alt="Second slide">
       </div>
       <div class="carousel-item">
         <img class="d-block w-100" src="assets/images/discount-banner-1.jpg" alt="Third slide">
       </div> -->
+        </div>
+        <a class="carousel-control-prev slider-arrows-style" href="#carouselExampleControls" role="button" data-slide="prev">
+            <span class="carousel-control-prev-icon slider-arrow arrow-left" aria-hidden="true">
+                <fa name="angle-left"></fa>
+            </span>
+        </a>
+        <a class="carousel-control-next slider-arrows-style" href="#carouselExampleControls" role="button" data-slide="next">
+            <span class="carousel-control-next-icon slider-arrow arrow-right" aria-hidden="true">
+                <fa name="angle-right"></fa>
+            </span>
+        </a>
     </div>
-    <a class="carousel-control-prev slider-arrows-style" href="#carouselExampleControls" role="button" data-slide="prev">
-      <span class="carousel-control-prev-icon slider-arrow arrow-left" aria-hidden="true">
-        <fa name="angle-left"></fa>
-      </span>
-    </a>
-    <a class="carousel-control-next slider-arrows-style" href="#carouselExampleControls" role="button" data-slide="next">
-      <span class="carousel-control-next-icon slider-arrow arrow-right" aria-hidden="true">
-        <fa name="angle-right"></fa>
-      </span>
-    </a>
-  </div>
 </div>
 
 <!-- discount-banner -->
 <!-- deal of the day -->
 <div id="demo" class="carousel slide best-carousel best-deal" data-ride="carousel">
-  <!-- The slideshow -->
-  <h2 class="text-center">BEST DEALS</h2>
-  <hr><br />
-  <div class="container carousel-inner no-padding">
-    <div class="carousel-item active">
-      <div class="col-lg-3 col-md-3 col-sm-6 col-xs-6  product-data" *ngFor="let products of firstDealsArray;let i= index">
-        <div class="product" *ngIf="i<4">
-          <div class="container">
-            <div class="row">
-              <div class="col-md-12 text-right">
-                <a (click)="addWish(products)">
-                  <fa name="heart" [ngClass]="{'wishlisted':products.isWishlist==1}"></fa>
-                </a>
-              </div>
-              <div class="col-md-12 text-center">
-                <img [src]="products.product_image" class="img-fluid prodImage" (click)="ShowProductDetails(products.id)">
-              </div>
-              <div class="col-md-12 prices">
-                <div>
-                  <!-- <li> -->
-                  <form>
-                    <div class="form-group">
+    <!-- The slideshow -->
+    <h2 class="text-center">BEST DEALS</h2>
+    <hr><br />
+    <div class="container carousel-inner no-padding">
+        <div class="carousel-item active">
+            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-6  product-data" *ngFor="let products of firstDealsArray;let i= index">
+                <div class="product" *ngIf="i<4">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-md-12 text-right">
+                                <a (click)="addWish(products)">
+                                    <fa name="heart" [ngClass]="{'wishlisted':products.isWishlist==1}"></fa>
+                                </a>
+                            </div>
+                            <div class="col-md-12 text-center">
+                                <img [src]="products.product_image" class="img-fluid prodImage" (click)="ShowProductDetails(products.id)">
+                            </div>
+                            <div class="col-md-12 prices">
+                                <div>
+                                    <!-- <li> -->
+                                    <form>
+                                        <div class="form-group">
 
-                      <p (click)="showSizes(i)" *ngIf="showselecteddata && selectedsku!==i" name="skid" class="sizes">{{products.sku[0].size}}</p>
-                      <p (click)="showSizes(i)" *ngIf="showselecteddata && selectedsku==i " name="skid" [ngClass]="{'sizes':selecte.dskid!==''}">{{selecte.dskid}}</p>
-                      <div *ngIf="showSizeData && selectedsku==i" class="sizes size-drop">
-                        <p *ngFor="let sku of products.sku" (click)="showselected(sku.skid,sku.size,i,sku,'best deals')">{{sku.size}}</p>
-                      </div>
+                                            <p (click)="showSizes(i)" *ngIf="showselecteddata && selectedsku!==i" name="skid" class="sizes">{{products.sku[0].size}}</p>
+                                            <p (click)="showSizes(i)" *ngIf="showselecteddata && selectedsku==i " name="skid" [ngClass]="{'sizes':selecte.dskid!==''}">{{selecte.dskid}}</p>
+                                            <div *ngIf="showSizeData && selectedsku==i" class="sizes size-drop">
+                                                <p *ngFor="let sku of products.sku" (click)="showselected(sku.skid,sku.size,i,sku,'best deals')">{{sku.size}}</p>
+                                            </div>
+
+                                        </div>
+                                    </form>
+                                    <!-- </li> -->
+                                </div>
+                                <div class="product-names text-center">
+                                    <ul [ngClass]="{'afterDrop':showSizeData=='true' && selected==i}">
+
+                                        <li>
+                                            <h3 class="text-center">{{products.title}}</h3>
+                                        </li>
+                                        <li>MRP :
+                                            <span class="price">{{products.skuActualPrice}} </span>
+                                            <span class="offer-price"> {{products.sellingPrice}}</span>
+                                        </li>
+                                        <li>
+                                            <span class="text-danger">{{ "offer-price" | translate}} {{products.skuActualPrice
+                                                - products.sellingPrice || 0}}</span>
+                                        </li>
+                                        <li>
+                                            <ngb-rating [(rate)]="products.rating" required></ngb-rating>
+
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <!-- product details -->
+
+                            <div class="col-lg-12 col-md-12 col-sm-12 cart-btn">
+
+                                <div class="quantity" [ngClass]="{'top':!notInCart && i === selected}">
+                                    <button class="minus-btn" type="button" name="button" (click)="itemDecrease(products.id,products,i,'best deals')" *ngIf="!notInCart && i === selected">
+                                        <i class="fa fa-minus " aria-hidden="true"></i>
+                                    </button>
+                                    <lable *ngIf="notInCart || i !== selected">Quantity : </lable>
+                                    <input type="text" name="mycart" readonly="readonly" [value]="products.quantity" /> &nbsp;
+                                    <lable *ngIf="!notInCart && i === selected">in cart</lable>&nbsp;
+                                    <button class="plus-btn" type="button" name="button" (click)="itemIncrease(products,products.id,i,'best deals')" *ngIf="!notInCart && i === selected">
+                                        <i class="fa fa-plus" aria-hidden="true"></i>
+                                    </button>
+                                </div>
+                                <br *ngIf="!notInCart && i === selected" />
+                            </div>
+                            <div class="col-lg-12 col-md-12 col-sm-12 cart-btn cart-image-button" *ngIf="notInCart || i !== selected">
+                                <button class="btn category-btn" type="button" name="button" (click)="addCat(products,i,products.quantity,'best deals')">
+                                    <span class="addbtn">Add</span>
+                                    <img class="addbtn" src="assets/images/online-shopping-cart.png">
+                                </button>
+                            </div>
+                        </div>
 
                     </div>
-                  </form>
-                  <!-- </li> -->
                 </div>
-                <div class="product-names text-center">
-                  <ul [ngClass]="{'afterDrop':showSizeData=='true' && selected==i}">
-
-                    <li>
-                      <h3 class="text-center">{{products.title}}</h3>
-                    </li>
-                    <li>MRP :
-                      <span class="price">{{products.skuActualPrice}} </span>
-                      <span class="offer-price"> {{products.sellingPrice}}</span>
-                    </li>
-                    <li>
-                      <span class="text-danger">{{ "offer-price" | translate}} {{products.skuActualPrice -
-                        products.sellingPrice || 0}}</span>
-                    </li>
-                    <li>
-                      <ngb-rating [(rate)]="products.rating" required></ngb-rating>
-
-                    </li>
-                  </ul>
-                </div>
-              </div>
-              <!-- product details -->
-
-              <div class="col-lg-12 col-md-12 col-sm-12 cart-btn">
-
-                <div class="quantity" [ngClass]="{'top':!notInCart && i === selected}">
-                  <button class="minus-btn" type="button" name="button" (click)="itemDecrease(products.id,products,i,'best deals')"
-                    *ngIf="!notInCart && i === selected">
-                    <i class="fa fa-minus " aria-hidden="true"></i>
-                  </button>
-                  <lable *ngIf="notInCart || i !== selected">Quantity : </lable>
-                  <input type="text" name="mycart" readonly="readonly" [value]="products.quantity" />
-                  &nbsp;<lable *ngIf="!notInCart && i === selected">in cart</lable>&nbsp;
-                  <button class="plus-btn" type="button" name="button" (click)="itemIncrease(products,products.id,i,'best deals')"
-                    *ngIf="!notInCart && i === selected">
-                    <i class="fa fa-plus" aria-hidden="true"></i>
-                  </button>
-                </div>
-                <br *ngIf="!notInCart && i === selected" />
-              </div>
-              <div class="col-lg-12 col-md-12 col-sm-12 cart-btn cart-image-button" *ngIf="notInCart || i !== selected">
-                <button class="btn category-btn" type="button" name="button" (click)="addCat(products,i,products.quantity,'best deals')">
-                  <span class="addbtn">Add</span>
-                  <img class="addbtn" src="assets/images/online-shopping-cart.png">
-                </button>
-              </div>
             </div>
 
-          </div>
         </div>
-      </div>
+        <p *ngIf="nobestDeals" class="text-center">No Records Found</p>
+        <br />
+        <button class="btn btn-orange m-auto" (click)="viewAll('BEST DEALS')" *ngIf="!nobestDeals"> Show More</button>
+
 
     </div>
-    <p *ngIf="nobestDeals" class="text-center">No Records Found</p>
-    <br />
-    <button class="btn btn-orange m-auto" (click)="viewAll('BEST DEALS')" *ngIf="!nobestDeals"> Show More</button>
 
-
-  </div>
-
-  <!-- Left and right controls -->
-  <!-- <a class="carousel-control-prev" href="#demo" data-slide="prev">
+    <!-- Left and right controls -->
+    <!-- <a class="carousel-control-prev" href="#demo" data-slide="prev">
     <fa name="chevron-left" class="chevron-left"></fa>
   </a>
   <a class="carousel-control-next" href="#demo" data-slide="next">
@@ -673,210 +653,208 @@
 <!-- deal of the day -->
 <!-- best in appliances -->
 <div class="container best-deal">
-  <h2>BEST IN APPLIANCES</h2>
-  <hr>
-  <div class="row best-offer">
-    <div class="col-lg-6">
-      <img *ngIf="firstDiscountImg[0]!==undefined" [src]="firstDiscountImg[0].website_bannerimage" class="img-fluid full-image"
-        (click)="viewAll(firstDiscountImg[0].type)">
-    </div>
-    <div class="col-lg-6">
-      <div class="row best-offer">
+    <h2>BEST IN APPLIANCES</h2>
+    <hr>
+    <div class="row best-offer">
         <div class="col-lg-6">
-          <img *ngIf="secondDiscountImg[1]!==undefined" [src]="secondDiscountImg[1].website_bannerimage" class="img-fluid side-image"
-            (click)="viewAll(secondDiscountImg[1].type)">
+            <img *ngIf="firstDiscountImg[0]!==undefined" [src]="firstDiscountImg[0].website_bannerimage" class="img-fluid full-image"
+                (click)="viewAll(firstDiscountImg[0].type)">
         </div>
         <div class="col-lg-6">
-          <img *ngIf="thirdDiscountImg[2]!==undefined" [src]="thirdDiscountImg[2].website_bannerimage" class="img-fluid side-image"
-            (click)="viewAll(thirdDiscountImg[2].type)">
-        </div>
+            <div class="row best-offer">
+                <div class="col-lg-6">
+                    <img *ngIf="secondDiscountImg[1]!==undefined" [src]="secondDiscountImg[1].website_bannerimage" class="img-fluid side-image"
+                        (click)="viewAll(secondDiscountImg[1].type)">
+                </div>
+                <div class="col-lg-6">
+                    <img *ngIf="thirdDiscountImg[2]!==undefined" [src]="thirdDiscountImg[2].website_bannerimage" class="img-fluid side-image"
+                        (click)="viewAll(thirdDiscountImg[2].type)">
+                </div>
 
-      </div>
-      <div class="row best-offer">
-        <div class="col-lg-6">
-          <img *ngIf="fourthDiscountImg[3]!==undefined" [src]="fourthDiscountImg[3].website_bannerimage" class="img-fluid side-image"
-            (click)="viewAll(fourthDiscountImg[3].type)">
+            </div>
+            <div class="row best-offer">
+                <div class="col-lg-6">
+                    <img *ngIf="fourthDiscountImg[3]!==undefined" [src]="fourthDiscountImg[3].website_bannerimage" class="img-fluid side-image"
+                        (click)="viewAll(fourthDiscountImg[3].type)">
+                </div>
+                <div class="col-lg-6">
+                    <img *ngIf="fifthDiscountImg[4]!==undefined" [src]="fifthDiscountImg[4].website_bannerimage" class="img-fluid side-image"
+                        (click)="viewAll(fifthDiscountImg[4].type)">
+                </div>
+            </div>
         </div>
-        <div class="col-lg-6">
-          <img *ngIf="fifthDiscountImg[4]!==undefined" [src]="fifthDiscountImg[4].website_bannerimage" class="img-fluid side-image"
-            (click)="viewAll(fifthDiscountImg[4].type)">
+    </div>
+    <div class="row">
+        <div class="col-lg-3">
+            <img *ngIf="sixthtDiscountImg[5]!==undefined" [src]="sixthtDiscountImg[5].website_bannerimage" class="img-fluid side-image"
+                (click)="viewAll(sixthtDiscountImg[5].type)">
         </div>
-      </div>
+        <div class="col-lg-3">
+            <img *ngIf="seventhDiscountImg[6]!==undefined" [src]="seventhDiscountImg[6].website_bannerimage" class="img-fluid side-image"
+                (click)="viewAll(seventhDiscountImg[6].type)">
+        </div>
+        <div class="col-lg-3">
+            <img *ngIf="eighthDiscountImg[7]!==undefined" [src]="eighthDiscountImg[7].website_bannerimage" class="img-fluid side-image"
+                (click)="viewAll(eighthDiscountImg[7].type)">
+        </div>
+        <div class="col-lg-3">
+            <img *ngIf="ninthDiscountImg[8]!==undefined" [src]="ninthDiscountImg[8].website_bannerimage" class="img-fluid side-image"
+                (click)="viewAll(ninthDiscountImg[8].type)">
+        </div>
     </div>
-  </div>
-  <div class="row">
-    <div class="col-lg-3">
-      <img *ngIf="sixthtDiscountImg[5]!==undefined" [src]="sixthtDiscountImg[5].website_bannerimage" class="img-fluid side-image"
-        (click)="viewAll(sixthtDiscountImg[5].type)">
-    </div>
-    <div class="col-lg-3">
-      <img *ngIf="seventhDiscountImg[6]!==undefined" [src]="seventhDiscountImg[6].website_bannerimage" class="img-fluid side-image"
-        (click)="viewAll(seventhDiscountImg[6].type)">
-    </div>
-    <div class="col-lg-3">
-      <img *ngIf="eighthDiscountImg[7]!==undefined" [src]="eighthDiscountImg[7].website_bannerimage" class="img-fluid side-image"
-        (click)="viewAll(eighthDiscountImg[7].type)">
-    </div>
-    <div class="col-lg-3">
-      <img *ngIf="ninthDiscountImg[8]!==undefined" [src]="ninthDiscountImg[8].website_bannerimage" class="img-fluid side-image"
-        (click)="viewAll(ninthDiscountImg[8].type)">
-    </div>
-  </div>
 </div>
 <!-- best in appliances -->
 <!-- best in appliances -->
 <div class="container best-deal">
-  <h2>BEST DISCOUNT APPLIANCES</h2>
-  <hr>
+    <h2>BEST DISCOUNT APPLIANCES</h2>
+    <hr>
 
-  <div class="row best-offer">
-    <div class="col-lg-6">
-      <img *ngIf="firstDiscountApImg[0]!==undefined" [src]="firstDiscountApImg[0].website_bannerimage" class="img-fluid full-image"
-        (click)="viewAll(firstDiscountApImg[0].type)">
-    </div>
-    <div class="col-lg-6">
-      <div class="row best-offer">
+    <div class="row best-offer">
         <div class="col-lg-6">
-          <img *ngIf="secondDiscountApImg[1]!==undefined" [src]="secondDiscountApImg[1].website_bannerimage" class="img-fluid side-image"
-            (click)="viewAll(secondDiscountApImg[1].type)">
+            <img *ngIf="firstDiscountApImg[0]!==undefined" [src]="firstDiscountApImg[0].website_bannerimage" class="img-fluid full-image"
+                (click)="viewAll(firstDiscountApImg[0].type)">
         </div>
         <div class="col-lg-6">
-          <img *ngIf="thirdDiscountApImg[2]!==undefined" [src]="thirdDiscountApImg[2].website_bannerimage" class="img-fluid side-image"
-            (click)="viewAll(thirdDiscountApImg[2].type)">
-        </div>
+            <div class="row best-offer">
+                <div class="col-lg-6">
+                    <img *ngIf="secondDiscountApImg[1]!==undefined" [src]="secondDiscountApImg[1].website_bannerimage" class="img-fluid side-image"
+                        (click)="viewAll(secondDiscountApImg[1].type)">
+                </div>
+                <div class="col-lg-6">
+                    <img *ngIf="thirdDiscountApImg[2]!==undefined" [src]="thirdDiscountApImg[2].website_bannerimage" class="img-fluid side-image"
+                        (click)="viewAll(thirdDiscountApImg[2].type)">
+                </div>
 
-      </div>
-      <div class="row best-offer">
-        <div class="col-lg-6">
-          <img *ngIf="fourthDiscountApImg[3]!==undefined" [src]="fourthDiscountApImg[3].website_bannerimage" class="img-fluid side-image"
-            (click)="viewAll(fourthDiscountApImg[3].type)">
+            </div>
+            <div class="row best-offer">
+                <div class="col-lg-6">
+                    <img *ngIf="fourthDiscountApImg[3]!==undefined" [src]="fourthDiscountApImg[3].website_bannerimage" class="img-fluid side-image"
+                        (click)="viewAll(fourthDiscountApImg[3].type)">
+                </div>
+                <div class="col-lg-6">
+                    <img *ngIf="fifthDiscountApImg[4]!==undefined" [src]="fifthDiscountApImg[4].website_bannerimage" class="img-fluid side-image"
+                        (click)="viewAll(fifthDiscountApImg[4].type)">
+                </div>
+            </div>
         </div>
-        <div class="col-lg-6">
-          <img *ngIf="fifthDiscountApImg[4]!==undefined" [src]="fifthDiscountApImg[4].website_bannerimage" class="img-fluid side-image"
-            (click)="viewAll(fifthDiscountApImg[4].type)">
+    </div>
+    <div class="row">
+        <div class="col-lg-3">
+            <img *ngIf="sixthtDiscountApImg[5]!==undefined" [src]="sixthtDiscountApImg[5].website_bannerimage" class="img-fluid side-image"
+                (click)="viewAll(sixthtDiscountApImg[5].type)">
         </div>
-      </div>
+        <div class="col-lg-3">
+            <img *ngIf="seventhDiscountApImg[6]!==undefined" [src]="seventhDiscountApImg[6].website_bannerimage" class="img-fluid side-image"
+                (click)="viewAll(seventhDiscountApImg[6].type)">
+        </div>
+        <div class="col-lg-3">
+            <img *ngIf="eighthDiscountApImg[7]!==undefined" [src]="eighthDiscountApImg[7].website_bannerimage" class="img-fluid side-image"
+                (click)="viewAll(eighthDiscountApImg[7].type)">
+        </div>
+        <div class="col-lg-3">
+            <img *ngIf="ninthDiscountApImg[8]!==undefined" [src]="ninthDiscountApImg[8].website_bannerimage" class="img-fluid side-image"
+                (click)="viewAll(ninthDiscountApImg[8].type)">
+        </div>
     </div>
-  </div>
-  <div class="row">
-    <div class="col-lg-3">
-      <img *ngIf="sixthtDiscountApImg[5]!==undefined" [src]="sixthtDiscountApImg[5].website_bannerimage" class="img-fluid side-image"
-        (click)="viewAll(sixthtDiscountApImg[5].type)">
-    </div>
-    <div class="col-lg-3">
-      <img *ngIf="seventhDiscountApImg[6]!==undefined" [src]="seventhDiscountApImg[6].website_bannerimage" class="img-fluid side-image"
-        (click)="viewAll(seventhDiscountApImg[6].type)">
-    </div>
-    <div class="col-lg-3">
-      <img *ngIf="eighthDiscountApImg[7]!==undefined" [src]="eighthDiscountApImg[7].website_bannerimage" class="img-fluid side-image"
-        (click)="viewAll(eighthDiscountApImg[7].type)">
-    </div>
-    <div class="col-lg-3">
-      <img *ngIf="ninthDiscountApImg[8]!==undefined" [src]="ninthDiscountApImg[8].website_bannerimage" class="img-fluid side-image"
-        (click)="viewAll(ninthDiscountApImg[8].type)">
-    </div>
-  </div>
 </div>
 <!-- best in appliances -->
 <!-- <angular-image-slider [images]="allProductsData"></angular-image-slider> -->
 <!-- deal of the day -->
 <div id="demo" class="carousel slide best-carousel best-deal" data-ride="carousel">
-  <!-- The slideshow -->
-  <h2 class="text-center">BEST DEALS ON APPLIANCES</h2>
-  <hr><br />
-  <div class="container carousel-inner no-padding">
-    <div class="carousel-item active">
-      <div class="col-lg-3 col-md-3 col-sm-6 col-xs-6  product-data" *ngFor="let products of firstAppliancesArray;let i= index">
-        <div class="product" *ngIf="i<4">
-          <div class="container">
-            <div class="row">
-              <div class="col-md-12 text-right">
-                <a (click)="addWish(products)">
-                  <fa name="heart" [ngClass]="{'wishlisted':products.isWishlist==1}"></fa>
-                </a>
-              </div>
-              <div class="col-md-12 text-center">
-                <img [src]="products.product_image" class="img-fluid prodImage" (click)="ShowProductDetails(products.id)">
-              </div>
-              <div class="col-md-12 prices">
-                <div>
-                  <!-- <li> -->
-                  <form>
-                    <div class="form-group">
+    <!-- The slideshow -->
+    <h2 class="text-center">BEST DEALS ON APPLIANCES</h2>
+    <hr><br />
+    <div class="container carousel-inner no-padding">
+        <div class="carousel-item active">
+            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-6  product-data" *ngFor="let products of firstAppliancesArray;let i= index">
+                <div class="product" *ngIf="i<4">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-md-12 text-right">
+                                <a (click)="addWish(products)">
+                                    <fa name="heart" [ngClass]="{'wishlisted':products.isWishlist==1}"></fa>
+                                </a>
+                            </div>
+                            <div class="col-md-12 text-center">
+                                <img [src]="products.product_image" class="img-fluid prodImage" (click)="ShowProductDetails(products.id)">
+                            </div>
+                            <div class="col-md-12 prices">
+                                <div>
+                                    <!-- <li> -->
+                                    <form>
+                                        <div class="form-group">
 
-                      <p (click)="showSizes(i)" *ngIf="showselecteddata && selectedsku!==i" name="skid" class="sizes">{{products.sku[0].size}}</p>
-                      <p (click)="showSizes(i)" *ngIf="showselecteddata && selectedsku==i " name="skid" [ngClass]="{'sizes':selecte.baskid!==''}">{{selecte.baskid}}</p>
-                      <div *ngIf="showSizeData && selectedsku==i" class="sizes size-drop">
-                        <p *ngFor="let sku of products.sku" (click)="showselected(sku.skid,sku.size,i,sku,'best applicance')">{{sku.size}}</p>
-                      </div>
+                                            <p (click)="showSizes(i)" *ngIf="showselecteddata && selectedsku!==i" name="skid" class="sizes">{{products.sku[0].size}}</p>
+                                            <p (click)="showSizes(i)" *ngIf="showselecteddata && selectedsku==i " name="skid" [ngClass]="{'sizes':selecte.baskid!==''}">{{selecte.baskid}}</p>
+                                            <div *ngIf="showSizeData && selectedsku==i" class="sizes size-drop">
+                                                <p *ngFor="let sku of products.sku" (click)="showselected(sku.skid,sku.size,i,sku,'best applicance')">{{sku.size}}</p>
+                                            </div>
+
+                                        </div>
+                                    </form>
+                                    <!-- </li> -->
+                                </div>
+                                <div class="product-names text-center">
+                                    <ul [ngClass]="{'afterDrop':showSizeData=='true' && selected==i}">
+
+                                        <li>
+                                            <h3 class="text-center">{{products.title}}</h3>
+                                        </li>
+                                        <li>MRP :
+                                            <span class="price">{{products.skuActualPrice}} </span>
+                                            <span class="offer-price"> {{products.sellingPrice}}</span>
+                                        </li>
+                                        <li>
+                                            <span class="text-danger">{{ "offer-price" | translate}} {{products.skuActualPrice
+                                                - products.sellingPrice || 0}}</span>
+                                        </li>
+                                        <li>
+                                            <ngb-rating [(rate)]="products.rating" required></ngb-rating>
+
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <!-- product details -->
+
+                            <div class="col-lg-12 col-md-12 col-sm-12 cart-btn">
+
+                                <div class="quantity" [ngClass]="{'top':!notInCart && i === selected}">
+                                    <button class="minus-btn" type="button" name="button" (click)="itemDecrease(products.id,products,i,'best applicance')" *ngIf="!notInCart && i === selected">
+                                        <i class="fa fa-minus " aria-hidden="true"></i>
+                                    </button>
+                                    <lable *ngIf="notInCart || i !== selected">Quantity : </lable>
+                                    <input type="text" name="mycart" readonly="readonly" [value]="products.quantity" /> &nbsp;
+                                    <lable *ngIf="!notInCart && i === selected">in cart</lable>&nbsp;
+                                    <button class="plus-btn" type="button" name="button" (click)="itemIncrease(products,products.id,i,'best applicance')" *ngIf="!notInCart && i === selected">
+                                        <i class="fa fa-plus" aria-hidden="true"></i>
+                                    </button>
+                                </div>
+                                <br *ngIf="!notInCart && i === selected" />
+                            </div>
+                            <div class="col-lg-12 col-md-12 col-sm-12 cart-btn cart-image-button" *ngIf="notInCart || i !== selected">
+                                <button class="btn category-btn" type="button" name="button" (click)="addCat(products,i,products.quantity,'best applicance')">
+                                    <span class="addbtn">Add</span>
+                                    <img class="addbtn" src="assets/images/online-shopping-cart.png">
+                                </button>
+                            </div>
+                        </div>
 
                     </div>
-                  </form>
-                  <!-- </li> -->
                 </div>
-                <div class="product-names text-center">
-                  <ul [ngClass]="{'afterDrop':showSizeData=='true' && selected==i}">
-
-                    <li>
-                      <h3 class="text-center">{{products.title}}</h3>
-                    </li>
-                    <li>MRP :
-                      <span class="price">{{products.skuActualPrice}} </span>
-                      <span class="offer-price"> {{products.sellingPrice}}</span>
-                    </li>
-                    <li>
-                      <span class="text-danger">{{ "offer-price" | translate}} {{products.skuActualPrice -
-                        products.sellingPrice || 0}}</span>
-                    </li>
-                    <li>
-                      <ngb-rating [(rate)]="products.rating" required></ngb-rating>
-
-                    </li>
-                  </ul>
-                </div>
-              </div>
-              <!-- product details -->
-
-              <div class="col-lg-12 col-md-12 col-sm-12 cart-btn">
-
-                <div class="quantity" [ngClass]="{'top':!notInCart && i === selected}">
-                  <button class="minus-btn" type="button" name="button" (click)="itemDecrease(products.id,products,i,'best applicance')"
-                    *ngIf="!notInCart && i === selected">
-                    <i class="fa fa-minus " aria-hidden="true"></i>
-                  </button>
-                  <lable *ngIf="notInCart || i !== selected">Quantity : </lable>
-                  <input type="text" name="mycart" readonly="readonly" [value]="products.quantity" />
-                  &nbsp;<lable *ngIf="!notInCart && i === selected">in cart</lable>&nbsp;
-                  <button class="plus-btn" type="button" name="button" (click)="itemIncrease(products,products.id,i,'best applicance')"
-                    *ngIf="!notInCart && i === selected">
-                    <i class="fa fa-plus" aria-hidden="true"></i>
-                  </button>
-                </div>
-                <br *ngIf="!notInCart && i === selected" />
-              </div>
-              <div class="col-lg-12 col-md-12 col-sm-12 cart-btn cart-image-button" *ngIf="notInCart || i !== selected">
-                <button class="btn category-btn" type="button" name="button" (click)="addCat(products,i,products.quantity,'best applicance')">
-                  <span class="addbtn">Add</span>
-                  <img class="addbtn" src="assets/images/online-shopping-cart.png">
-                </button>
-              </div>
             </div>
 
-          </div>
         </div>
-      </div>
+        <p *ngIf="noappliances" class="text-center">No Records Found</p><br />
+
+        <button class="btn btn-orange m-auto" (click)="viewAll('BEST DEALS ON APPLIANCES')" *ngIf="!noappliances"> Show More
+        </button>
+
 
     </div>
-    <p *ngIf="noappliances" class="text-center">No Records Found</p><br />
 
-    <button class="btn btn-orange m-auto" (click)="viewAll('BEST DEALS ON APPLIANCES')" *ngIf="!noappliances"> Show
-      More</button>
-
-
-  </div>
-
-  <!-- Left and right controls -->
-  <!-- <a class="carousel-control-prev" href="#demo" data-slide="prev">
+    <!-- Left and right controls -->
+    <!-- <a class="carousel-control-prev" href="#demo" data-slide="prev">
     <fa name="chevron-left" class="chevron-left"></fa>
   </a>
   <a class="carousel-control-next" href="#demo" data-slide="next">
@@ -887,41 +865,42 @@
 
 
 <div class="container best-deal">
-  <h2>POPULAR BRANDS</h2>
-  <hr>
-  <div class="row">
-    <div class="col-lg-2 img-border" *ngFor="let data of  brandsTotalData" (click)="viewAll(data.type)">
-      <img [src]="data.website_bannerimage" class="img-fluid">
-    </div>
+    <h2>POPULAR BRANDS</h2>
+    <hr>
+    <div class="row">
+        <div class="col-lg-2 img-border" *ngFor="let data of  brandsTotalData" (click)="viewAll(data.type)">
+            <img [src]="data.website_bannerimage" class="img-fluid">
+        </div>
 
-  </div>
+    </div>
 </div>
 <br />
 <div class="container-fluid mobile-application">
-  <div class="container">
-    <div class="row">
-      <div class="col-lg-5 text-center">
-        <img src="assets/images/application-image.png">
-      </div>
-      <div class="col-lg-7 app-stores">
-        <h2>THE DHUKAN Food Grocery Store</h2>
-        <h6>Lorem Ipsum is simply dummy text of the printing and typesetting industry</h6>
-        <h6>Lorem Ipsum is simply dummy text.</h6>
-        <ul>
-          <li>
-            <a href="#">
-              <img src="assets/images/app-store.png">
-            </a>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-5 text-center">
+                <img src="assets/images/application-image.png">
+            </div>
+            <div class="col-lg-7 app-stores">
+                <h2>THE DHUKAN Food Grocery Store</h2>
+                <h6>Lorem Ipsum is simply dummy text of the printing and typesetting industry</h6>
+                <h6>Lorem Ipsum is simply dummy text.</h6>
+                <ul>
+                    <li>
+                        <a href="#">
+                            <img src="assets/images/app-store.png">
+                        </a>
 
-          </li>
-          <li>
-            <a href="#">
-              <img src="assets/images/playstore.png">
-            </a>
+                    </li>
+                    <li>
+                        <a href="#">
+                            <img src="assets/images/playstore.png">
+                        </a>
 
-          </li>
-        </ul>
-      </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
     </div>
-  </div>
 </div>
+<ng4-loading-spinner></ng4-loading-spinner>

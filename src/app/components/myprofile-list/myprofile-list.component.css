@@ -103,7 +103,7 @@ p.get-link {
 }
 
 .button-block {
-  margin-top: 70%;
+  margin-top: 50%;
 }
 
 .edit-button,
@@ -152,7 +152,7 @@ p.get-link {
 }
 
 .input-button {
-  margin-top: 10%;
+  margin-top: 20%;
 }
 
 .form-list {
@@ -680,4 +680,7 @@ button {
 
 .orange {
   text-decoration: underline;
+}
+.align-items-end{
+    margin-top: 40px;
 }

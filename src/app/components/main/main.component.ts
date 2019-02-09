@@ -14,7 +14,7 @@ import * as _ from 'underscore';
 import { Http, Headers } from '@angular/http';
 import { ProfileService } from '../../services/profile/profiledata';
 import { NgbRatingConfig } from '@ng-bootstrap/ng-bootstrap';
-
+import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
 export interface prod {
     name: string;
 }
@@ -37,7 +37,7 @@ export class MainComponent implements OnInit {
 
     constructor(public mainServe: MainService,
         public router: Router, private headerSer: HeaderService, public headerComp: HeaderComponent, public http: Http,
-        private profileSer: ProfileService, config: NgbRatingConfig) {
+        private profileSer: ProfileService, config: NgbRatingConfig, private spinnerService: Ng4LoadingSpinnerService) {
         config.max = 5;
         config.readonly = true;
         this.getDashboard('', '', '');
@@ -727,18 +727,12 @@ export class MainComponent implements OnInit {
     }
 
     getDashboard(index, quantity, prodData) {
-
+        this.spinnerService.show();
         this.mainServe.getDashboard().subscribe(response => {
-
-
+            this.spinnerService.hide();
             this.dashboardData = response.json();
             this.allProducts = response.json().products;
-
-
-
             // console.log(this.second);
-
-
             this.allProductsData = this.allProducts;
             this.posts = this.allProducts;
             this.cartCount = response.json().cart.cart_count || 0;
@@ -858,19 +852,9 @@ export class MainComponent implements OnInit {
             if (prodData.product_id !== undefined) {
                 this.notInCart = true;
             }
-
-
-
-
         })
-
-
-
+        
     }
-
-
-
-
 
 
     name;
