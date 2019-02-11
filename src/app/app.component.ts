@@ -20,7 +20,4 @@ export class AppComponent {
     this.translate.use(language);
     localStorage.setItem('lan', language);
   }
-
-
-
 }

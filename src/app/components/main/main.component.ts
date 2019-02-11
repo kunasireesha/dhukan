@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { HeaderComponent } from './../header/header.component';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog, MatDialogConfig, MAT_CHIPS_DEFAULT_OPTIONS } from '@angular/material';
-import { HeaderComponent } from '../header/header.component';
 import { MainService } from '../../services/main/main';
 import { HeaderService } from '../../services/header/header';
 import { AppSettings } from '../../config';
@@ -30,7 +30,7 @@ export interface prod {
 
 export class MainComponent implements OnInit {
 
-
+    @ViewChild(HeaderComponent) headerComponent;
     stateCtrl = new FormControl();
     filteredStates: Observable<prod[]>;
 
@@ -150,6 +150,7 @@ export class MainComponent implements OnInit {
     noappliances = false;
     noData = false;
     ngOnInit() {
+        this.spinnerService.show();
         window.scrollTo(0, 0);
         this.getAllCategoriesWithSubCat();
         this.getDashboard('', '', '');
@@ -195,7 +196,7 @@ export class MainComponent implements OnInit {
     showInput = false;
     //add to cart
     itemIncrease(products, id, index, action) {
-
+        this.spinnerService.hide();
         if (action === 'main products') {
             for (var i = 0; i < this.allProducts.length; i++) {
                 if (id === this.allProducts[i].id) {
@@ -232,6 +233,7 @@ export class MainComponent implements OnInit {
     }
 
     itemDecrease(id, products, index, action) {
+        this.spinnerService.hide();
         if (action === 'main products') {
             for (var i = 0; i < this.allProducts.length; i++) {
                 if (id === this.allProducts[i].id) {
@@ -408,6 +410,7 @@ export class MainComponent implements OnInit {
     }
     // ||this.skId===prodData
     addCat(prodData, index, quantity, action) {
+        this.spinnerService.hide();
         if (this.skId === undefined || this.skId === '' || this.prodId !== prodData.id) {
             if (action === 'main products') {
                 for (var i = 0; i < this.allProducts.length; i++) {
@@ -514,7 +517,7 @@ export class MainComponent implements OnInit {
     }
 
     mainAddacrt(prodData, index, quantity, skId, action) {
-
+        this.spinnerService.hide();
         var inData = "product_id=" + prodData.id +
             "&quantity=" + prodData.quantity +
             "&product_sku_id=" + skId
@@ -727,7 +730,6 @@ export class MainComponent implements OnInit {
     }
 
     getDashboard(index, quantity, prodData) {
-        this.spinnerService.show();
         this.mainServe.getDashboard().subscribe(response => {
             this.spinnerService.hide();
             this.dashboardData = response.json();
@@ -853,7 +855,7 @@ export class MainComponent implements OnInit {
                 this.notInCart = true;
             }
         })
-        
+
     }
 
 

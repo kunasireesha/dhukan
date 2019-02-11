@@ -1,5 +1,5 @@
 import { MainService } from './../../services/main/main';
-import { Component, OnInit, Inject, NgZone, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Inject, NgZone, Output, EventEmitter, ViewChild } from '@angular/core';
 import { MatDialog, MatDialogConfig } from "@angular/material";
 import { DataService } from '../../services/login/login';
 import { HeaderService } from '../../services/header/header';
@@ -23,6 +23,7 @@ import { } from 'googlemaps';
     styleUrls: ['./header.component.css']
 })
 export class HeaderComponent implements OnInit {
+    pageNav;
     cart: any;
     errorMessage: any;
     cartCount: any;
@@ -82,10 +83,6 @@ export class HeaderComponent implements OnInit {
     }
 
 
-
-
-
-
     constructor(
         public loginService: DataService,
         private translate: TranslateService,
@@ -96,8 +93,15 @@ export class HeaderComponent implements OnInit {
         // private socialAuthService: AuthService,
         private headerSer: HeaderService,
         public app: AppComponent,
-        private zone: NgZone
+        private zone: NgZone,
+        private route: ActivatedRoute
     ) {
+        // this.pageNav = this.route.snapshot.data[0].page;
+        // if (this.pageNav === "header") {
+        //     this.showLogin = true;
+        // }
+
+
         this.getDashboard();
         this.getCartList();
     }

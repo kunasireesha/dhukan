@@ -16,6 +16,7 @@ export class ProductdetailsComponent implements OnInit {
         this.route.queryParams.subscribe(params => {
             this.prodId = params.prodId;
         });
+        this.showProductDetails();
         this.getDashboard();
         this.getCartList();
     }
@@ -32,13 +33,14 @@ export class ProductdetailsComponent implements OnInit {
     url;
     selecte = { skId: '' };
     ngOnInit() {
+        this.spinnerService.show();
         window.scrollTo(0, 0);
         // this.zoomedImageSrc = 'assets/images/product.png';
         // this.smallImageSrc = 'assets/images/product.png';
         // this.thumbImgSrc = 'assets/images/product.png';
         // this.thumbImgSrc1 = 'assets/images/capsicums.png';
         // this.thumbImgSrc2 = 'assets/images/corn.png';
-        this.showProductDetails();
+
         this.url = AppSettings.imageUrl;
         this.mainSer.getCartList();
     }
@@ -88,13 +90,11 @@ export class ProductdetailsComponent implements OnInit {
     question;
     answer;
     showProductDetails() {
-        this.spinnerService.show();
         var inData = this.prodId;
         this.mainSer.showProductDetails(inData).subscribe(response => {
             this.spinnerService.hide();
             this.prodData = response.json().products[0];
             this.smallImageSrc = response.json().products[0].sku[0].skuImages[0];
-
             this.skuData = response.json().products[0].sku;
             this.selecte.skId = response.json().products[0].sku[0].skid;
             this.quantityImage = response.json().products[0].sku[0].quality_image;
@@ -146,9 +146,7 @@ export class ProductdetailsComponent implements OnInit {
                 } else {
                     this.item.quantity = this.skuData[i].mycart;
                     this.notInCart = true;
-
                 }
-
                 for (var i = 0; i < prodData.sku.length; i++) {
                     if (prodData.sku[i].skid === parseInt(skId)) {
                         this.quantityImage = prodData.sku[i].quality_image;

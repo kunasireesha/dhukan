@@ -277,7 +277,12 @@ var firebaseConfig = {
                 path: 'viewAll',
                 component: AllProductsComponent,
                 data: [{ page: 'viewAll' }]
-            }
+            },
+            {
+                path: 'header',
+                component: HeaderComponent,
+                data: [{ page: 'header' }]
+            },
 
         ], { useHash: true }),
         TranslateModule.forRoot({
